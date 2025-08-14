@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: e748c0e1a495ae141a256c86da6e7f11
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: FZDaHei-B02S
+  fontNames:
+  - FZDaHei-B02S
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b5b4377254fa03842b1c5fe15e135f23, type: 3}
+  - {fileID: 12800000, guid: d671eba8ef344e142b10c0ec10caafe2, type: 3}
+  - {fileID: 12800000, guid: 2ab4259ba8378df4f937fc5a1b776d26, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

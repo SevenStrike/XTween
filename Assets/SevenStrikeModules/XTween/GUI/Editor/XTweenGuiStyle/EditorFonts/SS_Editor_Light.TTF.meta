@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 3349d16c95f273c4eafd48f6e26506ce
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: FZHei-B01S
+  fontNames:
+  - FZHei-B01S
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 1b70015e6c189c744ae13edb7ef7c388, type: 3}
+  - {fileID: 12800000, guid: 9740a13f65e6582468d17aeb960845e2, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
