@@ -1,5 +1,5 @@
 ## XTween 动画插件
-#### 概述
+### 概述
 XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型、缓动效果和灵活的控制方式。它采用对象池技术优化性能，支持编辑器预览，适用于 UI 和游戏对象的动画处理。 并且该插件是一个功能全面、性能优化的 Unity 动画解决方案，适用于各种动画需求，从简单的 UI 动效到复杂的游戏对象动画
 
 |开源不易，您的支持是持续更新的动力，<br>这个小工具倾注了我无数个深夜的调试与优化，它永远免费，但绝非无成本，如果您觉得这个工具<br>能为您节省时间、解决问题，甚至带来一丝愉悦，请考虑赞助一杯咖啡，让我知道：有人在乎这份付出，而这将成为我熬夜修复Bug、<br>添加新功能的最大动力。开源不是用爱发电，您的认可会让它走得更远|![](Docs/donate.jpg) |
@@ -7,22 +7,21 @@ XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型
 | **欢迎加入技术研讨群，在这里可以和我以及大家一起探讨插件的优化以及相关的技术实现思路，同时在做项目时遇到的众多问题以及瓶颈<br>阻碍都可以互相探讨学习**|![](Docs/qqgroups.jpg) |
 <br>
 
-#### 📦 丰富的缓动库
-- **可通过实现 XTween_Interface 接口创建自定义动画类型**<br>
+### 📦 丰富的缓动库
 
-|缓动类型|缓入|缓出|同时|缓动类型|缓入|缓出|同时|
-|:-|:-|:-|:-|:-|:-|:-|:-|
-|Linear<br>线性缓动|![](path)|![](path)|![](path)|Sine<br>正弦曲线|![](path)|![](path)|![](path)|
-|Quad<br>二次曲线|![](path)|![](path)|![](path)|Cubic<br>三次曲线|![](path)|![](path)|![](path)|
-|Quart<br>四次曲线|![](path)|![](path)|![](path)|Quint<br>五次曲线|![](path)|![](path)|![](path)|
-|Expo<br>指数曲线|![](path)|![](path)|![](path)|Circ<br>圆形曲线|![](path)|![](path)|![](path)|
-|Elastic<br>弹性曲线|![](path)|![](path)|![](path)|Back<br> 回退曲线|![](path)|![](path)|![](path)|
-|Bounce<br>弹跳曲线|![](path)|![](path)|![](path)|
+|缓动类型|In|Out|InOut||缓动类型|In|Out|InOut|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|Linear<br>线性|![](Docs/ease_linear.png)|![](Docs/ease_linear.png)|![](Docs/ease_linear.png)|--|Sine<br>正弦曲线|![](Docs/ease_insine.png)|![](Docs/ease_outsine.png)|![](Docs/ease_inoutsine.png)|
+|Quad<br>二次曲线|![](Docs/ease_inquad.png)|![](Docs/ease_outquad.png)|![](Docs/ease_inoutquad.png)|--|Cubic<br>三次曲线|![](Docs/ease_incubic.png)|![](Docs/ease_outcubic.png)|![](Docs/ease_inoutcubic.png)|
+|Quart<br>四次曲线|![](Docs/ease_inquart.png)|![](Docs/ease_outquart.png)|![](Docs/ease_inoutquart.png)|--|Quint<br>五次曲线|![](Docs/ease_inquint.png)|![](Docs/ease_outquint.png)|![](Docs/ease_inoutquint.png)|
+|Expo<br>指数曲线|![](Docs/ease_inexpo.png)|![](Docs/ease_outexpo.png)|![](Docs/ease_inoutexpo.png)|--|Circ<br>圆形曲线|![](Docs/ease_incirc.png)|![](Docs/ease_outcirc.png)|![](Docs/ease_inoutcirc.png)|
+|Elastic<br>弹性曲线|![](Docs/ease_inelastic.png)|![](Docs/ease_outelastic.png)|![](Docs/ease_inoutelastic.png)|--|Back<br>回退曲线|![](Docs/ease_inback.png)|![](Docs/ease_outback.png)|![](Docs/ease_inoutback.png)|
+|Bounce<br>弹跳曲线|![](Docs/ease_inbounce.png)|![](Docs/ease_outbounce.png)|![](Docs/ease_inoutbounce.png)|
 
 <br>
 
 
-#### 📦 生命周期
+### 📦 生命周期
 ------------
 #### - ▶️**Tween_Controller** 
 
@@ -216,37 +215,37 @@ flowchart TB
     click E "javascript:alert('Float特性:\\n- 精确浮点计算\\n- 支持所有缓动模式')"
     click J "javascript:alert('String特性:\\n- 字符逐显效果\\n- 特殊进度计算')"
 ```
-#### 📦 核心组件
+### 📦 核心组件
 ------------
-##### - ▶️**Tween_Controller 动画控制器** 
-- ###### 支持多种动画类型（位置、旋转、缩放、颜色等）
-- ###### 可配置动画参数（持续时间、延迟、缓动模式等）
-- ###### 提供按键控制（播放、倒带、终止等）
+#### - ▶️**Tween_Controller 动画控制器** 
+- ##### 支持多种动画类型（位置、旋转、缩放、颜色等）
+- ##### 可配置动画参数（持续时间、延迟、缓动模式等）
+- ##### 提供按键控制（播放、倒带、终止等）
 
-##### - ▶️**XTween_Interface 动画接口**
-- ###### 支持多种动画类型（位置、旋转、缩放、颜色等）
-- ###### 可配置动画参数（持续时间、延迟、缓动模式等）
-- ###### 提供按键控制（播放、倒带、终止等）
+#### - ▶️**XTween_Interface 动画接口**
+- ##### 支持多种动画类型（位置、旋转、缩放、颜色等）
+- ##### 可配置动画参数（持续时间、延迟、缓动模式等）
+- ##### 提供按键控制（播放、倒带、终止等）
 
-##### - ▶️**XTween_Pool 动画对象池** 
-- ###### 支持多种动画类型（位置、旋转、缩放、颜色等）
-- ###### 可配置动画参数（持续时间、延迟、缓动模式等）
-- ###### 提供按键控制（播放、倒带、终止等）
+#### - ▶️**XTween_Pool 动画对象池** 
+- ##### 支持多种动画类型（位置、旋转、缩放、颜色等）
+- ##### 可配置动画参数（持续时间、延迟、缓动模式等）
+- ##### 提供按键控制（播放、倒带、终止等）
 
-##### - ▶️**XTween_Manager 动画管理器** 
-- ###### 动画注册/注销
-- ###### 每帧更新动画状态
-- ###### 提供动画查找功能
+#### - ▶️**XTween_Manager 动画管理器** 
+- ##### 动画注册/注销
+- ##### 每帧更新动画状态
+- ##### 提供动画查找功能
 
-##### - ▶️**XTween_EaseLibrary 缓动函数库** 
-- ###### Linear（线性）
-- ###### Sine（正弦）
-- ###### Quad（二次）
-- ###### Cubic（三次）
-- ###### Elastic（弹性）
-- ###### Bounce（弹跳）等
+#### - ▶️**XTween_EaseLibrary 缓动函数库** 
+- ##### Linear（线性）
+- ##### Sine（正弦）
+- ##### Quad（二次）
+- ##### Cubic（三次）
+- ##### Elastic（弹性）
+- ##### Bounce（弹跳）等
 
-##### - ▶️**XTween_Previewer 编辑器预览系统** 
-- ###### 支持多种动画类型（位置、旋转、缩放、颜色等）
-- ###### 可配置动画参数（持续时间、延迟、缓动模式等）
-- ###### 提供按键控制（播放、倒带、终止等）
+#### - ▶️**XTween_Previewer 编辑器预览系统** 
+- ##### 支持多种动画类型（位置、旋转、缩放、颜色等）
+- ##### 可配置动画参数（持续时间、延迟、缓动模式等）
+- ##### 提供按键控制（播放、倒带、终止等）
