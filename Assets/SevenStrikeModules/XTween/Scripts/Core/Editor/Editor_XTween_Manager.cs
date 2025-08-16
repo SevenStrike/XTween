@@ -207,7 +207,7 @@ namespace SevenStrikeModules.XTween
                     BaseScript.Play_All();
                 else
                 {
-                    XTween_Utilitys.DebugInfo("XTween动画管理器消息", "应用未运行，只有在引用运行时期才可以使用此功能！", GUIMsgState.警告);
+                    XTween_Utilitys.DebugInfo("XTween动画管理器消息", "应用未运行，只有在应用运行时期才可以使用此功能！", GUIMsgState.警告);
                 }
 
                 return;
