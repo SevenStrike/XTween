@@ -116,7 +116,7 @@ protected abstract T GetDefaultValue();
 
 ### 📦 生命周期
 ---
-#### - ▶️**Tween_Controller** 
+#### ▶️**Tween_Controller** 
 
 ```mermaid
 flowchart LR
@@ -147,7 +147,7 @@ flowchart LR
     class A,B,C,D,E,F,G,H method
 ```
 
-#### - ▶️**XTween_Pool** 
+#### ▶️**XTween_Pool** 
 
 ```mermaid
 flowchart LR
@@ -192,7 +192,7 @@ flowchart LR
     click K "javascript:alert('强制终止并回收所有动画')"
 ```
 
-#### - ▶️**XTween_Manager** 
+#### ▶️**XTween_Manager** 
 
 ```mermaid
 flowchart LR
@@ -228,7 +228,7 @@ flowchart LR
     click F "javascript:alert('清理索引+移入待处理队列')"
 ```
 
-#### - ▶️**XTween_Previewer** 
+#### ▶️**XTween_Previewer** 
 
 ```mermaid
 flowchart LR
@@ -269,7 +269,7 @@ flowchart LR
     click G "javascript:alert('触发条件：\\n1. 达到MaxTotalDuration\\n2. 所有动画完成')"
 ```
 
-#### - ▶️**XTween_Base (With Specialized)** 
+#### ▶️**XTween_Base (With Specialized)** 
 
 ```mermaid
 flowchart TB
