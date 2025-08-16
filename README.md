@@ -20,7 +20,29 @@ XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型
 |Elastic<br>弹性曲线|![](Docs/ease_inelastic.png)|![](Docs/ease_outelastic.png)|![](Docs/ease_inoutelastic.png)|--|Back<br>回退曲线|![](Docs/ease_inback.png)|![](Docs/ease_outback.png)|![](Docs/ease_inoutback.png)|
 |Bounce<br>弹跳曲线|![](Docs/ease_inbounce.png)|![](Docs/ease_outbounce.png)|![](Docs/ease_inoutbounce.png)|
 
-<br>
+### 📦 灵活的扩展类
+------------
+| 序号 | 类名称                     | 分类          |
+|:------:|:----------------------------:|:---------------:|
+| 1    | `XTween.Alpha`             | 透明度动画       |
+| 2    | `XTween.AnchoredPosition`  | UI动画        |
+| 3    | `XTween.Color`             | 颜色动画       |
+| 4    | `XTween.Fill`              | 填充动画       |
+| 5    | `XTween.Path`              | 路径动画       |
+| 6    | `XTween.Rotation`          | 旋转动画       |
+| 7    | `XTween.Scale`             | 缩放动画       |
+| 8    | `XTween.Shake`             | 抖动动画       |
+| 9    | `XTween.Size`              | 尺寸动画       |
+| 10   | `XTween.Text`              | 文本动画       |
+| 11   | `XTween.Tiled`             | 平铺动画       |
+| 12   | `XTween.TmpText`           | 临时文本动画   |
+| 13   | `XTween.To.Color`          | 颜色过渡       |
+| 14   | `XTween.To_Float`          | 浮点数过渡     |
+| 15   | `XTween.To_Int`            | 整数过渡       |
+| 16   | `XTween.To.String`         | 字符串过渡     |
+| 17   | `XTween.To.Vector2`        | 二维向量过渡   |
+| 18   | `XTween.To.Vector3`        | 三维向量过渡   |
+| 19   | `XTween.To.Vector4`        | 四维向量过渡  |
 
 ### 📦 可视化路径工具
 ------------
@@ -31,6 +53,12 @@ XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型
 ### 📦 可视化动画控制器
 ------------
 ![](Docs/Controller.png)
+
+<br>
+
+### 📦 可视化动画管理器
+------------
+![](Docs/Manager.png)
 
 <br>
 
