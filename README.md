@@ -12,11 +12,11 @@ XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型
 
 |缓动类型|In|Out|InOut||缓动类型|In|Out|InOut|
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|Linear<br>线性|![](Docs/ease_linear.png)|![](Docs/ease_linear.png)|![](Docs/ease_linear.png)|---|Sine<br>正弦曲线|![](Docs/ease_insine.png)|![](Docs/ease_outsine.png)|![](Docs/ease_inoutsine.png)|
-|Quad<br>二次曲线|![](Docs/ease_inquad.png)|![](Docs/ease_outquad.png)|![](Docs/ease_inoutquad.png)|---|Cubic<br>三次曲线|![](Docs/ease_incubic.png)|![](Docs/ease_outcubic.png)|![](Docs/ease_inoutcubic.png)|
-|Quart<br>四次曲线|![](Docs/ease_inquart.png)|![](Docs/ease_outquart.png)|![](Docs/ease_inoutquart.png)|---|Quint<br>五次曲线|![](Docs/ease_inquint.png)|![](Docs/ease_outquint.png)|![](Docs/ease_inoutquint.png)|
-|Expo<br>指数曲线|![](Docs/ease_inexpo.png)|![](Docs/ease_outexpo.png)|![](Docs/ease_inoutexpo.png)|---|Circ<br>圆形曲线|![](Docs/ease_incirc.png)|![](Docs/ease_outcirc.png)|![](Docs/ease_inoutcirc.png)|
-|Elastic<br>弹性曲线|![](Docs/ease_inelastic.png)|![](Docs/ease_outelastic.png)|![](Docs/ease_inoutelastic.png)|---|Back<br>回退曲线|![](Docs/ease_inback.png)|![](Docs/ease_outback.png)|![](Docs/ease_inoutback.png)|
+|Linear<br>线性|![](Docs/ease_linear.png)|![](Docs/ease_linear.png)|![](Docs/ease_linear.png)|--|Sine<br>正弦曲线|![](Docs/ease_insine.png)|![](Docs/ease_outsine.png)|![](Docs/ease_inoutsine.png)|
+|Quad<br>二次曲线|![](Docs/ease_inquad.png)|![](Docs/ease_outquad.png)|![](Docs/ease_inoutquad.png)|--|Cubic<br>三次曲线|![](Docs/ease_incubic.png)|![](Docs/ease_outcubic.png)|![](Docs/ease_inoutcubic.png)|
+|Quart<br>四次曲线|![](Docs/ease_inquart.png)|![](Docs/ease_outquart.png)|![](Docs/ease_inoutquart.png)|--|Quint<br>五次曲线|![](Docs/ease_inquint.png)|![](Docs/ease_outquint.png)|![](Docs/ease_inoutquint.png)|
+|Expo<br>指数曲线|![](Docs/ease_inexpo.png)|![](Docs/ease_outexpo.png)|![](Docs/ease_inoutexpo.png)|--|Circ<br>圆形曲线|![](Docs/ease_incirc.png)|![](Docs/ease_outcirc.png)|![](Docs/ease_inoutcirc.png)|
+|Elastic<br>弹性曲线|![](Docs/ease_inelastic.png)|![](Docs/ease_outelastic.png)|![](Docs/ease_inoutelastic.png)|--|Back<br>回退曲线|![](Docs/ease_inback.png)|![](Docs/ease_outback.png)|![](Docs/ease_inoutback.png)|
 |Bounce<br>弹跳曲线|![](Docs/ease_inbounce.png)|![](Docs/ease_outbounce.png)|![](Docs/ease_inoutbounce.png)|
 
 <br>
