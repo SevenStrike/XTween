@@ -12,17 +12,17 @@ XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型
 
 ### 📦 架构设计特色
 ---
-#### - ✅**分层架构** 
+#### ✅**分层架构** 
 - **核心层：XTween_Base<T> 抽象基类处理通用动画逻辑（生命周期/进度计算/回调系统）**
 - **实现层：7种特化类型（Float/Int/Vector2/Vector3/Color/Quaternion/String）各自实现类型安全的插值计算**
 - **管理层：XTween_Manager单例全局管理，XTween_Pool对象池优化性能**
-#### - ✅**多态设计** 
+#### ✅**多态设计** 
 - **通过抽象方法强制子类实现类型相关逻辑：**
 ```
 protected abstract T Lerp(T a, T b, float t);
 protected abstract T GetDefaultValue();
 ```
-#### - ✅**ECS式数据驱动** 
+#### ✅**ECS式数据驱动** 
 - **每个Tween实例包含完整动画参数（start/end/duration/easeMode等）**
 - **通过Update()方法纯数据计算，与Unity组件解耦**
 
@@ -41,14 +41,14 @@ protected abstract T GetDefaultValue();
 - **回调注销检查（避免内存泄漏）**
 
 ### 📦 核心组件
----
+------------
 |🌱 Controller|🌱 Interface|🌱 Pool|🌱 Manager|🌱 EaseLibrary|🌱 Previewer|
 |:---:|:---:|:---:|:---:|:---:|:---:|
 |**动画控制器**|**动画接口**|**动画池**|**动画管理器**|**缓动库**|**预览器**|
 |动画控制器，支持多种动画类型（位置、旋转、缩放、颜色等），可配置动画参数（持续时间、延迟、缓动模式等，提供按键控制（播放、倒带、终止等）**|支持多种动画类型（位置、旋转、缩放、颜色等），可配置动画参数（持续时间、延迟、缓动模式等），提供按键控制（播放、倒带、终止等）|支持多种动画类型（位置、旋转、缩放、颜色等），可配置动画参数（持续时间、延迟、缓动模式等），提供按键控制（播放、倒带、终止等）|动画注册/注销，每帧更新动画状态，提供动画查找功能|Linear（线性），Sine（正弦），Quad（二次），Cubic（三次），Elastic（弹性），Bounce（弹跳）等|动画注册/注销，每帧更新动画状态，提供动画查找功能|
 
 ### 📦 类型特化（统一特性：继承自`XTween_Base<T>`、支持`ReturnSelf()`链式调用、提供默认构造和参数构造）
----
+------------
 | 类型 | 说明 | 关键方法 | 默认值 | 应用场景 |
 |------|------|----------|--------|----------|
 | **Specialized_Color** | 处理颜色(Color)动画，支持RGBA通道插值 | `Color.LerpUnclamped()` | `Color.white` | UI颜色变化、透明度动画 |
@@ -61,7 +61,7 @@ protected abstract T GetDefaultValue();
 | **Specialized_Vector4** | 处理四维向量(Vector4)动画 | `Vector4.LerpUnclamped()` | `Vector4.zero` | 特殊参数控制 |
 
 ### 📦 丰富的缓动库
----
+------------
 |缓动类型|In|Out|InOut||缓动类型|In|Out|InOut|
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |**Linear**<br>线性|![](Docs/ease_linear.png)|![](Docs/ease_linear.png)|![](Docs/ease_linear.png)|--|**Sine**<br>正弦曲线|![](Docs/ease_insine.png)|![](Docs/ease_outsine.png)|![](Docs/ease_inoutsine.png)|
@@ -72,7 +72,7 @@ protected abstract T GetDefaultValue();
 |**Bounce**<br>弹跳曲线|![](Docs/ease_inbounce.png)|![](Docs/ease_outbounce.png)|![](Docs/ease_inoutbounce.png)|
 
 ### 📦 灵活的扩展类
----
+------------
 | 序号 | 类名称                     | 分类          |
 |:------:|:----------------------------:|:---------------:|
 | ✅    | `XTween.Alpha`             | **基础动画**       |
@@ -97,25 +97,25 @@ protected abstract T GetDefaultValue();
 
 
 ### 📦 可视化路径工具
----
+------------
 ![](Docs/PathTool.png)
 
 <br>
 
 ### 📦 可视化动画控制器
----
+------------
 ![](Docs/Controller.png)
 
 <br>
 
 ### 📦 可视化动画管理器
----
+------------
 ![](Docs/Manager.png)
 
 <br>
 
 ### 📦 生命周期
----
+------------
 #### ▶️**Tween_Controller** 
 
 ```mermaid
