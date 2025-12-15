@@ -719,6 +719,7 @@ GameObject:
   - component: {fileID: 1632539347}
   - component: {fileID: 1632539350}
   - component: {fileID: 1632539349}
+  - component: {fileID: 1632539351}
   m_Layer: 5
   m_Name: Logo
   m_TagString: Untagged
@@ -783,6 +784,124 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1632539346}
   m_CullTransparentMesh: 1
+--- !u!114 &1632539351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632539346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20a932a4dafdb948a989201f0687cc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentTweener:
+    rid: -2
+  DebugMode: 1
+  Duration: 1
+  Delay: 0
+  UseRandomDelay: 0
+  RandomDelay:
+    Min: 0
+    Max: 0
+  EaseMode: 9
+  UseCurve: 0
+  Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  LoopCount: 0
+  LoopDelay: 0
+  LoopType: 0
+  IsFromMode: 0
+  IsRelative: 0
+  IsAutoKill: 0
+  IsExtendedString: 0
+  HudRotateMode: 1
+  Vibrato: 0
+  Randomness: 0
+  FadeShake: 0
+  EndValue_Int: 0
+  EndValue_Float: 0
+  EndValue_String: 
+  EndValue_Vector2: {x: 0, y: 0}
+  EndValue_Vector3: {x: 0, y: 0, z: 0}
+  EndValue_Vector4: {x: 0, y: 0, z: 0, w: 0}
+  EndValue_Color: {r: 1, g: 1, b: 1, a: 1}
+  EndValue_Quaternion: {x: 0, y: 0, z: 0, w: 1}
+  FromValue_Int: 0
+  FromValue_Float: 0
+  FromValue_String: 
+  FromValue_Vector2: {x: 0, y: 0}
+  FromValue_Vector3: {x: 0, y: 0, z: 0}
+  FromValue_Vector4: {x: 0, y: 0, z: 0, w: 0}
+  FromValue_Color: {r: 1, g: 1, b: 1, a: 1}
+  FromValue_Quaternion: {x: 0, y: 0, z: 0, w: 1}
+  TweenTypes: 0
+  TweenTypes_Positions: 0
+  TweenTypes_Rotations: 0
+  TweenTypes_Alphas: 0
+  TweenTypes_Shakes: 0
+  TweenTypes_Text: 0
+  TweenTypes_TmpText: 0
+  TweenTypes_To: 0
+  index_TweenTypes: "\u65E0_None"
+  index_TweenTypes_Positions: "\u951A\u70B9\u4F4D\u7F6E_AnchoredPosition"
+  index_TweenTypes_Rotations: "\u6B27\u62C9\u89D2\u5EA6_Euler"
+  index_TweenTypes_Alphas: "Image\u7EC4\u4EF6"
+  index_TweenTypes_Shakes: "\u4F4D\u7F6E_Position"
+  index_TweenTypes_Text: "\u6587\u5B57\u5C3A\u5BF8_FontSize"
+  index_TweenTypes_TmpText: "\u6587\u5B57\u5C3A\u5BF8_FontSize"
+  index_TweenTypes_To: "\u6574\u6570_Int"
+  index_AutoKillPreviewTweens: 1
+  index_RewindPreviewTweensWithKill: 1
+  index_ClearPreviewTweensWithKill: 1
+  LiquidLEDBlink: 0
+  Target_RectTransform: {fileID: 1632539347}
+  Target_Image: {fileID: 1632539349}
+  Target_CanvasGroup: {fileID: 0}
+  Target_Text: {fileID: 0}
+  Target_TmpText: {fileID: 0}
+  Target_PathTool: {fileID: 0}
+  Target_Int: 0
+  Target_Float: 0
+  Target_String: 
+  Target_Vector2: {x: 0, y: 0}
+  Target_Vector3: {x: 0, y: 0, z: 0}
+  Target_Vector4: {x: 0, y: 0, z: 0, w: 0}
+  Target_Color: {r: 1, g: 1, b: 1, a: 1}
+  keyControl_Enabled: 1
+  keyControl_Tween_Create: 99
+  keyControl_Tween_Play: 119
+  keyControl_Tween_Rewind: 114
+  keyControl_Tween_Kill: 101
+  keyControl_Tween_Replay: 116
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &2087921891
 GameObject:
   m_ObjectHideFlags: 0

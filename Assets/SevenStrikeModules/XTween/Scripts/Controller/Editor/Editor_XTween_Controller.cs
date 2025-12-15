@@ -1132,7 +1132,7 @@ namespace SevenStrikeModules.XTween
             #region 控制按键
             XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "控制按键", XTween_Dashboard.Theme_Primary);
             XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("动画播放", sp_keyControl_Tween_Create, 100);
+            XTween_GUI.Gui_Layout_Property_Field("动画创建", sp_keyControl_Tween_Create, 100);
             XTween_GUI.Gui_Layout_Space(5);
             XTween_GUI.Gui_Layout_Property_Field("动画播放", sp_keyControl_Tween_Play, 100);
             XTween_GUI.Gui_Layout_Space(5);
@@ -1398,33 +1398,33 @@ namespace SevenStrikeModules.XTween
             }
             if (TweenTypes == XTweenTypes.旋转_Rotation)
             {
+                if (sp_Target_RectTransform.objectReferenceValue == null)
                 {
-                    if (sp_Target_RectTransform.objectReferenceValue == null)
-                        valid = false;
+                    valid = false;
                     XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.缩放_Scale)
             {
+                if (sp_Target_RectTransform.objectReferenceValue == null)
                 {
-                    if (sp_Target_RectTransform.objectReferenceValue == null)
-                        valid = false;
+                    valid = false;
                     XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.尺寸_Size)
             {
+                if (sp_Target_RectTransform.objectReferenceValue == null)
                 {
-                    if (sp_Target_RectTransform.objectReferenceValue == null)
-                        valid = false;
+                    valid = false;
                     XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.颜色_Color)
             {
+                if (sp_Target_Image.objectReferenceValue == null)
                 {
-                    if (sp_Target_Image.objectReferenceValue == null)
-                        valid = false;
+                    valid = false;
                     XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "图像组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  Image </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
@@ -1443,9 +1443,9 @@ namespace SevenStrikeModules.XTween
             }
             if (TweenTypes == XTweenTypes.填充_Fill)
             {
+                if (sp_Target_Image.objectReferenceValue == null)
                 {
-                    if (sp_Target_Image.objectReferenceValue == null)
-                        valid = false;
+                    valid = false;
                     XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "图像组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  Image </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
