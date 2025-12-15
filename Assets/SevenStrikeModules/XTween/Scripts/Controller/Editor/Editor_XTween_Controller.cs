@@ -1269,8 +1269,8 @@ namespace SevenStrikeModules.XTween
             }
 
             #region 添加至预览器并播放
-            XTween_Previewer.Append(BaseScript.CurrentTweener);
-            XTween_Previewer.Play();
+            XTween_Previewer.Append(BaseScript.CurrentTweener, sp_DebugMode.boolValue);
+            XTween_Previewer.Play(null, sp_DebugMode.boolValue);
 
             #endregion
         }

@@ -41,31 +41,31 @@ public class tween_demo_Base : MonoBehaviour
         {
             Tween_Create();
             if (XTween_Pool.EnablePool)
-                XTween_Pool.LogStatistics();
+                XTween_Pool.LogStatistics(showLogs);
         }
         if (Input.GetKeyDown(key_Tween_Play))
         {
             Tween_Play();
             if (XTween_Pool.EnablePool)
-                XTween_Pool.LogStatistics();
+                XTween_Pool.LogStatistics(showLogs);
         }
         if (Input.GetKeyDown(key_Tween_Pause_Or_Resume))
         {
             Tween_Pause_Or_Resume();
             if (XTween_Pool.EnablePool)
-                XTween_Pool.LogStatistics();
+                XTween_Pool.LogStatistics(showLogs);
         }
         if (Input.GetKeyDown(key_Tween_Kill))
         {
             Tween_Kill();
             if (XTween_Pool.EnablePool)
-                XTween_Pool.LogStatistics();
+                XTween_Pool.LogStatistics(showLogs);
         }
         if (Input.GetKeyDown(key_Tween_Rewind))
         {
             Tween_Rewind();
             if (XTween_Pool.EnablePool)
-                XTween_Pool.LogStatistics();
+                XTween_Pool.LogStatistics(showLogs);
         }
 
         // 确保管理器已创建

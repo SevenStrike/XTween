@@ -332,8 +332,11 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 打印池统计信息
         /// </summary>
-        public static void LogStatistics()
+        public static void LogStatistics(bool debug = false)
         {
+            if (!debug)
+                return;
+
             Debug.Log("-------------Tween Pool Statistics-------------");
 
             foreach (var type in TweenPool.Keys)

@@ -926,7 +926,7 @@ MonoBehaviour:
   loopDelay: 0
   isRelative: 0
   isFromMode: 0
-  isAutoKill: 1
+  isAutoKill: 0
   useCurve: 0
   curve:
     serializedVersion: 2
@@ -952,13 +952,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  showLogs: 1
+  showLogs: 0
   key_Tween_Create: 98
   key_Tween_Play: 112
   key_Tween_Pause_Or_Resume: 32
   key_Tween_Kill: 107
   key_Tween_Rewind: 114
-  tweenTarget: {fileID: 0}
+  tweenTarget: {fileID: 1632539347}
   endValue: {x: 300, y: 300}
   fromValue: {x: 0, y: 0}
 --- !u!1 &2087921891
@@ -971,7 +971,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2087921895}
   - component: {fileID: 2087921894}
-  - component: {fileID: 2087921893}
   - component: {fileID: 2087921892}
   m_Layer: 0
   m_Name: Camera
@@ -1024,14 +1023,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &2087921893
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2087921891}
-  m_Enabled: 1
 --- !u!20 &2087921894
 Camera:
   m_ObjectHideFlags: 0

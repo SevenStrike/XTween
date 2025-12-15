@@ -346,7 +346,7 @@ namespace SevenStrikeModules.XTween
         /// - 运行时调用会显示警告
         /// - 重复添加相同实例会被忽略
         /// </summary>
-        public static void Append(XTween_Interface tween)
+        public static void Append(XTween_Interface tween, bool debug = false)
         {
             if (Application.isPlaying)
             {
@@ -360,7 +360,7 @@ namespace SevenStrikeModules.XTween
 
             PreviewTweens.Add(tween);
             // 添加动画时重新计算最大时长
-            CalculateMaxTotalDuration(true);
+            CalculateMaxTotalDuration(debug);
 
 #if UNITY_EDITOR
             if (AutoKillWithDuration && HasInfiniteLoopTween())
@@ -462,7 +462,7 @@ namespace SevenStrikeModules.XTween
         /// - 受AutoKillWithDuration设置影响
         /// - 与MaxTotalDuration计算相关
         /// </summary>
-        public static void Play(Action action = null)
+        public static void Play(Action action = null, bool debug = false)
         {
             if (Application.isPlaying)
             {
@@ -478,7 +478,7 @@ namespace SevenStrikeModules.XTween
 #endif
 
             // 播放前重新计算最大时长
-            CalculateMaxTotalDuration();
+            CalculateMaxTotalDuration(debug);
             PlayStartTime = EditorApplication.timeSinceStartup; // 记录开始时间
             foreach (var tween in PreviewTweens)
             {
