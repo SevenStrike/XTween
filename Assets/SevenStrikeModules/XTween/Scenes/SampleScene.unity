@@ -840,7 +840,6 @@ GameObject:
   - component: {fileID: 1632539347}
   - component: {fileID: 1632539350}
   - component: {fileID: 1632539349}
-  - component: {fileID: 1632539351}
   m_Layer: 5
   m_Name: Logo
   m_TagString: Untagged
@@ -905,62 +904,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1632539346}
   m_CullTransparentMesh: 1
---- !u!114 &1632539351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632539346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 987f7f5d2db974e498fa632089901903, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duration: 1
-  delay: 0
-  randomDelay: 0
-  easeMode: 9
-  loop: 0
-  loopType: 0
-  loopDelay: 0
-  isRelative: 0
-  isFromMode: 0
-  isAutoKill: 0
-  useCurve: 0
-  curve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  showLogs: 0
-  key_Tween_Create: 98
-  key_Tween_Play: 112
-  key_Tween_Pause_Or_Resume: 32
-  key_Tween_Kill: 107
-  key_Tween_Rewind: 114
-  tweenTarget: {fileID: 1632539347}
-  endValue: {x: 300, y: 300}
-  fromValue: {x: 0, y: 0}
 --- !u!1 &2087921891
 GameObject:
   m_ObjectHideFlags: 0

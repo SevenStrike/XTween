@@ -95,7 +95,7 @@ namespace SevenStrikeModules.XTween
         Rect rect_liquid_set;
         RectOffset liquid_rectoffet;
 
-        [MenuItem("Tools/SevenStrikeModules/XTween/PoolManager #F9")]
+        [MenuItem("Assets/XTween/D 动画池管理器（PoolManager)")]
         public static void ShowWindow()
         {
             window = (Editor_XTween_PoolAnalyzer)EditorWindow.GetWindow(typeof(Editor_XTween_PoolAnalyzer), true, "XTween 动画池管理器", true);
