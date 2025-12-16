@@ -464,14 +464,14 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         public static void Play(Action action = null, bool debug = false)
         {
-            if (Application.isPlaying)
+            if (Application.isPlaying && debug)
             {
                 XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
                 return;
             }
 
 #if UNITY_EDITOR
-            if (AutoKillWithDuration && HasInfiniteLoopTween())
+            if (AutoKillWithDuration && HasInfiniteLoopTween() && debug)
             {
                 XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "检测到无限循环动画，自动停止功能将不会生效！", GUIMsgState.警告);
             }

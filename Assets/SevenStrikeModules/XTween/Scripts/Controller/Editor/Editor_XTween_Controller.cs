@@ -1058,7 +1058,7 @@ namespace SevenStrikeModules.XTween
 
             #region 动画状态闪烁
             EditorGUI.BeginChangeCheck();
-            XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("动画状态闪烁（全局）", new string[2] { "禁用", "启用" }, ref sp_LiquidLEDBlink, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
+            XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("动画状态指示器（全局）", new string[2] { "禁用", "启用" }, ref sp_LiquidLEDBlink, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
             if (EditorGUI.EndChangeCheck())
             {
                 XTween_Dashboard.Tween_LiquidLEDBlink = sp_LiquidLEDBlink.boolValue;
