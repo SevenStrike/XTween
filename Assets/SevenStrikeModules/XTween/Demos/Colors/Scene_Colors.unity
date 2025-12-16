@@ -798,7 +798,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentTweener:
     rid: -2
-  DebugMode: 1
+  DebugMode: 0
   Duration: 1
   Delay: 0
   UseRandomDelay: 0
@@ -806,7 +806,7 @@ MonoBehaviour:
     Min: 0
     Max: 0
   EaseMode: 9
-  UseCurve: 0
+  UseCurve: 1
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -820,6 +820,60 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.112653255
+      value: 0.69508773
+      inSlope: 1.0391517
+      outSlope: 1.0391517
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.17041817
+      value: 0.0082009435
+      inSlope: 0.85112464
+      outSlope: 0.85112464
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.23344035
+      value: 0.81278175
+      inSlope: 1.2287447
+      outSlope: 1.2287447
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.30251262
+      value: 0.0003077984
+      inSlope: 0.9577057
+      outSlope: 0.9577057
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3663515
+      value: 0.7773883
+      inSlope: 1.5677761
+      outSlope: 1.5677761
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6102045
+      value: 0.010087788
+      inSlope: 1.0578218
+      outSlope: 1.0578218
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 0
@@ -831,9 +885,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  LoopCount: 0
+  LoopCount: -1
   LoopDelay: 0
-  LoopType: 0
+  LoopType: 1
   IsFromMode: 0
   IsRelative: 0
   IsAutoKill: 0
@@ -848,7 +902,7 @@ MonoBehaviour:
   EndValue_Vector2: {x: 0, y: 0}
   EndValue_Vector3: {x: 0, y: 0, z: 0}
   EndValue_Vector4: {x: 0, y: 0, z: 0, w: 0}
-  EndValue_Color: {r: 1, g: 0, b: 0, a: 1}
+  EndValue_Color: {r: 1, g: 1, b: 1, a: 0}
   EndValue_Quaternion: {x: 0, y: 0, z: 0, w: 1}
   FromValue_Int: 0
   FromValue_Float: 0

@@ -43,7 +43,10 @@ namespace SevenStrikeModules.XTween
         /// 当前的动画对象，用于控制动画的执行
         /// </summary>
         [SerializeReference] public XTween_Interface CurrentTweener;
-        [SerializeField] public bool DebugMode = true;
+        /// <summary>
+        /// 调试动画信息
+        /// </summary>
+        [SerializeField] public bool DebugMode = false;
 
         #region 动作委托
         /// <summary>
