@@ -78,8 +78,8 @@ protected abstract T GetDefaultValue();
 ------------
 | 序号 | 类名称                     | 分类          |
 |:------:|:----------------------------:|:---------------:|
-| ✅    | `XTween.Alpha`             | **基础动画**       |
-| ✅    | `XTween.AnchoredPosition`  | **UI动画**        |
+| ✅    | `XTween.Alpha`             | **透明度动画**       |
+| ✅    | `XTween.AnchoredPosition`  | **锚点位置动画**        |
 | ✅    | `XTween.Color`             | **颜色动画**       |
 | ✅    | `XTween.Fill`              | **填充动画**       |
 | ✅    | `XTween.Path`              | **路径动画**       |
@@ -89,7 +89,7 @@ protected abstract T GetDefaultValue();
 | ✅    | `XTween.Size`              | **尺寸动画**       |
 | ✅   | `XTween.Text`              | **文本动画**       |
 | ✅   | `XTween.Tiled`             | **平铺动画**       |
-| ✅   | `XTween.TmpText`           | **临时文本动画**   |
+| ✅   | `XTween.TmpText`           | **TMP文本动画**   |
 | ✅   | `XTween.To.Color`          | **颜色过渡**       |
 | ✅   | `XTween.To_Float`          | **浮点数过渡**     |
 | ✅   | `XTween.To_Int`            | **整数过渡**       |
