@@ -1,8 +1,8 @@
 namespace SevenStrikeModules.XTween
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Unity.Plastic.Antlr3.Runtime.Misc;
     using UnityEditor;
     using UnityEngine;
     using UnityEngine.Events;

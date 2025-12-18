@@ -577,6 +577,19 @@
                 node = next;
             }
         }
+        /// <summary>
+        /// 根据 Guid 查找并重新播放动画
+        /// </summary>
+        /// <param name="id">动画的 GuidID</param>
+        public bool RestartTween(string id)
+        {
+            var tween = FindTween_By_ShortID(id);
+            if (tween == null) return false;
+
+            tween.Rewind();
+            tween.Play();
+            return true;
+        }
         #endregion
 
         #region 动画查找
