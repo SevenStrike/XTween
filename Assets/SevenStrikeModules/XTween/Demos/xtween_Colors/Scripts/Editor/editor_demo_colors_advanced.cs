@@ -2,16 +2,16 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CustomEditor(typeof(demo_colors_advanced))]
+[CustomEditor(typeof(demo_colors_picked))]
 public class editor_demo_colors_advanced : editor_demo_base
 {
-    private demo_colors_advanced demo_colors;
+    private demo_colors_picked demo_colors;
 
     public override void OnEnable()
     {
         base.OnEnable();
 
-        demo_colors = target as demo_colors_advanced;
+        demo_colors = target as demo_colors_picked;
 
         demo_colors.col_end = demo_colors.col_list[demo_colors.col_index];
     }
