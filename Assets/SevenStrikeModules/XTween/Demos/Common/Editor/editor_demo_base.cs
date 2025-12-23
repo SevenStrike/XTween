@@ -1,4 +1,6 @@
 using SevenStrikeModules.XTween;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -11,10 +13,19 @@ using Debug = UnityEngine.Debug;
 public class editor_demo_base : Editor
 {
     internal demo_base demo_base;
+    /// <summary>
+    /// 附加的预览动画列表
+    /// </summary>
+    [SerializeField] public List<XTween_Interface> PreviewListAddon = new List<XTween_Interface>();
 
     public virtual void OnEnable()
     {
         demo_base = target as demo_base;
+    }
+
+    private void OnDisable()
+    {
+        Preview_Kill();
     }
 
     public override VisualElement CreateInspectorGUI()
@@ -242,7 +253,11 @@ public class editor_demo_base : Editor
 
         XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
 
-        XTween_Previewer.Kill(XTween_Previewer.AfterKillClear, XTween_Previewer.BeforeKillRewind, () => { demo_base.currentTweener = null; });
+        XTween_Previewer.Kill(XTween_Previewer.AfterKillClear, XTween_Previewer.BeforeKillRewind, () =>
+        {
+            demo_base.currentTweener = null;
+            PreviewListAddon.Clear();
+        });
 
         if (demo_base.debug)
         {
@@ -271,6 +286,10 @@ public class editor_demo_base : Editor
 
         #region 添加至预览器并播放
         XTween_Previewer.Append(demo_base.currentTweener);
+        for (int i = 0; i < PreviewListAddon.Count; i++)
+        {
+            XTween_Previewer.Append(PreviewListAddon[i]);
+        }
         XTween_Previewer.Play(null, demo_base.debug);
         #endregion
 
@@ -280,12 +299,19 @@ public class editor_demo_base : Editor
             XTween_Pool.LogStatistics(demo_base.debug);
         }
     }
+
+    public void AppendToPreviewer(XTween_Interface tween)
+    {
+        PreviewListAddon.Add(tween);
+    }
+
     /// <summary>
     /// 杀死预览动画后的操作逻辑
     /// </summary>
     private void OnAutoKillPreview()
     {
         demo_base.currentTweener = null;
+        PreviewListAddon.Clear();
         XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
     }
     #endregion

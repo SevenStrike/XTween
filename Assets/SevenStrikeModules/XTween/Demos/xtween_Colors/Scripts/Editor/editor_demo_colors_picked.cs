@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [CustomEditor(typeof(demo_colors_picked))]
-public class editor_demo_colors_advanced : editor_demo_base
+public class editor_demo_colors_picked : editor_demo_base
 {
     private demo_colors_picked demo_colors;
 

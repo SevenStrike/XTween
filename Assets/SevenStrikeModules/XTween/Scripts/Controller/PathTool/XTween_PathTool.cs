@@ -358,6 +358,7 @@ namespace SevenStrikeModules.XTween
         public Action<Quaternion> act_on_pathOrientation;
         public Action<Vector3> act_on_pathLookatOrientation_withObject;
         public Action<Vector3> act_on_pathLookatOrientation_withPosition;
+        public Action act_on_pathChanged;
         #endregion
 
         private void OnDrawGizmosSelected()
@@ -452,6 +453,18 @@ namespace SevenStrikeModules.XTween
                 return Vector3.zero;
 
             return PathPoints[index].world;
+        }
+        /// <summary>
+        /// 获取指定路径点的局部同级坐标
+        /// </summary>
+        /// <param name="index">路径点的索引</param>
+        /// <returns>路径点的局部同级坐标如果索引无效，则返回 三维向量_Vector3.zero</returns>
+        public Vector3 Get_AnchoredPosition(int index)
+        {
+            if (index < 0 || index >= PathPoints.Count)
+                return Vector3.zero;
+
+            return PathPoints[index].anchored;
         }
         /// <summary>
         /// 获取指定路径点的入点坐标（贝塞尔曲线的入点）
@@ -813,7 +826,6 @@ namespace SevenStrikeModules.XTween
             Undo.RegisterCreatedObjectUndo(markRoot, "Create Path Point Root");
 #endif
             markRoot.name = "PathMarksGroup";
-            markRoot.layer = LayerMask.NameToLayer("XHud");
             markRoot.transform.SetParent(PathParent);
             UnityEngine.RectTransform rect = markRoot.AddComponent<UnityEngine.RectTransform>();
             rect.localEulerAngles = Vector3.zero;
@@ -835,7 +847,6 @@ namespace SevenStrikeModules.XTween
                     Undo.RegisterCreatedObjectUndo(mark, "Create Path Point");
 #endif
                     mark.name = $"PathPoint_{i}";
-                    mark.layer = LayerMask.NameToLayer("XHud");
 #if UNITY_EDITOR
                     Undo.RecordObject(mark.transform, "Set Path Point Transform");
                     img_mark.rectTransform.SetParent(transform);
@@ -868,7 +879,6 @@ namespace SevenStrikeModules.XTween
                     Undo.RegisterCreatedObjectUndo(mark, "Create Path Point");
 #endif
                     mark.name = $"PathPoint_{i}";
-                    mark.layer = LayerMask.NameToLayer("XHud");
 #if UNITY_EDITOR
                     Undo.RecordObject(mark.transform, "Set Path Point Transform");
                     img_mark.rectTransform.SetParent(transform.parent);

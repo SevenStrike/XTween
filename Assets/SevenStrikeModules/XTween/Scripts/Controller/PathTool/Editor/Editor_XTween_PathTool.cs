@@ -253,7 +253,7 @@ namespace SevenStrikeModules.XTween
         {
             serializedObject.Update();
 
-            XTween_GUI.Gui_Layout_Banner(icon_main, GUIFilled.实体, GUIColor.深空灰, "HudTween - 路径工具", Color.white, 20, 20);
+            XTween_GUI.Gui_Layout_Banner(icon_main, GUIFilled.实体, GUIColor.深空灰, "XTween - 路径工具", Color.white, 20, 20);
 
             #region 快捷功能
             XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "快捷功能", XTween_Dashboard.Theme_Primary);
@@ -562,7 +562,7 @@ namespace SevenStrikeModules.XTween
                 {
                     menu.AddItem(new GUIContent("D (标记)"), false, () =>
                     {
-                        string res = XTween_GUI.Open(XTweenDialogType.警告, "HudTweenPath消息", "创建标记物", "此操作会根据当前的路径生成标记物！", "创建", "暂不", 1);
+                        string res = XTween_GUI.Open(XTweenDialogType.警告, "XTweenPath消息", "创建标记物", "此操作会根据当前的路径生成标记物！", "创建", "暂不", 0);
                         if (res == "创建")
                         {
                             BaseScript.PathMarks_Create();
@@ -571,9 +571,9 @@ namespace SevenStrikeModules.XTween
                 }
                 else
                 {
-                    menu.AddItem(new GUIContent("C (清除)"), false, () =>
+                    menu.AddItem(new GUIContent("D (清除)"), false, () =>
                     {
-                        string res_de = XTween_GUI.Open(XTweenDialogType.警告, "HudTweenPath消息", "已存在标记物", "此操作会将当前的所有路径标记物全部清除！", "清除", "暂不", 1);
+                        string res_de = XTween_GUI.Open(XTweenDialogType.警告, "XTweenPath消息", "已存在标记物", "此操作会将当前的所有路径标记物全部清除！", "清除", "暂不", 0);
                         if (res_de == "清除")
                         {
                             BaseScript.PathMarks_Clear();
@@ -648,7 +648,7 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         private void PathPoints_Clear()
         {
-            string res = XTween_GUI.Open(XTweenDialogType.警告, "HudTweenPath消息", "清空路径点", "此操作将清空当前已设置的所有路径点！请谨慎操作！", "清空", "暂不", 1);
+            string res = XTween_GUI.Open(XTweenDialogType.警告, "XTweenPath消息", "清空路径点", "此操作将清空当前已设置的所有路径点！请谨慎操作！", "清空", "暂不", 1);
             if (res == "清空")
             {
                 Undo.RecordObject(BaseScript, "Clear All Path Points");
@@ -662,7 +662,7 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         private void PathPoints_ZAxis_ToZero()
         {
-            string res = XTween_GUI.Open(XTweenDialogType.警告, "HudTweenPath消息", "路径点Z轴归零", "此操作会将当前已设置的所有路径点的Z轴坐标归零到画布！请谨慎操作！", "归零", "暂不", 1);
+            string res = XTween_GUI.Open(XTweenDialogType.警告, "XTweenPath消息", "路径点Z轴归零", "此操作会将当前已设置的所有路径点的Z轴坐标归零到画布！请谨慎操作！", "归零", "暂不", 1);
             if (res == "归零")
             {
                 Undo.RecordObject(BaseScript, "Path Points ResetToZero");
@@ -679,7 +679,7 @@ namespace SevenStrikeModules.XTween
         {
             if (sp_PathMarksGroup.objectReferenceValue != null)
             {
-                string res_de = XTween_GUI.Open(XTweenDialogType.警告, "HudTweenPath消息", "已存在标记物", "此操作会将当前的所有路径标记物全部清除！", "清除", "暂不", 1);
+                string res_de = XTween_GUI.Open(XTweenDialogType.警告, "XTweenPath消息", "已存在标记物", "此操作会将当前的所有路径标记物全部清除！", "清除", "暂不", 0);
                 if (res_de == "清除")
                 {
                     BaseScript.PathMarks_Clear();
@@ -687,7 +687,7 @@ namespace SevenStrikeModules.XTween
             }
             else
             {
-                string res = XTween_GUI.Open(XTweenDialogType.警告, "HudTweenPath消息", "创建标记物", "此操作会根据当前的路径生成标记物！", "创建", "暂不", 1);
+                string res = XTween_GUI.Open(XTweenDialogType.警告, "XTweenPath消息", "创建标记物", "此操作会根据当前的路径生成标记物！", "创建", "暂不", 0);
                 if (res == "创建")
                 {
                     BaseScript.PathMarks_Create();
@@ -753,6 +753,9 @@ namespace SevenStrikeModules.XTween
             }
 
             PathPointKeyboardEdit(e);
+
+            if (BaseScript.act_on_pathChanged != null)
+                BaseScript.act_on_pathChanged?.Invoke();
         }
         /// <summary>
         /// 绘制路径

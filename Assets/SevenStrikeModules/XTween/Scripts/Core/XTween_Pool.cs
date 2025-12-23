@@ -293,7 +293,7 @@ namespace SevenStrikeModules.XTween
             Preload<XTween_Specialized_Color>(PreloadConfig[typeof(XTween_Specialized_Color)]);
         }
         /// <summary>
-        /// 确保指定的 Type 在 TweenPool 中是存在的，如果不存在（即：TweenPool中没有一个键：Type值：XHud_Tween队列），它会为该类型初始化一个队列放入 TweenPool 中
+        /// 确保指定的 Type 在 TweenPool 中是存在的，如果不存在（即：TweenPool中没有一个键：Type值：XTween队列），它会为该类型初始化一个队列放入 TweenPool 中
         /// </summary>
         /// <param name="type"></param>
         private static void TweenTypeExistInPool(Type type)

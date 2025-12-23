@@ -1,4 +1,5 @@
 using SevenStrikeModules.XTween;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class demo_base : MonoBehaviour
@@ -69,6 +70,10 @@ public class demo_base : MonoBehaviour
     /// 调试信息开关
     /// </summary>
     [SerializeField] public bool debug = true;
+    /// <summary>
+    /// 当前动画短ID
+    /// </summary>
+    [SerializeField] public string ShortID;
     #endregion
 
     public virtual void Start()
@@ -83,7 +88,7 @@ public class demo_base : MonoBehaviour
 
     private void OnDestroy()
     {
-        currentTweener?.Kill();
+        //currentTweener?.Kill();
     }
 
     #region 动画控制
@@ -92,6 +97,8 @@ public class demo_base : MonoBehaviour
     /// </summary>
     public virtual void Tween_Create()
     {
+        if (currentTweener != null)
+            ShortID = currentTweener.ShortId;
         if (debug)
         {
             Debug.Log($"Tween Created");
@@ -134,6 +141,7 @@ public class demo_base : MonoBehaviour
         if (currentTweener == null) return;
         currentTweener.Kill();
         currentTweener = null;
+        ShortID = null;
         if (debug)
         {
             Debug.Log($"Tween Kill");

@@ -260,6 +260,10 @@ namespace SevenStrikeModules.XTween
         /// 震动渐变过渡
         /// </summary>
         [SerializeField] public bool FadeShake;
+        /// <summary>
+        /// 自动开始动画
+        /// </summary>
+        [SerializeField] public bool AutoStart;
         #endregion
 
         #region 动画目标值（End）
@@ -427,11 +431,11 @@ namespace SevenStrikeModules.XTween
         #endregion
 
         #region 组件节点
-        [SerializeField] private RectTransform Target_RectTransform;
-        [SerializeField] private Image Target_Image;
-        [SerializeField] private CanvasGroup Target_CanvasGroup;
-        [SerializeField] private Text Target_Text;
-        [SerializeField] private TextMeshProUGUI Target_TmpText;
+        [SerializeField] public RectTransform Target_RectTransform;
+        [SerializeField] public Image Target_Image;
+        [SerializeField] public CanvasGroup Target_CanvasGroup;
+        [SerializeField] public Text Target_Text;
+        [SerializeField] public TextMeshProUGUI Target_TmpText;
         [SerializeField] public XTween_PathTool Target_PathTool;
         #endregion
 
@@ -472,6 +476,12 @@ namespace SevenStrikeModules.XTween
         void Start()
         {
             GetComponents();
+
+            if (AutoStart)
+            {
+                Tween_Create();
+                Tween_Play();
+            }
         }
 
         void Update()
@@ -702,7 +712,7 @@ namespace SevenStrikeModules.XTween
             }
         }
         /// <summary>
-        /// 动画重播倒退
+        /// 动画重播
         /// </summary>
         public void Tween_Replay()
         {
@@ -713,6 +723,24 @@ namespace SevenStrikeModules.XTween
                 return;
             }
             Tween_Rewind();
+            Tween_Play();
+            if (DebugMode)
+                XTween_Utilitys.DebugInfo("XTween控制器消息", "重播动画： " + TweenTypes.ToString(), GUIMsgState.通知);
+        }
+        /// <summary>
+        /// 动画重建
+        /// </summary>
+        public void Tween_ReCreate()
+        {
+            //if (CurrentTweener == null)
+            //{
+            //    if (DebugMode)
+            //        XTween_Utilitys.DebugInfo("XTween控制器消息", "未能重播动画！因为当前不存在动画！", GUIMsgState.警告);
+            //    return;
+            //}
+            Tween_Kill();
+            Tween_Rewind();
+            Tween_Create();
             Tween_Play();
             if (DebugMode)
                 XTween_Utilitys.DebugInfo("XTween控制器消息", "重播动画： " + TweenTypes.ToString(), GUIMsgState.通知);

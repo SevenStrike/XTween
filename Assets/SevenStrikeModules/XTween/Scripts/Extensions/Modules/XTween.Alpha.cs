@@ -99,11 +99,11 @@ namespace SevenStrikeModules.XTween
                     float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((alpha, linearProgress, time) => { image.color = new Color(startColor.r, startColor.g, startColor.b, alpha); }).OnRewind(() => { image.color = startColor; }).OnComplete((duration) => { image.color = new Color(startColor.r, startColor.g, startColor.b, endValue); }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((alpha, linearProgress, time) => { image.color = new Color(startColor.r, startColor.g, startColor.b, alpha); }).OnRewind(() => { image.color = new Color(startColor.r, startColor.g, startColor.b, startColor.a); }).OnComplete((duration) => { image.color = new Color(startColor.r, startColor.g, startColor.b, endValue); }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((alpha, linearProgress, time) => { image.color = new Color(startColor.r, startColor.g, startColor.b, alpha); }).OnRewind(() => { image.color = startColor; }).OnComplete((duration) => { image.color = new Color(startColor.r, startColor.g, startColor.b, endValue); }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((alpha, linearProgress, time) => { image.color = new Color(startColor.r, startColor.g, startColor.b, alpha); }).OnRewind(() => { image.color = new Color(startColor.r, startColor.g, startColor.b, startColor.a); }).OnComplete((duration) => { image.color = new Color(startColor.r, startColor.g, startColor.b, endValue); }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
@@ -130,11 +130,11 @@ namespace SevenStrikeModules.XTween
                     float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Float(startColor.a, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((alpha, linearProgress, time) => { image.color = new Color(startColor.r, startColor.g, startColor.b, alpha); }).OnRewind(() => { image.color = startColor; }).OnComplete((duration) => { image.color = new Color(startColor.r, startColor.g, startColor.b, endValue); }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startColor.a, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((alpha, linearProgress, time) => { image.color = new Color(startColor.r, startColor.g, startColor.b, alpha); }).OnRewind(() => { image.color = new Color(startColor.r, startColor.g, startColor.b, startColor.a); }).OnComplete((duration) => { image.color = new Color(startColor.r, startColor.g, startColor.b, endValue); }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Float(startColor.a, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((alpha, linearProgress, time) => { image.color = new Color(startColor.r, startColor.g, startColor.b, alpha); }).OnRewind(() => { image.color = startColor; }).OnComplete((duration) => { image.color = new Color(startColor.r, startColor.g, startColor.b, endValue); }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startColor.a, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((alpha, linearProgress, time) => { image.color = new Color(startColor.r, startColor.g, startColor.b, alpha); }).OnRewind(() => { image.color = new Color(startColor.r, startColor.g, startColor.b, startColor.a); }).OnComplete((duration) => { image.color = new Color(startColor.r, startColor.g, startColor.b, endValue); }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else

@@ -5,7 +5,7 @@ namespace SevenStrikeModules.XTween
     public partial class XTween_Controller
     {
         /// <summary>
-        /// 动画 - XHudTmpText方法
+        /// 动画 - TmpText方法
         /// </summary>
         private void TweenPlay_TmpText()
         {

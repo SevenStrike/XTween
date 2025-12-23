@@ -1,7 +1,7 @@
 namespace SevenStrikeModules.XTween
 {
     /// <summary>
-    /// 定义XHud系统中所有可用的补间动画类型
+    /// 定义XTween框架中所有可用的补间动画类型
     /// 用于指定要动画化的属性或组件类型
     /// </summary>
     public enum XTweenTypes

@@ -64,7 +64,7 @@ namespace SevenStrikeModules.XTween
      */
 
     /// <summary>
-    /// XHudTween编辑器动画预览系统（非运行时）
+    /// XTween编辑器动画预览系统（非运行时）
     /// 
     /// - 核心功能 -
     /// 1. 在编辑器模式下预览 XTween_Interface 动画
@@ -350,7 +350,7 @@ namespace SevenStrikeModules.XTween
         {
             if (Application.isPlaying)
             {
-                XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
+                XTween_Utilitys.DebugInfo("XTweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
                 return;
             }
 
@@ -365,7 +365,7 @@ namespace SevenStrikeModules.XTween
 #if UNITY_EDITOR
             if (AutoKillWithDuration && HasInfiniteLoopTween())
             {
-                //XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
+                //XTween_Utilitys.DebugInfo("XTweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
             }
 #endif
         }
@@ -424,7 +424,7 @@ namespace SevenStrikeModules.XTween
         {
             if (Application.isPlaying)
             {
-                XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
+                XTween_Utilitys.DebugInfo("XTweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
                 return;
             }
 
@@ -443,7 +443,7 @@ namespace SevenStrikeModules.XTween
 #if UNITY_EDITOR
             if (AutoKillWithDuration && HasInfiniteLoopTween())
             {
-                //XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "检测到无限循环动画，自动停止功能将不会生效！", GUIMsgState.警告);
+                //XTween_Utilitys.DebugInfo("XTweenPreview预览器消息", "检测到无限循环动画，自动停止功能将不会生效！", GUIMsgState.警告);
             }
 #endif
         }
@@ -466,14 +466,14 @@ namespace SevenStrikeModules.XTween
         {
             if (Application.isPlaying && debug)
             {
-                XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
+                XTween_Utilitys.DebugInfo("XTweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
                 return;
             }
 
 #if UNITY_EDITOR
             if (AutoKillWithDuration && HasInfiniteLoopTween() && debug)
             {
-                XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "检测到无限循环动画，自动停止功能将不会生效！", GUIMsgState.警告);
+                XTween_Utilitys.DebugInfo("XTweenPreview预览器消息", "检测到无限循环动画，自动停止功能将不会生效！", GUIMsgState.警告);
             }
 #endif
 
@@ -503,7 +503,7 @@ namespace SevenStrikeModules.XTween
         {
             if (Application.isPlaying)
             {
-                XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
+                XTween_Utilitys.DebugInfo("XTweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
                 return;
             }
 
@@ -540,7 +540,7 @@ namespace SevenStrikeModules.XTween
         {
             if (Application.isPlaying)
             {
-                XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
+                XTween_Utilitys.DebugInfo("XTweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
                 return;
             }
 
@@ -599,7 +599,7 @@ namespace SevenStrikeModules.XTween
         {
             if (Application.isPlaying)
             {
-                XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
+                XTween_Utilitys.DebugInfo("XTweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
                 return;
             }
 
@@ -663,7 +663,7 @@ namespace SevenStrikeModules.XTween
 
             // 调试日志
             if (Debug)
-                XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", $"(目前共有 {PreviewTweens.Count} 个动画，单个最大动画总时长：{MaxTotalDuration:F2}s", GUIMsgState.警告);
+                XTween_Utilitys.DebugInfo("XTweenPreview预览器消息", $"(目前共有 {PreviewTweens.Count} 个动画，单个最大动画总时长：{MaxTotalDuration:F2}s", GUIMsgState.警告);
         }
         /// <summary>
         /// 检测当前预览列表中是否存在无限循环动画
@@ -711,7 +711,7 @@ namespace SevenStrikeModules.XTween
         {
             if (Application.isPlaying)
             {
-                XTween_Utilitys.DebugInfo("XHud TweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
+                XTween_Utilitys.DebugInfo("XTweenPreview预览器消息", "动画预览器只有在非运行模式下才可使用！", GUIMsgState.警告);
                 return null;
             }
 

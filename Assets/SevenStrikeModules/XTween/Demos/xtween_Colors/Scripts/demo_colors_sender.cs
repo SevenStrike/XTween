@@ -20,6 +20,7 @@ public class demo_colors_sender : MonoBehaviour
     {
         StartCoroutine(AutoSend());
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -47,7 +48,6 @@ public class demo_colors_sender : MonoBehaviour
             }
         }
     }
-
     /// <summary>
     /// 创建子弹
     /// </summary>
@@ -67,7 +67,6 @@ public class demo_colors_sender : MonoBehaviour
         // 添加到列表
         bullets.Add(mover);
     }
-
     /// <summary>
     /// 从列表中移除指定子弹
     /// </summary>
