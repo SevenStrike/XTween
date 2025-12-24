@@ -244,12 +244,15 @@ public class editor_demo_base : Editor
     /// <summary>
     ///  动画预览 - 杀死
     /// </summary>
-    public void Preview_Kill()
+    public void Preview_Kill(bool useCurrentTween = true)
     {
         if (Application.isPlaying)
             return;
-        if (demo_base.currentTweener == null)
-            return;
+        if (useCurrentTween)
+        {
+            if (demo_base.currentTweener == null)
+                return;
+        }
 
         XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
 
@@ -268,24 +271,28 @@ public class editor_demo_base : Editor
     /// <summary>
     ///  动画预览 - 开始
     /// </summary>
-    public void Preview_Start()
+    public void Preview_Start(bool useCurrentTween = true)
     {
         if (Application.isPlaying)
             return;
 
-        if (demo_base.currentTweener == null)
-            return;
+        XTween_Previewer.act_on_editor_autokill += OnAutoKillPreview;
 
-        // 当动画预览器为根据动画耗时自动杀死的情况下
-        if (demo_base.currentTweener.AutoKill)
+        if (useCurrentTween)
         {
-            XTween_Previewer.AfterKillClear = true;
-            XTween_Previewer.BeforeKillRewind = true;
-            XTween_Previewer.act_on_editor_autokill += OnAutoKillPreview;
+            if (demo_base.currentTweener == null)
+                return;
+
+            // 当动画预览器为根据动画耗时自动杀死的情况下
+            if (demo_base.currentTweener.AutoKill)
+            {
+                XTween_Previewer.AfterKillClear = true;
+                XTween_Previewer.BeforeKillRewind = true;
+            }
+            XTween_Previewer.Append(demo_base.currentTweener);
         }
 
         #region 添加至预览器并播放
-        XTween_Previewer.Append(demo_base.currentTweener);
         for (int i = 0; i < PreviewListAddon.Count; i++)
         {
             XTween_Previewer.Append(PreviewListAddon[i]);
@@ -310,7 +317,8 @@ public class editor_demo_base : Editor
     /// </summary>
     private void OnAutoKillPreview()
     {
-        demo_base.currentTweener = null;
+        if (demo_base.currentTweener != null)
+            demo_base.currentTweener = null;
         PreviewListAddon.Clear();
         XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
     }

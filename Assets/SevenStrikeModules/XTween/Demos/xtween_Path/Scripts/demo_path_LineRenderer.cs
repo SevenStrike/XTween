@@ -1,7 +1,7 @@
 using SevenStrikeModules.XTween;
 using UnityEngine;
 
-public class demo_path_drive_road : MonoBehaviour
+public class demo_path_LineRenderer : MonoBehaviour
 {
     [SerializeField] public XTween_PathTool pathTool;
     [SerializeField] public LineRenderer lineRenderer;

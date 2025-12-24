@@ -2,14 +2,14 @@ using UnityEngine;
 using UnityEditor;
 using SevenStrikeModules.XTween;
 
-[CustomEditor(typeof(demo_path_drive_road))]
+[CustomEditor(typeof(demo_path_LineRenderer))]
 public class editor_demo_path_drive_road : Editor
 {
-    private demo_path_drive_road road_generator;
+    private demo_path_LineRenderer road_generator;
 
     private void OnEnable()
     {
-        road_generator = (demo_path_drive_road)target;
+        road_generator = (demo_path_LineRenderer)target;
 
         UpdateLineRenderer();
 
