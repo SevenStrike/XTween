@@ -50,6 +50,12 @@ public class editor_demo_path_drive : editor_demo_base
         {
             // 创建动画
             demo_path.Tween_Create();
+
+            demo_path.rotateTween.SetLoopType(XTween_LoopType.Restart).SetLoop(-1).SetLoopingDelay(demo_path.loopDelay);
+            demo_path.alphaTween.SetLoopType(XTween_LoopType.Restart).SetLoop(-1).SetLoopingDelay(demo_path.loopDelay);
+
+            AppendToPreviewer(demo_path.rotateTween);
+            AppendToPreviewer(demo_path.alphaTween);
             // 预览动画
             Preview_Start();
         }

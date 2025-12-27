@@ -1,5 +1,24 @@
 namespace SevenStrikeModules.XTween
 {
+    public enum RotationMode
+    {
+        /// <summary>
+        /// 默认模式，保持原有行为
+        /// </summary>
+        Normal = 0,
+        /// <summary>
+        /// 最短路径旋转
+        /// </summary>
+        Shortest = 1,
+        /// <summary>
+        /// 顺序旋转（按数字顺序）
+        /// </summary>
+        Sequential = 2,
+        /// <summary>
+        /// 完整旋转模式，允许360度完整旋转
+        /// </summary>
+        FullRotation = 3
+    }
     /// <summary>
     /// 定义XTween框架中所有可用的补间动画类型
     /// 用于指定要动画化的属性或组件类型

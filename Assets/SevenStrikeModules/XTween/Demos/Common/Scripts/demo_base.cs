@@ -69,7 +69,7 @@ public class demo_base : MonoBehaviour
     /// <summary>
     /// 调试信息开关
     /// </summary>
-    [SerializeField] public bool debug = true;
+    [SerializeField] public bool debug = false;
     /// <summary>
     /// 当前动画短ID
     /// </summary>

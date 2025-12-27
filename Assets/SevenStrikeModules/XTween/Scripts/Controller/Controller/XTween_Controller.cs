@@ -249,6 +249,10 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         [SerializeField] public HudRotateMode HudRotateMode = HudRotateMode.SlerpUnclamped;
         /// <summary>
+        /// 欧拉角度旋转方式
+        /// </summary>
+        [SerializeField] public RotationMode RotationMode = RotationMode.Normal;
+        /// <summary>
         /// 震动频率
         /// </summary>
         [SerializeField] public float Vibrato;

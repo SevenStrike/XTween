@@ -12,7 +12,7 @@ namespace SevenStrikeModules.XTween
                 return;
             if (TweenTypes_Rotations == XTweenTypes_Rotations.欧拉角度_Euler)
             {
-                CurrentTweener = XTween.xt_Rotate_To(Target_RectTransform, EndValue_Vector3, Duration, IsRelative, IsAutoKill, EaseMode, IsFromMode, () => FromValue_Vector3, UseCurve, Curve).SetLoop(LoopCount, LoopType).SetLoopingDelay(LoopDelay).SetDelay(Delay).OnStart(() =>
+                CurrentTweener = XTween.xt_Rotate_To(Target_RectTransform, EndValue_Vector3, Duration, RotationMode, IsRelative, IsAutoKill, EaseMode, IsFromMode, () => FromValue_Vector3, UseCurve, Curve).SetLoop(LoopCount, LoopType).SetLoopingDelay(LoopDelay).SetDelay(Delay).OnStart(() =>
                 {
                     if (act_on_start != null)
                         act_on_start();
