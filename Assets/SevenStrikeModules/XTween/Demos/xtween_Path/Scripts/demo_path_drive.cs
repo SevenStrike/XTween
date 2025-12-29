@@ -211,6 +211,9 @@ public class demo_path_drive : demo_base
         }).OnKill(() =>
         {
             carTargetImage.rectTransform.localRotation = Quaternion.Euler(rotateFrom);
+        }).OnUpdate<Vector3>((s, v, w) =>
+        {
+            Debug.Log(s);
         });
     }
     #endregion
