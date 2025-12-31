@@ -261,6 +261,18 @@
         /// <param name="autokill">是否自动销毁</param>
         /// <returns>当前动画对象</returns>
         XTween_Interface SetAutoKill(bool autokill);
+        /// <summary>
+        /// 设置步长更新时间间隔
+        /// </summary>
+        /// <param name="interval">间隔时间（秒）</param>
+        /// <returns>当前动画对象</returns>
+        XTween_Interface SetStepTimeInterval(float interval);
+        /// <summary>
+        /// 设置步长更新进度间隔
+        /// </summary>
+        /// <param name="interval">进度间隔（0-1）</param>
+        /// <returns>当前动画对象</returns>
+        XTween_Interface SetStepProgressInterval(float interval);
         #endregion
 
         #region  回调

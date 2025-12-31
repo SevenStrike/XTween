@@ -218,6 +218,12 @@ namespace SevenStrikeModules.XTween
         /// 动画的暂停时间，单位为秒
         /// </summary>
         internal float _PauseTime { get; set; }
+
+        internal StepUpdateMode _stepMode = StepUpdateMode.EveryFrame;
+        internal float _stepInterval = 0f;          // 时间间隔（秒）
+        internal float _stepProgressInterval = 0f;  // 进度间隔（0-1）
+        internal float _lastStepTime = 0f;          // 上次时间间隔执行时间
+        internal float _lastStepProgress = -1f;     // 上次进度间隔执行进度
         #endregion
 
         #region 接口属性实现
@@ -556,6 +562,9 @@ namespace SevenStrikeModules.XTween
                 // 在循环重置前强制设置精确的起始值
                 _CurrentValue = _IsFromMode ? _StartValue : _DefaultValue;
 
+                // === 修复：重置步长状态 ===
+                ResetStepState();
+
                 // 触发重绕回调
                 if (act_on_RewindCallbacks != null)
                     act_on_RewindCallbacks();
@@ -617,14 +626,55 @@ namespace SevenStrikeModules.XTween
                 _CurrentEasedProgress = 1f - _CurrentEasedProgress;
             }
 
+            // 总是调用 OnUpdate（保持每帧执行）
             if (act_on_UpdateCallbacks != null)
                 act_on_UpdateCallbacks(_CurrentValue, _CurrentLinearProgress, _ElapsedTime);
 
+            // 条件调用 OnStepUpdate（根据步长模式）
             if (act_on_StepUpdateCallbacks != null)
-                act_on_StepUpdateCallbacks(_CurrentValue, _CurrentLinearProgress, _ElapsedTime);
+            {
+                bool shouldCallStepUpdate = false;
 
+                switch (_stepMode)
+                {
+                    case StepUpdateMode.TimeInterval:
+                        // 时间间隔模式
+                        if (_lastStepTime == 0 || currentTime - _lastStepTime >= _stepInterval)
+                        {
+                            shouldCallStepUpdate = true;
+                            _lastStepTime = currentTime;
+                        }
+                        break;
+
+                    case StepUpdateMode.ProgressStep:
+                        // 进度步长模式
+                        float currentProgress = _CurrentLinearProgress;
+                        if (_lastStepProgress < 0 ||
+                            currentProgress - _lastStepProgress >= _stepProgressInterval)
+                        {
+                            shouldCallStepUpdate = true;
+                            _lastStepProgress = currentProgress;
+                        }
+                        break;
+
+                    case StepUpdateMode.EveryFrame:
+                    default:
+                        // 每帧模式（默认，保持向后兼容）
+                        shouldCallStepUpdate = true;
+                        break;
+                }
+
+                // 添加回调执行代码
+                if (shouldCallStepUpdate)
+                {
+                    act_on_StepUpdateCallbacks(_CurrentValue, _CurrentLinearProgress, _ElapsedTime);
+                }
+            }
+
+            // OnProgress 保持原样
             if (act_on_ProgressCallbacks != null)
                 act_on_ProgressCallbacks(_CurrentValue, _CurrentLinearProgress);
+
             return true;
         }
         /// <summary>
@@ -680,6 +730,9 @@ namespace SevenStrikeModules.XTween
                 _ElapsedTime = 0f;
                 _CurrentLinearProgress = 0f;
 
+                // === 修复：重置步长状态 ===
+                ResetStepState();
+
                 if (act_on_RewindCallbacks != null)
                     act_on_RewindCallbacks();
                 return true;
@@ -722,6 +775,10 @@ namespace SevenStrikeModules.XTween
 
                 // 保持结束值
                 _CurrentValue = _EndValue;
+
+                // === 修复：重置步长状态 ===
+                ResetStepState();
+
                 return true;
             }
 
@@ -852,6 +909,9 @@ namespace SevenStrikeModules.XTween
 
             _CurrentValue = _IsFromMode ? _StartValue/*显式设置的起始值*/: _DefaultValue;/*默认起始值*/
 
+            // === 修复：重置步长状态 ===
+            ResetStepState();
+
             // 添加循环延迟重置
             if (_ApplyDelayPerLoop)
             {
@@ -961,6 +1021,16 @@ namespace SevenStrikeModules.XTween
             _IsReversing = false;
             _PauseTime = 0f;
             _StartTime = float.MaxValue;
+
+            // 重置步长状态
+            _stepMode = StepUpdateMode.EveryFrame;
+            _stepInterval = 0f;
+            _stepProgressInterval = 0f;
+            _lastStepTime = 0f;
+            _lastStepProgress = -1f;
+
+            // 重置步长状态
+            ResetStepState();
         }
         /// <summary>
         /// 清除所有回调函数
@@ -986,6 +1056,29 @@ namespace SevenStrikeModules.XTween
         {
             UniqueId = Guid.NewGuid();
             ShortId = GenerateShortId();
+        }
+        /// <summary>
+        /// 重置步长更新状态
+        /// 用于动画循环、重置等情况
+        /// </summary>
+        private void ResetStepState()
+        {
+            _lastStepTime = 0f;
+            _lastStepProgress = -1f;
+
+            // 如果是循环延迟等待状态，不重置步长模式
+            if (!_isWaitingLoopDelay)
+            {
+                // 根据当前模式决定是否重置进度值
+                if (_stepMode == StepUpdateMode.TimeInterval)
+                {
+                    _lastStepTime = 0f;
+                }
+                else if (_stepMode == StepUpdateMode.ProgressStep)
+                {
+                    _lastStepProgress = -1f;
+                }
+            }
         }
         #endregion
 
@@ -1081,6 +1174,21 @@ namespace SevenStrikeModules.XTween
         {
             return SetAutokill(autokill);
         }
+        /// <summary>
+        /// 设置步长更新时间间隔（接口实现）
+        /// </summary>
+        XTween_Interface XTween_Interface.SetStepTimeInterval(float interval)
+        {
+            return SetStepTimeInterval(interval);
+        }
+        /// <summary>
+        /// 设置步长更新进度间隔（接口实现）
+        /// </summary>
+        XTween_Interface XTween_Interface.SetStepProgressInterval(float interval)
+        {
+            return SetStepProgressInterval(interval);
+        }
+
         #endregion
 
         #region 接口方法实现 - 链式回调
@@ -1266,8 +1374,9 @@ namespace SevenStrikeModules.XTween
         public XTween_Base<TArg> SetEase(EaseMode easeMode)
         {
             _easeMode = easeMode;
-            _UseCustomEaseCurve = false; // 明确不使用自定义曲线
-                                         // 循环时自动重新应用缓动曲线
+            // 明确不使用自定义曲线
+            _UseCustomEaseCurve = false;
+            // 循环时自动重新应用缓动曲线
             if (_IsPlaying && _LoopCount != 0)
             {
                 _CurrentEasedProgress = XTween_EaseLibrary.Evaluate(_easeMode, _ElapsedTime, Duration);
@@ -1428,6 +1537,44 @@ namespace SevenStrikeModules.XTween
         public XTween_Base<TArg> SetCompleted(bool completed)
         {
             _IsCompleted = completed;
+            return ReturnSelf();
+        }
+        #endregion
+
+        #region 链式配置方法 - 步长控制
+        /// <summary>
+        /// 设置步长更新时间间隔
+        /// </summary>
+        /// <param name="interval">间隔时间（秒），0表示每帧执行</param>
+        /// <returns>当前动画对象</returns>
+        public XTween_Base<TArg> SetStepTimeInterval(float interval)
+        {
+            _stepMode = StepUpdateMode.TimeInterval;
+            _stepInterval = Mathf.Max(0.001f, interval); // 最小1毫秒
+            _lastStepTime = 0f;
+            return ReturnSelf();
+        }
+
+        /// <summary>
+        /// 设置步长更新进度间隔
+        /// </summary>
+        /// <param name="interval">进度间隔（0-1），例如0.1表示每10%进度执行一次</param>
+        /// <returns>当前动画对象</returns>
+        public XTween_Base<TArg> SetStepProgressInterval(float interval)
+        {
+            _stepMode = StepUpdateMode.ProgressStep;
+            _stepProgressInterval = Mathf.Clamp(interval, 0.001f, 1f); // 最小0.1%进度
+            _lastStepProgress = -1f;
+            return ReturnSelf();
+        }
+
+        /// <summary>
+        /// 重置为每帧更新（默认模式）
+        /// </summary>
+        /// <returns>当前动画对象</returns>
+        public XTween_Base<TArg> SetStepEveryFrame()
+        {
+            _stepMode = StepUpdateMode.EveryFrame;
             return ReturnSelf();
         }
         #endregion

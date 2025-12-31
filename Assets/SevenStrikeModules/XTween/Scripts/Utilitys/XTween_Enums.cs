@@ -1,5 +1,26 @@
 namespace SevenStrikeModules.XTween
 {
+    /// <summary>
+    /// 步长更新模式
+    /// </summary>
+    public enum StepUpdateMode
+    {
+        /// <summary>
+        /// 每帧（默认，保持向后兼容）
+        /// </summary>
+        EveryFrame,
+        /// <summary>
+        /// 时间间隔模式
+        /// </summary>
+        TimeInterval,
+        /// <summary>
+        /// 进度步长模式
+        /// </summary>
+        ProgressStep
+    }
+    /// <summary>
+    /// 欧拉角旋转动画的方式
+    /// </summary>
     public enum RotationMode
     {
         /// <summary>

@@ -80,6 +80,8 @@ public class editor_demo_path_drive : editor_demo_base
     public override void editor_btn_clicked_Kill()
     {
         base.editor_btn_clicked_Kill();
+        if (!Application.isPlaying)
+            demo_path.ClearGhost();
     }
     #endregion
 }

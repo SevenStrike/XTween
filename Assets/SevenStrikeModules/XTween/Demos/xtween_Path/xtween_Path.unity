@@ -1798,7 +1798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 092292da755e6134a8b0613946442795, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2583,6 +2583,7 @@ MonoBehaviour:
   IsAutoKill: 0
   IsExtendedString: 0
   HudRotateMode: 1
+  RotationMode: 0
   Vibrato: 0
   Randomness: 0
   FadeShake: 0
@@ -2801,6 +2802,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 764975348}
   m_CullTransparentMesh: 1
+--- !u!1 &797742643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 797742644}
+  m_Layer: 5
+  m_Name: ghostroot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &797742644
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797742643}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1780563258}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &800920226
 GameObject:
   m_ObjectHideFlags: 0
@@ -4524,9 +4560,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   debug: 0
-  ShortID: __raHvpE
+  ShortID: wb0o0EOc
   tweenPathTool: {fileID: 1223102370}
   autoStart: 1
+  carRoot: {fileID: 797742644}
   carTarget: {fileID: 1223102369}
   carTargetImage: {fileID: 567538131}
   alphaTarget: 1
@@ -4576,7 +4613,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   rotateTarget: {x: 0, y: 0, z: -80}
   rotateFrom: {x: 0, y: 0, z: 0}
-  rotateDelay: 0.15
+  rotateDelay: 0
   rotateCurve:
     serializedVersion: 2
     m_Curve:
@@ -4638,14 +4675,20 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   RotationMode: 0
+  GhostIntervalTime: 0.3
+  GhostDuration: 2
+  GhostDelay: 0.3
+  GhostRange: {x: 0.38, y: 0.8}
+  GhostTexture: {fileID: 2800000, guid: c52ee6ac8a38123448dfb7ace753d614, type: 3}
+  Ghosts: []
   PercentDisplayer: {fileID: 1223102375}
   DraftAngleDisplayer: {fileID: 1223102376}
   carPaint_Colors:
-  - {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
-  - {r: 0.7529412, g: 0.5882353, b: 0.15294118, a: 1}
-  - {r: 0.15294118, g: 0.40392157, b: 0.7529412, a: 1}
-  - {r: 0.6313726, g: 0.19215687, b: 0.19215687, a: 1}
-  - {r: 0.47058824, g: 0.3647059, b: 0.7019608, a: 1}
+  - {r: 0.851, g: 0.851, b: 0.851, a: 1}
+  - {r: 1, g: 0.8336552, b: 0.397, a: 1}
+  - {r: 0.38300002, g: 0.6413498, b: 1, a: 1}
+  - {r: 1, g: 0.46099997, b: 0.46099997, a: 1}
+  - {r: 0.75278056, g: 0.638, b: 1, a: 1}
   carPaint_Index: 0
 --- !u!114 &1223102375
 MonoBehaviour:
@@ -5808,6 +5851,7 @@ MonoBehaviour:
   IsAutoKill: 0
   IsExtendedString: 0
   HudRotateMode: 1
+  RotationMode: 0
   Vibrato: 0
   Randomness: 0
   FadeShake: 0
@@ -6324,6 +6368,7 @@ RectTransform:
   - {fileID: 733346189}
   - {fileID: 1223102369}
   - {fileID: 400176718}
+  - {fileID: 797742644}
   m_Father: {fileID: 1010052016}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

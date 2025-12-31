@@ -1,5 +1,6 @@
 using SevenStrikeModules.XTween;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -9,16 +10,18 @@ public class demo_path_drive : demo_base
     [SerializeField] public XTween_PathTool tweenPathTool;
 
     [SerializeField] public bool autoStart;
-
+    [SerializeField] internal RectTransform carRoot;
     [SerializeField] internal RectTransform carTarget;
     [SerializeField] internal Image carTargetImage;
 
+    [Header("透明动画")]
     [SerializeField] public XTween_Interface alphaTween;
     [SerializeField] public float alphaTarget;
     [SerializeField] public float alphaFrom;
     [SerializeField] public float alphaDelay;
     [SerializeField] public AnimationCurve alphaCurve;
 
+    [Header("漂移旋转动画")]
     [SerializeField] public XTween_Interface rotateTween;
     [SerializeField] public Vector3 rotateTarget;
     [SerializeField] public Vector3 rotateFrom;
@@ -26,10 +29,20 @@ public class demo_path_drive : demo_base
     [SerializeField] public AnimationCurve rotateCurve;
     [SerializeField] public RotationMode RotationMode;
 
+    [Header("残影")]
+    [SerializeField] public float GhostIntervalTime = 0.2f;
+    [SerializeField] public float GhostDuration = 1f;
+    [SerializeField] public float GhostDelay = 0.5f;
+    [SerializeField] public Vector2 GhostRange = new Vector2(0, 1);
+    [SerializeField] public Texture2D GhostTexture;
+    [SerializeField] public List<demo_path_drive_ghost> Ghosts = new List<demo_path_drive_ghost>();
+
+    [Header("内容")]
     public demo_path_ContentDisplayer PercentDisplayer;
     public demo_path_ContentDisplayer DraftAngleDisplayer;
-    private Material car_Material;
 
+    [Header("汽车着色")]
+    private Material car_Material;
     public Color[] carPaint_Colors = new Color[5] {
         XTween_Utilitys.ConvertHexStringToColor("BEBEBE"),
         XTween_Utilitys.ConvertHexStringToColor("C09627"),
@@ -98,6 +111,7 @@ public class demo_path_drive : demo_base
                     carTargetImage.material.SetColor("_Color", carPaint_Colors[carPaint_Index]);
                     return;
                 }
+                ClearGhost();
                 NextCarPaint();
                 CreateAlphaTween().Play();
                 if (ValidDraft() == 1)
@@ -123,6 +137,7 @@ public class demo_path_drive : demo_base
                     carTargetImage.material.SetColor("_Color", carPaint_Colors[carPaint_Index]);
                     return;
                 }
+                ClearGhost();
                 NextCarPaint();
                 CreateAlphaTween().Play();
                 if (ValidDraft() == 1)
@@ -178,6 +193,7 @@ public class demo_path_drive : demo_base
     {
         Tween_Rewind();
         base.Tween_Kill();
+
     }
     #endregion
 
@@ -211,9 +227,13 @@ public class demo_path_drive : demo_base
         }).OnKill(() =>
         {
             carTargetImage.rectTransform.localRotation = Quaternion.Euler(rotateFrom);
-        }).OnUpdate<Vector3>((s, v, w) =>
+        }).SetStepTimeInterval(GhostIntervalTime).OnStepUpdate<Vector3>((s, v, w) =>
         {
-            Debug.Log(s);
+            if (v > GhostRange.x && v < GhostRange.y)
+            {
+                CreateGhost(carTargetImage.rectTransform.eulerAngles);
+            }
+            //Debug.Log($"StepUpdate:{v}");
         });
     }
     #endregion
@@ -246,6 +266,44 @@ public class demo_path_drive : demo_base
     private int ValidDraft()
     {
         return Random.Range(0, 2);
+    }
+    /// <summary>
+    /// 创建残影
+    /// </summary>
+    /// <param name="rot"></param>
+    private void CreateGhost(Vector3 rot)
+    {
+        GameObject ghost = new GameObject();
+
+        RectTransform rect_ghost = ghost.AddComponent<RectTransform>();
+        rect_ghost.SetParent(carRoot);
+        rect_ghost.sizeDelta = carTargetImage.rectTransform.sizeDelta;
+        rect_ghost.anchoredPosition3D = new Vector3(carTarget.anchoredPosition.x, carTarget.anchoredPosition.y, 0);
+        rect_ghost.eulerAngles = rot;
+        rect_ghost.localScale = Vector3.one;
+
+        Image gho_img = ghost.AddComponent<Image>();
+        gho_img.material = new Material(carTargetImage.material);
+        gho_img.material.SetTexture("_Map", GhostTexture);
+        gho_img.material.SetColor("_Color", carPaint_Colors[carPaint_Index]);
+        gho_img.material.SetTexture("_Shadow", null);
+        gho_img.material.SetTexture("_Mask", null);
+
+        demo_path_drive_ghost gho = ghost.AddComponent<demo_path_drive_ghost>();
+        if (Application.isPlaying)
+            gho.CreateGhost(gho_img, GhostDuration, GhostDelay);
+
+        Ghosts.Add(gho);
+    }
+    public void ClearGhost()
+    {
+        // 减法删除
+        for (int i = Ghosts.Count - 1; i >= 0; i--)
+        {
+            Ghosts[i].KillTween();
+            DestroyImmediate(Ghosts[i].gameObject, true);
+        }
+        Ghosts.Clear();
     }
     #endregion
 

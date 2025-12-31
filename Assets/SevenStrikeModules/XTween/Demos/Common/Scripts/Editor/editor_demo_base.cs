@@ -76,8 +76,8 @@ public class editor_demo_base : Editor
 
         // 加入按钮控件到面板
         root_btns.Add(btn_create);
-        root_btns.Add(btn_rewind);
         root_btns.Add(btn_kill);
+        root_btns.Add(btn_rewind);
         root_btns.Add(btn_pause_continue);
         root.Add(root_btns);
         root.Add(ExtensionsDraw());
