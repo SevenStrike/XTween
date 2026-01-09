@@ -12,6 +12,33 @@ XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型
 | **欢迎加入技术研讨群，在这里可以和我以及大家一起探讨插件的优化以及相关的技术实现思路，同时在做项目时遇到的众多问题以及瓶颈<br>阻碍都可以互相探讨学习**|![](Docs/qqgroups.jpg) |
 
 <br>
+### 📦 DEMO效果预览
+
+![](Docs/previews/gif_colors.gif)
+
+![](Docs/previews/gif_colors.gif)
+
+![](Docs/previews/gif_fill.gif)
+
+![](Docs/previews/gif_mover.gif)
+
+![](Docs/previews/gif_path.gif)
+
+![](Docs/previews/gif_rotate.gif)
+
+![](Docs/previews/gif_scale.gif)
+
+![](Docs/previews/gif_sequence.gif)
+
+![](Docs/previews/gif_shake.gif)
+
+![](Docs/previews/gif_size.gif)
+
+![](Docs/previews/gif_text.gif)
+
+![](Docs/previews/gif_tiled.gif)
+
+![](Docs/previews/gif_values.gif)
 
 ### 📦 架构设计特色
 ---
