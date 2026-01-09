@@ -17,8 +17,6 @@ XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型
 ---
 ![](Docs/previews/gif_colors.gif)
 
-![](Docs/previews/gif_colors.gif)
-
 ![](Docs/previews/gif_fill.gif)
 
 ![](Docs/previews/gif_mover.gif)
