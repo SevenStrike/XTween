@@ -245,6 +245,14 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         [SerializeField] public bool IsExtendedString = false;
         /// <summary>
+        /// 字符串动画光标
+        /// </summary>
+        [SerializeField] public string TextCursor = "_";
+        /// <summary>
+        /// 字符串动画光标闪烁频率（越小越快）
+        /// </summary>
+        [SerializeField] public float CursorBlinkTime = 0.5f;
+        /// <summary>
         /// 四元数过渡方式
         /// </summary>
         [SerializeField] public HudRotateMode HudRotateMode = HudRotateMode.SlerpUnclamped;

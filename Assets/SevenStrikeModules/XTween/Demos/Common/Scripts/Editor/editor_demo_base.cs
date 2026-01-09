@@ -254,6 +254,8 @@ public class editor_demo_base : Editor
                 return;
         }
 
+        demo_base.ShortID = null;
+
         XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
 
         XTween_Previewer.Kill(XTween_Previewer.AfterKillClear, XTween_Previewer.BeforeKillRewind, () =>

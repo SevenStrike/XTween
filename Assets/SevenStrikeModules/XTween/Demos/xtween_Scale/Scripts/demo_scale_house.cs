@@ -203,7 +203,7 @@ public class demo_scale_house : demo_base
 
     #region 缩放动画
     /// <summary>
-    /// 创建动画 - 填充
+    /// 创建动画 - 缩放
     /// </summary>
     /// <param name="twn"></param>
     public void CreateTween_Scale(scaleTween twn, string dir, float hiddenDelay = 0)
@@ -240,7 +240,7 @@ public class demo_scale_house : demo_base
         }
     }
     /// <summary>
-    /// 检查tween是否存在的辅助方法
+    /// 检查所有tween是否存在
     /// </summary>
     /// <returns></returns>
     public bool HasActiveTweens()
@@ -257,7 +257,7 @@ public class demo_scale_house : demo_base
         return false;
     }
     /// <summary>
-    /// 检查tween是否在播放中的辅助方法
+    /// 检查所有tween是否在播放中
     /// </summary>
     /// <returns></returns>
     public bool HasPlayingTweens()
@@ -273,6 +273,11 @@ public class demo_scale_house : demo_base
         }
         return false;
     }
+    /// <summary>
+    /// 获取每个Tween的Delay
+    /// </summary>
+    /// <param name="maptweens"></param>
+    /// <returns></returns>
     private float[] GetTweensDelay(List<scaleTween> maptweens)
     {
         float[] f = new float[maptweens.Count];

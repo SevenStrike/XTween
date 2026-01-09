@@ -300,7 +300,7 @@ public class demo_scale_machine : demo_base
 
     #region 缩放动画
     /// <summary>
-    /// 创建动画 - 填充
+    /// 创建动画 - 缩放
     /// </summary>
     /// <param name="twn"></param>
     public void CreateTween_Scale(scaleTween twn, string dir, float hiddenDelay = 0)
@@ -349,6 +349,10 @@ public class demo_scale_machine : demo_base
     #endregion
 
     #region 旋转动画
+    /// <summary>
+    /// 旋转动画
+    /// </summary>
+    /// <param name="twn"></param>
     public void CreateTween_Rot(scaleRotTween twn)
     {
         twn.tween = twn.img.rectTransform.xt_Rotate_To(twn.target, twn.duration, false, false, RotationMode.FullRotation).OnKill(() =>
@@ -384,7 +388,7 @@ public class demo_scale_machine : demo_base
         }
     }
     /// <summary>
-    /// 检查tween是否存在的辅助方法
+    /// 检查所有tween是否存在
     /// </summary>
     /// <returns></returns>
     public bool HasActiveTweens()
@@ -401,7 +405,7 @@ public class demo_scale_machine : demo_base
         return false;
     }
     /// <summary>
-    /// 检查tween是否在播放中的辅助方法
+    /// 检查所有tween是否在播放中
     /// </summary>
     /// <returns></returns>
     public bool HasPlayingTweens()

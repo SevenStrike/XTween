@@ -113,7 +113,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 动画的循环次数，-1 表示无限循环
         /// </summary>
-        internal int _LoopCount { get; set; } = -1;
+        internal int _LoopCount { get; set; } = 0;
         /// <summary>
         /// 当前循环的次数
         /// </summary>

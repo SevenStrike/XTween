@@ -28,6 +28,7 @@ public class demo_path_drive : demo_base
     [SerializeField] public float rotateDelay;
     [SerializeField] public AnimationCurve rotateCurve;
     [SerializeField] public RotationMode RotationMode;
+    [SerializeField] public bool AlwaysDraft;
 
     [Header("残影")]
     [SerializeField] public float GhostIntervalTime = 0.2f;
@@ -265,7 +266,10 @@ public class demo_path_drive : demo_base
     /// <returns></returns>
     private int ValidDraft()
     {
-        return Random.Range(0, 2);
+        if (AlwaysDraft)
+            return 1;
+        else
+            return Random.Range(0, 2);
     }
     /// <summary>
     /// 创建残影
@@ -295,6 +299,9 @@ public class demo_path_drive : demo_base
 
         Ghosts.Add(gho);
     }
+    /// <summary>
+    /// 清理残影
+    /// </summary>
     public void ClearGhost()
     {
         // 减法删除
@@ -306,5 +313,4 @@ public class demo_path_drive : demo_base
         Ghosts.Clear();
     }
     #endregion
-
 }

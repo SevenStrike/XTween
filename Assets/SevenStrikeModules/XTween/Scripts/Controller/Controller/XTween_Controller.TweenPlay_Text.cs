@@ -158,7 +158,7 @@ namespace SevenStrikeModules.XTween
             }
             else if (TweenTypes_Text == XTweenTypes_Text.文字内容_Content)
             {
-                CurrentTweener = XTween.xt_FontText_To(Target_Text, IsExtendedString, EndValue_String, Duration, IsAutoKill, EaseMode, IsFromMode, () => FromValue_String, UseCurve, Curve).SetLoop(LoopCount, LoopType).SetLoopingDelay(LoopDelay).SetDelay(Delay).OnStart(() =>
+                CurrentTweener = XTween.xt_FontText_To(Target_Text, IsExtendedString, TextCursor, EndValue_String, Duration, IsAutoKill, CursorBlinkTime, EaseMode, IsFromMode, () => FromValue_String, UseCurve, Curve).SetLoop(LoopCount, LoopType).SetLoopingDelay(LoopDelay).SetDelay(Delay).OnStart(() =>
                 {
                     if (act_on_start != null)
                         act_on_start();

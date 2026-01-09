@@ -459,7 +459,7 @@ namespace SevenStrikeModules.XTween
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_FontText_To(this Text text, bool extended, string endValue, float duration, bool autokill = false)
+        public static XTween_Interface xt_FontText_To(this Text text, bool extended, string cursor, string endValue, float duration, bool autokill = false, float blinkInterval = 0.5f)
         {
             if (text == null)
             {
@@ -482,13 +482,21 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((currentText, linearProgress, time) =>
                 {
+                    bool showCursor = false;
+                    if (!string.IsNullOrEmpty(cursor))
+                    {
+                        // 直接使用Time.time计算，每blinkInterval秒切换一次
+                        float t = Time.time / blinkInterval;
+                        showCursor = Mathf.FloorToInt(t) % 2 == 0;
+                    }
+
                     if (extended)
                     {
-                        text.text = startText + currentText;
+                        text.text = startText + currentText + (showCursor ? cursor : "");
                     }
                     else
                     {
-                        text.text = currentText;
+                        text.text = currentText + (showCursor ? cursor : "");
                     }
                 })
                 .OnRewind(() =>
@@ -514,33 +522,41 @@ namespace SevenStrikeModules.XTween
             {
                 XTween_Interface tweener;
                 tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply)
-                        .OnUpdate((currentText, linearProgress, time) =>
-                        {
-                            if (extended)
-                            {
-                                text.text = startText + currentText;
-                            }
-                            else
-                            {
-                                text.text = currentText;
-                            }
-                        })
-                        .OnRewind(() =>
-                        {
-                            text.text = startText;
-                        })
-                        .OnComplete((duration) =>
-                        {
-                            if (extended)
-                            {
-                                text.text = startText + endValue;
-                            }
-                            else
-                            {
-                                text.text = endValue;
-                            }
-                        })
-                        .SetAutokill(false);
+                .OnUpdate((currentText, linearProgress, time) =>
+                {
+                    bool showCursor = false;
+                    if (!string.IsNullOrEmpty(cursor))
+                    {
+                        // 直接使用Time.time计算，每blinkInterval秒切换一次
+                        float t = Time.time / blinkInterval;
+                        showCursor = Mathf.FloorToInt(t) % 2 == 0;
+                    }
+
+                    if (extended)
+                    {
+                        text.text = startText + currentText + (showCursor ? cursor : "");
+                    }
+                    else
+                    {
+                        text.text = currentText + (showCursor ? cursor : "");
+                    }
+                })
+                .OnRewind(() =>
+                {
+                    text.text = startText;
+                })
+                .OnComplete((duration) =>
+                {
+                    if (extended)
+                    {
+                        text.text = startText + endValue;
+                    }
+                    else
+                    {
+                        text.text = endValue;
+                    }
+                })
+                .SetAutokill(false);
 
                 return tweener;
             }
@@ -555,7 +571,7 @@ namespace SevenStrikeModules.XTween
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_FontText_To(this Text text, bool extended, string endValue, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<string> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
+        public static XTween_Interface xt_FontText_To(this Text text, bool extended, string cursor, string endValue, float duration, bool autokill = false, float blinkInterval = 0.5f, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<string> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
             if (text == null)
             {
@@ -583,22 +599,125 @@ namespace SevenStrikeModules.XTween
                     string fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            bool showCursor = false;
+                            if (!string.IsNullOrEmpty(cursor))
+                            {
+                                // 直接使用Time.time计算，每blinkInterval秒切换一次
+                                float t = Time.time / blinkInterval;
+                                showCursor = Mathf.FloorToInt(t) % 2 == 0;
+                            }
+
+                            if (extended)
+                            {
+                                text.text = startText + currentText + (showCursor ? cursor : "");
+                            }
+                            else
+                            {
+                                text.text = currentText + (showCursor ? cursor : "");
+                            }
+                        })
+                        .OnRewind(() => { text.text = startText; })
+                        .OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } })
+                        .SetFrom(fromval)
+                        .SetEase(curve)
+                        .SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            bool showCursor = false;
+                            if (!string.IsNullOrEmpty(cursor))
+                            {
+                                // 直接使用Time.time计算，每blinkInterval秒切换一次
+                                float t = Time.time / blinkInterval;
+                                showCursor = Mathf.FloorToInt(t) % 2 == 0;
+                            }
+
+                            if (extended)
+                            {
+                                text.text = startText + currentText + (showCursor ? cursor : "");
+                            }
+                            else
+                            {
+                                text.text = currentText + (showCursor ? cursor : "");
+                            }
+                        })
+                        .OnRewind(() => { text.text = startText; })
+                        .OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } })
+                        .SetFrom(fromval)
+                        .SetEase(easeMode)
+                        .SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            bool showCursor = false;
+                            if (!string.IsNullOrEmpty(cursor))
+                            {
+                                // 直接使用Time.time计算，每blinkInterval秒切换一次
+                                float t = Time.time / blinkInterval;
+                                showCursor = Mathf.FloorToInt(t) % 2 == 0;
+                            }
+
+                            if (extended)
+                            {
+                                text.text = startText + currentText + (showCursor ? cursor : "");
+                            }
+                            else
+                            {
+                                text.text = currentText + (showCursor ? cursor : "");
+                            }
+                        })
+                        .OnRewind(() => { text.text = startText; })
+                        .OnComplete((duration) =>
+                        {
+                            if (extended) { text.text = startText + endValue; }
+                            else
+                            {
+                                text.text = endValue;
+                            }
+                        })
+                        .SetEase(curve)
+                        .SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            bool showCursor = false;
+                            if (!string.IsNullOrEmpty(cursor))
+                            {
+                                // 直接使用Time.time计算，每blinkInterval秒切换一次
+                                float t = Time.time / blinkInterval;
+                                showCursor = Mathf.FloorToInt(t) % 2 == 0;
+                            }
+                            if (extended)
+                            {
+                                text.text = startText + currentText + (showCursor ? cursor : "");
+                            }
+                            else
+                            {
+                                text.text = currentText + (showCursor ? cursor : "");
+                            }
+                        })
+                        .OnRewind(() => { text.text = startText; })
+                        .OnComplete((duration) =>
+                        {
+                            if (extended) { text.text = startText + endValue; }
+                            else
+                            {
+                                text.text = endValue;
+                            }
+                        })
+                        .SetEase(easeMode)
+                        .SetAutokill(autokill);
                     }
                 }
 
@@ -615,22 +734,152 @@ namespace SevenStrikeModules.XTween
                     string fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply)
+                        .OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            bool showCursor = false;
+                            if (!string.IsNullOrEmpty(cursor))
+                            {
+                                // 直接使用Time.time计算，每blinkInterval秒切换一次
+                                float t = Time.time / blinkInterval;
+                                showCursor = Mathf.FloorToInt(t) % 2 == 0;
+                            }
+                            if (extended)
+                            {
+                                text.text = startText + currentText + (showCursor ? cursor : "");
+                            }
+                            else
+                            {
+                                text.text = currentText + (showCursor ? cursor : "");
+                            }
+                        })
+                        .OnRewind(() => { text.text = startText; })
+                        .OnComplete((duration) =>
+                        {
+                            if (extended)
+                            {
+                                text.text = startText + endValue;
+                            }
+                            else
+                            {
+                                text.text = endValue;
+                            }
+                        })
+                        .SetFrom(fromval)
+                        .SetEase(curve)
+                        .SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply)
+                        .OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            bool showCursor = false;
+                            if (!string.IsNullOrEmpty(cursor))
+                            {
+                                // 直接使用Time.time计算，每blinkInterval秒切换一次
+                                float t = Time.time / blinkInterval;
+                                showCursor = Mathf.FloorToInt(t) % 2 == 0;
+                            }
+                            if (extended)
+                            {
+                                text.text = startText + currentText + (showCursor ? cursor : "");
+                            }
+                            else
+                            {
+                                text.text = currentText + (showCursor ? cursor : "");
+                            }
+                        })
+                        .OnRewind(() => { text.text = startText; })
+                        .OnComplete((duration) =>
+                        {
+                            if (extended)
+                            {
+                                text.text = startText + endValue;
+                            }
+                            else
+                            {
+                                text.text = endValue;
+                            }
+                        })
+                        .SetFrom(fromval)
+                        .SetEase(easeMode)
+                        .SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply)
+                        .OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            bool showCursor = false;
+                            if (!string.IsNullOrEmpty(cursor))
+                            {
+                                // 直接使用Time.time计算，每blinkInterval秒切换一次
+                                float t = Time.time / blinkInterval;
+                                showCursor = Mathf.FloorToInt(t) % 2 == 0;
+                            }
+                            if (extended)
+                            {
+                                text.text = startText + currentText + (showCursor ? cursor : "");
+                            }
+                            else
+                            {
+                                text.text = currentText + (showCursor ? cursor : "");
+                            }
+                        })
+                        .OnRewind(() => { text.text = startText; })
+                        .OnComplete((duration) =>
+                        {
+                            if (extended)
+                            {
+                                text.text = startText + endValue;
+                            }
+                            else
+                            {
+                                text.text = endValue;
+                            }
+                        })
+                        .SetEase(curve)
+                        .SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply)
+                        .OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            bool showCursor = false;
+                            if (!string.IsNullOrEmpty(cursor))
+                            {
+                                // 直接使用Time.time计算，每blinkInterval秒切换一次
+                                float t = Time.time / blinkInterval;
+                                showCursor = Mathf.FloorToInt(t) % 2 == 0;
+                            }
+                            if (extended)
+                            {
+                                text.text = startText + currentText + (showCursor ? cursor : "");
+                            }
+                            else
+                            {
+                                text.text = currentText + (showCursor ? cursor : "");
+                            }
+                        })
+                        .OnRewind(() => { text.text = startText; })
+                        .OnComplete((duration) =>
+                        {
+                            if (extended)
+                            {
+                                text.text = startText + endValue;
+                            }
+                            else
+                            {
+                                text.text = endValue;
+                            }
+                        })
+                        .SetEase(easeMode)
+                        .SetAutokill(false);
                     }
                 }
 

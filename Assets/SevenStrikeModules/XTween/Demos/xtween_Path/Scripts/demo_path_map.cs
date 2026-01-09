@@ -134,6 +134,10 @@ public class demo_path_map : demo_base
     #endregion
 
     #region 运动轨迹
+    /// <summary>
+    /// 创建地图轨迹
+    /// </summary>
+    /// <returns></returns>
     IEnumerator TrailOrbit()
     {
         yield return new WaitForSeconds(0.1f);

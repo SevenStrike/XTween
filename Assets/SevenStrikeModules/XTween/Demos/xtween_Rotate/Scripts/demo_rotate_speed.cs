@@ -108,16 +108,16 @@ public class demo_rotate_speed : demo_base
     }
     #endregion
 
-    #region 浓度数值
+    #region 数值
     /// <summary>
-    /// 浓度提升
+    /// 速度数值随机化
     /// </summary>
     public void value_random()
     {
         target_speed = Random.Range(val_min, val_max);
     }
     /// <summary>
-    /// 浓度重置
+    /// 速度数值重置
     /// </summary>
     public void value_reset()
     {

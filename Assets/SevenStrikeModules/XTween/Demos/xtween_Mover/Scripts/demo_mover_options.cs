@@ -152,7 +152,6 @@ public class demo_mover_options : demo_base
     /// <returns></returns>
     public Vector2 CalculateDotPosition(RectTransform rect)
     {
-        Vector2 pos_dot = rect.anchoredPosition;
         Vector2 targetScreenPos = RectTransformUtility.WorldToScreenPoint(null, rect.position);
         Vector2 localPos;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(structs, targetScreenPos, null, out localPos))
