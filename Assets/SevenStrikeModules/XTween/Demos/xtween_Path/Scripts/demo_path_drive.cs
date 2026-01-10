@@ -44,18 +44,22 @@ public class demo_path_drive : demo_base
 
     [Header("汽车着色")]
     private Material car_Material;
-    public Color[] carPaint_Colors = new Color[5] {
-        XTween_Utilitys.ConvertHexStringToColor("BEBEBE"),
-        XTween_Utilitys.ConvertHexStringToColor("C09627"),
-        XTween_Utilitys.ConvertHexStringToColor("2767C0"),
-        XTween_Utilitys.ConvertHexStringToColor("A13131"),
-        XTween_Utilitys.ConvertHexStringToColor("785DB3")
-    };
+    public Color[] carPaint_Colors;
     public int carPaint_Index;
 
     public override void Start()
     {
         base.Start();
+
+        if (carPaint_Colors.Length == 0)
+        {
+            carPaint_Colors = new Color[5];
+            carPaint_Colors[0] = XTween_Utilitys.ConvertHexStringToColor("BEBEBE");
+            carPaint_Colors[1] = XTween_Utilitys.ConvertHexStringToColor("C09627");
+            carPaint_Colors[2] = XTween_Utilitys.ConvertHexStringToColor("2767C0");
+            carPaint_Colors[3] = XTween_Utilitys.ConvertHexStringToColor("A13131");
+            carPaint_Colors[4] = XTween_Utilitys.ConvertHexStringToColor("785DB3");
+        }
 
         if (autoStart)
         {

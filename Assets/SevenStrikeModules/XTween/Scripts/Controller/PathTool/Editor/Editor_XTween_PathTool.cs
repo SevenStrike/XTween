@@ -192,7 +192,15 @@ namespace SevenStrikeModules.XTween
                     SerializedProperty sp_root = sp_PathPoints.GetArrayElementAtIndex(index);
                     if (sp_root != null)
                     {
-                        XTween_GUI.Gui_Labelfield(new Rect(rect.x + 25, titleheight - 3.5f, (rect.width * 0.45f) - 20, LineHeight), $"#  路径点 {index.ToString()}", GUIFilled.无, GUIColor.亮白, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, TextClipping.Clip);
+#if UNITY_6000_0_OR_NEWER
+                        // Unity 6+ 使用 Ellipsis
+                        TextClipping clipping = TextClipping.Ellipsis;
+#else
+    // Unity 2021.1 之前使用 Clip
+    TextClipping clipping = TextClipping.Clip;
+#endif
+
+                        XTween_GUI.Gui_Labelfield(new Rect(rect.x + 25, titleheight - 3.5f, (rect.width * 0.45f) - 20, LineHeight), $"#  路径点 {index.ToString()}", GUIFilled.无, GUIColor.亮白, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, clipping);
 
                         GUI.color = XTween_Dashboard.Theme_Primary;
                         XTween_GUI.Gui_Icon(new Rect(rect.x + 5, titleheight, 10, 10), locate);

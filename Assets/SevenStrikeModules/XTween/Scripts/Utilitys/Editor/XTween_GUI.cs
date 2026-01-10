@@ -1148,7 +1148,7 @@ namespace SevenStrikeModules.XTween
         /// 创造一个Gui标签框 - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield(Rect Rect, string Text, GUIFilled FillStyle, GUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool ClipText = false, TextClipping ClipMode = TextClipping.Ellipsis, bool RichText = false, Font font = null)
+        public static void Gui_Labelfield(Rect Rect, string Text, GUIFilled FillStyle, GUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool ClipText = false, TextClipping ClipMode = TextClipping.Clip, bool RichText = false, Font font = null)
         {
             GUIStyle Style = new GUIStyle(Style_LabelfieldBoldText);
             Style.normal.background = GetFillTexture(FillStyle, Color);
@@ -1171,7 +1171,7 @@ namespace SevenStrikeModules.XTween
         /// 创造一个Gui标签框 - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield_WrapText(Rect Rect, string Text, GUIFilled FillStyle, GUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool WrapText = false, bool ClipText = false, TextClipping ClipMode = TextClipping.Ellipsis, bool RichText = false, Font font = null)
+        public static void Gui_Labelfield_WrapText(Rect Rect, string Text, GUIFilled FillStyle, GUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool WrapText = false, bool ClipText = false, TextClipping ClipMode = TextClipping.Clip, bool RichText = false, Font font = null)
         {
             GUIStyle Style = new GUIStyle(Style_LabelfieldBoldText);
             Style.normal.background = GetFillTexture(FillStyle, Color);
@@ -1231,7 +1231,7 @@ namespace SevenStrikeModules.XTween
         /// 创造一个Gui标签框（细字体） - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield_Thin_WithClipping(Rect Rect, string Text, GUIFilled FillStyle, GUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool WrapWord = false, bool ContentClip = false, bool RichText = false, TextClipping textClipping = TextClipping.Ellipsis)
+        public static void Gui_Labelfield_Thin_WithClipping(Rect Rect, string Text, GUIFilled FillStyle, GUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool WrapWord = false, bool ContentClip = false, bool RichText = false, TextClipping textClipping = TextClipping.Clip)
         {
             GUIStyle Style = new GUIStyle(Style_Labelfield);
             Style.normal.background = GetFillTexture(FillStyle, Color);

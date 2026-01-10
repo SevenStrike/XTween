@@ -1,5 +1,4 @@
 using SevenStrikeModules.XTween;
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,13 +6,7 @@ using UnityEngine.UI;
 public class demo_colors_picked : demo_base
 {
     public Image image;
-    public Color[] col_list = new Color[5] {
-        XTween_Utilitys.ConvertHexStringToColor("FF4A9C"),
-        XTween_Utilitys.ConvertHexStringToColor("FFCE00"),
-        XTween_Utilitys.ConvertHexStringToColor("0085FF"),
-        XTween_Utilitys.ConvertHexStringToColor("00FF7E"),
-        XTween_Utilitys.ConvertHexStringToColor("000000")
-    };
+    public Color[] col_list;
     public int col_index;
     public Color col_from;
     public Color col_end;
@@ -22,6 +15,16 @@ public class demo_colors_picked : demo_base
 
     public override void Start()
     {
+        if (col_list.Length == 0)
+        {
+            col_list = new Color[5];
+            col_list[0] = XTween_Utilitys.ConvertHexStringToColor("FF4A9C");
+            col_list[1] = XTween_Utilitys.ConvertHexStringToColor("FFCE00");
+            col_list[2] = XTween_Utilitys.ConvertHexStringToColor("0085FF");
+            col_list[3] = XTween_Utilitys.ConvertHexStringToColor("00FF7E");
+            col_list[4] = XTween_Utilitys.ConvertHexStringToColor("000000");
+        }
+
         base.Start();
         StartCoroutine(ColorsLoop());
     }

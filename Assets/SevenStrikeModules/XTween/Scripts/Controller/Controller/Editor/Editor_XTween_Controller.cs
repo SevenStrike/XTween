@@ -437,12 +437,21 @@ namespace SevenStrikeModules.XTween
                 EditorGUI.DrawRect(rect_liquid_prim, TweenLedOnColor);
                 #endregion
 
+#if UNITY_6000_0_OR_NEWER
+                // Unity 6+ 使用 Ellipsis
+                TextClipping clipping = TextClipping.Ellipsis;
+#else
+    // Unity 2021.1 之前使用 Clip
+    TextClipping clipping = TextClipping.Clip;
+#endif
+
                 #region ID 显示
                 rect_liquid_prim.Set(rect_liquid_set.x + 35, rect_liquid_set.y + 112, rect_liquid_set.width - 60, 65);
-                XTween_GUI.Gui_Labelfield_WrapText(rect_liquid_prim, $"ID :  {(BaseScript.CurrentTweener == null ? "-" : BaseScript.CurrentTweener.UniqueId.ToString())}", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 11, false, true, TextClipping.Ellipsis, true, Font_Light);
+                XTween_GUI.Gui_Labelfield_WrapText(rect_liquid_prim, $"ID :  {(BaseScript.CurrentTweener == null ? "-" : BaseScript.CurrentTweener.UniqueId.ToString())}", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 11, false, true, clipping, true, Font_Light);
 
                 rect_liquid_prim.Set(rect_liquid_set.x + 35, rect_liquid_set.y + 135, rect_liquid_set.width - 60, 65);
-                XTween_GUI.Gui_Labelfield_WrapText(rect_liquid_prim, $"短 ID :  {(BaseScript.CurrentTweener == null ? "-" : BaseScript.CurrentTweener.ShortId)}", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 11, false, true, TextClipping.Ellipsis, true, Font_Light);
+
+                XTween_GUI.Gui_Labelfield_WrapText(rect_liquid_prim, $"短 ID :  {(BaseScript.CurrentTweener == null ? "-" : BaseScript.CurrentTweener.ShortId)}", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 11, false, true, clipping, true, Font_Light);
                 #endregion
 
                 #region 进度条 - EasedProgress

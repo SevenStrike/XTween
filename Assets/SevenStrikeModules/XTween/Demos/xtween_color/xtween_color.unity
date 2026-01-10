@@ -1127,7 +1127,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -14.999998}
+  m_AnchoredPosition: {x: 0, y: -15}
   m_SizeDelta: {x: -272.8, y: -586.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &329363744
@@ -3459,7 +3459,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   debug: 0
-  ShortID: 
+  ShortID: S4DJGqvp
   image: {fileID: 1025588899}
   col_list:
   - {r: 1, g: 0.2901961, b: 0.6117647, a: 1}
@@ -3470,7 +3470,7 @@ MonoBehaviour:
   col_index: 0
   col_from: {r: 0, g: 0, b: 0, a: 0}
   col_end: {r: 1, g: 0.2901961, b: 0.6117647, a: 1}
-  autoloop: 0
+  autoloop: 1
   looptime: 1
 --- !u!114 &1025588899
 MonoBehaviour:

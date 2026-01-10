@@ -429,7 +429,16 @@ namespace SevenStrikeModules.XTween
             XTween_GUI.Gui_Labelfield(index_rect, index.ToString("D2"), GUIFilled.无, GUIColor.无, Color.gray, TextAnchor.MiddleLeft, Vector2.zero, 11);
 
             #region 标识名称
-            XTween_GUI.Gui_Labelfield(title_rect, sp_title.stringValue, GUIFilled.无, GUIColor.无, XTween_GUI.GetColor(GUIColor.亮白), TextAnchor.MiddleLeft, Vector2.zero, 12, TextClipping.Ellipsis);
+
+#if UNITY_6000_0_OR_NEWER
+            // Unity 6+ 使用 Ellipsis
+            TextClipping clipping = TextClipping.Ellipsis;
+#else
+    // Unity 2021.1 之前使用 Clip
+    TextClipping clipping = TextClipping.Clip;
+#endif
+
+            XTween_GUI.Gui_Labelfield(title_rect, sp_title.stringValue, GUIFilled.无, GUIColor.无, XTween_GUI.GetColor(GUIColor.亮白), TextAnchor.MiddleLeft, Vector2.zero, 12, clipping);
             XTween_GUI.Gui_Labelfield_Thin(sub_rect, sp_sub.stringValue, GUIFilled.无, GUIColor.无, XTween_Dashboard.Theme_Primary, TextAnchor.MiddleLeft, Vector2.zero, 12);
             XTween_GUI.Gui_Labelfield_Thin(msg_rect, sp_msg.stringValue, GUIFilled.无, GUIColor.无, XTween_Dashboard.Theme_Primary, TextAnchor.MiddleRight, Vector2.zero, 12);
             #endregion

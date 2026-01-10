@@ -164,7 +164,16 @@ namespace SevenStrikeModules.XTween
             ListNameStyle.fontSize = 12;
             ListNameStyle.richText = true;
             ListNameStyle.wordWrap = true;
-            ListNameStyle.clipping = TextClipping.Ellipsis;
+
+#if UNITY_6000_0_OR_NEWER
+            // Unity 6+ 使用 Ellipsis
+            TextClipping clipping = TextClipping.Ellipsis;
+#else
+    // Unity 2021.1 之前使用 Clip
+    TextClipping clipping = TextClipping.Clip;
+#endif
+
+            ListNameStyle.clipping = clipping;
             #endregion
 
             EasePicBg = GetEasePicBg();
@@ -427,7 +436,16 @@ namespace SevenStrikeModules.XTween
                 XTween_GUI.Gui_Layout_Icon(45, icon_notrun, new Vector2(0, -20));
                 XTween_GUI.Gui_Layout_FlexSpace();
                 XTween_GUI.Gui_Layout_Horizontal_End();
-                XTween_GUI.Gui_Layout_Labelfield("当前没有活跃的动画", GUIFilled.无, GUIColor.无, Color.black * 0.8f, true, TextClipping.Ellipsis, TextAnchor.MiddleCenter, 12, Font_Light);
+
+#if UNITY_6000_0_OR_NEWER
+                // Unity 6+ 使用 Ellipsis
+                TextClipping clipping = TextClipping.Ellipsis;
+#else
+    // Unity 2021.1 之前使用 Clip
+    TextClipping clipping = TextClipping.Clip;
+#endif
+
+                XTween_GUI.Gui_Layout_Labelfield("当前没有活跃的动画", GUIFilled.无, GUIColor.无, Color.black * 0.8f, true, clipping, TextAnchor.MiddleCenter, 12, Font_Light);
                 XTween_GUI.Gui_Layout_Space(260);
             }
             else
@@ -484,7 +502,16 @@ namespace SevenStrikeModules.XTween
             rect_item.Set(rect.x + 8, rect.y + 25, 15, 15);
             XTween_GUI.Gui_TextureBox(rect_item, ListIndex);
             rect_item.Set(rect.x + 32, rect.y + 25, rect.width - 35, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"ID：{tween.UniqueId.ToString()}", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 11, true, TextClipping.Ellipsis, true, Font_Light);
+
+#if UNITY_6000_0_OR_NEWER
+            // Unity 6+ 使用 Ellipsis
+            TextClipping clipping = TextClipping.Ellipsis;
+#else
+    // Unity 2021.1 之前使用 Clip
+    TextClipping clipping = TextClipping.Clip;
+#endif
+
+            XTween_GUI.Gui_Labelfield(rect_item, $"ID：{tween.UniqueId.ToString()}", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 11, true, clipping, true, Font_Light);
 
             bool IsExtraExpandPanel = currentWidth < 310 ? true : false;
             float height = 75;
@@ -521,17 +548,17 @@ namespace SevenStrikeModules.XTween
             rect_item.Set(rect.x + 30, rect.y + height - 2, Highlight.width, Highlight.height);
             XTween_GUI.Gui_Icon(rect_item, Highlight);
             rect_item.Set(rect.x + 38, rect.y + height, rect.width, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, "基础", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, "基础", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + 10, rect.y + height + 15, rect.width - 20, 1);
             XTween_GUI.Gui_Box(rect_item);
             rect_item.Set(rect.x + 10, rect.y + height + 28, (rect.width / 2) - 5, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"耗时：<b>{tween.ElapsedTime * 1000:F0}</b>ms / <b>{tween.Duration * 1000:F0}</b>ms", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"耗时：<b>{tween.ElapsedTime * 1000:F0}</b>ms / <b>{tween.Duration * 1000:F0}</b>ms", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + (rect.width / 2) + 10, rect.y + height + 28, (rect.width / 2) - 10, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"延迟：<b>{tween.Delay.ToString()}</b> s", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"延迟：<b>{tween.Delay.ToString()}</b> s", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + 10, rect.y + height + 50, (rect.width / 2) - 5, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"缓动：<b>{tween.EaseMode.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"缓动：<b>{tween.EaseMode.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + (rect.width / 2) + 10, rect.y + height + 50, (rect.width / 2) - 10, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"曲线：<b>{(tween.UseCustomEaseCurve ? "使用" : "不使用")}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"曲线：<b>{(tween.UseCustomEaseCurve ? "使用" : "不使用")}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             #endregion
 
             height += 78;
@@ -542,17 +569,17 @@ namespace SevenStrikeModules.XTween
             rect_item.Set(rect.x + 30, rect.y + height - 2, Highlight.width, Highlight.height);
             XTween_GUI.Gui_Icon(rect_item, Highlight);
             rect_item.Set(rect.x + 38, rect.y + height, rect.width, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, "循环", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, "循环", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + 10, rect.y + height + 15, rect.width - 20, 1);
             XTween_GUI.Gui_Box(rect_item);
             rect_item.Set(rect.x + 10, rect.y + height + 28, (rect.width / 2) - 5, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"次数：<b>{tween.LoopCount.ToString()}</b> s", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"次数：<b>{tween.LoopCount.ToString()}</b> s", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + (rect.width / 2) + 10, rect.y + height + 28, (rect.width / 2) - 10, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"递归：<b>{tween.CurrentLoop.ToString()}</b> 次", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"递归：<b>{tween.CurrentLoop.ToString()}</b> 次", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + 10, rect.y + height + 50, (rect.width / 2) - 5, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"模式：<b>{tween.LoopType.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"模式：<b>{tween.LoopType.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + (rect.width / 2) + 10, rect.y + height + 50, (rect.width / 2) - 10, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"间隔：<b>{tween.LoopingDelay.ToString()}</b> s", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"间隔：<b>{tween.LoopingDelay.ToString()}</b> s", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             #endregion
 
             height += 78;
@@ -563,19 +590,19 @@ namespace SevenStrikeModules.XTween
             rect_item.Set(rect.x + 30, rect.y + height - 2, Highlight.width, Highlight.height);
             XTween_GUI.Gui_Icon(rect_item, Highlight);
             rect_item.Set(rect.x + 38, rect.y + height, rect.width, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, "状态", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, "状态", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + 72, rect.y + height, rect.width, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"({GetStateString(tween)})", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 11, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"({GetStateString(tween)})", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 11, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + 10, rect.y + height + 15, rect.width - 20, 1);
             XTween_GUI.Gui_Box(rect_item);
             rect_item.Set(rect.x + 10, rect.y + height + 28, (rect.width / 2) - 5, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"自动杀死：<b>{tween.AutoKill.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"自动杀死：<b>{tween.AutoKill.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + (rect.width / 2) + 10, rect.y + height + 28, (rect.width / 2) - 10, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"相对模式：<b>{tween.IsRelative.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"相对模式：<b>{tween.IsRelative.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + 10, rect.y + height + 50, (rect.width / 2) - 5, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"暂停状态：<b>{tween.IsPaused.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"暂停状态：<b>{tween.IsPaused.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             rect_item.Set(rect.x + (rect.width / 2) + 10, rect.y + height + 50, (rect.width / 2) - 10, 15);
-            XTween_GUI.Gui_Labelfield(rect_item, $"完成状态：<b>{tween.IsCompleted.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, true, Font_Light);
+            XTween_GUI.Gui_Labelfield(rect_item, $"完成状态：<b>{tween.IsCompleted.ToString()}</b>", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, true, Font_Light);
             #endregion
 
             XTween_GUI.Gui_Layout_Space(370);
