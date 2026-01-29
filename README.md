@@ -13,6 +13,10 @@ XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型
 
 <br>
 
+#### ✅**此插件基于Unity6000.0.38F1开发，如果您的Unity版本低于6000请下载发布版本中的2021版本** 
+
+<br>
+
 ### 📦 DEMO效果预览
 ---
 ![](Docs/previews/gif_colors.gif)
