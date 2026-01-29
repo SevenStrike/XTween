@@ -1,5 +1,6 @@
 namespace SevenStrikeModules.XTween
 {
+    using System;
     using TMPro;
     using UnityEditor;
     using UnityEngine;
@@ -264,6 +265,8 @@ namespace SevenStrikeModules.XTween
             #endregion
 
             liquid_rectoffet = new RectOffset(45, 45, 20, 20);
+
+            Debug.Log(XHudManagerChecker());
         }
 
         private void OnDisable()
@@ -272,6 +275,13 @@ namespace SevenStrikeModules.XTween
             EditorApplication.update -= OnEditorUpdate;
 
             Preview_Kill();
+        }
+
+        public static bool XHudManagerChecker()
+        {
+            // 使用Type.GetType检查完整命名空间+类名
+            Type hudManagerType = Type.GetType("SevenStrikeModules.XHud.Hud.Hud_Manager");
+            return hudManagerType != null;
         }
 
         public override void OnInspectorGUI()

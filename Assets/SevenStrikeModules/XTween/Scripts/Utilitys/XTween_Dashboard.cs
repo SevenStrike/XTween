@@ -72,8 +72,8 @@ namespace SevenStrikeModules.XTween
         #endregion
 
         #region 公共路径
-        public static string path_XTween_GUISTYLE = "Assets/SevenStrikeModules/XTween/GUI/Editor/XTweenGuiStyle/";
-        public static string path_XTween_GUIROOT = "Assets/SevenStrikeModules/XTween/GUI/Editor/";
+        public static string path_XTween_GUISTYLE = "Assets/SevenStrikeModules/XTween/GUI/XTweenGuiStyle/";
+        public static string path_XTween_GUIROOT = "Assets/SevenStrikeModules/XTween/GUI/";
         public static string path_XTween_ROOT = "Assets/SevenStrikeModules/XTween/";
         public static string path_XTween_MATERIAL = "Assets/SevenStrikeModules/XTween/Materials/";
         public static string path_XTween_PREFABS = "Assets/SevenStrikeModules/XTween/Prefabs/";
@@ -94,7 +94,7 @@ namespace SevenStrikeModules.XTween
             return path_XTween_ROOT;
         }
         /// <summary>
-        /// 获取 XTween GUIROOT路径，根目录：SevenStrikeModules/XTween/GUI/Editor/
+        /// 获取 XTween GUIROOT路径，根目录：SevenStrikeModules/XTween/GUI/
         /// </summary>
         /// <returns></returns>
         public static string Get_XTween_GUIRoot_Path()
@@ -102,7 +102,7 @@ namespace SevenStrikeModules.XTween
             return path_XTween_GUIROOT;
         }
         /// <summary>
-        /// 获取 XTween GUISTYLE路径，根目录：SevenStrikeModules/XTween/GUI/Editor/XTweenGuiStyle
+        /// 获取 XTween GUISTYLE路径，根目录：SevenStrikeModules/XTween/GUI/XTweenGuiStyle
         /// </summary>
         /// <returns></returns>
         public static string Get_path_XTween_GUIStyle_Path()
