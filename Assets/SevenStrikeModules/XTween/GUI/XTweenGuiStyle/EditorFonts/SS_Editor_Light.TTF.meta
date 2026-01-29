@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3349d16c95f273c4eafd48f6e26506ce
+guid: b83f7afd5ccc83d4f986f36bb2ea11c5
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,12 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: FZHei-B01S
   fontNames:
   - FZHei-B01S
-  fallbackFontReferences:
-  - {fileID: 12800000, guid: 1b70015e6c189c744ae13edb7ef7c388, type: 3}
-  - {fileID: 12800000, guid: 9740a13f65e6582468d17aeb960845e2, type: 3}
+  fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

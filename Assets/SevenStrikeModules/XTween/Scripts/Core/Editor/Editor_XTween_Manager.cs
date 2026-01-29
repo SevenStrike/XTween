@@ -178,15 +178,15 @@ namespace SevenStrikeModules.XTween
 
             EasePicBg = GetEasePicBg();
 
-            if (BaseScript.EasePics.Length <= 0)
+            //if (BaseScript.EasePics.Length <= 0)
+            //{
+            string[] names = Enum.GetNames(typeof(EaseMode));
+            BaseScript.EasePics = new Texture2D[names.Length];
+            for (int i = 0; i < names.Length; i++)
             {
-                string[] names = Enum.GetNames(typeof(EaseMode));
-                BaseScript.EasePics = new Texture2D[names.Length];
-                for (int i = 0; i < names.Length; i++)
-                {
-                    BaseScript.EasePics[i] = GetEasePic(names[i]);
-                }
+                BaseScript.EasePics[i] = GetEasePic(names[i]);
             }
+            //}
         }
 
         private void OnDisable()
