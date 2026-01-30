@@ -1,6 +1,25 @@
+/*
+ * ============================================================================
+ * ⚠️ 版权声明（禁止删除、禁止修改、衍生作品必须保留此注释）⚠️
+ * ============================================================================
+ * 版权声明 Copyright (C) 2025-Present Nanjing SevenStrike Media Co., Ltd.
+ * 中文名称：南京塞维斯传媒有限公司
+ * 英文名称：SevenStrikeMedia
+ * 项目作者：徐寅智
+ * 项目名称：XTween - Unity 高性能动画架构插件
+ * 项目启动：2025年8月
+ * 官方网站：http://sevenstrike.com/
+ * 授权协议：GNU Affero General Public License Version 3 (AGPL 3.0)
+ * 协议说明：
+ * 1. 你可以自由使用、修改、分发本插件的源代码，但必须保留此版权注释
+ * 2. 基于本插件修改后的衍生作品，必须同样遵循 AGPL 3.0 授权协议
+ * 3. 若将本插件用于网络服务（如云端Unity编辑器、在线动效生成工具），必须公开修改后的完整源代码
+ * 4. 完整协议文本可查阅：https://www.gnu.org/licenses/agpl-3.0.html
+ * ============================================================================
+ * 违反本注释保留要求，将违反 AGPL 3.0 授权协议，需承担相应法律责任
+ */
 namespace SevenStrikeModules.XTween
 {
-    using System;
     using TMPro;
     using UnityEditor;
     using UnityEngine;
@@ -15,14 +34,13 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 序列化属性
         /// </summary>
-        private SerializedProperty sp_Duration, sp_Delay, sp_UseRandomDelay, sp_RandomDelay, sp_EaseMode, sp_UseCurve, sp_Curve, sp_LoopCount, sp_LoopDelay, sp_LoopType, sp_IsFromMode, sp_IsRelative, sp_IsAutoKill, sp_EndValue_String, sp_EndValue_Int, sp_EndValue_Float, sp_EndValue_Vector2, sp_EndValue_Vector3, sp_EndValue_Vector4, sp_EndValue_Color, sp_EndValue_Quaternion, sp_FromValue_Int, sp_FromValue_Float, sp_FromValue_String, sp_FromValue_Vector2, sp_FromValue_Vector3, sp_FromValue_Vector4, sp_FromValue_Color, sp_FromValue_Quaternion, sp_Target_PathTool, sp_TweenTypes, sp_TweenTypes_Positions, sp_TweenTypes_Rotations, sp_TweenTypes_Alphas, sp_TweenTypes_Shakes, sp_TweenTypes_Text, sp_TweenTypes_TmpText, sp_TweenTypes_To, sp_index_TweenTypes, sp_index_TweenTypes_Positions, sp_index_TweenTypes_Rotations, sp_index_TweenTypes_Alphas, sp_index_TweenTypes_Shakes, sp_index_TweenTypes_Text, sp_index_TweenTypes_TmpText, sp_index_TweenTypes_To, sp_Target_RectTransform, sp_Target_Image, sp_Target_CanvasGroup, sp_Target_Text, sp_Target_TmpText, sp_Target_Int, sp_Target_Float, sp_Target_String, sp_Target_Vector2, sp_Target_Vector3, sp_Target_Vector4, sp_Target_Color, sp_index_AutoKillPreviewTweens, sp_index_RewindPreviewTweensWithKill, sp_index_ClearPreviewTweensWithKill, sp_LiquidLEDBlink, sp_keyControl_Tween_Play, sp_keyControl_Tween_Rewind, sp_keyControl_Tween_Kill, sp_keyControl_Tween_Replay, sp_keyControl_Enabled, sp_keyControl_Tween_Create, sp_DebugMode, sp_IsExtendedString, sp_TextCursor, sp_CursorBlinkTime, sp_HudRotateMode, sp_RotationMode, sp_Vibrato, sp_Randomness, sp_FadeShake, sp_AutoStart;
+        private SerializedProperty sp_Duration, sp_Delay, sp_UseRandomDelay, sp_RandomDelay, sp_EaseMode, sp_UseCurve, sp_Curve, sp_LoopCount, sp_LoopDelay, sp_LoopType, sp_IsFromMode, sp_IsRelative, sp_IsAutoKill, sp_EndValue_String, sp_EndValue_Int, sp_EndValue_Float, sp_EndValue_Vector2, sp_EndValue_Vector3, sp_EndValue_Vector4, sp_EndValue_Color, sp_EndValue_Quaternion, sp_FromValue_Int, sp_FromValue_Float, sp_FromValue_String, sp_FromValue_Vector2, sp_FromValue_Vector3, sp_FromValue_Vector4, sp_FromValue_Color, sp_FromValue_Quaternion, sp_Target_PathTool, sp_TweenTypes, sp_TweenTypes_Positions, sp_TweenTypes_Rotations, sp_TweenTypes_Alphas, sp_TweenTypes_Shakes, sp_TweenTypes_Text, sp_TweenTypes_TmpText, sp_TweenTypes_To, sp_index_TweenTypes, sp_index_TweenTypes_Positions, sp_index_TweenTypes_Rotations, sp_index_TweenTypes_Alphas, sp_index_TweenTypes_Shakes, sp_index_TweenTypes_Text, sp_index_TweenTypes_TmpText, sp_index_TweenTypes_To, sp_Target_RectTransform, sp_Target_Image, sp_Target_CanvasGroup, sp_Target_Text, sp_Target_TmpText, sp_Target_Int, sp_Target_Float, sp_Target_String, sp_Target_Vector2, sp_Target_Vector3, sp_Target_Vector4, sp_Target_Color, sp_index_AutoKillPreviewTweens, sp_index_RewindPreviewTweensWithKill, sp_index_ClearPreviewTweensWithKill, sp_keyControl_Tween_Play, sp_keyControl_Tween_Rewind, sp_keyControl_Tween_Kill, sp_keyControl_Tween_Replay, sp_keyControl_Enabled, sp_keyControl_Tween_Create, sp_DebugMode, sp_IsExtendedString, sp_TextCursor, sp_CursorBlinkTime, sp_HudRotateMode, sp_RotationMode, sp_Vibrato, sp_Randomness, sp_FadeShake, sp_AutoStart;
 
 
         /// <summary>
         /// 图标
         /// </summary>
-        private Texture2D icon_main, icon_status, icon_preview_r, icon_preview_p, icon_rewind_r, icon_rewind_p, icon_kill_r, icon_kill_p, icon_pathpercent, icon_statu_autokill, icon_statu_cycle, icon_statu_relative, icon_statu_tomode, icon_statu_remode_restart, icon_statu_remode_yoyo, LiquidBg_Expand_Ready, LiquidBg_Expand_Ready_Scanline, LiquidBg_Expand_Playing, LiquidBg_Expand_Playing_Scanline, LiquidBg_NoExpand_Ready, LiquidBg_NoExpand_Ready_Scanline, LiquidBg_NoExpand_Playing,
-            LiquidBg_NoExpand_Playing_Scanline, LiquidPlug_Red, MetalGrid, LiquidDirty, LiquidDirty_Small;
+        private Texture2D icon_main, icon_status, icon_preview_r, icon_preview_p, icon_rewind_r, icon_rewind_p, icon_kill_r, icon_kill_p, icon_pathpercent, icon_statu_autokill, icon_statu_cycle, icon_statu_relative, icon_statu_tomode, icon_statu_remode_restart, icon_statu_remode_yoyo, LiquidBg_Expand_Pure, LiquidBg_Expand_Scan, LiquidBg_NoExpand_Pure, LiquidBg_NoExpand_Scan, LiquidPlug, MetalGrid, LiquidDirty, LiquidDirty_Small;
 
         private bool BasicVars = false;
         private bool IsPreviewed = false;
@@ -191,7 +209,6 @@ namespace SevenStrikeModules.XTween
             sp_keyControl_Tween_Replay = serializedObject.FindProperty("keyControl_Tween_Replay");
             sp_keyControl_Enabled = serializedObject.FindProperty("keyControl_Enabled");
             sp_keyControl_Tween_Create = serializedObject.FindProperty("keyControl_Tween_Create");
-            sp_LiquidLEDBlink = serializedObject.FindProperty("LiquidLEDBlink");
 
             sp_DebugMode = serializedObject.FindProperty("DebugMode");
             #endregion
@@ -214,16 +231,13 @@ namespace SevenStrikeModules.XTween
             icon_statu_remode_restart = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_remode_restart");
             icon_statu_remode_yoyo = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_remode_yoyo");
 
-            LiquidBg_Expand_Ready = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_Expand_Ready");
-            LiquidBg_NoExpand_Ready = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_NoExpand_Ready");
-            LiquidBg_Expand_Ready_Scanline = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_Expand_Ready_Scanline");
-            LiquidBg_NoExpand_Ready_Scanline = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_NoExpand_Ready_Scanline");
-            LiquidBg_Expand_Playing = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_Expand_Playing");
-            LiquidBg_NoExpand_Playing = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_NoExpand_Playing");
-            LiquidBg_Expand_Playing_Scanline = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_Expand_Playing_Scanline");
-            LiquidBg_NoExpand_Playing_Scanline = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_NoExpand_Playing_Scanline");
+            LiquidBg_Expand_Pure = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_Expand_Pure");
+            LiquidBg_Expand_Scan = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_Expand_Scan");
 
-            LiquidPlug_Red = XTween_GUI.GetIcon("Icons_Liquid/LiquidPlug_Red");
+            LiquidBg_NoExpand_Pure = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_NoExpand_Pure");
+            LiquidBg_NoExpand_Scan = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_NoExpand_Scan");
+
+            LiquidPlug = XTween_GUI.GetIcon("Icons_Liquid/LiquidPlug_Red");
             MetalGrid = XTween_GUI.GetIcon("Icons_Liquid/MetalGrid");
             LiquidDirty = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidDirty");
             LiquidDirty_Small = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidDirty_Small");
@@ -252,11 +266,7 @@ namespace SevenStrikeModules.XTween
             #endregion           
 
             #region 液晶LED闪烁
-            XTween_Dashboard.Tween_LiquidLEDBlink = sp_LiquidLEDBlink.boolValue;
-            sp_LiquidLEDBlink.boolValue = XTween_Utilitys.PlayerPrefs_ReadValue_Bool_ForEditor("TweenController_LiquidLEDBlink");
-            sp_LiquidLEDBlink.serializedObject.ApplyModifiedProperties();
-
-            if (sp_LiquidLEDBlink.boolValue)
+            if (XTween_Dashboard.TweenVisualStyleData != null && XTween_Dashboard.TweenVisualStyleData.LiquidBlinker == 1)
             {
                 // 注册更新回调
                 EditorApplication.update += OnEditorUpdate;
@@ -354,40 +364,35 @@ namespace SevenStrikeModules.XTween
                 {
                     TweenLiquidContent = "正在动画...";
 
-                    if (XTween_Dashboard.LiquidScanStyle)
-                        TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Playing_Scanline : LiquidBg_NoExpand_Playing_Scanline;
+                    if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                        TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Scan : LiquidBg_NoExpand_Scan;
                     else
-                        TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Playing : LiquidBg_NoExpand_Playing;
+                        TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Pure : LiquidBg_NoExpand_Pure;
 
                     TweenEasedProgress = BaseScript.CurrentTweener != null ? BaseScript.CurrentTweener.CurrentEasedProgress : 0;
                     TweenLoopProgress = BaseScript.CurrentTweener != null ? BaseScript.CurrentTweener.CurrentLoopProgress : 0;
 
-                    if (XTween_Dashboard.LiquidLagacyColor)
-                        GUI.backgroundColor = XTween_Dashboard.Liquid_On_Color;
-                    else
-                        GUI.backgroundColor = XTween_Dashboard.Theme_Primary;
+                    GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_On_Color;
+
                     Repaint();
                 }
                 else
                 {
-                    if (XTween_Dashboard.LiquidLagacyColor)
-                        GUI.backgroundColor = XTween_Dashboard.Liquid_Off_Color;
-                    else
-                        GUI.backgroundColor = Color.white;
+                    GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_Off_Color;
 
                     TweenLiquidContent = "已就绪";
 
-                    if (XTween_Dashboard.LiquidScanStyle)
-                        TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Ready_Scanline : LiquidBg_NoExpand_Ready_Scanline;
+                    if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                        TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Scan : LiquidBg_NoExpand_Scan;
                     else
-                        TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Ready : LiquidBg_NoExpand_Ready;
+                        TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Pure : LiquidBg_NoExpand_Pure;
 
                     TweenLedOnColor = Color.white * 0.5f;
                     TweenEasedProgress = 0;
                     TweenLoopProgress = 0;
                 }
 
-                rect_liquid_prim.Set(rect_liquid_set.x + 15, rect_liquid_set.y + 98, rect_liquid_set.width - 30, IsExpandPanel ? LiquidBg_Expand_Ready.height : LiquidBg_NoExpand_Ready.height);
+                rect_liquid_prim.Set(rect_liquid_set.x + 15, rect_liquid_set.y + 98, rect_liquid_set.width - 30, IsExpandPanel ? LiquidBg_Expand_Pure.height : LiquidBg_NoExpand_Pure.height);
                 XTween_GUI.Gui_LiquidField(
                     rect_liquid_prim,
                     TweenLiquidContent,
@@ -397,7 +402,7 @@ namespace SevenStrikeModules.XTween
                 // 液晶屏肮脏
                 if (!IsExtraExpandPanel)
                 {
-                    if (XTween_Dashboard.LiquidDirty)
+                    if (XTween_Dashboard.TweenVisualStyleData.LiquidDirty)
                     {
                         rect_liquid_prim.Set(rect_liquid_set.x + (IsExpandPanel ? (rect_liquid_set.width - LiquidDirty.width - 13) : (rect_liquid_set.width - LiquidDirty_Small.width - 13)), rect_liquid_set.y + 97, IsExpandPanel ? LiquidDirty.width : LiquidDirty_Small.width, IsExpandPanel ? LiquidDirty.height : LiquidDirty_Small.height);
                         XTween_GUI.Gui_TextureBox(rect_liquid_prim, IsExpandPanel ? LiquidDirty : LiquidDirty_Small);
@@ -407,8 +412,8 @@ namespace SevenStrikeModules.XTween
                 // 液晶屏接口
                 if (!IsExtraExpandPanel)
                 {
-                    rect_liquid_prim.Set(rect_liquid_set.x + ((rect_liquid_set.width / 2) - (LiquidPlug_Red.width / 2)), IsExpandPanel ? rect_liquid_set.y + 288 : rect_liquid_set.y + 388, LiquidPlug_Red.width, LiquidPlug_Red.height);
-                    XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidPlug_Red);
+                    rect_liquid_prim.Set(rect_liquid_set.x + ((rect_liquid_set.width / 2) - (LiquidPlug.width / 2)), IsExpandPanel ? rect_liquid_set.y + 288 : rect_liquid_set.y + 388, LiquidPlug.width, LiquidPlug.height);
+                    XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidPlug);
                 }
                 // 液晶屏金属网格角
                 if (!IsExtraExpandPanel)
@@ -424,7 +429,7 @@ namespace SevenStrikeModules.XTween
                 if (IsPreviewed || BaseScript.CurrentTweener != null ? BaseScript.CurrentTweener.IsPlaying : false)
                 {
                     // 呼吸效果计算
-                    if (sp_LiquidLEDBlink.boolValue)
+                    if (XTween_Dashboard.TweenVisualStyleData.LiquidBlinker == 1)
                     {
                         float alpha = (Mathf.Sin((float)(EditorApplication.timeSinceStartup * LedBreathSpeed) * Mathf.PI) + 1) * 0.5f;
                         TweenLedOnColor = new Color(XTween_Dashboard.Theme_Primary.r, XTween_Dashboard.Theme_Primary.g, XTween_Dashboard.Theme_Primary.b, alpha);
@@ -434,7 +439,7 @@ namespace SevenStrikeModules.XTween
                 }
 
                 // 绘制呼吸Led
-                rect_liquid_prim.Set(rect_liquid_set.x + (rect_liquid_set.width / 2) - 2, rect_liquid_set.y + (IsExpandPanel ? LiquidBg_Expand_Ready.height : LiquidBg_NoExpand_Ready.height) + 90, 4, 2);
+                rect_liquid_prim.Set(rect_liquid_set.x + (rect_liquid_set.width / 2) - 2, rect_liquid_set.y + (IsExpandPanel ? LiquidBg_Expand_Pure.height : LiquidBg_NoExpand_Pure.height) + 90, 4, 2);
                 EditorGUI.DrawRect(rect_liquid_prim, TweenLedOnColor);
                 #endregion
 
@@ -1073,18 +1078,6 @@ namespace SevenStrikeModules.XTween
             XTween_GUI.Gui_Layout_Space(5);
             #region 调试信息
             XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("调试信息", new string[2] { "禁用", "启用" }, ref sp_DebugMode, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
-            #endregion
-
-            XTween_GUI.Gui_Layout_Seperator(1, XTween_Dashboard.Theme_SeperateLine);
-
-            #region 动画状态闪烁
-            EditorGUI.BeginChangeCheck();
-            XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("动画状态指示器（全局）", new string[2] { "禁用", "启用" }, ref sp_LiquidLEDBlink, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
-            if (EditorGUI.EndChangeCheck())
-            {
-                XTween_Dashboard.Tween_LiquidLEDBlink = sp_LiquidLEDBlink.boolValue;
-                XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("TweenController_LiquidLEDBlink", sp_LiquidLEDBlink.boolValue);
-            }
             #endregion
 
             XTween_GUI.Gui_Layout_Seperator(1, XTween_Dashboard.Theme_SeperateLine);

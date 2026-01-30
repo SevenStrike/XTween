@@ -1,3 +1,23 @@
+/*
+ * ============================================================================
+ * ⚠️ 版权声明（禁止删除、禁止修改、衍生作品必须保留此注释）⚠️
+ * ============================================================================
+ * 版权声明 Copyright (C) 2025-Present Nanjing SevenStrike Media Co., Ltd.
+ * 中文名称：南京塞维斯传媒有限公司
+ * 英文名称：SevenStrikeMedia
+ * 项目作者：徐寅智
+ * 项目名称：XTween - Unity 高性能动画架构插件
+ * 项目启动：2025年8月
+ * 官方网站：http://sevenstrike.com/
+ * 授权协议：GNU Affero General Public License Version 3 (AGPL 3.0)
+ * 协议说明：
+ * 1. 你可以自由使用、修改、分发本插件的源代码，但必须保留此版权注释
+ * 2. 基于本插件修改后的衍生作品，必须同样遵循 AGPL 3.0 授权协议
+ * 3. 若将本插件用于网络服务（如云端Unity编辑器、在线动效生成工具），必须公开修改后的完整源代码
+ * 4. 完整协议文本可查阅：https://www.gnu.org/licenses/agpl-3.0.html
+ * ============================================================================
+ * 违反本注释保留要求，将违反 AGPL 3.0 授权协议，需承担相应法律责任
+ */
 namespace SevenStrikeModules.XTween
 {
     using UnityEditor;
@@ -5,6 +25,23 @@ namespace SevenStrikeModules.XTween
     using UnityEditor.Callbacks;
 #endif
     using UnityEngine;
+
+    public class TweenVisualStyleData
+    {
+        public bool LiquidScanStyle;
+        public bool LiquidDirty;
+        public int LiquidBlinker;
+        public Color Liquid_On_Color;
+        public Color Liquid_Off_Color;
+        public int PoolCount_Int;
+        public int PoolCount_Float;
+        public int PoolCount_String;
+        public int PoolCount_Vector2;
+        public int PoolCount_Vector3;
+        public int PoolCount_Vector4;
+        public int PoolCount_Quaternion;
+        public int PoolCount_Color;
+    }
 
     public static class XTween_Dashboard
     {
@@ -176,70 +213,18 @@ namespace SevenStrikeModules.XTween
         #endregion
         #endregion
 
-        #region TweenController样式配置
-        /// <summary>
-        /// TweenController的预览液晶显示器的LED指示器在预览时是否闪烁
-        /// </summary>
-        public static bool Tween_LiquidLEDBlink = true;
-        #endregion
-
         #region 液晶面板预览样式配置
-        /// <summary>
-        /// 预览液晶显示器是否使用复古的扫描效果
-        /// </summary>
-        public static bool LiquidScanStyle = true;
-        /// <summary>
-        /// 预览液晶显示器的颜色是否使用传统橄榄绿色
-        /// </summary>
-        public static bool LiquidLagacyColor = true;
-        /// <summary>
-        /// 预览液晶显示器是否使用肮脏污迹
-        /// </summary>
-        public static bool LiquidDirty = true;
-        /// <summary>
-        /// 预览液晶显示器是否使用动画进度条
-        /// </summary>
-        public static bool LiquidProgressAnimation = true;
-
-        public static Color Liquid_On_Color = new Color(0.6322733f, 0.695f, 0.448275f, 0.8f);
-        public static Color Liquid_Off_Color = new Color(0.7893765f, 0.8584906f, 0.6206887f, 0.85f);
+        [SerializeField]
+        public static TweenVisualStyleData TweenVisualStyleData;
 
 #if UNITY_EDITOR
         [InitializeOnEnterPlayMode]
         [DidReloadScripts]
         public static void LoadLiquidStyle()
         {
-            if (XTween_Utilitys.PlayerPrefs_KeyIsExist_ForEditor("LiquidLagacyColor"))
-                LiquidLagacyColor = XTween_Utilitys.PlayerPrefs_ReadValue_Bool_ForEditor("LiquidLagacyColor");
-            else
-            {
-                LiquidLagacyColor = true;
-                XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("LiquidLagacyColor", LiquidLagacyColor);
-            }
-
-            if (XTween_Utilitys.PlayerPrefs_KeyIsExist_ForEditor("LiquidScanStyle"))
-                LiquidScanStyle = XTween_Utilitys.PlayerPrefs_ReadValue_Bool_ForEditor("LiquidScanStyle");
-            else
-            {
-                LiquidScanStyle = true;
-                XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("LiquidScanStyle", LiquidScanStyle);
-            }
-
-            if (XTween_Utilitys.PlayerPrefs_KeyIsExist_ForEditor("LiquidProgressAnimation"))
-                LiquidProgressAnimation = XTween_Utilitys.PlayerPrefs_ReadValue_Bool_ForEditor("LiquidProgressAnimation");
-            else
-            {
-                LiquidProgressAnimation = true;
-                XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("LiquidProgressAnimation", LiquidProgressAnimation);
-            }
-
-            if (XTween_Utilitys.PlayerPrefs_KeyIsExist_ForEditor("LiquidDirty"))
-                LiquidDirty = XTween_Utilitys.PlayerPrefs_ReadValue_Bool_ForEditor("LiquidDirty");
-            else
-            {
-                LiquidDirty = true;
-                XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("LiquidDirty", LiquidDirty);
-            }
+            //获取配置文件
+            string json = AssetDatabase.LoadAssetAtPath<TextAsset>(Get_XTween_GUIRoot_Path() + $"XTweenVisualStyle.json").text;
+            TweenVisualStyleData = JsonUtility.FromJson<TweenVisualStyleData>(json);
         }
 #endif
         #endregion

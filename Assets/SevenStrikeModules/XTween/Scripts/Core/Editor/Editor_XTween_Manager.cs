@@ -1,3 +1,23 @@
+/*
+ * ============================================================================
+ * ⚠️ 版权声明（禁止删除、禁止修改、衍生作品必须保留此注释）⚠️
+ * ============================================================================
+ * 版权声明 Copyright (C) 2025-Present Nanjing SevenStrike Media Co., Ltd.
+ * 中文名称：南京塞维斯传媒有限公司
+ * 英文名称：SevenStrikeMedia
+ * 项目作者：徐寅智
+ * 项目名称：XTween - Unity 高性能动画架构插件
+ * 项目启动：2025年8月
+ * 官方网站：http://sevenstrike.com/
+ * 授权协议：GNU Affero General Public License Version 3 (AGPL 3.0)
+ * 协议说明：
+ * 1. 你可以自由使用、修改、分发本插件的源代码，但必须保留此版权注释
+ * 2. 基于本插件修改后的衍生作品，必须同样遵循 AGPL 3.0 授权协议
+ * 3. 若将本插件用于网络服务（如云端Unity编辑器、在线动效生成工具），必须公开修改后的完整源代码
+ * 4. 完整协议文本可查阅：https://www.gnu.org/licenses/agpl-3.0.html
+ * ============================================================================
+ * 违反本注释保留要求，将违反 AGPL 3.0 授权协议，需承担相应法律责任
+ */
 namespace SevenStrikeModules.XTween
 {
     using System;
@@ -70,14 +90,10 @@ namespace SevenStrikeModules.XTween
             icon_recycle_p,
             TweenLiquidScreen,
             TweenLiquidScreen_Status,
-            LiquidBg_Playing,
-            LiquidBg_Playing_Scanline,
-            LiquidBg_Ready,
-            LiquidBg_Ready_Scanline,
-            LiquidBg_Status_Playing,
-            LiquidBg_Status_Playing_Scanline,
-            LiquidBg_Status_Ready,
-            LiquidBg_Status_Ready_Scanline,
+            LiquidBg_Pure,
+            LiquidBg_Scan,
+            LiquidBg_Status_Pure,
+            LiquidBg_Status_Scan,
             LiquidPlug_Green,
             LiquidPlug_Yellow,
             MetalGrid,
@@ -126,14 +142,10 @@ namespace SevenStrikeModules.XTween
             #region 图标获取
             icon_main = XTween_GUI.GetIcon("Icons_Hud_XTween_Manager/icon_main");
             icon_pathpercent = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_pathpercent");
-            LiquidBg_Ready = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Ready");
-            LiquidBg_Ready_Scanline = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Ready_Scanline");
-            LiquidBg_Playing = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Playing");
-            LiquidBg_Playing_Scanline = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Playing_Scanline");
-            LiquidBg_Status_Playing = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Status_Playing");
-            LiquidBg_Status_Playing_Scanline = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Status_Playing_Scanline");
-            LiquidBg_Status_Ready = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Status_Ready");
-            LiquidBg_Status_Ready_Scanline = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Status_Ready_Scanline");
+            LiquidBg_Pure = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Pure");
+            LiquidBg_Scan = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Scan");
+            LiquidBg_Status_Pure = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Status_Pure");
+            LiquidBg_Status_Scan = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/LiquidBg_Status_Scan");
             icon_notrun = XTween_GUI.GetIcon("Icons_Liquid/XTween_Manager/icon_notrun");
             Font_Bold = XTween_GUI.GetFont("SS_Editor_Bold");
             Font_Light = XTween_GUI.GetFont("SS_Editor_Light");
@@ -283,26 +295,20 @@ namespace SevenStrikeModules.XTween
             if (Application.isPlaying)
             {
                 TweenLiquidContent = "应用运行中";
-                if (XTween_Dashboard.LiquidScanStyle)
-                    TweenLiquidScreen_Status = LiquidBg_Status_Playing_Scanline;
+                if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                    TweenLiquidScreen_Status = LiquidBg_Status_Scan;
                 else
-                    TweenLiquidScreen_Status = LiquidBg_Status_Playing;
-                if (XTween_Dashboard.LiquidLagacyColor)
-                    GUI.backgroundColor = XTween_Dashboard.Liquid_On_Color;
-                else
-                    GUI.backgroundColor = XTween_Dashboard.Theme_Primary;
+                    TweenLiquidScreen_Status = LiquidBg_Status_Pure;
+                GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_On_Color;
             }
             else
             {
-                if (XTween_Dashboard.LiquidLagacyColor)
-                    GUI.backgroundColor = XTween_Dashboard.Liquid_Off_Color;
-                else
-                    GUI.backgroundColor = Color.white;
+                GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_Off_Color;
                 TweenLiquidContent = "应用未运行";
-                if (XTween_Dashboard.LiquidScanStyle)
-                    TweenLiquidScreen_Status = LiquidBg_Status_Ready_Scanline;
+                if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                    TweenLiquidScreen_Status = LiquidBg_Status_Scan;
                 else
-                    TweenLiquidScreen_Status = LiquidBg_Status_Ready;
+                    TweenLiquidScreen_Status = LiquidBg_Status_Pure;
             }
 
             // 液晶屏
@@ -312,7 +318,7 @@ namespace SevenStrikeModules.XTween
             // 液晶屏肮脏
             if (!IsExtraExpandPanel)
             {
-                if (XTween_Dashboard.LiquidDirty)
+                if (XTween_Dashboard.TweenVisualStyleData.LiquidDirty)
                 {
                     rect_liquid_prim.Set(rect_liquid_set.x + (IsExpandPanelWidth ? (rect_liquid_set.width - LiquidDirty_Status.width - 13) : (rect_liquid_set.width - LiquidDirty_Status_Small.width - 13)), rect_liquid_set.y - 1, IsExpandPanelWidth ? LiquidDirty_Status.width : LiquidDirty_Status_Small.width, IsExpandPanelWidth ? LiquidDirty_Status.height : LiquidDirty_Status_Small.height);
                     XTween_GUI.Gui_TextureBox(rect_liquid_prim, IsExpandPanelWidth ? LiquidDirty_Status : LiquidDirty_Status_Small);
@@ -337,13 +343,13 @@ namespace SevenStrikeModules.XTween
             XTween_GUI.Gui_Labelfield(rect_liquid_prim, Application.isPlaying ? $"动画统计：{Count_Tweens} 个" : "", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleRight, new Vector2(0, 0), 11, Font_Light);
 
             progressheight = 70;
-            LiquidProgress(rect_liquid_set, progressheight, liquid_left_margin, liquid_right_margin, 25, "播放中", Application.isPlaying ? $"{TwnData_Playing.Count} / {Count_Tweens} ({(Count_Tweens == 0 ? 0 : (XTween_Dashboard.LiquidProgressAnimation ? TwnData_Playing.Percentage_Smooth.ToString("F2") : TwnData_Playing.Percentage.ToString("F2")))})" : "-", (Count_Tweens == 0 ? 0 : (XTween_Dashboard.LiquidProgressAnimation ? TwnData_Playing.Percentage_Smooth : TwnData_Playing.Percentage)));
+            LiquidProgress(rect_liquid_set, progressheight, liquid_left_margin, liquid_right_margin, 25, "播放中", Application.isPlaying ? $"{TwnData_Playing.Count} / {Count_Tweens} ({(Count_Tweens == 0 ? 0 : TwnData_Playing.Percentage_Smooth.ToString("F2"))})" : "-", (Count_Tweens == 0 ? 0 : TwnData_Playing.Percentage_Smooth));
             progressheight += 38;
-            LiquidProgress(rect_liquid_set, progressheight, liquid_left_margin, liquid_right_margin, 25, "暂停中", Application.isPlaying ? $"{TwnData_Pausing.Count} / {Count_Tweens} ({(Count_Tweens == 0 ? 0 : (XTween_Dashboard.LiquidProgressAnimation ? TwnData_Pausing.Percentage_Smooth.ToString("F2") : TwnData_Pausing.Percentage.ToString("F2")))})" : "-", (Count_Tweens == 0 ? 0 : (XTween_Dashboard.LiquidProgressAnimation ? TwnData_Pausing.Percentage_Smooth : TwnData_Pausing.Percentage)));
+            LiquidProgress(rect_liquid_set, progressheight, liquid_left_margin, liquid_right_margin, 25, "暂停中", Application.isPlaying ? $"{TwnData_Pausing.Count} / {Count_Tweens} ({(Count_Tweens == 0 ? 0 : TwnData_Pausing.Percentage_Smooth.ToString("F2"))})" : "-", (Count_Tweens == 0 ? 0 : TwnData_Pausing.Percentage_Smooth));
             progressheight += 38;
-            LiquidProgress(rect_liquid_set, progressheight, liquid_left_margin, liquid_right_margin, 25, "已完成", Application.isPlaying ? $"{TwnData_Comleted.Count} / {Count_Tweens} ({(Count_Tweens == 0 ? 0 : (XTween_Dashboard.LiquidProgressAnimation ? TwnData_Comleted.Percentage_Smooth.ToString("F2") : TwnData_Comleted.Percentage.ToString("F2")))})" : "-", (Count_Tweens == 0 ? 0 : (XTween_Dashboard.LiquidProgressAnimation ? TwnData_Comleted.Percentage_Smooth : TwnData_Comleted.Percentage)));
+            LiquidProgress(rect_liquid_set, progressheight, liquid_left_margin, liquid_right_margin, 25, "已完成", Application.isPlaying ? $"{TwnData_Comleted.Count} / {Count_Tweens} ({(Count_Tweens == 0 ? 0 : TwnData_Comleted.Percentage_Smooth.ToString("F2"))})" : "-", (Count_Tweens == 0 ? 0 : TwnData_Comleted.Percentage_Smooth));
             progressheight += 38;
-            LiquidProgress(rect_liquid_set, progressheight, liquid_left_margin, liquid_right_margin, 25, "循环模式", Application.isPlaying ? $"{TwnData_HasLoop.Count} / {Count_Tweens} ({(Count_Tweens == 0 ? 0 : (XTween_Dashboard.LiquidProgressAnimation ? TwnData_HasLoop.Percentage_Smooth.ToString("F2") : TwnData_HasLoop.Percentage.ToString("F2")))})" : "-", (Count_Tweens == 0 ? 0 : (XTween_Dashboard.LiquidProgressAnimation ? TwnData_HasLoop.Percentage_Smooth : TwnData_HasLoop.Percentage)));
+            LiquidProgress(rect_liquid_set, progressheight, liquid_left_margin, liquid_right_margin, 25, "循环模式", Application.isPlaying ? $"{TwnData_HasLoop.Count} / {Count_Tweens} ({(Count_Tweens == 0 ? 0 : TwnData_HasLoop.Percentage_Smooth.ToString("F2"))})" : "-", (Count_Tweens == 0 ? 0 : TwnData_HasLoop.Percentage_Smooth));
             progressheight += 38;
             GUI.backgroundColor = Color.white;
 
@@ -360,25 +366,20 @@ namespace SevenStrikeModules.XTween
 
             if (Application.isPlaying)
             {
-                if (XTween_Dashboard.LiquidScanStyle)
-                    TweenLiquidScreen = LiquidBg_Playing_Scanline;
+                if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                    TweenLiquidScreen = LiquidBg_Scan;
                 else
-                    TweenLiquidScreen = LiquidBg_Playing;
-                if (XTween_Dashboard.LiquidLagacyColor)
-                    GUI.backgroundColor = XTween_Dashboard.Liquid_On_Color;
-                else
-                    GUI.backgroundColor = XTween_Dashboard.Theme_Primary;
+                    TweenLiquidScreen = LiquidBg_Pure;
+                GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_On_Color;
             }
             else
             {
-                if (XTween_Dashboard.LiquidLagacyColor)
-                    GUI.backgroundColor = XTween_Dashboard.Liquid_Off_Color;
+                GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_Off_Color;
+
+                if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                    TweenLiquidScreen = LiquidBg_Scan;
                 else
-                    GUI.backgroundColor = Color.white;
-                if (XTween_Dashboard.LiquidScanStyle)
-                    TweenLiquidScreen = LiquidBg_Ready_Scanline;
-                else
-                    TweenLiquidScreen = LiquidBg_Ready;
+                    TweenLiquidScreen = LiquidBg_Pure;
             }
 
             // 液晶屏
@@ -407,7 +408,7 @@ namespace SevenStrikeModules.XTween
             // 液晶屏肮脏
             if (!IsExtraExpandPanel)
             {
-                if (XTween_Dashboard.LiquidDirty)
+                if (XTween_Dashboard.TweenVisualStyleData.LiquidDirty)
                 {
                     rect_liquid_prim.Set(rect_liquid_set.x + (IsExpandPanelWidth ? (rect_liquid_set.width - LiquidDirty_Bg.width - 13) : (rect_liquid_set.width - LiquidDirty_Bg_Small.width - 13)), rect_liquid_set.y - 2, IsExpandPanelWidth ? LiquidDirty_Bg.width : LiquidDirty_Bg_Small.width, IsExpandPanelWidth ? LiquidDirty_Bg.height : LiquidDirty_Bg_Small.height);
                     XTween_GUI.Gui_TextureBox(rect_liquid_prim, IsExpandPanelWidth ? LiquidDirty_Bg : LiquidDirty_Bg_Small);

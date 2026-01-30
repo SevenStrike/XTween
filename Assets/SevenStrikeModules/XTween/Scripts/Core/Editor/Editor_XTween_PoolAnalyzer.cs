@@ -1,3 +1,23 @@
+/*
+ * ============================================================================
+ * ⚠️ 版权声明（禁止删除、禁止修改、衍生作品必须保留此注释）⚠️
+ * ============================================================================
+ * 版权声明 Copyright (C) 2025-Present Nanjing SevenStrike Media Co., Ltd.
+ * 中文名称：南京塞维斯传媒有限公司
+ * 英文名称：SevenStrikeMedia
+ * 项目作者：徐寅智
+ * 项目名称：XTween - Unity 高性能动画架构插件
+ * 项目启动：2025年8月
+ * 官方网站：http://sevenstrike.com/
+ * 授权协议：GNU Affero General Public License Version 3 (AGPL 3.0)
+ * 协议说明：
+ * 1. 你可以自由使用、修改、分发本插件的源代码，但必须保留此版权注释
+ * 2. 基于本插件修改后的衍生作品，必须同样遵循 AGPL 3.0 授权协议
+ * 3. 若将本插件用于网络服务（如云端Unity编辑器、在线动效生成工具），必须公开修改后的完整源代码
+ * 4. 完整协议文本可查阅：https://www.gnu.org/licenses/agpl-3.0.html
+ * ============================================================================
+ * 违反本注释保留要求，将违反 AGPL 3.0 授权协议，需承担相应法律责任
+ */
 namespace SevenStrikeModules.XTween
 {
     using System;
@@ -63,11 +83,9 @@ namespace SevenStrikeModules.XTween
         /// 图标
         /// </summary>
         private Texture2D logo, icon_pathpercent,
-            LiquidBg_Playing,
-            LiquidBg_Playing_Scanline,
-            LiquidBg_Ready,
-            LiquidBg_Ready_Scanline,
-            LiquidPlug_Blue,
+            LiquidBg_Pure,
+            LiquidBg_Scan,
+            LiquidPlug,
             MetalGrid,
             LiquidDirty;
 
@@ -109,11 +127,9 @@ namespace SevenStrikeModules.XTween
             #region 图标获取
             logo = XTween_GUI.GetIcon("Icons_Hud_XTween_PoolAnalyzer/logo");
             icon_pathpercent = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_pathpercent");
-            LiquidBg_Ready = XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidBg_Ready");
-            LiquidBg_Ready_Scanline = XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidBg_Ready_Scanline");
-            LiquidBg_Playing = XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidBg_Playing");
-            LiquidBg_Playing_Scanline = XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidBg_Playing_Scanline");
-            LiquidPlug_Blue = XTween_GUI.GetIcon("Icons_Liquid/LiquidPlug_Blue");
+            LiquidBg_Pure = XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidBg_Pure");
+            LiquidBg_Scan = XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidBg_Scan");
+            LiquidPlug = XTween_GUI.GetIcon("Icons_Liquid/LiquidPlug_Blue");
             MetalGrid = XTween_GUI.GetIcon("Icons_Liquid/MetalGrid");
             LiquidDirty = XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidDirty");
             #endregion
@@ -150,26 +166,21 @@ namespace SevenStrikeModules.XTween
             if (Application.isPlaying)
             {
                 TweenLiquidContent = "应用运行中";
-                if (XTween_Dashboard.LiquidScanStyle)
-                    TweenLiquidScreen = LiquidBg_Playing_Scanline;
+                if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                    TweenLiquidScreen = LiquidBg_Scan;
                 else
-                    TweenLiquidScreen = LiquidBg_Playing;
-                if (XTween_Dashboard.LiquidLagacyColor)
-                    GUI.backgroundColor = XTween_Dashboard.Liquid_On_Color;
-                else
-                    GUI.backgroundColor = XTween_Dashboard.Theme_Primary;
+                    TweenLiquidScreen = LiquidBg_Pure;
+                GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_On_Color;
             }
             else
             {
-                if (XTween_Dashboard.LiquidLagacyColor)
-                    GUI.backgroundColor = XTween_Dashboard.Liquid_Off_Color;
-                else
-                    GUI.backgroundColor = Color.white;
+                GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_Off_Color;
+
                 TweenLiquidContent = "应用未运行";
-                if (XTween_Dashboard.LiquidScanStyle)
-                    TweenLiquidScreen = LiquidBg_Ready_Scanline;
+                if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                    TweenLiquidScreen = LiquidBg_Scan;
                 else
-                    TweenLiquidScreen = LiquidBg_Ready;
+                    TweenLiquidScreen = LiquidBg_Pure;
             }
 
             // 液晶屏
@@ -177,15 +188,15 @@ namespace SevenStrikeModules.XTween
             XTween_GUI.Gui_LiquidField(rect_liquid_prim, TweenLiquidContent, liquid_rectoffet, TweenLiquidScreen);
 
             // 液晶屏肮脏
-            if (XTween_Dashboard.LiquidDirty)
+            if (XTween_Dashboard.TweenVisualStyleData.LiquidDirty)
             {
                 rect_liquid_prim.Set(rect_liquid_set.x + (rect_liquid_set.width - LiquidDirty.width - 13), rect_liquid_set.y + 108, LiquidDirty.width, LiquidDirty.height);
                 XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidDirty);
             }
 
             // 液晶屏接口
-            rect_liquid_prim.Set(rect_liquid_set.x + ((rect_liquid_set.width / 2) - (LiquidPlug_Blue.width / 2)), rect_liquid_set.y + 545, LiquidPlug_Blue.width, LiquidPlug_Blue.height);
-            XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidPlug_Blue);
+            rect_liquid_prim.Set(rect_liquid_set.x + ((rect_liquid_set.width / 2) - (LiquidPlug.width / 2)), rect_liquid_set.y + 545, LiquidPlug.width, LiquidPlug.height);
+            XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidPlug);
 
             // 液晶屏金属网格角
             rect_liquid_prim.Set(rect_liquid_set.x + (rect_liquid_set.width - MetalGrid.width - 5), rect_liquid_set.y + 505, MetalGrid.width, MetalGrid.height);
@@ -200,21 +211,21 @@ namespace SevenStrikeModules.XTween
             rect_liquid_prim.Set(rect_liquid_set.x, rect_liquid_set.y + 185, rect_liquid_set.width, rect_liquid_set.height - 185);
 
             float height = 0;
-            LiquidProgress(rect_liquid_prim, height, "Int 动画", Application.isPlaying ? PoolDataVisual(PoolData_Int) : "未就绪", Application.isPlaying ? (XTween_Dashboard.LiquidProgressAnimation ? PoolData_Int.Percentage_Smooth : PoolData_Int.Percentage) : 0);
+            LiquidProgress(rect_liquid_prim, height, "Int 动画", Application.isPlaying ? PoolDataVisual(PoolData_Int) : "未就绪", Application.isPlaying ? (PoolData_Int.Percentage_Smooth) : 0);
             height += 45;
-            LiquidProgress(rect_liquid_prim, height, "Float 动画", Application.isPlaying ? PoolDataVisual(PoolData_Float) : "未就绪", Application.isPlaying ? (XTween_Dashboard.LiquidProgressAnimation ? PoolData_Float.Percentage_Smooth : PoolData_Float.Percentage) : 0);
+            LiquidProgress(rect_liquid_prim, height, "Float 动画", Application.isPlaying ? PoolDataVisual(PoolData_Float) : "未就绪", Application.isPlaying ? (PoolData_Float.Percentage_Smooth) : 0);
             height += 45;
-            LiquidProgress(rect_liquid_prim, height, "String 动画", Application.isPlaying ? PoolDataVisual(PoolData_String) : "未就绪", Application.isPlaying ? (XTween_Dashboard.LiquidProgressAnimation ? PoolData_String.Percentage_Smooth : PoolData_String.Percentage) : 0);
+            LiquidProgress(rect_liquid_prim, height, "String 动画", Application.isPlaying ? PoolDataVisual(PoolData_String) : "未就绪", Application.isPlaying ? (PoolData_String.Percentage_Smooth) : 0);
             height += 45;
-            LiquidProgress(rect_liquid_prim, height, "Vector2 动画", Application.isPlaying ? PoolDataVisual(PoolData_Vector2) : "未就绪", Application.isPlaying ? (XTween_Dashboard.LiquidProgressAnimation ? PoolData_Vector2.Percentage_Smooth : PoolData_Vector2.Percentage) : 0);
+            LiquidProgress(rect_liquid_prim, height, "Vector2 动画", Application.isPlaying ? PoolDataVisual(PoolData_Vector2) : "未就绪", Application.isPlaying ? (PoolData_Vector2.Percentage_Smooth) : 0);
             height += 45;
-            LiquidProgress(rect_liquid_prim, height, "Vector3 动画", Application.isPlaying ? PoolDataVisual(PoolData_Vector3) : "未就绪", Application.isPlaying ? (XTween_Dashboard.LiquidProgressAnimation ? PoolData_Vector3.Percentage_Smooth : PoolData_Vector3.Percentage) : 0);
+            LiquidProgress(rect_liquid_prim, height, "Vector3 动画", Application.isPlaying ? PoolDataVisual(PoolData_Vector3) : "未就绪", Application.isPlaying ? (PoolData_Vector3.Percentage_Smooth) : 0);
             height += 45;
-            LiquidProgress(rect_liquid_prim, height, "Vecto4  动画", Application.isPlaying ? PoolDataVisual(PoolData_Vector4) : "未就绪", Application.isPlaying ? (XTween_Dashboard.LiquidProgressAnimation ? PoolData_Vector4.Percentage_Smooth : PoolData_Vector4.Percentage) : 0);
+            LiquidProgress(rect_liquid_prim, height, "Vecto4  动画", Application.isPlaying ? PoolDataVisual(PoolData_Vector4) : "未就绪", Application.isPlaying ? (PoolData_Vector4.Percentage_Smooth) : 0);
             height += 45;
-            LiquidProgress(rect_liquid_prim, height, "Quaternion 动画", Application.isPlaying ? PoolDataVisual(PoolData_Quaternion) : "未就绪", Application.isPlaying ? (XTween_Dashboard.LiquidProgressAnimation ? PoolData_Quaternion.Percentage_Smooth : PoolData_Quaternion.Percentage) : 0);
+            LiquidProgress(rect_liquid_prim, height, "Quaternion 动画", Application.isPlaying ? PoolDataVisual(PoolData_Quaternion) : "未就绪", Application.isPlaying ? (PoolData_Quaternion.Percentage_Smooth) : 0);
             height += 45;
-            LiquidProgress(rect_liquid_prim, height, "Color 动画", Application.isPlaying ? PoolDataVisual(PoolData_Color) : "未就绪", Application.isPlaying ? (XTween_Dashboard.LiquidProgressAnimation ? PoolData_Color.Percentage_Smooth : PoolData_Color.Percentage) : 0);
+            LiquidProgress(rect_liquid_prim, height, "Color 动画", Application.isPlaying ? PoolDataVisual(PoolData_Color) : "未就绪", Application.isPlaying ? PoolData_Color.Percentage_Smooth : 0);
             #endregion
 
             GUI.backgroundColor = Color.white;
@@ -274,7 +285,7 @@ namespace SevenStrikeModules.XTween
                 .Append(" / ")
                 .Append(data.Preloaded)
                 .Append(" | ")
-                .Append(XTween_Dashboard.LiquidProgressAnimation ? data.Percentage_Smooth.ToString("F2") : data.Percentage)
+                .Append(data.Percentage_Smooth.ToString("F2"))
                 .Append(" %");
             return stringBuilder.ToString();
         }
