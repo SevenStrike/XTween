@@ -26,7 +26,7 @@ namespace SevenStrikeModules.XTween
 #endif
     using UnityEngine;
 
-    public class TweenVisualStyleData
+    public class TweenConfigData
     {
         public bool LiquidScanStyle;
         public bool LiquidDirty;
@@ -215,7 +215,7 @@ namespace SevenStrikeModules.XTween
 
         #region 液晶面板预览样式配置
         [SerializeField]
-        public static TweenVisualStyleData TweenVisualStyleData;
+        public static TweenConfigData TweenConfigData;
 
 #if UNITY_EDITOR
         [InitializeOnEnterPlayMode]
@@ -224,7 +224,7 @@ namespace SevenStrikeModules.XTween
         {
             //获取配置文件
             string json = AssetDatabase.LoadAssetAtPath<TextAsset>(Get_XTween_GUIRoot_Path() + $"XTweenVisualStyle.json").text;
-            TweenVisualStyleData = JsonUtility.FromJson<TweenVisualStyleData>(json);
+            TweenConfigData = JsonUtility.FromJson<TweenConfigData>(json);
         }
 #endif
         #endregion

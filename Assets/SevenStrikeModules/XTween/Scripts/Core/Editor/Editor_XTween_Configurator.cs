@@ -69,7 +69,7 @@ namespace SevenStrikeModules.XTween
         Rect rect_secondary;
         public bool IsPressed;
 
-        public TweenVisualStyleData TweenVisualStyleData;
+        public TweenConfigData TweenConfigData;
 
         [MenuItem("Assets/XTween/C 配置面板（Configurator)")]
         public static void ShowWindow()
@@ -107,7 +107,7 @@ namespace SevenStrikeModules.XTween
 
             //获取配置文件
             string json = AssetDatabase.LoadAssetAtPath<TextAsset>(XTween_Dashboard.Get_XTween_GUIRoot_Path() + $"XTweenVisualStyle.json").text;
-            TweenVisualStyleData = JsonUtility.FromJson<TweenVisualStyleData>(json);
+            TweenConfigData = JsonUtility.FromJson<TweenConfigData>(json);
             Font_Bold = XTween_GUI.GetFont("SS_Editor_Bold");
             Font_Light = XTween_GUI.GetFont("SS_Editor_Dialog");
         }
@@ -153,9 +153,9 @@ namespace SevenStrikeModules.XTween
                 currentEvent.Use();
             }
 
-            GUI.backgroundColor = IsPressed ? TweenVisualStyleData.Liquid_On_Color : TweenVisualStyleData.Liquid_Off_Color;
+            GUI.backgroundColor = IsPressed ? TweenConfigData.Liquid_On_Color : TweenConfigData.Liquid_Off_Color;
 
-            XTween_GUI.Gui_LiquidField(rect_primary, "", new RectOffset(0, 0, 0, 0), (TweenVisualStyleData.LiquidScanStyle ? (TweenVisualStyleData.LiquidDirty ? Liquid_PreviewBg_ScanDirty : Liquid_PreviewBg_Scan) : Liquid_PreviewBg_Pure));
+            XTween_GUI.Gui_LiquidField(rect_primary, "", new RectOffset(0, 0, 0, 0), (TweenConfigData.LiquidScanStyle ? (TweenConfigData.LiquidDirty ? Liquid_PreviewBg_ScanDirty : Liquid_PreviewBg_Scan) : Liquid_PreviewBg_Pure));
 
             GUI.backgroundColor = Color.white;
 
@@ -178,22 +178,22 @@ namespace SevenStrikeModules.XTween
             float offset = 20;
             float dis = 56;
             rect_primary.Set(rect_secondary.width + offset, rect_secondary.y, size, size);
-            if (XTween_GUI.Gui_Button(rect_primary, LiquidIcon_Pure_Released, LiquidIcon_Pure_Press, true, null, null, TweenVisualStyleData.Liquid_Off_Color))
+            if (XTween_GUI.Gui_Button(rect_primary, LiquidIcon_Pure_Released, LiquidIcon_Pure_Press, true, null, null, TweenConfigData.Liquid_Off_Color))
             {
-                TweenVisualStyleData.LiquidScanStyle = false;
-                TweenVisualStyleData.LiquidDirty = false;
+                TweenConfigData.LiquidScanStyle = false;
+                TweenConfigData.LiquidDirty = false;
             }
             rect_primary.Set(rect_secondary.width + offset, rect_secondary.y + dis, size, size);
-            if (XTween_GUI.Gui_Button(rect_primary, LiquidIcon_Scanline_Released, LiquidIcon_Scanline_Press, true, null, null, TweenVisualStyleData.Liquid_Off_Color))
+            if (XTween_GUI.Gui_Button(rect_primary, LiquidIcon_Scanline_Released, LiquidIcon_Scanline_Press, true, null, null, TweenConfigData.Liquid_Off_Color))
             {
-                TweenVisualStyleData.LiquidScanStyle = true;
-                TweenVisualStyleData.LiquidDirty = false;
+                TweenConfigData.LiquidScanStyle = true;
+                TweenConfigData.LiquidDirty = false;
             }
             rect_primary.Set(rect_secondary.width + offset, rect_secondary.y + dis * 2, size, size);
-            if (XTween_GUI.Gui_Button(rect_primary, LiquidIcon_DirtyScanline_Released, LiquidIcon_DirtyScanline_Press, true, null, null, TweenVisualStyleData.Liquid_Off_Color))
+            if (XTween_GUI.Gui_Button(rect_primary, LiquidIcon_DirtyScanline_Released, LiquidIcon_DirtyScanline_Press, true, null, null, TweenConfigData.Liquid_Off_Color))
             {
-                TweenVisualStyleData.LiquidScanStyle = true;
-                TweenVisualStyleData.LiquidDirty = true;
+                TweenConfigData.LiquidScanStyle = true;
+                TweenConfigData.LiquidDirty = true;
             }
             #endregion
 
@@ -206,19 +206,19 @@ namespace SevenStrikeModules.XTween
             rect_primary.Set(cloum_left, row, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "播放时背景色", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5, 80, 20);
-            TweenVisualStyleData.Liquid_On_Color = XTween_GUI.Gui_ColorField(rect_primary, TweenVisualStyleData.Liquid_On_Color);
+            TweenConfigData.Liquid_On_Color = XTween_GUI.Gui_ColorField(rect_primary, TweenConfigData.Liquid_On_Color);
 
             // 待命时背景色
             rect_primary.Set(cloum_left, row + interval, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "待命时背景色", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval, 80, 20);
-            TweenVisualStyleData.Liquid_Off_Color = XTween_GUI.Gui_ColorField(rect_primary, TweenVisualStyleData.Liquid_Off_Color);
+            TweenConfigData.Liquid_Off_Color = XTween_GUI.Gui_ColorField(rect_primary, TweenConfigData.Liquid_Off_Color);
 
             // 待命时背景色
             rect_primary.Set(cloum_left, row + interval * 2f, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "动画指示器闪烁", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval * 2f, 80, 20);
-            TweenVisualStyleData.LiquidBlinker = XTween_GUI.Gui_Popup(rect_primary, TweenVisualStyleData.LiquidBlinker, new string[2] { "关闭", "开启" }, GUIFilled.实体, GUIColor.深空灰, Color.white);
+            TweenConfigData.LiquidBlinker = XTween_GUI.Gui_Popup(rect_primary, TweenConfigData.LiquidBlinker, new string[2] { "关闭", "开启" }, GUIFilled.实体, GUIColor.深空灰, Color.white);
 
 
             Sepline_rect = new Rect(cloum_left, row + interval * 3.25f, cloum_right, 1);
@@ -230,49 +230,49 @@ namespace SevenStrikeModules.XTween
             rect_primary.Set(cloum_left, row + interval * 4, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "动画池预加载 - Integer", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval * 4, 80, 20);
-            TweenVisualStyleData.PoolCount_Int = XTween_GUI.Gui_InputField_Int(rect_primary, TweenVisualStyleData.PoolCount_Int);
+            TweenConfigData.PoolCount_Int = XTween_GUI.Gui_InputField_Int(rect_primary, TweenConfigData.PoolCount_Int);
 
             // 动画池预加载 Float
             rect_primary.Set(cloum_left, row + interval * 5, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "动画池预加载 - Float", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval * 5, 80, 20);
-            TweenVisualStyleData.PoolCount_Float = XTween_GUI.Gui_InputField_Int(rect_primary, TweenVisualStyleData.PoolCount_Float);
+            TweenConfigData.PoolCount_Float = XTween_GUI.Gui_InputField_Int(rect_primary, TweenConfigData.PoolCount_Float);
 
             // 动画池预加载 String
             rect_primary.Set(cloum_left, row + interval * 6, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "动画池预加载 - String", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval * 6, 80, 20);
-            TweenVisualStyleData.PoolCount_String = XTween_GUI.Gui_InputField_Int(rect_primary, TweenVisualStyleData.PoolCount_String);
+            TweenConfigData.PoolCount_String = XTween_GUI.Gui_InputField_Int(rect_primary, TweenConfigData.PoolCount_String);
 
             // 动画池预加载 Color
             rect_primary.Set(cloum_left, row + interval * 7, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "动画池预加载 - Color", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval * 7, 80, 20);
-            TweenVisualStyleData.PoolCount_Color = XTween_GUI.Gui_InputField_Int(rect_primary, TweenVisualStyleData.PoolCount_Color);
+            TweenConfigData.PoolCount_Color = XTween_GUI.Gui_InputField_Int(rect_primary, TweenConfigData.PoolCount_Color);
 
             // 动画池预加载 Quaternion
             rect_primary.Set(cloum_left, row + interval * 8, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "动画池预加载 - Quaternion", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval * 8, 80, 20);
-            TweenVisualStyleData.PoolCount_Quaternion = XTween_GUI.Gui_InputField_Int(rect_primary, TweenVisualStyleData.PoolCount_Quaternion);
+            TweenConfigData.PoolCount_Quaternion = XTween_GUI.Gui_InputField_Int(rect_primary, TweenConfigData.PoolCount_Quaternion);
 
             // 动画池预加载 Vector2
             rect_primary.Set(cloum_left, row + interval * 9, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "动画池预加载 - Vector2", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval * 9, 80, 20);
-            TweenVisualStyleData.PoolCount_Vector2 = XTween_GUI.Gui_InputField_Int(rect_primary, TweenVisualStyleData.PoolCount_Vector2);
+            TweenConfigData.PoolCount_Vector2 = XTween_GUI.Gui_InputField_Int(rect_primary, TweenConfigData.PoolCount_Vector2);
 
             // 动画池预加载 Vector3
             rect_primary.Set(cloum_left, row + interval * 10, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "动画池预加载 - Vector3", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval * 10, 80, 20);
-            TweenVisualStyleData.PoolCount_Vector3 = XTween_GUI.Gui_InputField_Int(rect_primary, TweenVisualStyleData.PoolCount_Vector3);
+            TweenConfigData.PoolCount_Vector3 = XTween_GUI.Gui_InputField_Int(rect_primary, TweenConfigData.PoolCount_Vector3);
 
             // 动画池预加载 Vector4
             rect_primary.Set(cloum_left, row + interval * 11, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "动画池预加载 - Vector4", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval * 11, 80, 20);
-            TweenVisualStyleData.PoolCount_Vector4 = XTween_GUI.Gui_InputField_Int(rect_primary, TweenVisualStyleData.PoolCount_Vector4);
+            TweenConfigData.PoolCount_Vector4 = XTween_GUI.Gui_InputField_Int(rect_primary, TweenConfigData.PoolCount_Vector4);
             #endregion
 
             #region 保存配置按钮
@@ -283,7 +283,7 @@ namespace SevenStrikeModules.XTween
             {
                 if (!Application.isPlaying)
                 {
-                    string json = JsonUtility.ToJson(TweenVisualStyleData);
+                    string json = JsonUtility.ToJson(TweenConfigData);
                     // 使用StreamWriter写入文件
                     using (StreamWriter writer = new StreamWriter(XTween_Dashboard.Get_XTween_GUIRoot_Path() + $"XTweenVisualStyle.json"))
                     {

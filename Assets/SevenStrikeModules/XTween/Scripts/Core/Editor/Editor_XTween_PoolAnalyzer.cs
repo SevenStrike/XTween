@@ -166,18 +166,18 @@ namespace SevenStrikeModules.XTween
             if (Application.isPlaying)
             {
                 TweenLiquidContent = "应用运行中";
-                if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                if (XTween_Dashboard.TweenConfigData.LiquidScanStyle)
                     TweenLiquidScreen = LiquidBg_Scan;
                 else
                     TweenLiquidScreen = LiquidBg_Pure;
-                GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_On_Color;
+                GUI.backgroundColor = XTween_Dashboard.TweenConfigData.Liquid_On_Color;
             }
             else
             {
-                GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_Off_Color;
+                GUI.backgroundColor = XTween_Dashboard.TweenConfigData.Liquid_Off_Color;
 
                 TweenLiquidContent = "应用未运行";
-                if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                if (XTween_Dashboard.TweenConfigData.LiquidScanStyle)
                     TweenLiquidScreen = LiquidBg_Scan;
                 else
                     TweenLiquidScreen = LiquidBg_Pure;
@@ -188,7 +188,7 @@ namespace SevenStrikeModules.XTween
             XTween_GUI.Gui_LiquidField(rect_liquid_prim, TweenLiquidContent, liquid_rectoffet, TweenLiquidScreen);
 
             // 液晶屏肮脏
-            if (XTween_Dashboard.TweenVisualStyleData.LiquidDirty)
+            if (XTween_Dashboard.TweenConfigData.LiquidDirty)
             {
                 rect_liquid_prim.Set(rect_liquid_set.x + (rect_liquid_set.width - LiquidDirty.width - 13), rect_liquid_set.y + 108, LiquidDirty.width, LiquidDirty.height);
                 XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidDirty);

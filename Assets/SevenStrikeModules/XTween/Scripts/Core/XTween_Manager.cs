@@ -77,10 +77,18 @@ namespace SevenStrikeModules.XTween
             // 预加载所有动画对象
             if (XTween_Pool.EnablePool)
             {
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Float), XTween_Dashboard.TweenConfigData.PoolCount_Float);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Int), XTween_Dashboard.TweenConfigData.PoolCount_Int);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Color), XTween_Dashboard.TweenConfigData.PoolCount_Color);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_String), XTween_Dashboard.TweenConfigData.PoolCount_String);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Quaternion), XTween_Dashboard.TweenConfigData.PoolCount_Quaternion);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Vector2), XTween_Dashboard.TweenConfigData.PoolCount_Vector2);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Vector3), XTween_Dashboard.TweenConfigData.PoolCount_Vector3);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Vector4), XTween_Dashboard.TweenConfigData.PoolCount_Vector4);
                 XTween_Pool.PreloadAll();
                 XTween_Utilitys.DebugInfo("XTween Pool动画池消息", "XTween Pool动画池已预加载并就绪！", GUIMsgState.确认);
             }
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
             XTween_Utilitys.DebugInfo("XTween Manager动画管理器消息", "XTween Manager动画管理器已就绪！", GUIMsgState.确认);
         }
         #endregion

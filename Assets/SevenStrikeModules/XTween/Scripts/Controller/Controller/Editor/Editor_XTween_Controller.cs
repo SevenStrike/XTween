@@ -266,7 +266,7 @@ namespace SevenStrikeModules.XTween
             #endregion           
 
             #region 液晶LED闪烁
-            if (XTween_Dashboard.TweenVisualStyleData != null && XTween_Dashboard.TweenVisualStyleData.LiquidBlinker == 1)
+            if (XTween_Dashboard.TweenConfigData != null && XTween_Dashboard.TweenConfigData.LiquidBlinker == 1)
             {
                 // 注册更新回调
                 EditorApplication.update += OnEditorUpdate;
@@ -364,7 +364,7 @@ namespace SevenStrikeModules.XTween
                 {
                     TweenLiquidContent = "正在动画...";
 
-                    if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                    if (XTween_Dashboard.TweenConfigData.LiquidScanStyle)
                         TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Scan : LiquidBg_NoExpand_Scan;
                     else
                         TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Pure : LiquidBg_NoExpand_Pure;
@@ -372,17 +372,17 @@ namespace SevenStrikeModules.XTween
                     TweenEasedProgress = BaseScript.CurrentTweener != null ? BaseScript.CurrentTweener.CurrentEasedProgress : 0;
                     TweenLoopProgress = BaseScript.CurrentTweener != null ? BaseScript.CurrentTweener.CurrentLoopProgress : 0;
 
-                    GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_On_Color;
+                    GUI.backgroundColor = XTween_Dashboard.TweenConfigData.Liquid_On_Color;
 
                     Repaint();
                 }
                 else
                 {
-                    GUI.backgroundColor = XTween_Dashboard.TweenVisualStyleData.Liquid_Off_Color;
+                    GUI.backgroundColor = XTween_Dashboard.TweenConfigData.Liquid_Off_Color;
 
                     TweenLiquidContent = "已就绪";
 
-                    if (XTween_Dashboard.TweenVisualStyleData.LiquidScanStyle)
+                    if (XTween_Dashboard.TweenConfigData.LiquidScanStyle)
                         TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Scan : LiquidBg_NoExpand_Scan;
                     else
                         TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Pure : LiquidBg_NoExpand_Pure;
@@ -402,7 +402,7 @@ namespace SevenStrikeModules.XTween
                 // 液晶屏肮脏
                 if (!IsExtraExpandPanel)
                 {
-                    if (XTween_Dashboard.TweenVisualStyleData.LiquidDirty)
+                    if (XTween_Dashboard.TweenConfigData.LiquidDirty)
                     {
                         rect_liquid_prim.Set(rect_liquid_set.x + (IsExpandPanel ? (rect_liquid_set.width - LiquidDirty.width - 13) : (rect_liquid_set.width - LiquidDirty_Small.width - 13)), rect_liquid_set.y + 97, IsExpandPanel ? LiquidDirty.width : LiquidDirty_Small.width, IsExpandPanel ? LiquidDirty.height : LiquidDirty_Small.height);
                         XTween_GUI.Gui_TextureBox(rect_liquid_prim, IsExpandPanel ? LiquidDirty : LiquidDirty_Small);
@@ -429,7 +429,7 @@ namespace SevenStrikeModules.XTween
                 if (IsPreviewed || BaseScript.CurrentTweener != null ? BaseScript.CurrentTweener.IsPlaying : false)
                 {
                     // 呼吸效果计算
-                    if (XTween_Dashboard.TweenVisualStyleData.LiquidBlinker == 1)
+                    if (XTween_Dashboard.TweenConfigData.LiquidBlinker == 1)
                     {
                         float alpha = (Mathf.Sin((float)(EditorApplication.timeSinceStartup * LedBreathSpeed) * Mathf.PI) + 1) * 0.5f;
                         TweenLedOnColor = new Color(XTween_Dashboard.Theme_Primary.r, XTween_Dashboard.Theme_Primary.g, XTween_Dashboard.Theme_Primary.b, alpha);
