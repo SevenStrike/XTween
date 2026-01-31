@@ -57,32 +57,31 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((pos, progress, time) =>
                 {
+                    if (rectTransform == null)
+                        return;
                     elapsed += Time.deltaTime;
 
                     if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
                     {
                         elapsed = 0f;
-                        randomDirection = new Vector3(
-                                (float)(rand.NextDouble() * 2 - 1) * randomness,
-                                (float)(rand.NextDouble() * 2 - 1) * randomness,
-                                (float)(rand.NextDouble() * 2 - 1) * randomness
-                        ).normalized;
+                        randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized;
                     }
 
                     float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress);
                     Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount;
 
                     rectTransform.anchoredPosition3D = currentPosition + shakeOffset;
-                })
-                        .OnRewind(() =>
-                        {
-                            rectTransform.anchoredPosition3D = currentPosition;
-                        })
-                        .OnComplete((duration) =>
-                        {
-                            rectTransform.anchoredPosition3D = currentPosition;
-                        })
-                        .SetAutokill(autokill);
+                }).OnRewind(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.anchoredPosition3D = currentPosition;
+                }).OnComplete((duration) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.anchoredPosition3D = currentPosition;
+                }).SetAutokill(autokill);
 
                 return tweener;
             }
@@ -90,35 +89,34 @@ namespace SevenStrikeModules.XTween
             {
                 XTween_Interface tweener;
 
-                tweener = new XTween_Specialized_Vector3(currentPosition, currentPosition, duration * XTween_Dashboard.DurationMultiply)
-                     .OnUpdate((pos, progress, time) =>
-                     {
-                         elapsed += Time.deltaTime;
+                tweener = new XTween_Specialized_Vector3(currentPosition, currentPosition, duration * XTween_Dashboard.DurationMultiply).OnUpdate((pos, progress, time) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    elapsed += Time.deltaTime;
 
-                         if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
-                         {
-                             elapsed = 0f;
-                             randomDirection = new Vector3(
-                                                     (float)(rand.NextDouble() * 2 - 1) * randomness,
-                                                     (float)(rand.NextDouble() * 2 - 1) * randomness,
-                                                     (float)(rand.NextDouble() * 2 - 1) * randomness
-                                             ).normalized;
-                         }
+                    if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                    {
+                        elapsed = 0f;
+                        randomDirection = new Vector3(
+                            (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized;
+                    }
 
-                         float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress);
-                         Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount;
+                    float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress);
+                    Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount;
 
-                         rectTransform.anchoredPosition3D = currentPosition + shakeOffset;
-                     })
-                     .OnRewind(() =>
-                     {
-                         rectTransform.anchoredPosition3D = currentPosition;
-                     })
-                     .OnComplete((duration) =>
-                     {
-                         rectTransform.anchoredPosition3D = currentPosition;
-                     })
-                     .SetAutokill(false);
+                    rectTransform.anchoredPosition3D = currentPosition + shakeOffset;
+                }).OnRewind(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.anchoredPosition3D = currentPosition;
+                }).OnComplete((duration) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.anchoredPosition3D = currentPosition;
+                }).SetAutokill(false);
 
                 return tweener;
             }
@@ -132,6 +130,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="randomness">抖动的随机性（0 到 1 之间，值越大抖动越不规则）</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁，默认为 false</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_ShakePosition(this UnityEngine.RectTransform rectTransform, Vector3 endValue, float vibrato, float randomness, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<Vector3> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -161,22 +164,105 @@ namespace SevenStrikeModules.XTween
                     Vector3 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((pos, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized; } float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress); Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset; }).OnRewind(() => { rectTransform.anchoredPosition3D = currentPosition; }).OnComplete((duration) => { rectTransform.anchoredPosition3D = currentPosition; }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((pos, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized; }
+                            float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress); Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((pos, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized; } float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress); Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset; }).OnRewind(() => { rectTransform.anchoredPosition3D = currentPosition; }).OnComplete((duration) => { rectTransform.anchoredPosition3D = currentPosition; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((pos, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime;
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                            {
+                                elapsed = 0f;
+                                randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized;
+                            }
+                            float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress); Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount;
+                            rectTransform.anchoredPosition3D = currentPosition + shakeOffset;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((pos, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized; } float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress); Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset; }).OnRewind(() => { rectTransform.anchoredPosition3D = currentPosition; }).OnComplete((duration) => { rectTransform.anchoredPosition3D = currentPosition; }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((pos, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime;
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                            {
+                                elapsed = 0f;
+                                randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized;
+                            }
+                            float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress); Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount;
+                            rectTransform.anchoredPosition3D = currentPosition + shakeOffset;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((pos, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized; } float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress); Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset; }).OnRewind(() => { rectTransform.anchoredPosition3D = currentPosition; }).OnComplete((duration) => { rectTransform.anchoredPosition3D = currentPosition; }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((pos, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime;
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                            {
+                                elapsed = 0f;
+                                randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized;
+                            }
+                            float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress);
+                            Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount;
+                            rectTransform.anchoredPosition3D = currentPosition + shakeOffset;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 return tweener;
@@ -191,22 +277,110 @@ namespace SevenStrikeModules.XTween
                     Vector3 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector3(currentPosition, currentPosition, duration * XTween_Dashboard.DurationMultiply).OnUpdate((pos, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized; } float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress); Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset; }).OnRewind(() => { rectTransform.anchoredPosition3D = currentPosition; }).OnComplete((duration) => { rectTransform.anchoredPosition3D = currentPosition; }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(currentPosition, currentPosition, duration * XTween_Dashboard.DurationMultiply).OnUpdate((pos, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime;
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                            {
+                                elapsed = 0f; randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized;
+                            }
+                            float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress);
+                            Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount;
+                            rectTransform.anchoredPosition3D = currentPosition + shakeOffset;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector3(currentPosition, currentPosition, duration * XTween_Dashboard.DurationMultiply).OnUpdate((pos, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized; } float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress); Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset; }).OnRewind(() => { rectTransform.anchoredPosition3D = currentPosition; }).OnComplete((duration) => { rectTransform.anchoredPosition3D = currentPosition; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(currentPosition, currentPosition, duration * XTween_Dashboard.DurationMultiply).OnUpdate((pos, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime;
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                            {
+                                elapsed = 0f;
+                                randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized;
+                            }
+                            float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress);
+                            Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector3(currentPosition, currentPosition, duration * XTween_Dashboard.DurationMultiply).OnUpdate((pos, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized; } float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress); Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset; }).OnRewind(() => { rectTransform.anchoredPosition3D = currentPosition; }).OnComplete((duration) => { rectTransform.anchoredPosition3D = currentPosition; }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(currentPosition, currentPosition, duration * XTween_Dashboard.DurationMultiply).OnUpdate((pos, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime;
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                            {
+                                elapsed = 0f;
+                                randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized;
+                            }
+                            float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress);
+                            Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector3(currentPosition, currentPosition, duration * XTween_Dashboard.DurationMultiply).OnUpdate((pos, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized; } float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress); Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset; }).OnRewind(() => { rectTransform.anchoredPosition3D = currentPosition; }).OnComplete((duration) => { rectTransform.anchoredPosition3D = currentPosition; }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(currentPosition, currentPosition, duration * XTween_Dashboard.DurationMultiply).OnUpdate((pos, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime;
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                            {
+                                elapsed = 0f;
+                                randomDirection = new Vector3((float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness, (float)(rand.NextDouble() * 2 - 1) * randomness).normalized;
+                            }
+                            float shakeAmount = Mathf.Sin(time * vibrato * Mathf.PI * 2) * (1 - progress);
+                            Vector3 shakeOffset = Vector3.Scale(shakeStrength, randomDirection) * shakeAmount; rectTransform.anchoredPosition3D = currentPosition + shakeOffset;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.anchoredPosition3D = currentPosition;
+                        }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 return tweener;
@@ -257,6 +431,8 @@ namespace SevenStrikeModules.XTween
                 })
                 .OnUpdate((rotation, progress, time) =>
                 {
+                    if (rectTransform == null)
+                        return;
                     elapsed += Time.deltaTime;
 
                     if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
@@ -296,14 +472,20 @@ namespace SevenStrikeModules.XTween
                 })
                 .OnRewind(() =>
                 {
+                    if (rectTransform == null)
+                        return;
                     rectTransform.localRotation = originalRotation;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (rectTransform == null)
+                        return;
                     rectTransform.localRotation = originalRotation;
                 })
                 .OnKill(() =>
                 {
+                    if (rectTransform == null)
+                        return;
                     rectTransform.localRotation = originalRotation;
                 })
                 .SetAutokill(autokill);
@@ -328,6 +510,8 @@ namespace SevenStrikeModules.XTween
                         })
                         .OnUpdate((rotation, progress, time) =>
                         {
+                            if (rectTransform == null)
+                                return;
                             elapsed += Time.deltaTime;
 
                             if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
@@ -367,14 +551,20 @@ namespace SevenStrikeModules.XTween
                         })
                         .OnRewind(() =>
                         {
+                            if (rectTransform == null)
+                                return;
                             rectTransform.localRotation = originalRotation;
                         })
                         .OnComplete((duration) =>
                         {
+                            if (rectTransform == null)
+                                return;
                             rectTransform.localRotation = originalRotation;
                         })
                         .OnKill(() =>
                         {
+                            if (rectTransform == null)
+                                return;
                             rectTransform.localRotation = originalRotation;
                         })
                         .SetAutokill(false);
@@ -391,6 +581,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="randomness">抖动的随机性（0 到 1 之间，值越大抖动越不规则）</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁，默认为 false</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_ShakeRotation(this UnityEngine.RectTransform rectTransform, Vector3 strength, float vibrato, float randomness, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<Vector3> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -421,22 +616,200 @@ namespace SevenStrikeModules.XTween
                     Vector3 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; } }).OnUpdate((rotation, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } } Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } } rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z); }).OnRewind(() => { rectTransform.localRotation = originalRotation; }).OnComplete((duration) => { rectTransform.localRotation = originalRotation; }).OnKill(() => { rectTransform.localRotation = originalRotation; }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnStart(() =>
+                        {
+                            for (int i = 0; i < 3; i++)
+                            {
+                                perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized;
+                            }
+                        }).OnUpdate((rotation, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime;
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                            {
+                                elapsed = 0f; for (int i = 0; i < 3; i++)
+                                {
+                                    perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness);
+                                }
+                            }
+                            Vector3 shakeOffset = Vector3.zero;
+                            float decay = 1 - progress;
+                            for (int i = 0; i < 3; i++)
+                            {
+                                if (strength[i] > 0)
+                                {
+                                    float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1;
+                                    shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i];
+                                }
+                            }
+                            rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z);
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; } }).OnUpdate((rotation, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } } Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } } rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z); }).OnRewind(() => { rectTransform.localRotation = originalRotation; }).OnComplete((duration) => { rectTransform.localRotation = originalRotation; }).OnKill(() => { rectTransform.localRotation = originalRotation; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnStart(() =>
+                        {
+                            for (int i = 0; i < 3; i++)
+                            {
+                                perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized;
+                            }
+                        }).OnUpdate((rotation, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime;
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                            {
+                                elapsed = 0f; for (int i = 0; i < 3; i++)
+                                {
+                                    perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness);
+                                }
+                            }
+                            Vector3 shakeOffset = Vector3.zero;
+                            float decay = 1 - progress;
+                            for (int i = 0; i < 3; i++)
+                            {
+                                if (strength[i] > 0)
+                                {
+                                    float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1;
+                                    shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i];
+                                }
+                            }
+                            rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z);
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; } }).OnUpdate((rotation, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } } Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } } rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z); }).OnRewind(() => { rectTransform.localRotation = originalRotation; }).OnComplete((duration) => { rectTransform.localRotation = originalRotation; }).OnKill(() => { rectTransform.localRotation = originalRotation; }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnStart(() =>
+                        {
+                            for (int i = 0; i < 3; i++)
+                            {
+                                perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized;
+                            }
+                        }).OnUpdate((rotation, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime;
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                            {
+                                elapsed = 0f;
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness);
+                                }
+                            }
+                            Vector3 shakeOffset = Vector3.zero;
+                            float decay = 1 - progress;
+                            for (int i = 0; i < 3; i++)
+                            {
+                                if (strength[i] > 0)
+                                {
+                                    float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1;
+                                    shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i];
+                                }
+                            }
+                            rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z);
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; } }).OnUpdate((rotation, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } } Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } } rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z); }).OnRewind(() => { rectTransform.localRotation = originalRotation; }).OnComplete((duration) => { rectTransform.localRotation = originalRotation; }).OnKill(() => { rectTransform.localRotation = originalRotation; }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnStart(() =>
+                        {
+                            for (int i = 0; i < 3; i++)
+                            {
+                                perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized;
+                            }
+                        }).OnUpdate((rotation, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime;
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato)
+                            {
+                                elapsed = 0f;
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness);
+                                }
+                            }
+                            Vector3 shakeOffset = Vector3.zero;
+                            float decay = 1 - progress;
+                            for (int i = 0; i < 3; i++)
+                            {
+                                if (strength[i] > 0)
+                                {
+                                    float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1;
+                                    shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i];
+                                }
+                            }
+                            rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z);
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 return tweener;
@@ -452,22 +825,126 @@ namespace SevenStrikeModules.XTween
                     Vector3 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; } }).OnUpdate((rotation, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } } Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } } rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z); }).OnRewind(() => { rectTransform.localRotation = originalRotation; }).OnComplete((duration) => { rectTransform.localRotation = originalRotation; }).OnKill(() => { rectTransform.localRotation = originalRotation; }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() =>
+                        {
+                            for (int i = 0; i < 3; i++) { perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; }
+                        }).OnUpdate((rotation, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } }
+                            Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } }
+                            rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z);
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        })
+                            .OnKill(() =>
+                            {
+                                if (rectTransform == null)
+                                    return;
+                                rectTransform.localRotation = originalRotation;
+                            }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; } }).OnUpdate((rotation, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } } Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } } rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z); }).OnRewind(() => { rectTransform.localRotation = originalRotation; }).OnComplete((duration) => { rectTransform.localRotation = originalRotation; }).OnKill(() => { rectTransform.localRotation = originalRotation; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() =>
+                        {
+                            for (int i = 0; i < 3; i++) { perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; }
+                        }).OnUpdate((rotation, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } }
+                            Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } }
+                            rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z);
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; } }).OnUpdate((rotation, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } } Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } } rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z); }).OnRewind(() => { rectTransform.localRotation = originalRotation; }).OnComplete((duration) => { rectTransform.localRotation = originalRotation; }).OnKill(() => { rectTransform.localRotation = originalRotation; }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() =>
+                        {
+                            for (int i = 0; i < 3; i++) { perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; }
+                        }).OnUpdate((rotation, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } }
+                            Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } }
+                            rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z);
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; } }).OnUpdate((rotation, progress, time) => { elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } } Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } } rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z); }).OnRewind(() => { rectTransform.localRotation = originalRotation; }).OnComplete((duration) => { rectTransform.localRotation = originalRotation; }).OnKill(() => { rectTransform.localRotation = originalRotation; }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() =>
+                        {
+                            for (int i = 0; i < 3; i++)
+                            {
+                                perAxisRandomness[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized;
+                            }
+                        }).OnUpdate((rotation, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / vibrato) { elapsed = 0f; for (int i = 0; i < 3; i++) { perAxisRandomness[i] = Vector3.Slerp(perAxisRandomness[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness); } }
+                            Vector3 shakeOffset = Vector3.zero; float decay = 1 - progress; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { float noise = Mathf.PerlinNoise(time * vibrato * 0.5f, i * 10f) * 2 - 1; shakeOffset[i] = strength[i] * noise * decay * perAxisRandomness[i][i]; } }
+                            rectTransform.localRotation = Quaternion.Euler(originalEuler.x + shakeOffset.x, originalEuler.y + shakeOffset.y, originalEuler.z + shakeOffset.z);
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localRotation = originalRotation;
+                        }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 return tweener;
@@ -509,65 +986,52 @@ namespace SevenStrikeModules.XTween
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        perAxisDirections[i] = new Vector3(
-                                (float)rand.NextDouble() * 2 - 1,
-                                (float)rand.NextDouble() * 2 - 1,
-                                (float)rand.NextDouble() * 2 - 1
-                        ).normalized;
-
+                        perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized;
                         perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f;
                     }
-                })
-                        .OnUpdate((scale, progress, time) =>
+                }).OnUpdate((scale, progress, time) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    elapsed += Time.deltaTime;
+                    float decay = fadeOut ? (1 - progress) : 1f;
+
+                    Vector3 scaleOffset = Vector3.zero;
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (strength[i] > 0)
                         {
-                            elapsed += Time.deltaTime;
-                            float decay = fadeOut ? (1 - progress) : 1f;
-
-                            Vector3 scaleOffset = Vector3.zero;
-
-                            for (int i = 0; i < 3; i++)
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i]))
                             {
-                                if (strength[i] > 0)
-                                {
-                                    if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i]))
-                                    {
-                                        elapsed = 0f;
-                                        perAxisDirections[i] = Vector3.Lerp(
-                                                                perAxisDirections[i],
-                                                                new Vector3(
-                                                                        (float)(rand.NextDouble() * 2 - 1),
-                                                                        (float)(rand.NextDouble() * 2 - 1),
-                                                                        (float)(rand.NextDouble() * 2 - 1)
-                                                                ).normalized,
-                                                                randomness
-                                                        ).normalized;
-                                    }
-
-                                    float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]);
-
-                                    scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i];
-                                }
+                                elapsed = 0f;
+                                perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized;
                             }
 
-                            rectTransform.localScale = new Vector3(
-                                                    Mathf.Max(0.1f, originalScale.x + scaleOffset.x),
-                                                    Mathf.Max(0.1f, originalScale.y + scaleOffset.y),
-                                                    Mathf.Max(0.1f, originalScale.z + scaleOffset.z)
-                                            );
-                        })
-                        .OnRewind(() =>
-                        {
-                            rectTransform.localScale = originalScale;
-                        })
-                        .OnComplete((duration) =>
-                        {
-                            rectTransform.localScale = originalScale;
-                        })
-                        .OnKill(() =>
-                        {
-                            rectTransform.localScale = originalScale;
-                        })
-                        .SetAutokill(autokill);
+                            float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]);
+
+                            scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i];
+                        }
+                    }
+
+                    rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z)
+                                    );
+                }).OnRewind(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.localScale = originalScale;
+                }).OnComplete((duration) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.localScale = originalScale;
+                }).OnKill(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.localScale = originalScale;
+                }).SetAutokill(autokill);
 
                 return tweener;
             }
@@ -575,70 +1039,54 @@ namespace SevenStrikeModules.XTween
             {
                 XTween_Interface tweener;
 
-                tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply)
-                        .OnStart(() =>
+                tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() =>
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized;
+                        perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f;
+                    }
+                }).OnUpdate((scale, progress, time) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    elapsed += Time.deltaTime;
+                    float decay = fadeOut ? (1 - progress) : 1f;
+
+                    Vector3 scaleOffset = Vector3.zero;
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (strength[i] > 0)
                         {
-                            for (int i = 0; i < 3; i++)
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i]))
                             {
-                                perAxisDirections[i] = new Vector3(
-                                                        (float)rand.NextDouble() * 2 - 1,
-                                                        (float)rand.NextDouble() * 2 - 1,
-                                                        (float)rand.NextDouble() * 2 - 1
-                                                ).normalized;
-
-                                perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f;
-                            }
-                        })
-                        .OnUpdate((scale, progress, time) =>
-                        {
-                            elapsed += Time.deltaTime;
-                            float decay = fadeOut ? (1 - progress) : 1f;
-
-                            Vector3 scaleOffset = Vector3.zero;
-
-                            for (int i = 0; i < 3; i++)
-                            {
-                                if (strength[i] > 0)
-                                {
-                                    if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i]))
-                                    {
-                                        elapsed = 0f;
-                                        perAxisDirections[i] = Vector3.Lerp(
-                                                                perAxisDirections[i],
-                                                                new Vector3(
-                                                                        (float)(rand.NextDouble() * 2 - 1),
-                                                                        (float)(rand.NextDouble() * 2 - 1),
-                                                                        (float)(rand.NextDouble() * 2 - 1)
-                                                                ).normalized,
-                                                                randomness
-                                                        ).normalized;
-                                    }
-
-                                    float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]);
-
-                                    scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i];
-                                }
+                                elapsed = 0f;
+                                perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized;
                             }
 
-                            rectTransform.localScale = new Vector3(
-                                                    Mathf.Max(0.1f, originalScale.x + scaleOffset.x),
-                                                    Mathf.Max(0.1f, originalScale.y + scaleOffset.y),
-                                                    Mathf.Max(0.1f, originalScale.z + scaleOffset.z)
-                                            );
-                        })
-                        .OnRewind(() =>
-                        {
-                            rectTransform.localScale = originalScale;
-                        })
-                        .OnComplete((duration) =>
-                        {
-                            rectTransform.localScale = originalScale;
-                        })
-                        .OnKill(() =>
-                        {
-                            rectTransform.localScale = originalScale;
-                        })
-                        .SetAutokill(false);
+                            float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]);
+                            scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i];
+                        }
+                    }
+
+                    rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z));
+                }).OnRewind(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.localScale = originalScale;
+                }).OnComplete((duration) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.localScale = originalScale;
+                }).OnKill(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.localScale = originalScale;
+                }).SetAutokill(false);
 
                 return tweener;
             }
@@ -653,6 +1101,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="fadeOut">是否在动画结束时逐渐减弱抖动</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁，默认为 false</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_ShakeScale(this UnityEngine.RectTransform rectTransform, Vector3 strength, float vibrato, float randomness, bool fadeOut, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<Vector3> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -682,22 +1135,106 @@ namespace SevenStrikeModules.XTween
                     Vector3 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z)); }).OnRewind(() => { rectTransform.localScale = originalScale; }).OnComplete((duration) => { rectTransform.localScale = originalScale; }).OnKill(() => { rectTransform.localScale = originalScale; }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z)); }).OnRewind(() => { rectTransform.localScale = originalScale; }).OnComplete((duration) => { rectTransform.localScale = originalScale; }).OnKill(() => { rectTransform.localScale = originalScale; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z)); }).OnRewind(() => { rectTransform.localScale = originalScale; }).OnComplete((duration) => { rectTransform.localScale = originalScale; }).OnKill(() => { rectTransform.localScale = originalScale; }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z)); }).OnRewind(() => { rectTransform.localScale = originalScale; }).OnComplete((duration) => { rectTransform.localScale = originalScale; }).OnKill(() => { rectTransform.localScale = originalScale; }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 return tweener;
@@ -713,22 +1250,101 @@ namespace SevenStrikeModules.XTween
                     Vector3 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z)); }).OnRewind(() => { rectTransform.localScale = originalScale; }).OnComplete((duration) => { rectTransform.localScale = originalScale; }).OnKill(() => { rectTransform.localScale = originalScale; }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z)); }).OnRewind(() => { rectTransform.localScale = originalScale; }).OnComplete((duration) => { rectTransform.localScale = originalScale; }).OnKill(() => { rectTransform.localScale = originalScale; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnComplete((duration) => { rectTransform.localScale = originalScale; }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z)); }).OnRewind(() => { rectTransform.localScale = originalScale; }).OnComplete((duration) => { rectTransform.localScale = originalScale; }).OnKill(() => { rectTransform.localScale = originalScale; }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z)); }).OnRewind(() => { rectTransform.localScale = originalScale; }).OnComplete((duration) => { rectTransform.localScale = originalScale; }).OnKill(() => { rectTransform.localScale = originalScale; }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector3(Vector3.zero, Vector3.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 3; i++) { perAxisDirections[i] = new Vector3((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((scale, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector3 scaleOffset = Vector3.zero; for (int i = 0; i < 3; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector3.Lerp(perAxisDirections[i], new Vector3((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); scaleOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.localScale = new Vector3(Mathf.Max(0.1f, originalScale.x + scaleOffset.x), Mathf.Max(0.1f, originalScale.y + scaleOffset.y), Mathf.Max(0.1f, originalScale.z + scaleOffset.z));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.localScale = originalScale;
+                        }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 return tweener;
@@ -770,62 +1386,51 @@ namespace SevenStrikeModules.XTween
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        perAxisDirections[i] = new Vector2(
-                                (float)rand.NextDouble() * 2 - 1,
-                                (float)rand.NextDouble() * 2 - 1
-                        ).normalized;
-
+                        perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized;
                         perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f;
                     }
-                })
-                        .OnUpdate((size, progress, time) =>
+                }).OnUpdate((size, progress, time) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    elapsed += Time.deltaTime;
+                    float decay = fadeOut ? (1 - progress) : 1f;
+
+                    Vector2 sizeOffset = Vector2.zero;
+
+                    for (int i = 0; i < 2; i++)
+                    {
+                        if (strength[i] > 0)
                         {
-                            elapsed += Time.deltaTime;
-                            float decay = fadeOut ? (1 - progress) : 1f;
-
-                            Vector2 sizeOffset = Vector2.zero;
-
-                            for (int i = 0; i < 2; i++)
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i]))
                             {
-                                if (strength[i] > 0)
-                                {
-                                    if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i]))
-                                    {
-                                        elapsed = 0f;
-                                        perAxisDirections[i] = Vector2.Lerp(
-                                                                                    perAxisDirections[i],
-                                                                                    new Vector2(
-                                                                                            (float)(rand.NextDouble() * 2 - 1),
-                                                                                            (float)(rand.NextDouble() * 2 - 1)
-                                                                                    ).normalized,
-                                                                                    randomness
-                                                                            ).normalized;
-                                    }
-
-                                    float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]);
-
-                                    sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i];
-                                }
+                                elapsed = 0f;
+                                perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized;
                             }
 
-                            rectTransform.sizeDelta = new Vector2(
-                                                                        Mathf.Max(1f, originalSize.x + sizeOffset.x),
-                                                                        Mathf.Max(1f, originalSize.y + sizeOffset.y)
-                                                                );
-                        })
-                        .OnRewind(() =>
-                        {
-                            rectTransform.sizeDelta = originalSize;
-                        })
-                        .OnComplete((duration) =>
-                        {
-                            rectTransform.sizeDelta = originalSize;
-                        })
-                        .OnKill(() =>
-                        {
-                            rectTransform.sizeDelta = originalSize;
-                        })
-                        .SetAutokill(autokill);
+                            float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]);
+
+                            sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i];
+                        }
+                    }
+
+                    rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y));
+                }).OnRewind(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.sizeDelta = originalSize;
+                }).OnComplete((duration) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.sizeDelta = originalSize;
+                }).OnKill(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.sizeDelta = originalSize;
+                }).SetAutokill(autokill);
 
                 return tweener;
             }
@@ -833,67 +1438,55 @@ namespace SevenStrikeModules.XTween
             {
                 XTween_Interface tweener;
 
-                tweener = new XTween_Specialized_Vector2(Vector2.zero, Vector2.zero, duration * XTween_Dashboard.DurationMultiply)
-                        .OnStart(() =>
+                tweener = new XTween_Specialized_Vector2(Vector2.zero, Vector2.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() =>
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized;
+                        perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f;
+                    }
+                }).OnUpdate((size, progress, time) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    elapsed += Time.deltaTime;
+                    float decay = fadeOut ? (1 - progress) : 1f;
+
+                    Vector2 sizeOffset = Vector2.zero;
+
+                    for (int i = 0; i < 2; i++)
+                    {
+                        if (strength[i] > 0)
                         {
-                            for (int i = 0; i < 2; i++)
+                            if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i]))
                             {
-                                perAxisDirections[i] = new Vector2(
-                                                        (float)rand.NextDouble() * 2 - 1,
-                                                        (float)rand.NextDouble() * 2 - 1
-                                                ).normalized;
-
-                                perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f;
-                            }
-                        })
-                        .OnUpdate((size, progress, time) =>
-                        {
-                            elapsed += Time.deltaTime;
-                            float decay = fadeOut ? (1 - progress) : 1f;
-
-                            Vector2 sizeOffset = Vector2.zero;
-
-                            for (int i = 0; i < 2; i++)
-                            {
-                                if (strength[i] > 0)
-                                {
-                                    if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i]))
-                                    {
-                                        elapsed = 0f;
-                                        perAxisDirections[i] = Vector2.Lerp(
-                                                                perAxisDirections[i],
-                                                                new Vector2(
-                                                                        (float)(rand.NextDouble() * 2 - 1),
-                                                                        (float)(rand.NextDouble() * 2 - 1)
-                                                                ).normalized,
-                                                                randomness
-                                                        ).normalized;
-                                    }
-
-                                    float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]);
-
-                                    sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i];
-                                }
+                                elapsed = 0f;
+                                perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized;
                             }
 
-                            rectTransform.sizeDelta = new Vector2(
-                                                    Mathf.Max(1f, originalSize.x + sizeOffset.x),
-                                                    Mathf.Max(1f, originalSize.y + sizeOffset.y)
-                                            );
-                        })
-                        .OnRewind(() =>
-                        {
-                            rectTransform.sizeDelta = originalSize;
-                        })
-                        .OnComplete((duration) =>
-                        {
-                            rectTransform.sizeDelta = originalSize;
-                        })
-                        .OnKill(() =>
-                        {
-                            rectTransform.sizeDelta = originalSize;
-                        })
-                        .SetAutokill(false);
+                            float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]);
+
+                            sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i];
+                        }
+                    }
+
+                    rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y));
+                }).OnRewind(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.sizeDelta = originalSize;
+                }).OnComplete((duration) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.sizeDelta = originalSize;
+                }).OnKill(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.sizeDelta = originalSize;
+                }).SetAutokill(false);
 
                 return tweener;
             }
@@ -908,6 +1501,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="fadeOut">是否在动画结束时逐渐减弱抖动</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁，默认为 false</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_ShakeSize(this UnityEngine.RectTransform rectTransform, Vector2 strength, float vibrato, float randomness, bool fadeOut, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<Vector3> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -937,22 +1535,106 @@ namespace SevenStrikeModules.XTween
                     Vector2 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y)); }).OnRewind(() => { rectTransform.sizeDelta = originalSize; }).OnComplete((duration) => { rectTransform.sizeDelta = originalSize; }).OnKill(() => { rectTransform.sizeDelta = originalSize; }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y)); }).OnRewind(() => { rectTransform.sizeDelta = originalSize; }).OnComplete((duration) => { rectTransform.sizeDelta = originalSize; }).OnKill(() => { rectTransform.sizeDelta = originalSize; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y)); }).OnRewind(() => { rectTransform.sizeDelta = originalSize; }).OnComplete((duration) => { rectTransform.sizeDelta = originalSize; }).OnKill(() => { rectTransform.sizeDelta = originalSize; }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y)); }).OnRewind(() => { rectTransform.sizeDelta = originalSize; }).OnComplete((duration) => { rectTransform.sizeDelta = originalSize; }).OnKill(() => { rectTransform.sizeDelta = originalSize; }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 return tweener;
@@ -968,22 +1650,106 @@ namespace SevenStrikeModules.XTween
                     Vector2 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector2(Vector2.zero, Vector2.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y)); }).OnRewind(() => { rectTransform.sizeDelta = originalSize; }).OnComplete((duration) => { rectTransform.sizeDelta = originalSize; }).OnKill(() => { rectTransform.sizeDelta = originalSize; }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector2(Vector2.zero, Vector2.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector2(Vector2.zero, Vector2.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y)); }).OnRewind(() => { rectTransform.sizeDelta = originalSize; }).OnComplete((duration) => { rectTransform.sizeDelta = originalSize; }).OnKill(() => { rectTransform.sizeDelta = originalSize; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector2(Vector2.zero, Vector2.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector2(Vector2.zero, Vector2.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y)); }).OnRewind(() => { rectTransform.sizeDelta = originalSize; }).OnComplete((duration) => { rectTransform.sizeDelta = originalSize; }).OnKill(() => { rectTransform.sizeDelta = originalSize; }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector2(Vector2.zero, Vector2.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector2(Vector2.zero, Vector2.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) => { elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } } rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y)); }).OnRewind(() => { rectTransform.sizeDelta = originalSize; }).OnComplete((duration) => { rectTransform.sizeDelta = originalSize; }).OnKill(() => { rectTransform.sizeDelta = originalSize; }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector2(Vector2.zero, Vector2.zero, duration * XTween_Dashboard.DurationMultiply).OnStart(() => { for (int i = 0; i < 2; i++) { perAxisDirections[i] = new Vector2((float)rand.NextDouble() * 2 - 1, (float)rand.NextDouble() * 2 - 1).normalized; perAxisSpeeds[i] = 0.5f + (float)rand.NextDouble() * 0.5f; } }).OnUpdate((size, progress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            elapsed += Time.deltaTime; float decay = fadeOut ? (1 - progress) : 1f; Vector2 sizeOffset = Vector2.zero; for (int i = 0; i < 2; i++) { if (strength[i] > 0) { if (elapsed >= (duration * XTween_Dashboard.DurationMultiply) / (vibrato * perAxisSpeeds[i])) { elapsed = 0f; perAxisDirections[i] = Vector2.Lerp(perAxisDirections[i], new Vector2((float)(rand.NextDouble() * 2 - 1), (float)(rand.NextDouble() * 2 - 1)).normalized, randomness).normalized; } float wave = Mathf.Sin(time * vibrato * Mathf.PI * 2 * perAxisSpeeds[i]); sizeOffset[i] = strength[i] * wave * decay * perAxisDirections[i][i]; } }
+                            rectTransform.sizeDelta = new Vector2(Mathf.Max(1f, originalSize.x + sizeOffset.x), Mathf.Max(1f, originalSize.y + sizeOffset.y));
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).OnKill(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = originalSize;
+                        }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 return tweener;

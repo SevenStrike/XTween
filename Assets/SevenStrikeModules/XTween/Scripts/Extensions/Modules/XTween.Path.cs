@@ -63,6 +63,8 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnStart(() =>
                 {
+                    if (TweenPath == null)
+                        return;
                     TweenPath.IsWorldMode = true;
                     TweenPath.SaveStartPosition();
 
@@ -71,6 +73,9 @@ namespace SevenStrikeModules.XTween
                 })
                .OnUpdate((pos, linearProgress, time) =>
                {
+                   if (TweenPath == null)
+                       return;
+
                    // 计算缓动进度
                    float easedProgress = tweener.CalculateEasedProgress(linearProgress);
 
@@ -84,29 +89,37 @@ namespace SevenStrikeModules.XTween
                    float pathProgress = Mathf.Clamp01(easedProgress * TweenPath.PathLimitePercent);
 
                    // 获取路径位置
-                   Vector3 currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, pathProgress);
-                   rectTransform.anchoredPosition3D = currentPos;
-                   TweenPath.PathProgress = pathProgress;
+                   Vector3 currentPos = Vector3.zero;
+                   if (TweenPath != null)
+                       currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, pathProgress);
+                   if (rectTransform != null)
+                       rectTransform.anchoredPosition3D = currentPos;
+
+                   if (TweenPath != null)
+                       TweenPath.PathProgress = pathProgress;
 
                    // 传递路径运动位置
-                   if (TweenPath.act_on_pathMove != null)
+                   if (TweenPath != null && TweenPath.act_on_pathMove != null)
                        TweenPath.act_on_pathMove(currentPos);
 
                    // 传递路径运动进度值
-                   if (TweenPath.act_on_pathProgress != null)
+                   if (TweenPath != null && TweenPath.act_on_pathProgress != null)
                        TweenPath.act_on_pathProgress(pathProgress);
 
                    // === 新增：旋转控制（支持任意轴）===
                    if (pathOrientation != XTween_PathOrientation.无)
                    {
                        Vector3 lookDirection = Vector3.zero;
-                       Vector3 worldPosition = rectTransform.position;
+                       Vector3 worldPosition = Vector3.zero;
+                       if (rectTransform != null)
+                           worldPosition = rectTransform.position;
 
                        switch (pathOrientation)
                        {
                            case XTween_PathOrientation.跟随路径:
                                // 计算路径切线方向
-                               lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
+                               if (TweenPath != null)
+                                   lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
                                // 根据指定轴设置旋转
                                if (lookDirection != Vector3.zero)
                                {
@@ -147,7 +160,7 @@ namespace SevenStrikeModules.XTween
                                    rectTransform.rotation = targetRotation;
 
                                    // 传递路径运动旋转朝向
-                                   if (TweenPath.act_on_pathOrientation != null)
+                                   if (TweenPath != null && TweenPath.act_on_pathOrientation != null)
                                        TweenPath.act_on_pathOrientation(targetRotation);
                                }
                                break;
@@ -155,7 +168,8 @@ namespace SevenStrikeModules.XTween
                                if (TweenPath.LookAtObject != null)
                                {
                                    // 使用世界坐标计算方向
-                                   lookDirection = TweenPath.LookAtObject.transform.position - worldPosition;
+                                   if (TweenPath != null)
+                                       lookDirection = TweenPath.LookAtObject.transform.position - worldPosition;
 
                                    // 根据指定轴设置旋转
                                    if (lookDirection != Vector3.zero)
@@ -164,39 +178,47 @@ namespace SevenStrikeModules.XTween
                                        switch (pathOrientationVector)
                                        {
                                            case XTween_PathOrientationVector.正向X轴:
-                                               rectTransform.right = lookDirection.normalized;
+                                               if (rectTransform != null)
+                                                   rectTransform.right = lookDirection.normalized;
                                                break;
 
                                            case XTween_PathOrientationVector.正向Y轴:
-                                               rectTransform.up = lookDirection.normalized;
+                                               if (rectTransform != null)
+                                                   rectTransform.up = lookDirection.normalized;
                                                break;
 
                                            case XTween_PathOrientationVector.正向Z轴:
-                                               rectTransform.forward = lookDirection.normalized;
+                                               if (rectTransform != null)
+                                                   rectTransform.forward = lookDirection.normalized;
                                                break;
 
                                            case XTween_PathOrientationVector.反向X轴:
-                                               rectTransform.right = -lookDirection.normalized;
+                                               if (rectTransform != null)
+                                                   rectTransform.right = -lookDirection.normalized;
                                                break;
 
                                            case XTween_PathOrientationVector.反向Y轴:
-                                               rectTransform.up = -lookDirection.normalized;
+                                               if (rectTransform != null)
+                                                   rectTransform.up = -lookDirection.normalized;
                                                break;
 
                                            case XTween_PathOrientationVector.反向Z轴:
-                                               rectTransform.forward = -lookDirection.normalized;
+                                               if (rectTransform != null)
+                                                   rectTransform.forward = -lookDirection.normalized;
                                                break;
                                        }
 
                                        // 传递路径运动旋转朝向
-                                       if (TweenPath.act_on_pathLookatOrientation_withObject != null)
-                                           TweenPath.act_on_pathLookatOrientation_withObject(rectTransform.localEulerAngles);
+                                       if (TweenPath != null && TweenPath.act_on_pathLookatOrientation_withObject != null)
+                                           if (rectTransform != null)
+                                               TweenPath.act_on_pathLookatOrientation_withObject(rectTransform.localEulerAngles);
                                    }
                                }
                                break;
                            case XTween_PathOrientation.注视目标位置:
                                // 使用世界坐标计算方向
-                               lookDirection = TweenPath.LookAtPosition - worldPosition;
+                               if (TweenPath != null)
+                                   lookDirection = TweenPath.LookAtPosition - worldPosition;
 
                                // 根据指定轴设置旋转
                                if (lookDirection != Vector3.zero)
@@ -205,33 +227,40 @@ namespace SevenStrikeModules.XTween
                                    switch (pathOrientationVector)
                                    {
                                        case XTween_PathOrientationVector.正向X轴:
-                                           rectTransform.right = lookDirection.normalized;
+                                           if (rectTransform != null)
+                                               rectTransform.right = lookDirection.normalized;
                                            break;
 
                                        case XTween_PathOrientationVector.正向Y轴:
-                                           rectTransform.up = lookDirection.normalized;
+                                           if (rectTransform != null)
+                                               rectTransform.up = lookDirection.normalized;
                                            break;
 
                                        case XTween_PathOrientationVector.正向Z轴:
-                                           rectTransform.forward = lookDirection.normalized;
+                                           if (rectTransform != null)
+                                               rectTransform.forward = lookDirection.normalized;
                                            break;
 
                                        case XTween_PathOrientationVector.反向X轴:
-                                           rectTransform.right = -lookDirection.normalized;
+                                           if (rectTransform != null)
+                                               rectTransform.right = -lookDirection.normalized;
                                            break;
 
                                        case XTween_PathOrientationVector.反向Y轴:
-                                           rectTransform.up = -lookDirection.normalized;
+                                           if (rectTransform != null)
+                                               rectTransform.up = -lookDirection.normalized;
                                            break;
 
                                        case XTween_PathOrientationVector.反向Z轴:
-                                           rectTransform.forward = -lookDirection.normalized;
+                                           if (rectTransform != null)
+                                               rectTransform.forward = -lookDirection.normalized;
                                            break;
                                    }
 
                                    // 传递路径运动旋转朝向
-                                   if (TweenPath.act_on_pathLookatOrientation_withPosition != null)
-                                       TweenPath.act_on_pathLookatOrientation_withPosition(rectTransform.localEulerAngles);
+                                   if (TweenPath != null && TweenPath.act_on_pathLookatOrientation_withPosition != null)
+                                       if (rectTransform != null)
+                                           TweenPath.act_on_pathLookatOrientation_withPosition(rectTransform.localEulerAngles);
                                }
                                break;
                        }
@@ -239,6 +268,9 @@ namespace SevenStrikeModules.XTween
                })
                .OnComplete((duration) =>
                {
+                   if (TweenPath == null)
+                       return;
+
                    TweenPath.IsWorldMode = true;
                    float finalProgress;
 
@@ -262,6 +294,8 @@ namespace SevenStrikeModules.XTween
                })
                .OnRewind(() =>
                {
+                   if (TweenPath == null)
+                       return;
                    TweenPath.IsWorldMode = true;
                    TweenPath.RestoreStartPosition();
                    TweenPath.PathProgress = 0;
@@ -269,6 +303,8 @@ namespace SevenStrikeModules.XTween
                })
                .OnKill(() =>
                {
+                   if (TweenPath == null)
+                       return;
                    TweenPath.IsWorldMode = false;
                    TweenPath.RestoreStartPosition();
                    TweenPath.PathProgress = 0;
@@ -284,6 +320,8 @@ namespace SevenStrikeModules.XTween
                 tweener = new XTween_Specialized_Vector3(startValue, processedPath[^1], duration * XTween_Dashboard.DurationMultiply)
                     .OnStart(() =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = true;
                         TweenPath.SaveStartPosition();
 
@@ -292,6 +330,9 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnUpdate((pos, linearProgress, time) =>
                     {
+                        if (TweenPath == null)
+                            return;
+
                         // 计算缓动进度
                         float easedProgress;
                         if (tweener.UseCustomEaseCurve && tweener.CustomEaseCurve != null)
@@ -309,30 +350,38 @@ namespace SevenStrikeModules.XTween
                             easedProgress = 1f - easedProgress;
                         }
 
-                        TweenPath.PathProgress = Mathf.Clamp01(easedProgress * TweenPath.PathLimitePercent);
+                        if (TweenPath != null)
+                            TweenPath.PathProgress = Mathf.Clamp01(easedProgress * TweenPath.PathLimitePercent);
 
-                        Vector3 currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, TweenPath.PathProgress);
-                        rectTransform.anchoredPosition3D = currentPos;
+                        Vector3 currentPos = Vector3.zero;
+                        if (TweenPath != null)
+                            currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, TweenPath.PathProgress);
+
+                        if (rectTransform != null)
+                            rectTransform.anchoredPosition3D = currentPos;
 
                         // 传递路径运动位置
-                        if (TweenPath.act_on_pathMove != null)
+                        if (TweenPath != null && TweenPath.act_on_pathMove != null)
                             TweenPath.act_on_pathMove(currentPos);
 
                         // 传递路径运动进度值
-                        if (TweenPath.act_on_pathProgress != null)
+                        if (TweenPath != null && TweenPath.act_on_pathProgress != null)
                             TweenPath.act_on_pathProgress(TweenPath.PathProgress);
 
                         // === 新增：旋转控制（支持任意轴）===
                         if (pathOrientation != XTween_PathOrientation.无)
                         {
                             Vector3 lookDirection = Vector3.zero;
-                            Vector3 worldPosition = rectTransform.position;
+                            Vector3 worldPosition = Vector3.zero;
+                            if (rectTransform != null)
+                                worldPosition = rectTransform.position;
 
                             switch (pathOrientation)
                             {
                                 case XTween_PathOrientation.跟随路径:
                                     // 计算路径切线方向
-                                    lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
+                                    if (TweenPath != null)
+                                        lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
                                     // 根据指定轴设置旋转
                                     if (lookDirection != Vector3.zero)
                                     {
@@ -370,18 +419,20 @@ namespace SevenStrikeModules.XTween
                                                 break;
                                         }
 
-                                        rectTransform.rotation = targetRotation;
+                                        if (rectTransform != null)
+                                            rectTransform.rotation = targetRotation;
 
                                         // 传递路径运动旋转朝向
-                                        if (TweenPath.act_on_pathOrientation != null)
+                                        if (TweenPath != null && TweenPath.act_on_pathOrientation != null)
                                             TweenPath.act_on_pathOrientation(targetRotation);
                                     }
                                     break;
                                 case XTween_PathOrientation.注视目标物体:
-                                    if (TweenPath.LookAtObject != null)
+                                    if (TweenPath != null && TweenPath.LookAtObject != null)
                                     {
                                         // 使用世界坐标计算方向
-                                        lookDirection = TweenPath.LookAtObject.transform.position - worldPosition;
+                                        if (TweenPath != null)
+                                            lookDirection = TweenPath.LookAtObject.transform.position - worldPosition;
 
                                         // 根据指定轴设置旋转
                                         if (lookDirection != Vector3.zero)
@@ -390,39 +441,42 @@ namespace SevenStrikeModules.XTween
                                             switch (pathOrientationVector)
                                             {
                                                 case XTween_PathOrientationVector.正向X轴:
-                                                    rectTransform.right = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.right = lookDirection.normalized;
                                                     break;
-
                                                 case XTween_PathOrientationVector.正向Y轴:
-                                                    rectTransform.up = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.up = lookDirection.normalized;
                                                     break;
-
                                                 case XTween_PathOrientationVector.正向Z轴:
-                                                    rectTransform.forward = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.forward = lookDirection.normalized;
                                                     break;
-
                                                 case XTween_PathOrientationVector.反向X轴:
-                                                    rectTransform.right = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.right = -lookDirection.normalized;
                                                     break;
-
                                                 case XTween_PathOrientationVector.反向Y轴:
-                                                    rectTransform.up = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.up = -lookDirection.normalized;
                                                     break;
-
                                                 case XTween_PathOrientationVector.反向Z轴:
-                                                    rectTransform.forward = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.forward = -lookDirection.normalized;
                                                     break;
                                             }
 
                                             // 传递路径运动旋转朝向
-                                            if (TweenPath.act_on_pathLookatOrientation_withObject != null)
-                                                TweenPath.act_on_pathLookatOrientation_withObject(rectTransform.localEulerAngles);
+                                            if (TweenPath != null && TweenPath.act_on_pathLookatOrientation_withObject != null)
+                                                if (rectTransform != null)
+                                                    TweenPath.act_on_pathLookatOrientation_withObject(rectTransform.localEulerAngles);
                                         }
                                     }
                                     break;
                                 case XTween_PathOrientation.注视目标位置:
                                     // 使用世界坐标计算方向
-                                    lookDirection = TweenPath.LookAtPosition - worldPosition;
+                                    if (TweenPath != null)
+                                        lookDirection = TweenPath.LookAtPosition - worldPosition;
 
                                     // 根据指定轴设置旋转
                                     if (lookDirection != Vector3.zero)
@@ -431,33 +485,40 @@ namespace SevenStrikeModules.XTween
                                         switch (pathOrientationVector)
                                         {
                                             case XTween_PathOrientationVector.正向X轴:
-                                                rectTransform.right = lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.right = lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.正向Y轴:
-                                                rectTransform.up = lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.up = lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.正向Z轴:
-                                                rectTransform.forward = lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.forward = lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.反向X轴:
-                                                rectTransform.right = -lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.right = -lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.反向Y轴:
-                                                rectTransform.up = -lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.up = -lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.反向Z轴:
-                                                rectTransform.forward = -lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.forward = -lookDirection.normalized;
                                                 break;
                                         }
 
                                         // 传递路径运动旋转朝向
-                                        if (TweenPath.act_on_pathLookatOrientation_withPosition != null)
-                                            TweenPath.act_on_pathLookatOrientation_withPosition(rectTransform.localEulerAngles);
+                                        if (TweenPath != null && TweenPath.act_on_pathLookatOrientation_withPosition != null)
+                                            if (rectTransform != null)
+                                                TweenPath.act_on_pathLookatOrientation_withPosition(rectTransform.localEulerAngles);
                                     }
                                     break;
                             }
@@ -465,6 +526,9 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnComplete((duration) =>
                     {
+                        if (TweenPath == null)
+                            return;
+
                         TweenPath.IsWorldMode = true;
                         float finalProgress;
 
@@ -488,6 +552,8 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnRewind(() =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = true;
                         TweenPath.RestoreStartPosition();
                         TweenPath.PathProgress = 0;
@@ -495,6 +561,8 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnKill(() =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = false;
                         TweenPath.RestoreStartPosition();
                         TweenPath.PathProgress = 0;
@@ -515,6 +583,9 @@ namespace SevenStrikeModules.XTween
         /// <param name="pathOrientation">路径方向类型，决定对象在移动过程中的旋转行为</param>
         /// <param name="pathOrientationVector">路径方向向量，指定对象旋转时对齐的轴向</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
+        /// <param name="easeMode">缓动模式</param>        
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_PathMove(this UnityEngine.RectTransform rectTransform, XTween_PathTool TweenPath, float duration, XTween_PathOrientation pathOrientation = XTween_PathOrientation.无, XTween_PathOrientationVector pathOrientationVector = XTween_PathOrientationVector.正向X轴, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -545,6 +616,8 @@ namespace SevenStrikeModules.XTween
                 {
                     tweener.OnStart(() =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = true;
                         TweenPath.SaveStartPosition();
                         if (TweenPath.act_on_pathStart != null)
@@ -552,6 +625,8 @@ namespace SevenStrikeModules.XTween
                     })
                         .OnUpdate((pos, linearProgress, time) =>
                         {
+                            if (TweenPath == null)
+                                return;
                             // 计算缓动进度
                             float easedProgress = tweener.CalculateEasedProgress(linearProgress);
 
@@ -566,8 +641,10 @@ namespace SevenStrikeModules.XTween
 
                             // 获取路径位置
                             Vector3 currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, pathProgress);
-                            rectTransform.anchoredPosition3D = currentPos;
-                            TweenPath.PathProgress = pathProgress;
+                            if (rectTransform != null)
+                                rectTransform.anchoredPosition3D = currentPos;
+                            if (TweenPath != null)
+                                TweenPath.PathProgress = pathProgress;
 
                             // 传递路径运动位置
                             if (TweenPath.act_on_pathMove != null)
@@ -587,7 +664,8 @@ namespace SevenStrikeModules.XTween
                                 {
                                     case XTween_PathOrientation.跟随路径:
                                         // 计算路径切线方向
-                                        lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
+                                        if (TweenPath != null)
+                                            lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
                                         // 根据指定轴设置旋转
                                         if (lookDirection != Vector3.zero)
                                         {
@@ -628,15 +706,16 @@ namespace SevenStrikeModules.XTween
                                             rectTransform.rotation = targetRotation;
 
                                             // 传递路径运动旋转朝向
-                                            if (TweenPath.act_on_pathOrientation != null)
+                                            if (TweenPath != null && TweenPath.act_on_pathOrientation != null)
                                                 TweenPath.act_on_pathOrientation(targetRotation);
                                         }
                                         break;
                                     case XTween_PathOrientation.注视目标物体:
-                                        if (TweenPath.LookAtObject != null)
+                                        if (TweenPath != null && TweenPath.LookAtObject != null)
                                         {
                                             // 使用世界坐标计算方向
-                                            lookDirection = TweenPath.LookAtObject.transform.position - worldPosition;
+                                            if (TweenPath != null)
+                                                lookDirection = TweenPath.LookAtObject.transform.position - worldPosition;
 
                                             // 根据指定轴设置旋转
                                             if (lookDirection != Vector3.zero)
@@ -645,27 +724,33 @@ namespace SevenStrikeModules.XTween
                                                 switch (pathOrientationVector)
                                                 {
                                                     case XTween_PathOrientationVector.正向X轴:
-                                                        rectTransform.right = lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.right = lookDirection.normalized;
                                                         break;
 
                                                     case XTween_PathOrientationVector.正向Y轴:
-                                                        rectTransform.up = lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.up = lookDirection.normalized;
                                                         break;
 
                                                     case XTween_PathOrientationVector.正向Z轴:
-                                                        rectTransform.forward = lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.forward = lookDirection.normalized;
                                                         break;
 
                                                     case XTween_PathOrientationVector.反向X轴:
-                                                        rectTransform.right = -lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.right = -lookDirection.normalized;
                                                         break;
 
                                                     case XTween_PathOrientationVector.反向Y轴:
-                                                        rectTransform.up = -lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.up = -lookDirection.normalized;
                                                         break;
 
                                                     case XTween_PathOrientationVector.反向Z轴:
-                                                        rectTransform.forward = -lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.forward = -lookDirection.normalized;
                                                         break;
                                                 }
                                                 // 传递路径运动旋转朝向
@@ -676,7 +761,8 @@ namespace SevenStrikeModules.XTween
                                         break;
                                     case XTween_PathOrientation.注视目标位置:
                                         // 使用世界坐标计算方向
-                                        lookDirection = TweenPath.LookAtPosition - worldPosition;
+                                        if (TweenPath != null)
+                                            lookDirection = TweenPath.LookAtPosition - worldPosition;
 
                                         // 根据指定轴设置旋转
                                         if (lookDirection != Vector3.zero)
@@ -685,23 +771,28 @@ namespace SevenStrikeModules.XTween
                                             switch (pathOrientationVector)
                                             {
                                                 case XTween_PathOrientationVector.正向X轴:
-                                                    rectTransform.right = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.right = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.正向Y轴:
-                                                    rectTransform.up = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.up = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.正向Z轴:
-                                                    rectTransform.forward = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.forward = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向X轴:
-                                                    rectTransform.right = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.right = -lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向Y轴:
-                                                    rectTransform.up = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.up = -lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向Z轴:
@@ -710,7 +801,7 @@ namespace SevenStrikeModules.XTween
                                             }
 
                                             // 传递路径运动旋转朝向
-                                            if (TweenPath.act_on_pathLookatOrientation_withPosition != null)
+                                            if (TweenPath != null && TweenPath.act_on_pathLookatOrientation_withPosition != null)
                                                 TweenPath.act_on_pathLookatOrientation_withPosition(rectTransform.localEulerAngles);
                                         }
                                         break;
@@ -719,6 +810,8 @@ namespace SevenStrikeModules.XTween
                         })
                         .OnComplete((duration) =>
                         {
+                            if (TweenPath == null)
+                                return;
                             TweenPath.IsWorldMode = true;
                             float finalProgress;
 
@@ -742,6 +835,8 @@ namespace SevenStrikeModules.XTween
                         })
                         .OnRewind(() =>
                         {
+                            if (TweenPath == null)
+                                return;
                             TweenPath.IsWorldMode = true;
                             TweenPath.RestoreStartPosition();
                             TweenPath.PathProgress = 0;
@@ -749,6 +844,8 @@ namespace SevenStrikeModules.XTween
                         })
                         .OnKill(() =>
                         {
+                            if (TweenPath == null)
+                                return;
                             TweenPath.IsWorldMode = false;
                             TweenPath.RestoreStartPosition();
                             TweenPath.PathProgress = 0;
@@ -762,6 +859,8 @@ namespace SevenStrikeModules.XTween
                 {
                     tweener.OnStart(() =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = true;
                         TweenPath.SaveStartPosition();
                         if (TweenPath.act_on_pathStart != null)
@@ -769,6 +868,9 @@ namespace SevenStrikeModules.XTween
                     })
                         .OnUpdate((pos, linearProgress, time) =>
                         {
+                            if (TweenPath == null)
+                                return;
+
                             // 计算缓动进度
                             float easedProgress = tweener.CalculateEasedProgress(linearProgress);
 
@@ -782,29 +884,37 @@ namespace SevenStrikeModules.XTween
                             float pathProgress = Mathf.Clamp01(easedProgress * TweenPath.PathLimitePercent);
 
                             // 获取路径位置
-                            Vector3 currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, pathProgress);
-                            rectTransform.anchoredPosition3D = currentPos;
-                            TweenPath.PathProgress = pathProgress;
+                            Vector3 currentPos = Vector3.zero;
+                            if (TweenPath != null)
+                                currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, pathProgress);
+                            if (rectTransform != null)
+                                rectTransform.anchoredPosition3D = currentPos;
+                            if (TweenPath != null)
+                                TweenPath.PathProgress = pathProgress;
 
                             // 传递路径运动位置
-                            if (TweenPath.act_on_pathMove != null)
+                            if (TweenPath != null && TweenPath.act_on_pathMove != null)
                                 TweenPath.act_on_pathMove(currentPos);
 
                             // 传递路径运动进度值
-                            if (TweenPath.act_on_pathProgress != null)
+                            if (TweenPath != null && TweenPath.act_on_pathProgress != null)
                                 TweenPath.act_on_pathProgress(pathProgress);
 
                             // === 新增：旋转控制（支持任意轴）===
                             if (pathOrientation != XTween_PathOrientation.无)
                             {
                                 Vector3 lookDirection = Vector3.zero;
-                                Vector3 worldPosition = rectTransform.position;
+
+                                Vector3 worldPosition = Vector3.zero;
+                                if (rectTransform != null)
+                                    worldPosition = rectTransform.position;
 
                                 switch (pathOrientation)
                                 {
                                     case XTween_PathOrientation.跟随路径:
                                         // 计算路径切线方向
-                                        lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
+                                        if (TweenPath != null)
+                                            lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
                                         // 根据指定轴设置旋转
                                         if (lookDirection != Vector3.zero)
                                         {
@@ -842,7 +952,8 @@ namespace SevenStrikeModules.XTween
                                                     break;
                                             }
 
-                                            rectTransform.rotation = targetRotation;
+                                            if (rectTransform != null)
+                                                rectTransform.rotation = targetRotation;
 
                                             // 传递路径运动旋转朝向
                                             if (TweenPath.act_on_pathOrientation != null)
@@ -862,27 +973,33 @@ namespace SevenStrikeModules.XTween
                                                 switch (pathOrientationVector)
                                                 {
                                                     case XTween_PathOrientationVector.正向X轴:
-                                                        rectTransform.right = lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.right = lookDirection.normalized;
                                                         break;
 
                                                     case XTween_PathOrientationVector.正向Y轴:
-                                                        rectTransform.up = lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.up = lookDirection.normalized;
                                                         break;
 
                                                     case XTween_PathOrientationVector.正向Z轴:
-                                                        rectTransform.forward = lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.forward = lookDirection.normalized;
                                                         break;
 
                                                     case XTween_PathOrientationVector.反向X轴:
-                                                        rectTransform.right = -lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.right = -lookDirection.normalized;
                                                         break;
 
                                                     case XTween_PathOrientationVector.反向Y轴:
-                                                        rectTransform.up = -lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.up = -lookDirection.normalized;
                                                         break;
 
                                                     case XTween_PathOrientationVector.反向Z轴:
-                                                        rectTransform.forward = -lookDirection.normalized;
+                                                        if (rectTransform != null)
+                                                            rectTransform.forward = -lookDirection.normalized;
                                                         break;
                                                 }
                                                 // 传递路径运动旋转朝向
@@ -902,33 +1019,40 @@ namespace SevenStrikeModules.XTween
                                             switch (pathOrientationVector)
                                             {
                                                 case XTween_PathOrientationVector.正向X轴:
-                                                    rectTransform.right = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.right = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.正向Y轴:
-                                                    rectTransform.up = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.up = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.正向Z轴:
-                                                    rectTransform.forward = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.forward = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向X轴:
-                                                    rectTransform.right = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.right = -lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向Y轴:
-                                                    rectTransform.up = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.up = -lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向Z轴:
-                                                    rectTransform.forward = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.forward = -lookDirection.normalized;
                                                     break;
                                             }
 
                                             // 传递路径运动旋转朝向
                                             if (TweenPath.act_on_pathLookatOrientation_withPosition != null)
-                                                TweenPath.act_on_pathLookatOrientation_withPosition(rectTransform.localEulerAngles);
+                                                if (TweenPath != null && rectTransform != null)
+                                                    TweenPath.act_on_pathLookatOrientation_withPosition(rectTransform.localEulerAngles);
                                         }
                                         break;
                                 }
@@ -936,6 +1060,9 @@ namespace SevenStrikeModules.XTween
                         })
                         .OnComplete((duration) =>
                         {
+                            if (TweenPath == null)
+                                return;
+
                             TweenPath.IsWorldMode = true;
                             float finalProgress;
 
@@ -959,6 +1086,8 @@ namespace SevenStrikeModules.XTween
                         })
                         .OnRewind(() =>
                         {
+                            if (TweenPath == null)
+                                return;
                             TweenPath.IsWorldMode = true;
                             TweenPath.RestoreStartPosition();
                             TweenPath.PathProgress = 0;
@@ -966,6 +1095,8 @@ namespace SevenStrikeModules.XTween
                         })
                         .OnKill(() =>
                         {
+                            if (TweenPath == null)
+                                return;
                             TweenPath.IsWorldMode = false;
                             TweenPath.RestoreStartPosition();
                             TweenPath.PathProgress = 0;
@@ -985,6 +1116,8 @@ namespace SevenStrikeModules.XTween
                     tweener = new XTween_Specialized_Vector3(startValue, processedPath[^1], duration * XTween_Dashboard.DurationMultiply)
                     .OnStart(() =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = true;
                         TweenPath.SaveStartPosition();
                         if (TweenPath.act_on_pathStart != null)
@@ -992,6 +1125,8 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnUpdate((pos, linearProgress, time) =>
                     {
+                        if (TweenPath == null)
+                            return;
                         // 计算缓动进度
                         float easedProgress;
                         if (tweener.UseCustomEaseCurve && tweener.CustomEaseCurve != null)
@@ -1009,30 +1144,37 @@ namespace SevenStrikeModules.XTween
                             easedProgress = 1f - easedProgress;
                         }
 
-                        TweenPath.PathProgress = Mathf.Clamp01(easedProgress * TweenPath.PathLimitePercent);
+                        if (TweenPath != null)
+                            TweenPath.PathProgress = Mathf.Clamp01(easedProgress * TweenPath.PathLimitePercent);
 
-                        Vector3 currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, TweenPath.PathProgress);
-                        rectTransform.anchoredPosition3D = currentPos;
+                        Vector3 currentPos = Vector3.zero;
+                        if (TweenPath != null)
+                            currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, TweenPath.PathProgress);
+                        if (rectTransform != null)
+                            rectTransform.anchoredPosition3D = currentPos;
 
                         // 传递路径运动位置
-                        if (TweenPath.act_on_pathMove != null)
+                        if (TweenPath != null && TweenPath.act_on_pathMove != null)
                             TweenPath.act_on_pathMove(currentPos);
 
                         // 传递路径运动进度值
-                        if (TweenPath.act_on_pathProgress != null)
+                        if (TweenPath != null && TweenPath.act_on_pathProgress != null)
                             TweenPath.act_on_pathProgress(TweenPath.PathProgress);
 
                         // === 新增：旋转控制（支持任意轴）===
                         if (pathOrientation != XTween_PathOrientation.无)
                         {
                             Vector3 lookDirection = Vector3.zero;
-                            Vector3 worldPosition = rectTransform.position;
+                            Vector3 worldPosition = Vector3.zero;
+                            if (rectTransform != null)
+                                worldPosition = rectTransform.position;
 
                             switch (pathOrientation)
                             {
                                 case XTween_PathOrientation.跟随路径:
                                     // 计算路径切线方向
-                                    lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
+                                    if (TweenPath != null)
+                                        lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
                                     // 根据指定轴设置旋转
                                     if (lookDirection != Vector3.zero)
                                     {
@@ -1070,18 +1212,20 @@ namespace SevenStrikeModules.XTween
                                                 break;
                                         }
 
-                                        rectTransform.rotation = targetRotation;
+                                        if (rectTransform != null)
+                                            rectTransform.rotation = targetRotation;
 
                                         // 传递路径运动旋转朝向
-                                        if (TweenPath.act_on_pathOrientation != null)
+                                        if (TweenPath != null && TweenPath.act_on_pathOrientation != null)
                                             TweenPath.act_on_pathOrientation(targetRotation);
                                     }
                                     break;
                                 case XTween_PathOrientation.注视目标物体:
-                                    if (TweenPath.LookAtObject != null)
+                                    if (TweenPath != null && TweenPath.LookAtObject != null)
                                     {
                                         // 使用世界坐标计算方向
-                                        lookDirection = TweenPath.LookAtObject.transform.position - worldPosition;
+                                        if (TweenPath != null)
+                                            lookDirection = TweenPath.LookAtObject.transform.position - worldPosition;
 
                                         // 根据指定轴设置旋转
                                         if (lookDirection != Vector3.zero)
@@ -1090,39 +1234,47 @@ namespace SevenStrikeModules.XTween
                                             switch (pathOrientationVector)
                                             {
                                                 case XTween_PathOrientationVector.正向X轴:
-                                                    rectTransform.right = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.right = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.正向Y轴:
-                                                    rectTransform.up = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.up = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.正向Z轴:
-                                                    rectTransform.forward = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.forward = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向X轴:
-                                                    rectTransform.right = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.right = -lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向Y轴:
-                                                    rectTransform.up = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.up = -lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向Z轴:
-                                                    rectTransform.forward = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.forward = -lookDirection.normalized;
                                                     break;
                                             }
 
                                             // 传递路径运动旋转朝向
-                                            if (TweenPath.act_on_pathLookatOrientation_withObject != null)
-                                                TweenPath.act_on_pathLookatOrientation_withObject(rectTransform.localEulerAngles);
+                                            if (TweenPath != null && TweenPath.act_on_pathLookatOrientation_withObject != null)
+                                                if (TweenPath != null && rectTransform != null)
+                                                    TweenPath.act_on_pathLookatOrientation_withObject(rectTransform.localEulerAngles);
                                         }
                                     }
                                     break;
                                 case XTween_PathOrientation.注视目标位置:
                                     // 使用世界坐标计算方向
-                                    lookDirection = TweenPath.LookAtPosition - worldPosition;
+                                    if (TweenPath != null)
+                                        lookDirection = TweenPath.LookAtPosition - worldPosition;
 
                                     // 根据指定轴设置旋转
                                     if (lookDirection != Vector3.zero)
@@ -1131,33 +1283,40 @@ namespace SevenStrikeModules.XTween
                                         switch (pathOrientationVector)
                                         {
                                             case XTween_PathOrientationVector.正向X轴:
-                                                rectTransform.right = lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.right = lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.正向Y轴:
-                                                rectTransform.up = lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.up = lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.正向Z轴:
-                                                rectTransform.forward = lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.forward = lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.反向X轴:
-                                                rectTransform.right = -lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.right = -lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.反向Y轴:
-                                                rectTransform.up = -lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.up = -lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.反向Z轴:
-                                                rectTransform.forward = -lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.forward = -lookDirection.normalized;
                                                 break;
                                         }
 
                                         // 传递路径运动旋转朝向
-                                        if (TweenPath.act_on_pathLookatOrientation_withPosition != null)
-                                            TweenPath.act_on_pathLookatOrientation_withPosition(rectTransform.localEulerAngles);
+                                        if (TweenPath != null && TweenPath.act_on_pathLookatOrientation_withPosition != null)
+                                            if (TweenPath != null && rectTransform != null)
+                                                TweenPath.act_on_pathLookatOrientation_withPosition(rectTransform.localEulerAngles);
                                     }
                                     break;
                             }
@@ -1165,6 +1324,8 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnComplete((duration) =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = true;
                         float finalProgress;
 
@@ -1188,6 +1349,8 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnRewind(() =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = true;
                         TweenPath.RestoreStartPosition();
                         TweenPath.PathProgress = 0;
@@ -1195,6 +1358,8 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnKill(() =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = false;
                         TweenPath.RestoreStartPosition();
                         TweenPath.PathProgress = 0;
@@ -1209,6 +1374,8 @@ namespace SevenStrikeModules.XTween
                     tweener = new XTween_Specialized_Vector3(startValue, processedPath[^1], duration * XTween_Dashboard.DurationMultiply)
                     .OnStart(() =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = true;
                         TweenPath.SaveStartPosition();
                         if (TweenPath.act_on_pathStart != null)
@@ -1216,6 +1383,8 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnUpdate((pos, linearProgress, time) =>
                     {
+                        if (TweenPath == null)
+                            return;
                         // 计算缓动进度
                         float easedProgress;
                         if (tweener.UseCustomEaseCurve && tweener.CustomEaseCurve != null)
@@ -1233,30 +1402,37 @@ namespace SevenStrikeModules.XTween
                             easedProgress = 1f - easedProgress;
                         }
 
-                        TweenPath.PathProgress = Mathf.Clamp01(easedProgress * TweenPath.PathLimitePercent);
+                        if (TweenPath != null)
+                            TweenPath.PathProgress = Mathf.Clamp01(easedProgress * TweenPath.PathLimitePercent);
 
-                        Vector3 currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, TweenPath.PathProgress);
-                        rectTransform.anchoredPosition3D = currentPos;
+                        Vector3 currentPos = Vector3.zero;
+                        if (TweenPath != null)
+                            currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, TweenPath.PathProgress);
+                        if (rectTransform != null)
+                            rectTransform.anchoredPosition3D = currentPos;
 
                         // 传递路径运动位置
-                        if (TweenPath.act_on_pathMove != null)
+                        if (TweenPath != null && TweenPath.act_on_pathMove != null)
                             TweenPath.act_on_pathMove(currentPos);
 
                         // 传递路径运动进度值
-                        if (TweenPath.act_on_pathProgress != null)
+                        if (TweenPath != null && TweenPath.act_on_pathProgress != null)
                             TweenPath.act_on_pathProgress(TweenPath.PathProgress);
 
                         // === 新增：旋转控制（支持任意轴）===
                         if (pathOrientation != XTween_PathOrientation.无)
                         {
                             Vector3 lookDirection = Vector3.zero;
-                            Vector3 worldPosition = rectTransform.position;
+                            Vector3 worldPosition = Vector3.zero;
+                            if (rectTransform != null)
+                                worldPosition = rectTransform.position;
 
                             switch (pathOrientation)
                             {
                                 case XTween_PathOrientation.跟随路径:
                                     // 计算路径切线方向
-                                    lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
+                                    if (TweenPath != null)
+                                        lookDirection = TweenPath.GetTangentOnPath(processedPath, lengthData, TweenPath.PathProgress);
                                     // 根据指定轴设置旋转
                                     if (lookDirection != Vector3.zero)
                                     {
@@ -1294,18 +1470,20 @@ namespace SevenStrikeModules.XTween
                                                 break;
                                         }
 
-                                        rectTransform.rotation = targetRotation;
+                                        if (rectTransform != null)
+                                            rectTransform.rotation = targetRotation;
 
                                         // 传递路径运动旋转朝向
-                                        if (TweenPath.act_on_pathOrientation != null)
+                                        if (TweenPath != null && TweenPath.act_on_pathOrientation != null)
                                             TweenPath.act_on_pathOrientation(targetRotation);
                                     }
                                     break;
                                 case XTween_PathOrientation.注视目标物体:
-                                    if (TweenPath.LookAtObject != null)
+                                    if (TweenPath != null && TweenPath.LookAtObject != null)
                                     {
                                         // 使用世界坐标计算方向
-                                        lookDirection = TweenPath.LookAtObject.transform.position - worldPosition;
+                                        if (TweenPath != null)
+                                            lookDirection = TweenPath.LookAtObject.transform.position - worldPosition;
 
                                         // 根据指定轴设置旋转
                                         if (lookDirection != Vector3.zero)
@@ -1314,39 +1492,47 @@ namespace SevenStrikeModules.XTween
                                             switch (pathOrientationVector)
                                             {
                                                 case XTween_PathOrientationVector.正向X轴:
-                                                    rectTransform.right = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.right = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.正向Y轴:
-                                                    rectTransform.up = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.up = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.正向Z轴:
-                                                    rectTransform.forward = lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.forward = lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向X轴:
-                                                    rectTransform.right = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.right = -lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向Y轴:
-                                                    rectTransform.up = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.up = -lookDirection.normalized;
                                                     break;
 
                                                 case XTween_PathOrientationVector.反向Z轴:
-                                                    rectTransform.forward = -lookDirection.normalized;
+                                                    if (rectTransform != null)
+                                                        rectTransform.forward = -lookDirection.normalized;
                                                     break;
                                             }
 
                                             // 传递路径运动旋转朝向
-                                            if (TweenPath.act_on_pathLookatOrientation_withObject != null)
-                                                TweenPath.act_on_pathLookatOrientation_withObject(rectTransform.localEulerAngles);
+                                            if (TweenPath != null && TweenPath.act_on_pathLookatOrientation_withObject != null)
+                                                if (TweenPath != null && rectTransform != null)
+                                                    TweenPath.act_on_pathLookatOrientation_withObject(rectTransform.localEulerAngles);
                                         }
                                     }
                                     break;
                                 case XTween_PathOrientation.注视目标位置:
                                     // 使用世界坐标计算方向
-                                    lookDirection = TweenPath.LookAtPosition - worldPosition;
+                                    if (TweenPath != null)
+                                        lookDirection = TweenPath.LookAtPosition - worldPosition;
 
                                     // 根据指定轴设置旋转
                                     if (lookDirection != Vector3.zero)
@@ -1355,33 +1541,40 @@ namespace SevenStrikeModules.XTween
                                         switch (pathOrientationVector)
                                         {
                                             case XTween_PathOrientationVector.正向X轴:
-                                                rectTransform.right = lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.right = lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.正向Y轴:
-                                                rectTransform.up = lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.up = lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.正向Z轴:
-                                                rectTransform.forward = lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.forward = lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.反向X轴:
-                                                rectTransform.right = -lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.right = -lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.反向Y轴:
-                                                rectTransform.up = -lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.up = -lookDirection.normalized;
                                                 break;
 
                                             case XTween_PathOrientationVector.反向Z轴:
-                                                rectTransform.forward = -lookDirection.normalized;
+                                                if (rectTransform != null)
+                                                    rectTransform.forward = -lookDirection.normalized;
                                                 break;
                                         }
 
                                         // 传递路径运动旋转朝向
-                                        if (TweenPath.act_on_pathLookatOrientation_withPosition != null)
-                                            TweenPath.act_on_pathLookatOrientation_withPosition(rectTransform.localEulerAngles);
+                                        if (TweenPath != null && TweenPath.act_on_pathLookatOrientation_withPosition != null)
+                                            if (TweenPath != null && rectTransform != null)
+                                                TweenPath.act_on_pathLookatOrientation_withPosition(rectTransform.localEulerAngles);
                                     }
                                     break;
                             }
@@ -1389,6 +1582,8 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnComplete((duration) =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = true;
                         float finalProgress;
 
@@ -1403,7 +1598,9 @@ namespace SevenStrikeModules.XTween
                             finalProgress = TweenPath.PathLimitePercent;
                         }
 
-                        Vector3 currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, finalProgress);
+                        Vector3 currentPos = Vector3.zero;
+                        if (TweenPath != null)
+                            currentPos = TweenPath.GetPositionOnPath(processedPath, lengthData, finalProgress);
                         rectTransform.anchoredPosition3D = currentPos;
                         TweenPath.PathProgress = finalProgress;
 
@@ -1412,6 +1609,8 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnRewind(() =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = true;
                         TweenPath.RestoreStartPosition();
                         TweenPath.PathProgress = 0;
@@ -1419,6 +1618,8 @@ namespace SevenStrikeModules.XTween
                     })
                     .OnKill(() =>
                     {
+                        if (TweenPath == null)
+                            return;
                         TweenPath.IsWorldMode = false;
                         TweenPath.RestoreStartPosition();
                         TweenPath.PathProgress = 0;

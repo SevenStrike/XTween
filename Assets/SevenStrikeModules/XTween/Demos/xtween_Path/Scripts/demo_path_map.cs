@@ -128,7 +128,8 @@ public class demo_path_map : demo_base
             img.color = new Color(img.color.r, img.color.g, img.color.b, alphaFrom);
         }).OnKill(() =>
         {
-            img.color = new Color(img.color.r, img.color.g, img.color.b, alphaFrom);
+            if (img != null)
+                img.color = new Color(img.color.r, img.color.g, img.color.b, alphaFrom);
         });
     }
     #endregion

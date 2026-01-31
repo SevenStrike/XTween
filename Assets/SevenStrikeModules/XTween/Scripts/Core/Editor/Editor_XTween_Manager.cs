@@ -295,17 +295,17 @@ namespace SevenStrikeModules.XTween
             if (Application.isPlaying)
             {
                 TweenLiquidContent = "应用运行中";
-                if (XTween_Dashboard.TweenConfigData.LiquidScanStyle)
+                if (XTween_Dashboard.ConfigData.LiquidScanStyle)
                     TweenLiquidScreen_Status = LiquidBg_Status_Scan;
                 else
                     TweenLiquidScreen_Status = LiquidBg_Status_Pure;
-                GUI.backgroundColor = XTween_Dashboard.TweenConfigData.Liquid_On_Color;
+                GUI.backgroundColor = XTween_Dashboard.LiquidColor_Playing;
             }
             else
             {
-                GUI.backgroundColor = XTween_Dashboard.TweenConfigData.Liquid_Off_Color;
+                GUI.backgroundColor = XTween_Dashboard.LiquidColor_Idle;
                 TweenLiquidContent = "应用未运行";
-                if (XTween_Dashboard.TweenConfigData.LiquidScanStyle)
+                if (XTween_Dashboard.ConfigData.LiquidScanStyle)
                     TweenLiquidScreen_Status = LiquidBg_Status_Scan;
                 else
                     TweenLiquidScreen_Status = LiquidBg_Status_Pure;
@@ -318,7 +318,7 @@ namespace SevenStrikeModules.XTween
             // 液晶屏肮脏
             if (!IsExtraExpandPanel)
             {
-                if (XTween_Dashboard.TweenConfigData.LiquidDirty)
+                if (XTween_Dashboard.ConfigData.LiquidDirty)
                 {
                     rect_liquid_prim.Set(rect_liquid_set.x + (IsExpandPanelWidth ? (rect_liquid_set.width - LiquidDirty_Status.width - 13) : (rect_liquid_set.width - LiquidDirty_Status_Small.width - 13)), rect_liquid_set.y - 1, IsExpandPanelWidth ? LiquidDirty_Status.width : LiquidDirty_Status_Small.width, IsExpandPanelWidth ? LiquidDirty_Status.height : LiquidDirty_Status_Small.height);
                     XTween_GUI.Gui_TextureBox(rect_liquid_prim, IsExpandPanelWidth ? LiquidDirty_Status : LiquidDirty_Status_Small);
@@ -366,17 +366,17 @@ namespace SevenStrikeModules.XTween
 
             if (Application.isPlaying)
             {
-                if (XTween_Dashboard.TweenConfigData.LiquidScanStyle)
+                if (XTween_Dashboard.ConfigData.LiquidScanStyle)
                     TweenLiquidScreen = LiquidBg_Scan;
                 else
                     TweenLiquidScreen = LiquidBg_Pure;
-                GUI.backgroundColor = XTween_Dashboard.TweenConfigData.Liquid_On_Color;
+                GUI.backgroundColor = XTween_Dashboard.LiquidColor_Playing;
             }
             else
             {
-                GUI.backgroundColor = XTween_Dashboard.TweenConfigData.Liquid_Off_Color;
+                GUI.backgroundColor = XTween_Dashboard.LiquidColor_Idle;
 
-                if (XTween_Dashboard.TweenConfigData.LiquidScanStyle)
+                if (XTween_Dashboard.ConfigData.LiquidScanStyle)
                     TweenLiquidScreen = LiquidBg_Scan;
                 else
                     TweenLiquidScreen = LiquidBg_Pure;
@@ -408,7 +408,7 @@ namespace SevenStrikeModules.XTween
             // 液晶屏肮脏
             if (!IsExtraExpandPanel)
             {
-                if (XTween_Dashboard.TweenConfigData.LiquidDirty)
+                if (XTween_Dashboard.ConfigData.LiquidDirty)
                 {
                     rect_liquid_prim.Set(rect_liquid_set.x + (IsExpandPanelWidth ? (rect_liquid_set.width - LiquidDirty_Bg.width - 13) : (rect_liquid_set.width - LiquidDirty_Bg_Small.width - 13)), rect_liquid_set.y - 2, IsExpandPanelWidth ? LiquidDirty_Bg.width : LiquidDirty_Bg_Small.width, IsExpandPanelWidth ? LiquidDirty_Bg.height : LiquidDirty_Bg_Small.height);
                     XTween_GUI.Gui_TextureBox(rect_liquid_prim, IsExpandPanelWidth ? LiquidDirty_Bg : LiquidDirty_Bg_Small);

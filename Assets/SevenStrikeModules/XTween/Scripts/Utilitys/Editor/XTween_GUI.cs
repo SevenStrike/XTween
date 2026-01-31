@@ -103,7 +103,8 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 获取按钮背景填充
         /// </summary>
-        /// <param name="Color"></param>
+        /// <param name="Mode">类型</param>
+        /// <param name="Color">颜色（具体请查看工程目录中文件的实际名称）</param>
         public static Texture2D GetBtnFillTexture(GUIFilled Mode, GUIColor Color)
         {
             if (GUICreator == null)
@@ -556,10 +557,13 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 排版布局
         /// </summary>
+        /// <param name="rect_group"></param>
         /// <param name="FillStyle">填充样式  Solid=实心   Edge=空心</param>
         /// <param name="Color">填充颜色</param>
-        /// <param name="Margin">间距</param>
         /// <param name="Title">标题</param>
+        /// <param name="TitleOffset">标题偏移</param>
+        /// <param name="TitleColor">标题颜色</param>
+        /// <param name="Font">字体</param>
         public static void Gui_Group(Rect rect_group, GUIFilled FillStyle, GUIColor Color, string Title, Vector2 TitleOffset, Color TitleColor, Font Font)
         {
             GUIStyle Style = new GUIStyle(Style_Group_Half);
@@ -618,7 +622,9 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 创造一个图标
         /// </summary>
-        /// <param name="Rect">按钮尺寸</param>
+        /// <param name="Rect">尺寸</param>
+        /// <param name="tex_release">贴图</param>
+        /// <param name="color">颜色</param>
         public static void Gui_Icon(Rect Rect, Texture2D tex_release, Color color)
         {
             GUIStyle Style = new GUIStyle(Style_IconButton);
@@ -632,7 +638,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 创造一个图标
         /// </summary>
-        /// <param name="Rect">按钮尺寸</param>
+        /// <param name="Rect">尺寸</param>
         public static void Gui_Icon(Rect Rect, GUIContent Content)
         {
             GUIStyle Style = new GUIStyle(Style_IconButton);
@@ -644,7 +650,10 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 创造一个图标
         /// </summary>
-        /// <param name="Rect">按钮尺寸</param>
+        /// <param name="Rect">尺寸</param>
+        /// <param name="tex_release">贴图</param>
+        /// <param name="Rect">偏移</param>
+        /// <param name="Rect">颜色</param>
         public static void Gui_Icon(Rect Rect, Texture2D tex_release, RectOffset border, Color color)
         {
             GUIStyle Style = new GUIStyle(Style_IconButton);
@@ -662,7 +671,13 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 创造一个选项按钮
         /// </summary>
-        /// <param name="Rect">按钮尺寸</param>
+        /// <param name="Rect">尺寸</param>
+        /// <param name="Rect"></param>
+        /// <param name="index"></param>
+        /// <param name="options"></param>
+        /// <param name="FillStyle"></param>
+        /// <param name="Color"></param>
+        /// <param name="ButtonTextColor"></param>        
         /// <returns>返回的Int值用于判断选择了那个选项</returns>
         public static int Gui_Popup(Rect Rect, int index, string[] options, GUIFilled FillStyle, GUIColor Color, Color ButtonTextColor)
         {
@@ -841,16 +856,16 @@ namespace SevenStrikeModules.XTween
 
         #region ToolBar
         /// <summary>
-        /// 创造一个开关
+        /// 创造一个工具选项
         /// </summary>
-        /// <param name="Text">开关标题</param>
-        /// <param name="Val">指定布尔值</param>
-        /// <param name="FillStyle_Normal">正常状态下的选项按钮背景样式 Solid=实心  Edge=空心</param>
-        /// <param name="Color_Normal">正常状态下的选项按钮颜色样式</param>
-        /// <param name="FillStyle_Selected">选中状态下的选项按钮背景样式 Solid=实心  Edge=空心</param>
-        /// <param name="Color_Selected">选中状态下的选项按钮颜色样式</param>
-        /// <param name="TextColor_Normal">正常状态选项按钮文字颜色</param>
-        /// <param name="TextColor_Selected">选中状态选项按钮文字颜色</param>
+        /// <param name="rect"></param>
+        /// <param name="Options"></param>
+        /// <param name="Val"></param>
+        /// <param name="FillStyle_Normal"></param>
+        /// <param name="FillStyle_Selected"></param>
+        /// <param name="Color_Selected"></param>
+        /// <param name="TextColor_Normal"></param>
+        /// <param name="TextColor_Selected"></param>
         /// <returns></returns>
         public static int Gui_ToolBar(Rect rect, string[] Options, int Val, GUIFilled FillStyle_Normal, GUIFilled FillStyle_Selected, Color Color_Selected, Color TextColor_Normal, Color TextColor_Selected)
         {
@@ -873,6 +888,7 @@ namespace SevenStrikeModules.XTween
         /// 创造一个Color框
         /// </summary>
         /// <param name="Rect">尺寸_Size</param>
+        /// <param name="val">颜色</param>
         /// <returns>返回Color数值</returns>
         public static Color Gui_ColorField(Rect Rect, Color val)
         {
@@ -881,7 +897,8 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 创造一个Color框
         /// </summary>
-        /// <param name="Rect">尺寸_Size</param>
+        /// <param name="Rect">尺寸</param>
+        /// <param name="val">序列化颜色</param>
         /// <returns>返回Color数值</returns>
         public static void Gui_ColorField(Rect Rect, SerializedProperty val)
         {
@@ -3399,7 +3416,7 @@ namespace SevenStrikeModules.XTween
         #endregion
 
         /// <summary>
-        /// Uses code from FlaShG's GitMerge: https://github.com/FlaShG/GitMerge-for-Unity/blob/master/Editor/SerializedPropertyExtensions.cs
+        /// 设置值
         /// </summary>
         /// <param name="p"></param>
         /// <param name="value"></param>
@@ -3432,10 +3449,10 @@ namespace SevenStrikeModules.XTween
                     p.floatValue = (float)value;
                     break;
                 case SerializedPropertyType.Generic:
-                    Debug.LogWarning("Get/Set of Generic SerializedProperty not supported");
+                    Debug.LogWarning("Get/Set of Generic SerializedProperty not Effective");
                     break;
                 case SerializedPropertyType.Gradient:
-                    Debug.LogWarning("Get/Set of Gradient SerializedProperty not supported");
+                    Debug.LogWarning("Get/Set of Gradient SerializedProperty not Effective");
                     break;
                 case SerializedPropertyType.Integer:
                     p.intValue = (int)value;

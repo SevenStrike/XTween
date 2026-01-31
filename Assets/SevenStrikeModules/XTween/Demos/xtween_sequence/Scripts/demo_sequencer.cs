@@ -154,13 +154,17 @@ public class demo_sequencer : demo_base
 
             currentTweener = XTween.To(() => index, x => index = x, sprites.Length - 1, duration, isAutoKill).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(delay).OnUpdate<int>((value, linearProgress, time) =>
             {
-                image.sprite = sprites[value];
-                text_index.text = value.ToString();
-                progress.fillAmount = linearProgress;
+                if (image != null)
+                    image.sprite = sprites[value];
+                if (text_index != null)
+                    text_index.text = value.ToString();
+                if (progress != null)
+                    progress.fillAmount = linearProgress;
             }).OnRewind(() =>
             {
                 index = 0;
-                image.sprite = sprites[index];
+                if (image != null)
+                    image.sprite = sprites[index];
                 if (debug)
                     Debug.Log($"复位序列帧：{transform.name}");
             }).OnComplete((d) =>
@@ -169,7 +173,8 @@ public class demo_sequencer : demo_base
             }).OnKill(() =>
             {
                 index = 0;
-                image.sprite = sprites[index];
+                if (image != null)
+                    image.sprite = sprites[index];
             });
         }
         else
@@ -181,13 +186,17 @@ public class demo_sequencer : demo_base
 
             currentTweener = XTween.To(() => index, x => index = x, 0, duration, isAutoKill).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(delay).OnUpdate<int>((value, linearProgress, time) =>
             {
-                image.sprite = sprites[value];
-                text_index.text = value.ToString();
-                progress.fillAmount = linearProgress;
+                if (image != null)
+                    image.sprite = sprites[value];
+                if (text_index != null)
+                    text_index.text = value.ToString();
+                if (progress != null)
+                    progress.fillAmount = linearProgress;
             }).OnRewind(() =>
             {
                 index = sprites.Length - 1;
-                image.sprite = sprites[index];
+                if (image != null)
+                    image.sprite = sprites[index];
                 if (debug)
                     Debug.Log($"复位序列帧：{transform.name}");
             }).OnComplete((d) =>
@@ -196,7 +205,8 @@ public class demo_sequencer : demo_base
             }).OnKill(() =>
             {
                 index = sprites.Length - 1;
-                image.sprite = sprites[index];
+                if (image != null)
+                    image.sprite = sprites[index];
             });
         }
     }

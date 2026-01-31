@@ -86,7 +86,8 @@ public class demo_rotate_mg : demo_base
         {
             currentTweener = rect_MG.xt_Rotate_To(Vector3.forward * target_MG, duration, isRelative, isAutoKill, RotationMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(curve).SetDelay(delay).OnRewind(() =>
             {
-                rect_MG.rotation = Quaternion.Euler(Vector3.zero);
+                if (rect_MG != null)
+                    rect_MG.rotation = Quaternion.Euler(Vector3.zero);
             }).OnStart(() =>
             {
             });
@@ -95,7 +96,8 @@ public class demo_rotate_mg : demo_base
         {
             currentTweener = rect_MG.xt_Rotate_To(Vector3.forward * target_MG, duration, isRelative, isAutoKill, RotationMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(delay).OnRewind(() =>
             {
-                rect_MG.rotation = Quaternion.Euler(Vector3.zero);
+                if (rect_MG != null)
+                    rect_MG.rotation = Quaternion.Euler(Vector3.zero);
             }).OnStart(() =>
             {
             });

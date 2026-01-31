@@ -255,18 +255,20 @@ namespace SevenStrikeModules.XTween
             TweenLedOnColor = XTween_Dashboard.Theme_Primary;
 
             #region 动画预览器参数状态获取
-            sp_index_AutoKillPreviewTweens.boolValue = XTween_Utilitys.PlayerPrefs_ReadValue_Bool_ForEditor("PreviewTween_AutoKillWithDuration");
+            XTween_Dashboard.GetXTweenConfigData();
+
+            sp_index_AutoKillPreviewTweens.boolValue = XTween_Dashboard.Get_PreviewOption_AutoKillPreviewTweens();
             sp_index_AutoKillPreviewTweens.serializedObject.ApplyModifiedProperties();
 
-            sp_index_RewindPreviewTweensWithKill.boolValue = XTween_Utilitys.PlayerPrefs_ReadValue_Bool_ForEditor("PreviewTween_RewindPreviewTweensWithKill");
+            sp_index_RewindPreviewTweensWithKill.boolValue = XTween_Dashboard.Get_PreviewOption_RewindPreviewTweensWithKill();
             sp_index_RewindPreviewTweensWithKill.serializedObject.ApplyModifiedProperties();
 
-            sp_index_ClearPreviewTweensWithKill.boolValue = XTween_Utilitys.PlayerPrefs_ReadValue_Bool_ForEditor("PreviewTween_ClearPreviewTweensWithKill");
+            sp_index_ClearPreviewTweensWithKill.boolValue = XTween_Dashboard.Get_PreviewOption_ClearPreviewTweensWithKill();
             sp_index_ClearPreviewTweensWithKill.serializedObject.ApplyModifiedProperties();
             #endregion           
 
             #region 液晶LED闪烁
-            if (XTween_Dashboard.TweenConfigData != null && XTween_Dashboard.TweenConfigData.LiquidBlinker == 1)
+            if (XTween_Dashboard.ConfigData != null && XTween_Dashboard.ConfigData.LiquidBlinker == 1)
             {
                 // 注册更新回调
                 EditorApplication.update += OnEditorUpdate;
@@ -364,7 +366,7 @@ namespace SevenStrikeModules.XTween
                 {
                     TweenLiquidContent = "正在动画...";
 
-                    if (XTween_Dashboard.TweenConfigData.LiquidScanStyle)
+                    if (XTween_Dashboard.ConfigData.LiquidScanStyle)
                         TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Scan : LiquidBg_NoExpand_Scan;
                     else
                         TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Pure : LiquidBg_NoExpand_Pure;
@@ -372,17 +374,17 @@ namespace SevenStrikeModules.XTween
                     TweenEasedProgress = BaseScript.CurrentTweener != null ? BaseScript.CurrentTweener.CurrentEasedProgress : 0;
                     TweenLoopProgress = BaseScript.CurrentTweener != null ? BaseScript.CurrentTweener.CurrentLoopProgress : 0;
 
-                    GUI.backgroundColor = XTween_Dashboard.TweenConfigData.Liquid_On_Color;
+                    GUI.backgroundColor = XTween_Dashboard.LiquidColor_Playing;
 
                     Repaint();
                 }
                 else
                 {
-                    GUI.backgroundColor = XTween_Dashboard.TweenConfigData.Liquid_Off_Color;
+                    GUI.backgroundColor = XTween_Dashboard.LiquidColor_Idle;
 
                     TweenLiquidContent = "已就绪";
 
-                    if (XTween_Dashboard.TweenConfigData.LiquidScanStyle)
+                    if (XTween_Dashboard.ConfigData.LiquidScanStyle)
                         TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Scan : LiquidBg_NoExpand_Scan;
                     else
                         TweenLiquidScreen = IsExpandPanel ? LiquidBg_Expand_Pure : LiquidBg_NoExpand_Pure;
@@ -402,7 +404,7 @@ namespace SevenStrikeModules.XTween
                 // 液晶屏肮脏
                 if (!IsExtraExpandPanel)
                 {
-                    if (XTween_Dashboard.TweenConfigData.LiquidDirty)
+                    if (XTween_Dashboard.ConfigData.LiquidDirty)
                     {
                         rect_liquid_prim.Set(rect_liquid_set.x + (IsExpandPanel ? (rect_liquid_set.width - LiquidDirty.width - 13) : (rect_liquid_set.width - LiquidDirty_Small.width - 13)), rect_liquid_set.y + 97, IsExpandPanel ? LiquidDirty.width : LiquidDirty_Small.width, IsExpandPanel ? LiquidDirty.height : LiquidDirty_Small.height);
                         XTween_GUI.Gui_TextureBox(rect_liquid_prim, IsExpandPanel ? LiquidDirty : LiquidDirty_Small);
@@ -429,7 +431,7 @@ namespace SevenStrikeModules.XTween
                 if (IsPreviewed || BaseScript.CurrentTweener != null ? BaseScript.CurrentTweener.IsPlaying : false)
                 {
                     // 呼吸效果计算
-                    if (XTween_Dashboard.TweenConfigData.LiquidBlinker == 1)
+                    if (XTween_Dashboard.ConfigData.LiquidBlinker == 1)
                     {
                         float alpha = (Mathf.Sin((float)(EditorApplication.timeSinceStartup * LedBreathSpeed) * Mathf.PI) + 1) * 0.5f;
                         TweenLedOnColor = new Color(XTween_Dashboard.Theme_Primary.r, XTween_Dashboard.Theme_Primary.g, XTween_Dashboard.Theme_Primary.b, alpha);
@@ -1094,17 +1096,17 @@ namespace SevenStrikeModules.XTween
 
             XTween_GUI.Gui_Layout_Seperator(1, XTween_Dashboard.Theme_SeperateLine);
 
+            #region 动画预览选项
             #region 自动停止预览
             EditorGUI.BeginChangeCheck();
             XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("自动停止预览", new string[2] { "禁用", "启用" }, ref sp_index_AutoKillPreviewTweens, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
             if (EditorGUI.EndChangeCheck())
             {
+                XTween_Dashboard.Set_PreviewOption_AutoKillPreviewTweens(sp_index_AutoKillPreviewTweens.boolValue);
                 XTween_Previewer.AutoKillWithDuration = sp_index_AutoKillPreviewTweens.boolValue;
-                XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_AutoKillWithDuration", sp_index_AutoKillPreviewTweens.boolValue);
+                //XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_AutoKillWithDuration", sp_index_AutoKillPreviewTweens.boolValue);
 
-                // 如果为自动杀死动画则会强制开启：
-                // 杀死前重置动画
-                // 杀死后清空预览列表
+                // 如果为自动杀死动画则会强制开启：杀死前重置动画 / 杀死后清空预览列表
                 if (sp_index_AutoKillPreviewTweens.boolValue)
                 {
                     sp_index_RewindPreviewTweensWithKill.boolValue = true;
@@ -1112,11 +1114,17 @@ namespace SevenStrikeModules.XTween
                     sp_index_ClearPreviewTweensWithKill.boolValue = true;
                     sp_index_ClearPreviewTweensWithKill.serializedObject.ApplyModifiedProperties();
 
+
+                    XTween_Dashboard.Set_PreviewOption_RewindPreviewTweensWithKill(sp_index_RewindPreviewTweensWithKill.boolValue);
                     XTween_Previewer.BeforeKillRewind = sp_index_RewindPreviewTweensWithKill.boolValue;
-                    XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_RewindPreviewTweensWithKill", sp_index_RewindPreviewTweensWithKill.boolValue);
+                    //XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_RewindPreviewTweensWithKill", sp_index_RewindPreviewTweensWithKill.boolValue);
+
+                    XTween_Dashboard.Set_PreviewOption_ClearPreviewTweensWithKill(sp_index_ClearPreviewTweensWithKill.boolValue);
                     XTween_Previewer.AfterKillClear = sp_index_ClearPreviewTweensWithKill.boolValue;
-                    XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_ClearPreviewTweensWithKill", sp_index_ClearPreviewTweensWithKill.boolValue);
+                    //XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_ClearPreviewTweensWithKill", sp_index_ClearPreviewTweensWithKill.boolValue);
                 }
+
+                XTween_Dashboard.SavePreviewOptionsToXTweenConfigData();
             }
             #endregion
 
@@ -1124,11 +1132,13 @@ namespace SevenStrikeModules.XTween
             if (!sp_index_AutoKillPreviewTweens.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
-                XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("杀死前先重置", new string[2] { "禁用", "启用" }, ref sp_index_RewindPreviewTweensWithKill, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
+                XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("杀死前先重置动画", new string[2] { "禁用", "启用" }, ref sp_index_RewindPreviewTweensWithKill, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
                 if (EditorGUI.EndChangeCheck())
                 {
+                    XTween_Dashboard.Set_PreviewOption_RewindPreviewTweensWithKill(sp_index_RewindPreviewTweensWithKill.boolValue);
                     XTween_Previewer.BeforeKillRewind = sp_index_RewindPreviewTweensWithKill.boolValue;
-                    XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_RewindPreviewTweensWithKill", sp_index_RewindPreviewTweensWithKill.boolValue);
+                    //XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_RewindPreviewTweensWithKill", sp_index_RewindPreviewTweensWithKill.boolValue); ;
+                    XTween_Dashboard.SavePreviewOptionsToXTweenConfigData();
                 }
             }
             #endregion
@@ -1140,11 +1150,15 @@ namespace SevenStrikeModules.XTween
                 XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("杀死后清空预览器列表", new string[2] { "禁用", "启用" }, ref sp_index_ClearPreviewTweensWithKill, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
                 if (EditorGUI.EndChangeCheck())
                 {
+                    XTween_Dashboard.Set_PreviewOption_ClearPreviewTweensWithKill(sp_index_ClearPreviewTweensWithKill.boolValue);
                     XTween_Previewer.AfterKillClear = sp_index_ClearPreviewTweensWithKill.boolValue;
-                    XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_ClearPreviewTweensWithKill", sp_index_ClearPreviewTweensWithKill.boolValue);
+                    //XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_ClearPreviewTweensWithKill", sp_index_ClearPreviewTweensWithKill.boolValue);
+                    XTween_Dashboard.SavePreviewOptionsToXTweenConfigData();
                 }
             }
             #endregion
+            #endregion
+
             XTween_GUI.Gui_Layout_Space(10);
             XTween_GUI.Gui_Layout_Vertical_End();
             #endregion

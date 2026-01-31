@@ -79,6 +79,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="endValue">目标二维向量值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁，默认为 true</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface To(XTween_Getter<Vector2> getter, XTween_Setter<Vector2> setter, Vector2 endValue, float duration, bool autokill = true, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<Vector2> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {

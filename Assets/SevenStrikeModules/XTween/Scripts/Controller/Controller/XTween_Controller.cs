@@ -733,8 +733,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 动画完成后的委托
         /// </summary>
-        /// <param name="obj"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <param name="duration"></param>
         private void Action_Complete(float duration)
         {
             if (CurrentTweener != null)

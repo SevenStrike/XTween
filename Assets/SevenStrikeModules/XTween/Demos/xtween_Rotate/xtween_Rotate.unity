@@ -9679,7 +9679,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -16.999998}
+  m_AnchoredPosition: {x: 0, y: -17}
   m_SizeDelta: {x: -272.8, y: -525.27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &665650467
@@ -10358,7 +10358,6 @@ MonoBehaviour:
   index_AutoKillPreviewTweens: 1
   index_RewindPreviewTweensWithKill: 1
   index_ClearPreviewTweensWithKill: 1
-  LiquidLEDBlink: 0
   Target_RectTransform: {fileID: 845673961}
   Target_Image: {fileID: 1593414447}
   Target_CanvasGroup: {fileID: 0}
@@ -19225,7 +19224,6 @@ MonoBehaviour:
   index_AutoKillPreviewTweens: 1
   index_RewindPreviewTweensWithKill: 1
   index_ClearPreviewTweensWithKill: 1
-  LiquidLEDBlink: 0
   Target_RectTransform: {fileID: 1590888336}
   Target_Image: {fileID: 0}
   Target_CanvasGroup: {fileID: 0}
@@ -19423,7 +19421,6 @@ MonoBehaviour:
   index_AutoKillPreviewTweens: 1
   index_RewindPreviewTweensWithKill: 1
   index_ClearPreviewTweensWithKill: 1
-  LiquidLEDBlink: 0
   Target_RectTransform: {fileID: 1593414446}
   Target_Image: {fileID: 1593414447}
   Target_CanvasGroup: {fileID: 0}
@@ -21110,7 +21107,6 @@ MonoBehaviour:
   index_AutoKillPreviewTweens: 1
   index_RewindPreviewTweensWithKill: 1
   index_ClearPreviewTweensWithKill: 1
-  LiquidLEDBlink: 0
   Target_RectTransform: {fileID: 1990758988}
   Target_Image: {fileID: 1593414447}
   Target_CanvasGroup: {fileID: 0}

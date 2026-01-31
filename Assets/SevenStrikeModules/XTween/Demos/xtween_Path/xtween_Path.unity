@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 806d33ef5a9c7394ba652ebf8bab0a2a, type: 2}
+  m_Material: {fileID: 2100000, guid: 3d059aaf6f05b7349a13336a484f9b02, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -2934,7 +2934,6 @@ MonoBehaviour:
   index_AutoKillPreviewTweens: 1
   index_RewindPreviewTweensWithKill: 1
   index_ClearPreviewTweensWithKill: 1
-  LiquidLEDBlink: 0
   Target_RectTransform: {fileID: 716050662}
   Target_Image: {fileID: 716050663}
   Target_CanvasGroup: {fileID: 0}
@@ -3087,7 +3086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 806d33ef5a9c7394ba652ebf8bab0a2a, type: 2}
+  m_Material: {fileID: 2100000, guid: 3d059aaf6f05b7349a13336a484f9b02, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -4533,7 +4532,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -13.999998}
+  m_AnchoredPosition: {x: 0, y: -14}
   m_SizeDelta: {x: -272.8, y: -525.27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1010052017
@@ -5752,6 +5751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8e691a6e0f17b499127133162297e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tt: {fileID: 0}
   EasePics:
   - {fileID: 2800000, guid: c1897147b30a9bb4d8a27509b6ffb670, type: 3}
   - {fileID: 2800000, guid: cf2640a0895d4884586e6ec5c25ec27e, type: 3}
@@ -6215,7 +6215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 806d33ef5a9c7394ba652ebf8bab0a2a, type: 2}
+  m_Material: {fileID: 2100000, guid: 3d059aaf6f05b7349a13336a484f9b02, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -6533,7 +6533,6 @@ MonoBehaviour:
   index_AutoKillPreviewTweens: 1
   index_RewindPreviewTweensWithKill: 1
   index_ClearPreviewTweensWithKill: 1
-  LiquidLEDBlink: 0
   Target_RectTransform: {fileID: 1575985083}
   Target_Image: {fileID: 1575985085}
   Target_CanvasGroup: {fileID: 0}
@@ -6938,7 +6937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 806d33ef5a9c7394ba652ebf8bab0a2a, type: 2}
+  m_Material: {fileID: 2100000, guid: 3d059aaf6f05b7349a13336a484f9b02, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -7499,7 +7498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 806d33ef5a9c7394ba652ebf8bab0a2a, type: 2}
+  m_Material: {fileID: 2100000, guid: 3d059aaf6f05b7349a13336a484f9b02, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -7825,7 +7824,6 @@ MonoBehaviour:
   index_AutoKillPreviewTweens: 1
   index_RewindPreviewTweensWithKill: 1
   index_ClearPreviewTweensWithKill: 1
-  LiquidLEDBlink: 0
   Target_RectTransform: {fileID: 1909025134}
   Target_Image: {fileID: 0}
   Target_CanvasGroup: {fileID: 0}

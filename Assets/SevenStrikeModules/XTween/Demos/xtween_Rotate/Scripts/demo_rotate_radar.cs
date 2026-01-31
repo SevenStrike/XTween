@@ -41,9 +41,11 @@ public class demo_rotate_radar : demo_base
         {
             currentTweener = rect_scan.xt_Rotate_To(Vector3.forward * 360, duration, isRelative, isAutoKill, RotationMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(curve).SetDelay(delay).OnRewind(() =>
             {
-                rect_scan.rotation = Quaternion.Euler(Vector3.zero);
+                if (rect_scan != null)
+                    rect_scan.rotation = Quaternion.Euler(Vector3.zero);
                 if (Application.isPlaying)
-                    text_value_status.text = currentTweener.CurrentLoop.ToString();
+                    if (text_value_status != null)
+                        text_value_status.text = currentTweener.CurrentLoop.ToString();
                 particle_dots.Play();
             });
         }
@@ -51,9 +53,11 @@ public class demo_rotate_radar : demo_base
         {
             currentTweener = rect_scan.xt_Rotate_To(Vector3.forward * 360, duration, isRelative, isAutoKill, RotationMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(delay).OnRewind(() =>
             {
-                rect_scan.rotation = Quaternion.Euler(Vector3.zero);
+                if (rect_scan != null)
+                    rect_scan.rotation = Quaternion.Euler(Vector3.zero);
                 if (Application.isPlaying)
-                    text_value_status.text = currentTweener.CurrentLoop.ToString();
+                    if (text_value_status != null)
+                        text_value_status.text = currentTweener.CurrentLoop.ToString();
                 particle_dots.Play();
             });
         }

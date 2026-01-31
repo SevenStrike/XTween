@@ -162,7 +162,7 @@ public class editor_demo_scale_machine : editor_demo_base
             demo_scale.rulertween.img.rectTransform.eulerAngles = Vector3.forward * 210;
 
             demo_scale.probtween.img.color = demo_scale.dir == "display" ? demo_scale.probtween.target : demo_scale.probtween.from;
-            demo_scale.sws = false;
+            demo_scale.particleplayed = false;
         }
 
     }

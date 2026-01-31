@@ -120,7 +120,8 @@ public class demo_scale_machine : demo_base
 
             probtween.tween = probtween.img.xt_Color_To(probtween.target, Prob_Duration_display, true, EaseMode.InSine, true, () => probtween.from, true, Prob_Curve_display).SetDelay(Prob_Delay_display).OnKill(() =>
             {
-                probtween.img.color = probtween.target;
+                if (probtween != null && probtween.img != null)
+                    probtween.img.color = probtween.target;
             }).SetLoop(0);
         }
         else
@@ -143,10 +144,11 @@ public class demo_scale_machine : demo_base
 
             probtween.tween = probtween.img.xt_Color_To(probtween.from, Prob_Duration_hidden, true, EaseMode.InSine, false, null, true, Prob_Curve_hidden).SetDelay(Prob_Delay_hidden).OnKill(() =>
             {
-                probtween.img.color = probtween.from;
+                if (probtween != null && probtween.img != null)
+                    probtween.img.color = probtween.from;
             }).SetLoop(0);
 
-            sws = false;
+            particleplayed = false;
         }
 
         base.Tween_Create();
@@ -296,7 +298,7 @@ public class demo_scale_machine : demo_base
     }
     #endregion
 
-    public bool sws;
+    public bool particleplayed;
 
     #region 缩放动画
     /// <summary>
@@ -309,16 +311,17 @@ public class demo_scale_machine : demo_base
         {
             twn.tween = twn.img.rectTransform.xt_Scale_To(dir == "display" ? twn.target : twn.from, dir == "display" ? duration : Hidden_Duration, isRelative, isAutoKill, easeMode, isFromMode, () => dir == "display" ? twn.from : twn.target, useCurve, curve).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetDelay(dir == "display" ? twn.delay : hiddenDelay * Hidden_DelayMultiply).OnRewind(() =>
             {
-                twn.img.rectTransform.localScale = dir == "display" ? twn.target : twn.from;
+                if (twn.img != null)
+                    twn.img.rectTransform.localScale = dir == "display" ? twn.target : twn.from;
             }).SetStepTimeInterval(0.2f).OnStepUpdate<Vector3>((s, f, k) =>
             {
                 if (f > 0.2f)
                 {
                     if (twn.particle != null && dir == "display")
                     {
-                        if (sws)
+                        if (particleplayed)
                             return;
-                        sws = true;
+                        particleplayed = true;
                         twn.particle.Play();
                     }
                 }
@@ -328,16 +331,17 @@ public class demo_scale_machine : demo_base
         {
             twn.tween = twn.img.rectTransform.xt_Scale_To(dir == "display" ? twn.target : twn.from, dir == "display" ? duration : Hidden_Duration, isRelative, isAutoKill, easeMode, isFromMode, () => dir == "display" ? twn.from : twn.target).SetEase(dir == "display" ? easeMode : Hidden_easeMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetDelay(dir == "display" ? twn.delay : hiddenDelay * Hidden_DelayMultiply).OnRewind(() =>
             {
-                twn.img.rectTransform.localScale = dir == "display" ? twn.target : twn.from;
+                if (twn.img != null)
+                    twn.img.rectTransform.localScale = dir == "display" ? twn.target : twn.from;
             }).SetStepTimeInterval(0.2f).OnStepUpdate<Vector3>((s, f, k) =>
             {
                 if (f > 0.2f)
                 {
                     if (twn.particle != null && dir == "display")
                     {
-                        if (sws)
+                        if (particleplayed)
                             return;
-                        sws = true;
+                        particleplayed = true;
                         twn.particle.Play();
                     }
                 }
@@ -357,8 +361,9 @@ public class demo_scale_machine : demo_base
     {
         twn.tween = twn.img.rectTransform.xt_Rotate_To(twn.target, twn.duration, false, false, RotationMode.FullRotation).OnKill(() =>
         {
-            twn.img.rectTransform.eulerAngles = Vector3.zero;
-        }).SetLoop(-1);
+            if (twn.img != null)
+                twn.img.rectTransform.eulerAngles = Vector3.zero;
+        }).SetLoop(-1).SetEase(EaseMode.Linear);
     }
     #endregion
 

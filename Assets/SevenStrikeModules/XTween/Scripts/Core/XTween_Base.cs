@@ -1042,6 +1042,13 @@ namespace SevenStrikeModules.XTween
             _PauseTime = 0f;
             _StartTime = float.MaxValue;
 
+            _Delay = 0f;
+            _loopType = XTween_LoopType.Restart;
+            _LoopingDelay = 0f;
+            _LoopCount = 0;
+            _easeMode = EaseMode.Linear;
+            _CustomEaseCurve = null;
+
             // 重置步长状态
             _stepMode = StepUpdateMode.EveryFrame;
             _stepInterval = 0f;

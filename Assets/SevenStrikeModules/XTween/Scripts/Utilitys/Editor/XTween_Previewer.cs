@@ -260,13 +260,30 @@ namespace SevenStrikeModules.XTween
         [InitializeOnLoadMethod]
         private static void Initialize()
         {
+            // 延迟执行，等待配置加载完成
+            EditorApplication.delayCall += () =>
+            {
+                InternalInitialize();
+            };
+        }
+
+        /// <summary>
+        /// 内部初始化方法（真正的逻辑实现）
+        /// </summary>
+        private static void InternalInitialize()
+        {
+            // 避免重复注册更新事件
+            EditorApplication.update -= Update;
             EditorApplication.update += Update;
+
+            // 重置预览状态
             Played = false;
             MaxTotalDuration = 0f;
 
-            autoKillWithDuration = XTween_Utilitys.PlayerPrefs_ReadValue_Bool_ForEditor("PreviewTween_AutoKillWithDuration");
-
+            // 安全获取预览配置
+            autoKillWithDuration = XTween_Dashboard.Get_PreviewOption_AutoKillPreviewTweens();
         }
+
         /// <summary>
         /// 每帧更新方法（由EditorApplication.update驱动）
         /// 功能说明：

@@ -52,14 +52,20 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((tiled, linearProgres, time) =>
                 {
+                    if (image == null)
+                        return;
                     image.pixelsPerUnitMultiplier = tiled;
                 })
                 .OnRewind(() =>
                 {
+                    if (image == null)
+                        return;
                     image.pixelsPerUnitMultiplier = startalpha;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (image == null)
+                        return;
                     image.pixelsPerUnitMultiplier = endValue;
                 })
                 .SetAutokill(autokill);
@@ -69,20 +75,22 @@ namespace SevenStrikeModules.XTween
             else
             {
                 XTween_Interface tweener;
-                tweener = new XTween_Specialized_Float(startalpha, endValue, duration * XTween_Dashboard.DurationMultiply)
-                        .OnUpdate((tiled, linearProgres, time) =>
-                        {
-                            image.pixelsPerUnitMultiplier = tiled;
-                        })
-                        .OnRewind(() =>
-                        {
-                            image.pixelsPerUnitMultiplier = startalpha;
-                        })
-                        .OnComplete((duration) =>
-                        {
-                            image.pixelsPerUnitMultiplier = endValue;
-                        })
-                        .SetAutokill(false);
+                tweener = new XTween_Specialized_Float(startalpha, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((tiled, linearProgres, time) =>
+                {
+                    if (image == null)
+                        return;
+                    image.pixelsPerUnitMultiplier = tiled;
+                }).OnRewind(() =>
+                {
+                    if (image == null)
+                        return;
+                    image.pixelsPerUnitMultiplier = startalpha;
+                }).OnComplete((duration) =>
+                {
+                    if (image == null)
+                        return;
+                    image.pixelsPerUnitMultiplier = endValue;
+                }).SetAutokill(false);
 
                 return tweener;
             }
@@ -95,6 +103,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="endValue">目标纹理平铺</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_Tiled_To(this Image image, float endValue, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<float> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -119,22 +132,82 @@ namespace SevenStrikeModules.XTween
                     float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((tiled, linearProgres, time) => { image.pixelsPerUnitMultiplier = tiled; }).OnRewind(() => { image.pixelsPerUnitMultiplier = startalpha; }).OnComplete((duration) => { image.pixelsPerUnitMultiplier = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((tiled, linearProgres, time) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = tiled;
+                        }).OnRewind(() =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = startalpha;
+                        }).OnComplete((duration) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((tiled, linearProgres, time) => { image.pixelsPerUnitMultiplier = tiled; }).OnRewind(() => { image.pixelsPerUnitMultiplier = startalpha; }).OnComplete((duration) => { image.pixelsPerUnitMultiplier = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((tiled, linearProgres, time) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = tiled;
+                        }).OnRewind(() =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = startalpha;
+                        }).OnComplete((duration) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((tiled, linearProgres, time) => { image.pixelsPerUnitMultiplier = tiled; }).OnRewind(() => { image.pixelsPerUnitMultiplier = startalpha; }).OnComplete((duration) => { image.pixelsPerUnitMultiplier = endValue; }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((tiled, linearProgres, time) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = tiled;
+                        }).OnRewind(() =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = startalpha;
+                        }).OnComplete((duration) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = endValue;
+                        }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((tiled, linearProgres, time) => { image.pixelsPerUnitMultiplier = tiled; }).OnRewind(() => { image.pixelsPerUnitMultiplier = startalpha; }).OnComplete((duration) => { image.pixelsPerUnitMultiplier = endValue; }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((tiled, linearProgres, time) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = tiled;
+                        }).OnRewind(() =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = startalpha;
+                        }).OnComplete((duration) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = endValue;
+                        }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 return tweener;
@@ -150,22 +223,82 @@ namespace SevenStrikeModules.XTween
                     float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Float(startalpha, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((tiled, linearProgres, time) => { image.pixelsPerUnitMultiplier = tiled; }).OnRewind(() => { image.pixelsPerUnitMultiplier = startalpha; }).OnComplete((duration) => { image.pixelsPerUnitMultiplier = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startalpha, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((tiled, linearProgres, time) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = tiled;
+                        }).OnRewind(() =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = startalpha;
+                        }).OnComplete((duration) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Float(startalpha, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((tiled, linearProgres, time) => { image.pixelsPerUnitMultiplier = tiled; }).OnRewind(() => { image.pixelsPerUnitMultiplier = startalpha; }).OnComplete((duration) => { image.pixelsPerUnitMultiplier = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startalpha, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((tiled, linearProgres, time) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = tiled;
+                        }).OnRewind(() =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = startalpha;
+                        }).OnComplete((duration) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Float(startalpha, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((tiled, linearProgres, time) => { image.pixelsPerUnitMultiplier = tiled; }).OnRewind(() => { image.pixelsPerUnitMultiplier = startalpha; }).OnComplete((duration) => { image.pixelsPerUnitMultiplier = endValue; }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startalpha, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((tiled, linearProgres, time) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = tiled;
+                        }).OnRewind(() =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = startalpha;
+                        }).OnComplete((duration) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = endValue;
+                        }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Float(startalpha, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((tiled, linearProgres, time) => { image.pixelsPerUnitMultiplier = tiled; }).OnRewind(() => { image.pixelsPerUnitMultiplier = startalpha; }).OnComplete((duration) => { image.pixelsPerUnitMultiplier = endValue; }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startalpha, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((tiled, linearProgres, time) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = tiled;
+                        }).OnRewind(() =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = startalpha;
+                        }).OnComplete((duration) =>
+                        {
+                            if (image == null)
+                                return;
+                            image.pixelsPerUnitMultiplier = endValue;
+                        }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 return tweener;

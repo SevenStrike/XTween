@@ -1,6 +1,5 @@
 using SevenStrikeModules.XTween;
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -60,7 +59,8 @@ public class demo_rotate_psi : demo_base
         {
             currentTweener = rect_PSI.xt_Rotate_To(Vector3.forward * targetPos_PSI, duration, isRelative, isAutoKill, RotationMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(curve).SetDelay(delay).OnRewind(() =>
             {
-                rect_PSI.rotation = Quaternion.Euler(Vector3.zero);
+                if (rect_PSI != null)
+                    rect_PSI.rotation = Quaternion.Euler(Vector3.zero);
             }).OnStart(() =>
             {
             });
@@ -69,7 +69,8 @@ public class demo_rotate_psi : demo_base
         {
             currentTweener = rect_PSI.xt_Rotate_To(Vector3.forward * targetPos_PSI, duration, isRelative, isAutoKill, RotationMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(delay).OnRewind(() =>
             {
-                rect_PSI.rotation = Quaternion.Euler(Vector3.zero);
+                if (rect_PSI != null)
+                    rect_PSI.rotation = Quaternion.Euler(Vector3.zero);
             }).OnStart(() =>
             {
             });
@@ -79,7 +80,8 @@ public class demo_rotate_psi : demo_base
         {
             tween_TOG = rect_TOG.xt_Rotate_To(Vector3.forward * targetPos_TOG, duration, isRelative, isAutoKill, RotationMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(curve).SetDelay(delay).OnRewind(() =>
             {
-                rect_TOG.rotation = Quaternion.Euler(Vector3.zero);
+                if (rect_TOG != null)
+                    rect_TOG.rotation = Quaternion.Euler(Vector3.zero);
             }).OnStart(() =>
             {
             });
@@ -88,7 +90,8 @@ public class demo_rotate_psi : demo_base
         {
             tween_TOG = rect_TOG.xt_Rotate_To(Vector3.forward * targetPos_TOG, duration, isRelative, isAutoKill, RotationMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(delay).OnRewind(() =>
             {
-                rect_TOG.rotation = Quaternion.Euler(Vector3.zero);
+                if (rect_TOG != null)
+                    rect_TOG.rotation = Quaternion.Euler(Vector3.zero);
             }).OnStart(() =>
             {
             });

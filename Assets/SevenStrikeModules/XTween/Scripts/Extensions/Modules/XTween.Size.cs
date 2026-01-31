@@ -53,39 +53,42 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((size, linearProgress, time) =>
                 {
+                    if (rectTransform == null)
+                        return;
                     rectTransform.sizeDelta = size;
-                })
-                        .OnRewind(() =>
-                        {
-                            rectTransform.sizeDelta = currentSize;
-                        })
-                        .OnComplete((duration) =>
-                        {
-                            rectTransform.sizeDelta = targetSize;
-                        })
-                        .SetAutokill(autokill)
-                        .SetRelative(isRelative);
+                }).OnRewind(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.sizeDelta = currentSize;
+                }).OnComplete((duration) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.sizeDelta = targetSize;
+                }).SetAutokill(autokill).SetRelative(isRelative);
 
                 return tweener;
             }
             else
             {
                 XTween_Interface tweener;
-                tweener = new XTween_Specialized_Vector2(currentSize, targetSize, duration * XTween_Dashboard.DurationMultiply)
-                     .OnUpdate((size, linearProgress, time) =>
-                     {
-                         rectTransform.sizeDelta = size;
-                     })
-                     .OnRewind(() =>
-                     {
-                         rectTransform.sizeDelta = currentSize;
-                     })
-                     .OnComplete((duration) =>
-                     {
-                         rectTransform.sizeDelta = targetSize;
-                     })
-                     .SetAutokill(false)
-                     .SetRelative(isRelative);
+                tweener = new XTween_Specialized_Vector2(currentSize, targetSize, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgress, time) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.sizeDelta = size;
+                }).OnRewind(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.sizeDelta = currentSize;
+                }).OnComplete((duration) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    rectTransform.sizeDelta = targetSize;
+                }).SetAutokill(false).SetRelative(isRelative);
 
                 return tweener;
             }
@@ -99,6 +102,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="isRelative">是否为相对变化</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_Size_To(this UnityEngine.RectTransform rectTransform, Vector2 endValue, float duration, bool isRelative = false, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<Vector2> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -124,22 +132,82 @@ namespace SevenStrikeModules.XTween
                     Vector2 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((size, linearProgress, time) => { rectTransform.sizeDelta = size; }).OnRewind(() => { rectTransform.sizeDelta = currentSize; }).OnComplete((duration) => { rectTransform.sizeDelta = targetSize; }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
+                        tweener.OnUpdate((size, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = size;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = currentSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = targetSize;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
                     }
                     else
                     {
-                        tweener.OnUpdate((size, linearProgress, time) => { rectTransform.sizeDelta = size; }).OnRewind(() => { rectTransform.sizeDelta = currentSize; }).OnComplete((duration) => { rectTransform.sizeDelta = targetSize; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
+                        tweener.OnUpdate((size, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = size;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = currentSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = targetSize;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((size, linearProgress, time) => { rectTransform.sizeDelta = size; }).OnRewind(() => { rectTransform.sizeDelta = currentSize; }).OnComplete((duration) => { rectTransform.sizeDelta = targetSize; }).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
+                        tweener.OnUpdate((size, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = size;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = currentSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = targetSize;
+                        }).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
                     }
                     else
                     {
-                        tweener.OnUpdate((size, linearProgress, time) => { rectTransform.sizeDelta = size; }).OnRewind(() => { rectTransform.sizeDelta = currentSize; }).OnComplete((duration) => { rectTransform.sizeDelta = targetSize; }).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
+                        tweener.OnUpdate((size, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = size;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = currentSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = targetSize;
+                        }).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
                     }
                 }
                 return tweener;
@@ -155,22 +223,82 @@ namespace SevenStrikeModules.XTween
                     Vector2 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector2(currentSize, targetSize, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgress, time) => { rectTransform.sizeDelta = size; }).OnRewind(() => { rectTransform.sizeDelta = currentSize; }).OnComplete((duration) => { rectTransform.sizeDelta = targetSize; }).SetAutokill(false).SetFrom(fromval).SetEase(curve).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Vector2(currentSize, targetSize, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = size;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = currentSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = targetSize;
+                        }).SetAutokill(false).SetFrom(fromval).SetEase(curve).SetRelative(isRelative);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector2(currentSize, targetSize, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgress, time) => { rectTransform.sizeDelta = size; }).OnRewind(() => { rectTransform.sizeDelta = currentSize; }).OnComplete((duration) => { rectTransform.sizeDelta = targetSize; }).SetAutokill(false).SetFrom(fromval).SetEase(easeMode).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Vector2(currentSize, targetSize, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = size;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = currentSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = targetSize;
+                        }).SetAutokill(false).SetFrom(fromval).SetEase(easeMode).SetRelative(isRelative);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector2(currentSize, targetSize, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgress, time) => { rectTransform.sizeDelta = size; }).OnRewind(() => { rectTransform.sizeDelta = currentSize; }).OnComplete((duration) => { rectTransform.sizeDelta = targetSize; }).SetAutokill(false).SetEase(curve).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Vector2(currentSize, targetSize, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = size;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = currentSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = targetSize;
+                        }).SetAutokill(false).SetEase(curve).SetRelative(isRelative);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector2(currentSize, targetSize, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgress, time) => { rectTransform.sizeDelta = size; }).OnRewind(() => { rectTransform.sizeDelta = currentSize; }).OnComplete((duration) => { rectTransform.sizeDelta = targetSize; }).SetAutokill(false).SetEase(easeMode).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Vector2(currentSize, targetSize, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = size;
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = currentSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            rectTransform.sizeDelta = targetSize;
+                        }).SetAutokill(false).SetEase(easeMode).SetRelative(isRelative);
                     }
                 }
                 return tweener;

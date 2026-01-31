@@ -25,6 +25,8 @@ namespace SevenStrikeModules.XTween
     using System.Linq;
     using UnityEditor;
     using UnityEngine;
+    using UnityEngine.SceneManagement;
+    using UnityEngine.UI;
 
     /// <summary>
     /// 动画循环模式
@@ -74,17 +76,19 @@ namespace SevenStrikeModules.XTween
             }
             _instance = this;
 
+            XTween_Dashboard.GetXTweenConfigData();
+
             // 预加载所有动画对象
             if (XTween_Pool.EnablePool)
             {
-                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Float), XTween_Dashboard.TweenConfigData.PoolCount_Float);
-                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Int), XTween_Dashboard.TweenConfigData.PoolCount_Int);
-                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Color), XTween_Dashboard.TweenConfigData.PoolCount_Color);
-                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_String), XTween_Dashboard.TweenConfigData.PoolCount_String);
-                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Quaternion), XTween_Dashboard.TweenConfigData.PoolCount_Quaternion);
-                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Vector2), XTween_Dashboard.TweenConfigData.PoolCount_Vector2);
-                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Vector3), XTween_Dashboard.TweenConfigData.PoolCount_Vector3);
-                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Vector4), XTween_Dashboard.TweenConfigData.PoolCount_Vector4);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Float), XTween_Dashboard.ConfigData.PoolCount_Float);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Int), XTween_Dashboard.ConfigData.PoolCount_Int);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Color), XTween_Dashboard.ConfigData.PoolCount_Color);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_String), XTween_Dashboard.ConfigData.PoolCount_String);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Quaternion), XTween_Dashboard.ConfigData.PoolCount_Quaternion);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Vector2), XTween_Dashboard.ConfigData.PoolCount_Vector2);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Vector3), XTween_Dashboard.ConfigData.PoolCount_Vector3);
+                XTween_Pool.SetPreloadCount(typeof(XTween_Specialized_Vector4), XTween_Dashboard.ConfigData.PoolCount_Vector4);
                 XTween_Pool.PreloadAll();
                 XTween_Utilitys.DebugInfo("XTween Pool动画池消息", "XTween Pool动画池已预加载并就绪！", GUIMsgState.确认);
             }
@@ -139,6 +143,28 @@ namespace SevenStrikeModules.XTween
         private void Awake()
         {
             InstanceModeCheck();
+
+            if (XTween_Dashboard.ConfigData.PoolRecyleAllOnSceneUnloaded)
+            {
+                // 防止重复注册（单例可能多次初始化，避免回调重复添加）
+                SceneManager.sceneUnloaded -= OnSceneUnloaded;
+                SceneManager.sceneUnloaded += OnSceneUnloaded;
+            }
+
+            if (XTween_Dashboard.ConfigData.PoolRecyleAllOnSceneLoaded)
+            {
+                // 可选：监听场景加载前（双重保障）
+                SceneManager.sceneLoaded -= OnSceneLoaded;
+                SceneManager.sceneLoaded += OnSceneLoaded;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            #region  防止单例被意外销毁，移除监听
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            #endregion
         }
 
         #region 更新逻辑
@@ -682,6 +708,53 @@ namespace SevenStrikeModules.XTween
                 Debug.LogWarning($"FindTween_By_ShortID: 在查找短ID为 '{id}' 的动画时发生异常。异常信息: {e.Message}");
                 return null;
             }
+        }
+        #endregion
+
+        #region 对象池保护机制
+        /// <summary>
+        /// 【核心】场景卸载完成时（目标对象已销毁），强制回收所有动画
+        /// </summary>
+        /// <param name="scene"></param>
+        private void OnSceneUnloaded(Scene scene)
+        {
+            RecycleAllTweens();
+        }
+
+        /// <summary>
+        /// 可选：场景加载完成后（额外兜底，防止残留）
+        /// </summary>
+        /// <param name="scene"></param>
+        /// <param name="mode"></param>
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            // 延迟一帧回收（确保上一场景的所有对象已完全销毁）
+            Invoke(nameof(RecycleAllTweens), 0.01f);
+        }
+
+        /// <summary>
+        /// 【核心方法】统一回收所有正在播放的动画，强制回池
+        /// </summary>
+        private void RecycleAllTweens()
+        {
+            if (_ActiveTweens == null || _ActiveTweens.Count == 0) return;
+
+            // 遍历复制的集合（避免遍历中修改原集合导致异常）
+            List<XTween_Interface> tempTweens = new List<XTween_Interface>(_ActiveTweens);
+            foreach (var tween in tempTweens)
+            {
+                if (tween != null)
+                {
+                    // 1. 强制终止动画（无论是否完成）
+                    tween.Kill(); // 你需要确保IXTween有Kill()方法，终止动画逻辑
+                                  // 2. 强制回收回对象池（调用你的对象池回收方法）
+                    XTween_Pool.RecycleTween(tween); // 替换为你的对象池回收方法，如XTween_Pool.ForceRecycle(tween)
+                }
+            }
+
+            // 清空播放列表（避免残留引用）
+            _ActiveTweens.Clear();
+            XTween_Utilitys.DebugInfo("XTween Manager动画管理器消息", $"检测到场景切换动作，自动回收 {tempTweens.Count} 个动画实例", GUIMsgState.确认);
         }
         #endregion
     }

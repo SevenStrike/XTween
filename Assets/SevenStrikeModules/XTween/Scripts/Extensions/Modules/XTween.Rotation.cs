@@ -33,6 +33,7 @@ namespace SevenStrikeModules.XTween
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="isRelative">是否为相对变化</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
+        /// <param name="rotationMode">旋转模式</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_Rotate_To(this UnityEngine.RectTransform rectTransform, Vector3 endValue, float duration, bool isRelative = false, bool autokill = false, RotationMode rotationMode = RotationMode.Sequential)
         {
@@ -56,36 +57,21 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((rotation, linearProgress, time) =>
                 {
-                    if (isRelative)
-                    {
-                        rectTransform.localEulerAngles = rotation;
-                    }
-                    else
-                    {
-                        rectTransform.eulerAngles = rotation;
-                    }
+                    if (rectTransform == null)
+                        return;
+                    if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                 })
                 .OnRewind(() =>
                 {
-                    if (isRelative)
-                    {
-                        rectTransform.localEulerAngles = currentRotation;
-                    }
-                    else
-                    {
-                        rectTransform.eulerAngles = currentRotation;
-                    }
+                    if (rectTransform == null)
+                        return;
+                    if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                 })
                 .OnComplete((duration) =>
                 {
-                    if (isRelative)
-                    {
-                        rectTransform.localEulerAngles = targetRotation;
-                    }
-                    else
-                    {
-                        rectTransform.eulerAngles = targetRotation;
-                    }
+                    if (rectTransform == null)
+                        return;
+                    if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                 })
                 .SetAutokill(autokill)
                 .SetRelative(isRelative);
@@ -95,42 +81,24 @@ namespace SevenStrikeModules.XTween
             else
             {
                 XTween_Interface tweener;
-                tweener = new XTween_Specialized_Vector3(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply)
-                        .OnUpdate((rotation, linearProgress, time) =>
-                        {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = rotation;
-                            }
-                            else
-                            {
-                                rectTransform.eulerAngles = rotation;
-                            }
-                        })
-                        .OnRewind(() =>
-                        {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = currentRotation;
-                            }
-                            else
-                            {
-                                rectTransform.eulerAngles = currentRotation;
-                            }
-                        })
-                        .OnComplete((duration) =>
-                        {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = targetRotation;
-                            }
-                            else
-                            {
-                                rectTransform.eulerAngles = targetRotation;
-                            }
-                        })
-                        .SetAutokill(false)
-                        .SetRelative(isRelative);
+                tweener = new XTween_Specialized_Vector3(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply).OnUpdate((rotation, linearProgress, time) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                }).OnRewind(() =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                }).OnComplete((duration) =>
+                {
+                    if (rectTransform == null)
+                        return;
+                    if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                })
+                .SetAutokill(false)
+                .SetRelative(isRelative);
 
                 return tweener;
             }
@@ -142,8 +110,14 @@ namespace SevenStrikeModules.XTween
         /// <param name="rectTransform">目标 RectTransform 组件</param>
         /// <param name="endValue">目标旋转</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
+        /// <param name="rotationMode">旋转模式</param>
         /// <param name="isRelative">是否为相对变化</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_Rotate_To(this UnityEngine.RectTransform rectTransform, Vector3 endValue, float duration, RotationMode rotationMode = RotationMode.Sequential, bool isRelative = false, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<Vector3> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -174,59 +148,38 @@ namespace SevenStrikeModules.XTween
                     {
                         tweener.OnUpdate((rotation, linearProgress, time) =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = rotation;
-                            }
-                            else
-                            {
-                                rectTransform.eulerAngles = rotation;
-                            }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = currentRotation;
-                            }
-                            else { rectTransform.eulerAngles = currentRotation; }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = targetRotation;
-                            }
-                            else
-                            {
-                                rectTransform.eulerAngles = targetRotation;
-                            }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
                     }
                     else
                     {
                         tweener.OnUpdate((rotation, linearProgress, time) =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = rotation;
-                            }
-                            else
-                            {
-                                rectTransform.eulerAngles = rotation;
-                            }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = currentRotation;
-                            }
-                            else { rectTransform.eulerAngles = currentRotation; }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = targetRotation;
-                            }
-                            else { rectTransform.eulerAngles = targetRotation; }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
                     }
                 }
@@ -236,65 +189,38 @@ namespace SevenStrikeModules.XTween
                     {
                         tweener.OnUpdate((rotation, linearProgress, time) =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = rotation;
-                            }
-                            else
-                            {
-                                rectTransform.eulerAngles = rotation;
-                            }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = currentRotation;
-                            }
-                            else
-                            {
-                                rectTransform.eulerAngles = currentRotation;
-                            }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = targetRotation;
-                            }
-                            else
-                            {
-                                rectTransform.eulerAngles = targetRotation;
-                            }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
                     }
                     else
                     {
                         tweener.OnUpdate((rotation, linearProgress, time) =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = rotation;
-                            }
-                            else { rectTransform.eulerAngles = rotation; }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = currentRotation;
-                            }
-                            else
-                            {
-                                rectTransform.eulerAngles = currentRotation;
-                            }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
-                            if (isRelative)
-                            {
-                                rectTransform.localEulerAngles = targetRotation;
-                            }
-                            else
-                            {
-                                rectTransform.eulerAngles = targetRotation;
-                            }
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
                     }
                 }
@@ -311,22 +237,82 @@ namespace SevenStrikeModules.XTween
                     Vector3 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector3(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply).OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; } }).SetFrom(fromval).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Vector3(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply).OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector3(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply).OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; } }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Vector3(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply).OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector3(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply).OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; } }).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Vector3(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply).OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                        }).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector3(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply).OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; } }).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Vector3(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply).OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                        }).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
                     }
                 }
                 return tweener;
@@ -364,36 +350,21 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((rotation, linearProgress, time) =>
                 {
-                    if (isRelative)
-                    {
-                        rectTransform.localRotation = rotation;
-                    }
-                    else
-                    {
-                        rectTransform.rotation = rotation;
-                    }
+                    if (rectTransform == null)
+                        return;
+                    if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                 })
                 .OnRewind(() =>
                 {
-                    if (isRelative)
-                    {
-                        rectTransform.localRotation = currentRotation;
-                    }
-                    else
-                    {
-                        rectTransform.rotation = currentRotation;
-                    }
+                    if (rectTransform == null)
+                        return;
+                    if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                 })
                 .OnComplete((duration) =>
                 {
-                    if (isRelative)
-                    {
-                        rectTransform.localRotation = targetRotation;
-                    }
-                    else
-                    {
-                        rectTransform.rotation = targetRotation;
-                    }
+                    if (rectTransform == null)
+                        return;
+                    if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                 })
                 .SetAutokill(autokill)
                 .SetRelative(isRelative);
@@ -406,36 +377,21 @@ namespace SevenStrikeModules.XTween
                 tweener = new XTween_Specialized_Quaternion(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply, mode)
                      .OnUpdate((rotation, linearProgress, time) =>
                      {
-                         if (isRelative)
-                         {
-                             rectTransform.localRotation = rotation;
-                         }
-                         else
-                         {
-                             rectTransform.rotation = rotation;
-                         }
+                         if (rectTransform == null)
+                             return;
+                         if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                      })
                      .OnRewind(() =>
                      {
-                         if (isRelative)
-                         {
-                             rectTransform.localRotation = currentRotation;
-                         }
-                         else
-                         {
-                             rectTransform.rotation = currentRotation;
-                         }
+                         if (rectTransform == null)
+                             return;
+                         if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                      })
                      .OnComplete((duration) =>
                      {
-                         if (isRelative)
-                         {
-                             rectTransform.localRotation = targetRotation;
-                         }
-                         else
-                         {
-                             rectTransform.rotation = targetRotation;
-                         }
+                         if (rectTransform == null)
+                             return;
+                         if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                      })
                      .SetAutokill(false)
                      .SetRelative(isRelative);
@@ -453,6 +409,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="isRelative">是否为相对变化</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <param name="mode">旋转模式（Lerp 或 Slerp）</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_Rotate_To(this UnityEngine.RectTransform rectTransform, Quaternion endValue, float duration, bool isRelative = false, bool autokill = false, HudRotateMode mode = HudRotateMode.SlerpUnclamped, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<Quaternion> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -480,22 +441,82 @@ namespace SevenStrikeModules.XTween
                     Quaternion fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; } }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
+                        tweener.OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
                     }
                     else
                     {
-                        tweener.OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; } }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
+                        tweener.OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; } }).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
+                        tweener.OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                        }).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
                     }
                     else
                     {
-                        tweener.OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; } }).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
+                        tweener.OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                        }).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
                     }
                 }
                 return tweener;
@@ -511,22 +532,82 @@ namespace SevenStrikeModules.XTween
                     Quaternion fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Quaternion(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply, mode).OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; } }).SetFrom(fromval).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Quaternion(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply, mode).OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Quaternion(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply, mode).OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; } }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Quaternion(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply, mode).OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Quaternion(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply, mode).OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; } }).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Quaternion(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply, mode).OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                        }).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Quaternion(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply, mode).OnUpdate((rotation, linearProgress, time) => { if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; } }).OnRewind(() => { if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; } }).OnComplete((duration) => { if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; } }).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
+                        tweener = new XTween_Specialized_Quaternion(currentRotation, targetRotation, duration * XTween_Dashboard.DurationMultiply, mode).OnUpdate((rotation, linearProgress, time) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                        }).OnRewind(() =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                        }).OnComplete((duration) =>
+                        {
+                            if (rectTransform == null)
+                                return;
+                            if (isRelative) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                        }).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
                     }
                 }
                 return tweener;

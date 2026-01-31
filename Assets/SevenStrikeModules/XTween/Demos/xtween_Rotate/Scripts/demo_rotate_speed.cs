@@ -64,14 +64,16 @@ public class demo_rotate_speed : demo_base
         {
             currentTweener = rect_speed.xt_Rotate_To(Vector3.forward * target_speed, duration, isRelative, isAutoKill, RotationMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(curve).SetDelay(delay).OnRewind(() =>
             {
-                rect_speed.rotation = Quaternion.Euler(Vector3.zero);
+                if (rect_speed != null)
+                    rect_speed.rotation = Quaternion.Euler(Vector3.zero);
             });
         }
         else
         {
             currentTweener = rect_speed.xt_Rotate_To(Vector3.forward * target_speed, duration, isRelative, isAutoKill, RotationMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(delay).OnRewind(() =>
             {
-                rect_speed.rotation = Quaternion.Euler(Vector3.zero);
+                if (rect_speed != null)
+                    rect_speed.rotation = Quaternion.Euler(Vector3.zero);
             });
         }
 

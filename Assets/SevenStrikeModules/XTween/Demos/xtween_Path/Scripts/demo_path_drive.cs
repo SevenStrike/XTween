@@ -211,10 +211,12 @@ public class demo_path_drive : demo_base
     {
         return alphaTween = carTargetImage.xt_Alpha_To(alphaTarget, duration, true, EaseMode.Linear, true, () => alphaFrom, true, alphaCurve).SetDelay(alphaDelay).SetLoop(0).OnComplete((s) =>
         {
-            carTargetImage.color = new Color(carTargetImage.color.r, carTargetImage.color.g, carTargetImage.color.b, alphaFrom);
+            if (carTargetImage != null)
+                carTargetImage.color = new Color(carTargetImage.color.r, carTargetImage.color.g, carTargetImage.color.b, alphaFrom);
         }).OnKill(() =>
         {
-            carTargetImage.color = new Color(carTargetImage.color.r, carTargetImage.color.g, carTargetImage.color.b, alphaFrom);
+            if (carTargetImage != null)
+                carTargetImage.color = new Color(carTargetImage.color.r, carTargetImage.color.g, carTargetImage.color.b, alphaFrom);
         });
     }
     #endregion
@@ -231,7 +233,8 @@ public class demo_path_drive : demo_base
             carTargetImage.rectTransform.localRotation = Quaternion.Euler(rotateFrom);
         }).OnKill(() =>
         {
-            carTargetImage.rectTransform.localRotation = Quaternion.Euler(rotateFrom);
+            if (carTargetImage != null)
+                carTargetImage.rectTransform.localRotation = Quaternion.Euler(rotateFrom);
         }).SetStepTimeInterval(GhostIntervalTime).OnStepUpdate<Vector3>((s, v, w) =>
         {
             if (v > GhostRange.x && v < GhostRange.y)

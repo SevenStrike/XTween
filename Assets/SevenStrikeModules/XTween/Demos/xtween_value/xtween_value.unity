@@ -2526,7 +2526,7 @@ GameObject:
   - component: {fileID: 350284177}
   - component: {fileID: 350284178}
   m_Layer: 5
-  m_Name: cards_middle
+  m_Name: cards_botom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14015,7 +14015,7 @@ GameObject:
   - component: {fileID: 2134199073}
   - component: {fileID: 2134199074}
   m_Layer: 5
-  m_Name: cards_bottom
+  m_Name: cards_middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -20,7 +20,6 @@
  */
 namespace SevenStrikeModules.XTween
 {
-    using UnityEditor;
     using UnityEngine;
 
     public static class XTween_Utilitys
@@ -30,9 +29,9 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 计算考虑旋转的相对位移坐标（2D空间）
         /// </summary>
-        /// <param tweenName="rectTransform">目标UI变换组件</param>
-        /// <param tweenName="currentPos">当前锚点位置</param>
-        /// <param tweenName="offset">局部空间偏移量</param>
+        /// <param name="rectTransform">目标UI变换组件</param>
+        /// <param name="currentPos">当前锚点位置</param>
+        /// <param name="offset">局部空间偏移量</param>
         /// <returns>世界空间位移后的新坐标</returns>
         /// <remarks>
         /// 数学原理：
@@ -61,7 +60,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 计算考虑旋转的相对位移坐标（3D空间扩展版）
         /// </summary>
-        /// <param tweenName="offset">
+        /// <param name="offset">
         /// 偏移量：
         /// - XY轴：受旋转影响
         /// - Z轴：直接叠加
@@ -88,7 +87,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 计算颜色的亮度极限
         /// </summary>
-        /// <param tweenName="color">要计算亮度的颜色</param>
+        /// <param name="color">要计算亮度的颜色</param>
         /// <returns>返回False小于亮度中间值，返回True大于亮度中间值</returns>
         public static bool GetColorBrightnessLimite(Color color, float Threshold = 0.35f)
         {
@@ -97,7 +96,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 计算颜色的亮度（灰度值）
         /// </summary>
-        /// <param tweenName="color">要计算亮度的颜色</param>
+        /// <param name="color">要计算亮度的颜色</param>
         /// <returns>颜色的亮度，范围在 0 到 1 之间</returns>
         public static float GetColorBrightness(Color color)
         {
@@ -106,9 +105,9 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 打印消息到控制台
         /// </summary>
-        /// <param tweenName="Title">标题</param>
-        /// <param tweenName="文字内容_Content">内容</param>
-        /// <param tweenName="Mode">消息类型</param>
+        /// <param name="Title">标题</param>
+        /// <param name="Content">内容</param>
+        /// <param name="Mode">消息类型</param>
         public static GUIMsgState DebugInfo(string Title, string Content, GUIMsgState Mode, GameObject xobject = null)
         {
             if (!PrintMsgEnable)
@@ -136,8 +135,8 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 将分隔符为逗号的"r,g,b,a"的字符串转换为Color类型
         /// </summary>
-        /// <param tweenName="ColorString">目标颜色格式字符串.</param>
-        /// <param tweenName="ValueMode">指定色值模式 \n为True时：输入色值范围=0 - 255 \n为False时：输入色值范围=0.0 - 1.0.</param>
+        /// <param name="ColorString">目标颜色格式字符串.</param>
+        /// <param name="ValueMode">指定色值模式 \n为True时：输入色值范围=0 - 255 \n为False时：输入色值范围=0.0 - 1.0.</param>
         /// <returns>此方法返回类型为 -> 颜色_Color.</returns>
         public static Color ConvertStringToColor(string ColorString, bool ValueMode = true)
         {
@@ -166,7 +165,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 将十六位进制颜色码字符串转换到Color类型
         /// </summary>
-        /// <param tweenName="hex">填写需要转换成Color类型的十六位进制的颜色码字符串（请忽略颜色代码开头的 #）</param>
+        /// <param name="hex">填写需要转换成Color类型的十六位进制的颜色码字符串（请忽略颜色代码开头的 #）</param>
         /// <returns>此方法返回类型为 -> 颜色_Color</returns>
         public static Color ConvertHexStringToColor(string hex)
         {
@@ -187,8 +186,8 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 将Color类型转换到十六进制颜色码字符串
         /// </summary>
-        /// <param tweenName="color">填写需要转换成字符串格式的Color类型</param>
-        /// <param tweenName="HasPrefixSymbol">True：前缀带有 # 号，False：无_None # 号前缀</param>
+        /// <param name="color">填写需要转换成字符串格式的Color类型</param>
+        /// <param name="HasPrefixSymbol">True：前缀带有 # 号，False：无_None # 号前缀</param>
         /// <returns>此方法返回类型为 -> 字符串_String</returns>
         public static string ConvertColorToHexString(Color color, bool HasPrefixSymbol = false)
         {
@@ -200,8 +199,8 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         ///  将Vector3向量转换为 x,y,z 字符串格式（小括号可选）
         /// </summary>
-        /// <param tweenName="SourceVector">需要转换的向量.</param>
-        /// <param tweenName="IncludeBracket">转换后是否包含前后小括号，例：(x,y,z) </param>
+        /// <param name="SourceVector">需要转换的向量.</param>
+        /// <param name="IncludeBracket">转换后是否包含前后小括号，例：(x,y,z) </param>
         /// <returns>此方法返回类型为 ->  x,y,z 格式的字符串.</returns>
         public static string ConvertVector3ToString(Vector3 SourceVector, bool IncludeBracket = false)
         {
@@ -218,172 +217,5 @@ namespace SevenStrikeModules.XTween
             }
             return Combine;
         }
-
-        #region 数值保存到Prefs / ForEditor是适用于编辑器模式，而ForRuntime适用于游戏运行时
-
-        ///--------------------编辑器模式
-#if UNITY_EDITOR
-        /// <summary>
-        /// 检查数据关键字是否存在（编辑器模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        public static bool PlayerPrefs_KeyIsExist_ForEditor(string key)
-        {
-            return EditorPrefs.HasKey(key);
-        }
-        /// <summary>
-        /// 存入数据（编辑器模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static void PlayerPrefs_SaveValue_ForEditor(string key, string value)
-        {
-            EditorPrefs.SetString(key, value);
-        }
-        /// <summary>
-        /// 存入数据（编辑器模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static void PlayerPrefs_SaveValue_ForEditor(string key, int value)
-        {
-            EditorPrefs.SetInt(key, value);
-        }
-        /// <summary>
-        /// 存入数据（编辑器模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static void PlayerPrefs_SaveValue_ForEditor(string key, float value)
-        {
-            EditorPrefs.SetFloat(key, value);
-        }
-        /// <summary>
-        /// 存入数据（编辑器模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static void PlayerPrefs_SaveValue_ForEditor(string key, bool value)
-        {
-            EditorPrefs.SetBool(key, value);
-        }
-        /// <summary>
-        /// 取出数据（编辑器模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static string PlayerPrefs_ReadValue_String_ForEditor(string key)
-        {
-            return EditorPrefs.GetString(key);
-        }
-        /// <summary>
-        /// 取出数据（编辑器模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static int PlayerPrefs_ReadValue_Int_ForEditor(string key)
-        {
-            return EditorPrefs.GetInt(key);
-        }
-        /// <summary>
-        /// 取出数据（编辑器模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static float PlayerPrefs_ReadValue_Float_ForEditor(string key)
-        {
-            return EditorPrefs.GetFloat(key);
-        }
-        /// <summary>
-        /// 取出数据（编辑器模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static bool PlayerPrefs_ReadValue_Bool_ForEditor(string key)
-        {
-            return EditorPrefs.GetBool(key);
-        }
-        /// <summary>
-        /// 清空数据（编辑器模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        public static void PlayerPrefs_DeleteValue_ForEditor(string key)
-        {
-            EditorPrefs.DeleteKey(key);
-        }
-#endif
-        ///--------------------运行模式
-
-        /// <summary>
-        /// 检查数据关键字是否存在（运行模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        public static bool PlayerPrefs_KeyIsExist_ForRuntime(string key)
-        {
-            return PlayerPrefs.HasKey(key);
-        }
-        /// <summary>
-        /// 存入数据（运行模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static void PlayerPrefs_SaveValue_ForRuntime(string key, string value)
-        {
-            PlayerPrefs.SetString(key, value);
-        }
-        /// <summary>
-        /// 存入数据（运行模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static void PlayerPrefs_SaveValue_ForRuntime(string key, int value)
-        {
-            PlayerPrefs.SetInt(key, value);
-        }
-        /// <summary>
-        /// 存入数据（运行模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static void PlayerPrefs_SaveValue_ForRuntime(string key, float value)
-        {
-            PlayerPrefs.SetFloat(key, value);
-        }
-        /// <summary>
-        /// 取出数据（运行模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static string PlayerPrefs_ReadValue_String_ForRuntime(string key)
-        {
-            return PlayerPrefs.GetString(key);
-        }
-        /// <summary>
-        /// 取出数据（运行模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static int PlayerPrefs_ReadValue_Int_ForRuntime(string key)
-        {
-            return PlayerPrefs.GetInt(key);
-        }
-        /// <summary>
-        /// 取出数据（运行模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        /// <param tweenName="value">值</param>
-        public static float PlayerPrefs_ReadValue_Float_ForRuntime(string key)
-        {
-            return PlayerPrefs.GetFloat(key);
-        }
-        /// <summary>
-        /// 清空数据（运行模式）
-        /// </summary>
-        /// <param tweenName="key">索引名称</param>
-        public static void PlayerPrefs_DeleteValue_ForRuntime(string key)
-        {
-            PlayerPrefs.DeleteKey(key);
-        }
-        #endregion
     }
 }

@@ -52,14 +52,20 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((size, linearProgres, time) =>
                 {
+                    if (text == null)
+                        return;
                     text.fontSize = size;
                 })
                 .OnRewind(() =>
                 {
+                    if (text == null)
+                        return;
                     text.fontSize = startSize;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (text == null)
+                        return;
                     text.fontSize = endValue;
                 })
                 .SetAutokill(autokill);
@@ -69,17 +75,22 @@ namespace SevenStrikeModules.XTween
             else
             {
                 XTween_Interface tweener;
-                tweener = new XTween_Specialized_Float(startSize, endValue, duration * XTween_Dashboard.DurationMultiply)
-                        .OnUpdate((size, linearProgres, time) =>
-                        {
-                            text.fontSize = size;
-                        })
+                tweener = new XTween_Specialized_Float(startSize, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgres, time) =>
+                {
+                    if (text == null)
+                        return;
+                    text.fontSize = size;
+                })
                 .OnRewind(() =>
                 {
+                    if (text == null)
+                        return;
                     text.fontSize = startSize;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (text == null)
+                        return;
                     text.fontSize = endValue;
                 })
                 .SetAutokill(false);
@@ -95,6 +106,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="endValue">目标大小</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_FontSize_To(this TextMeshProUGUI text, float endValue, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<float> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -119,22 +135,82 @@ namespace SevenStrikeModules.XTween
                     float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((size, linearProgres, time) => { text.fontSize = size; }).OnRewind(() => { text.fontSize = startSize; }).OnComplete((duration) => { text.fontSize = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((size, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = size;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = startSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((size, linearProgres, time) => { text.fontSize = size; }).OnRewind(() => { text.fontSize = startSize; }).OnComplete((duration) => { text.fontSize = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((size, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = size;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = startSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((size, linearProgres, time) => { text.fontSize = size; }).OnRewind(() => { text.fontSize = startSize; }).OnComplete((duration) => { text.fontSize = endValue; }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((size, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = size;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = startSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = endValue;
+                        }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((size, linearProgres, time) => { text.fontSize = size; }).OnRewind(() => { text.fontSize = startSize; }).OnComplete((duration) => { text.fontSize = endValue; }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((size, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = size;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = startSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = endValue;
+                        }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
 
@@ -151,22 +227,82 @@ namespace SevenStrikeModules.XTween
                     float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Float(startSize, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgres, time) => { text.fontSize = size; }).OnRewind(() => { text.fontSize = startSize; }).OnComplete((duration) => { text.fontSize = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSize, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = size;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = startSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Float(startSize, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgres, time) => { text.fontSize = size; }).OnRewind(() => { text.fontSize = startSize; }).OnComplete((duration) => { text.fontSize = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSize, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = size;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = startSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Float(startSize, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgres, time) => { text.fontSize = size; }).OnRewind(() => { text.fontSize = startSize; }).OnComplete((duration) => { text.fontSize = endValue; }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSize, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = size;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = startSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = endValue;
+                        }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Float(startSize, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgres, time) => { text.fontSize = size; }).OnRewind(() => { text.fontSize = startSize; }).OnComplete((duration) => { text.fontSize = endValue; }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSize, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((size, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = size;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = startSize;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.fontSize = endValue;
+                        }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
 
@@ -199,14 +335,20 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((lineheight, linearProgres, time) =>
                 {
+                    if (text == null)
+                        return;
                     text.lineSpacing = lineheight;
                 })
                 .OnRewind(() =>
                 {
+                    if (text == null)
+                        return;
                     text.lineSpacing = startSpaceLineheight;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (text == null)
+                        return;
                     text.lineSpacing = endValue;
                 })
                 .SetAutokill(autokill);
@@ -216,17 +358,22 @@ namespace SevenStrikeModules.XTween
             else
             {
                 XTween_Interface tweener;
-                tweener = new XTween_Specialized_Float(startSpaceLineheight, endValue, duration * XTween_Dashboard.DurationMultiply)
-                        .OnUpdate((lineheight, linearProgres, time) =>
-                        {
-                            text.lineSpacing = lineheight;
-                        })
+                tweener = new XTween_Specialized_Float(startSpaceLineheight, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((lineheight, linearProgres, time) =>
+                {
+                    if (text == null)
+                        return;
+                    text.lineSpacing = lineheight;
+                })
                 .OnRewind(() =>
                 {
+                    if (text == null)
+                        return;
                     text.lineSpacing = startSpaceLineheight;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (text == null)
+                        return;
                     text.lineSpacing = endValue;
                 })
                 .SetAutokill(false);
@@ -241,6 +388,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="endValue">目标行间距值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁，默认为 false</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_FontLineHeight_To(this TextMeshProUGUI text, float endValue, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<float> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -265,22 +417,82 @@ namespace SevenStrikeModules.XTween
                     float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((lineheight, linearProgres, time) => { text.lineSpacing = lineheight; }).OnRewind(() => { text.lineSpacing = startSpaceLineheight; }).OnComplete((duration) => { text.lineSpacing = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((lineheight, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = lineheight;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = startSpaceLineheight;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((lineheight, linearProgres, time) => { text.lineSpacing = lineheight; }).OnRewind(() => { text.lineSpacing = startSpaceLineheight; }).OnComplete((duration) => { text.lineSpacing = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((lineheight, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = lineheight;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = startSpaceLineheight;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((lineheight, linearProgres, time) => { text.lineSpacing = lineheight; }).OnRewind(() => { text.lineSpacing = startSpaceLineheight; }).OnComplete((duration) => { text.lineSpacing = endValue; }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((lineheight, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = lineheight;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = startSpaceLineheight;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = endValue;
+                        }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((lineheight, linearProgres, time) => { text.lineSpacing = lineheight; }).OnRewind(() => { text.lineSpacing = startSpaceLineheight; }).OnComplete((duration) => { text.lineSpacing = endValue; }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((lineheight, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = lineheight;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = startSpaceLineheight;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = endValue;
+                        }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
 
@@ -297,22 +509,82 @@ namespace SevenStrikeModules.XTween
                     float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Float(startSpaceLineheight, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((lineheight, linearProgres, time) => { text.lineSpacing = lineheight; }).OnRewind(() => { text.lineSpacing = startSpaceLineheight; }).OnComplete((duration) => { text.lineSpacing = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSpaceLineheight, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((lineheight, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = lineheight;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = startSpaceLineheight;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Float(startSpaceLineheight, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((lineheight, linearProgres, time) => { text.lineSpacing = lineheight; }).OnRewind(() => { text.lineSpacing = startSpaceLineheight; }).OnComplete((duration) => { text.lineSpacing = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSpaceLineheight, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((lineheight, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = lineheight;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = startSpaceLineheight;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Float(startSpaceLineheight, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((lineheight, linearProgres, time) => { text.lineSpacing = lineheight; }).OnRewind(() => { text.lineSpacing = startSpaceLineheight; }).OnComplete((duration) => { text.lineSpacing = endValue; }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSpaceLineheight, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((lineheight, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = lineheight;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = startSpaceLineheight;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = endValue;
+                        }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Float(startSpaceLineheight, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((lineheight, linearProgres, time) => { text.lineSpacing = lineheight; }).OnRewind(() => { text.lineSpacing = startSpaceLineheight; }).OnComplete((duration) => { text.lineSpacing = endValue; }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSpaceLineheight, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((lineheight, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = lineheight;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = startSpaceLineheight;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.lineSpacing = endValue;
+                        }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
 
@@ -345,14 +617,20 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((character, linearProgres, time) =>
                 {
+                    if (text == null)
+                        return;
                     text.characterSpacing = character;
                 })
                 .OnRewind(() =>
                 {
+                    if (text == null)
+                        return;
                     text.characterSpacing = startSpaceCharacter;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (text == null)
+                        return;
                     text.characterSpacing = endValue;
                 })
                 .SetAutokill(autokill);
@@ -362,17 +640,22 @@ namespace SevenStrikeModules.XTween
             else
             {
                 XTween_Interface tweener;
-                tweener = new XTween_Specialized_Float(startSpaceCharacter, endValue, duration * XTween_Dashboard.DurationMultiply)
-                        .OnUpdate((character, linearProgres, time) =>
-                        {
-                            text.characterSpacing = character;
-                        })
+                tweener = new XTween_Specialized_Float(startSpaceCharacter, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((character, linearProgres, time) =>
+                {
+                    if (text == null)
+                        return;
+                    text.characterSpacing = character;
+                })
                 .OnRewind(() =>
                 {
+                    if (text == null)
+                        return;
                     text.characterSpacing = startSpaceCharacter;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (text == null)
+                        return;
                     text.characterSpacing = endValue;
                 })
                 .SetAutokill(false);
@@ -387,6 +670,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="endValue">目标字符间距值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁，默认为 false</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_FontCharacter_To(this TextMeshProUGUI text, float endValue, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<float> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -411,22 +699,82 @@ namespace SevenStrikeModules.XTween
                     float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((character, linearProgres, time) => { text.characterSpacing = character; }).OnRewind(() => { text.characterSpacing = startSpaceCharacter; }).OnComplete((duration) => { text.characterSpacing = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((character, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = character;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = startSpaceCharacter;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((character, linearProgres, time) => { text.characterSpacing = character; }).OnRewind(() => { text.characterSpacing = startSpaceCharacter; }).OnComplete((duration) => { text.characterSpacing = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((character, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = character;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = startSpaceCharacter;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((character, linearProgres, time) => { text.characterSpacing = character; }).OnRewind(() => { text.characterSpacing = startSpaceCharacter; }).OnComplete((duration) => { text.characterSpacing = endValue; }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((character, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = character;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = startSpaceCharacter;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = endValue;
+                        }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((character, linearProgres, time) => { text.characterSpacing = character; }).OnRewind(() => { text.characterSpacing = startSpaceCharacter; }).OnComplete((duration) => { text.characterSpacing = endValue; }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((character, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = character;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = startSpaceCharacter;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = endValue;
+                        }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
 
@@ -443,22 +791,82 @@ namespace SevenStrikeModules.XTween
                     float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Float(startSpaceCharacter, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((character, linearProgres, time) => { text.characterSpacing = character; }).OnRewind(() => { text.characterSpacing = startSpaceCharacter; }).OnComplete((duration) => { text.characterSpacing = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSpaceCharacter, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((character, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = character;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = startSpaceCharacter;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Float(startSpaceCharacter, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((character, linearProgres, time) => { text.characterSpacing = character; }).OnRewind(() => { text.characterSpacing = startSpaceCharacter; }).OnComplete((duration) => { text.characterSpacing = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSpaceCharacter, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((character, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = character;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = startSpaceCharacter;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Float(startSpaceCharacter, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((character, linearProgres, time) => { text.characterSpacing = character; }).OnRewind(() => { text.characterSpacing = startSpaceCharacter; }).OnComplete((duration) => { text.characterSpacing = endValue; }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSpaceCharacter, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((character, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = character;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = startSpaceCharacter;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = endValue;
+                        }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Float(startSpaceCharacter, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((character, linearProgres, time) => { text.characterSpacing = character; }).OnRewind(() => { text.characterSpacing = startSpaceCharacter; }).OnComplete((duration) => { text.characterSpacing = endValue; }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Float(startSpaceCharacter, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((character, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = character;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = startSpaceCharacter;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.characterSpacing = endValue;
+                        }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
 
@@ -491,14 +899,20 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((margin, linearProgres, time) =>
                 {
+                    if (text == null)
+                        return;
                     text.margin = margin;
                 })
                 .OnRewind(() =>
                 {
+                    if (text == null)
+                        return;
                     text.margin = startMargin;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (text == null)
+                        return;
                     text.margin = endValue;
                 })
                 .SetAutokill(autokill);
@@ -508,17 +922,22 @@ namespace SevenStrikeModules.XTween
             else
             {
                 XTween_Interface tweener;
-                tweener = new XTween_Specialized_Vector4(startMargin, endValue, duration * XTween_Dashboard.DurationMultiply)
-                        .OnUpdate((margin, linearProgres, time) =>
-                        {
-                            text.margin = margin;
-                        })
+                tweener = new XTween_Specialized_Vector4(startMargin, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((margin, linearProgres, time) =>
+                {
+                    if (text == null)
+                        return;
+                    text.margin = margin;
+                })
                 .OnRewind(() =>
                 {
+                    if (text == null)
+                        return;
                     text.margin = startMargin;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (text == null)
+                        return;
                     text.margin = endValue;
                 })
                 .SetAutokill(false);
@@ -533,6 +952,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="endValue">目标外边距值（四维向量_Vector4 类型，分别表示左、右、上、下的边距）</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁，默认为 false</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_FontMargin_To(this TextMeshProUGUI text, Vector4 endValue, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<Vector4> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -557,22 +981,82 @@ namespace SevenStrikeModules.XTween
                     Vector4 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((margin, linearProgres, time) => { text.margin = margin; }).OnRewind(() => { text.margin = startMargin; }).OnComplete((duration) => { text.margin = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((margin, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = margin;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = startMargin;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((margin, linearProgres, time) => { text.margin = margin; }).OnRewind(() => { text.margin = startMargin; }).OnComplete((duration) => { text.margin = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((margin, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = margin;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = startMargin;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((margin, linearProgres, time) => { text.margin = margin; }).OnRewind(() => { text.margin = startMargin; }).OnComplete((duration) => { text.margin = endValue; }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((margin, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = margin;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = startMargin;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = endValue;
+                        }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((margin, linearProgres, time) => { text.margin = margin; }).OnRewind(() => { text.margin = startMargin; }).OnComplete((duration) => { text.margin = endValue; }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((margin, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = margin;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = startMargin;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = endValue;
+                        }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
 
@@ -589,22 +1073,82 @@ namespace SevenStrikeModules.XTween
                     Vector4 fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector4(startMargin, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((margin, linearProgres, time) => { text.margin = margin; }).OnRewind(() => { text.margin = startMargin; }).OnComplete((duration) => { text.margin = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector4(startMargin, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((margin, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = margin;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = startMargin;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector4(startMargin, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((margin, linearProgres, time) => { text.margin = margin; }).OnRewind(() => { text.margin = startMargin; }).OnComplete((duration) => { text.margin = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector4(startMargin, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((margin, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = margin;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = startMargin;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Vector4(startMargin, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((margin, linearProgres, time) => { text.margin = margin; }).OnRewind(() => { text.margin = startMargin; }).OnComplete((duration) => { text.margin = endValue; }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector4(startMargin, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((margin, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = margin;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = startMargin;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = endValue;
+                        }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Vector4(startMargin, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((margin, linearProgres, time) => { text.margin = margin; }).OnRewind(() => { text.margin = startMargin; }).OnComplete((duration) => { text.margin = endValue; }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Vector4(startMargin, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((margin, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = margin;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = startMargin;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.margin = endValue;
+                        }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
 
@@ -637,14 +1181,20 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((color, linearProgres, time) =>
                 {
+                    if (text == null)
+                        return;
                     text.color = color;
                 })
                 .OnRewind(() =>
                 {
+                    if (text == null)
+                        return;
                     text.color = startColor;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (text == null)
+                        return;
                     text.color = endValue;
                 })
                 .SetAutokill(autokill);
@@ -654,17 +1204,22 @@ namespace SevenStrikeModules.XTween
             else
             {
                 XTween_Interface tweener;
-                tweener = new XTween_Specialized_Color(startColor, endValue, duration * XTween_Dashboard.DurationMultiply)
-                        .OnUpdate((color, linearProgres, time) =>
-                        {
-                            text.color = color;
-                        })
+                tweener = new XTween_Specialized_Color(startColor, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((color, linearProgres, time) =>
+                {
+                    if (text == null)
+                        return;
+                    text.color = color;
+                })
                 .OnRewind(() =>
                 {
+                    if (text == null)
+                        return;
                     text.color = startColor;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (text == null)
+                        return;
                     text.color = endValue;
                 })
                 .SetAutokill(false);
@@ -679,6 +1234,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="endValue">目标颜色值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁，默认为 false</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_FontColor_To(this TextMeshProUGUI text, Color endValue, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<Color> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -703,22 +1263,82 @@ namespace SevenStrikeModules.XTween
                     Color fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((color, linearProgres, time) => { text.color = color; }).OnRewind(() => { text.color = startColor; }).OnComplete((duration) => { text.color = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((color, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = color;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = startColor;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((color, linearProgres, time) => { text.color = color; }).OnRewind(() => { text.color = startColor; }).OnComplete((duration) => { text.color = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((color, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = color;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = startColor;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((color, linearProgres, time) => { text.color = color; }).OnRewind(() => { text.color = startColor; }).OnComplete((duration) => { text.color = endValue; }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((color, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = color;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = startColor;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = endValue;
+                        }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((color, linearProgres, time) => { text.color = color; }).OnRewind(() => { text.color = startColor; }).OnComplete((duration) => { text.color = endValue; }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((color, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = color;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = startColor;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = endValue;
+                        }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
 
@@ -735,22 +1355,82 @@ namespace SevenStrikeModules.XTween
                     Color fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Color(startColor, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((color, linearProgres, time) => { text.color = color; }).OnRewind(() => { text.color = startColor; }).OnComplete((duration) => { text.color = endValue; }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Color(startColor, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((color, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = color;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = startColor;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Color(startColor, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((color, linearProgres, time) => { text.color = color; }).OnRewind(() => { text.color = startColor; }).OnComplete((duration) => { text.color = endValue; }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Color(startColor, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((color, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = color;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = startColor;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Color(startColor, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((color, linearProgres, time) => { text.color = color; }).OnRewind(() => { text.color = startColor; }).OnComplete((duration) => { text.color = endValue; }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_Color(startColor, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((color, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = color;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = startColor;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = endValue;
+                        }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Color(startColor, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((color, linearProgres, time) => { text.color = color; }).OnRewind(() => { text.color = startColor; }).OnComplete((duration) => { text.color = endValue; }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_Color(startColor, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((color, linearProgres, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = color;
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = startColor;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            text.color = endValue;
+                        }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
 
@@ -789,6 +1469,8 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((currentText, linearProgress, time) =>
                 {
+                    if (text == null)
+                        return;
                     if (extended)
                     {
                         text.text = startText + currentText;
@@ -800,10 +1482,14 @@ namespace SevenStrikeModules.XTween
                 })
                 .OnRewind(() =>
                 {
+                    if (text == null)
+                        return;
                     text.text = startText;
                 })
                 .OnComplete((duration) =>
                 {
+                    if (text == null)
+                        return;
                     if (extended)
                     {
                         text.text = startText + endValue;
@@ -820,34 +1506,36 @@ namespace SevenStrikeModules.XTween
             else
             {
                 XTween_Interface tweener;
-                tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply)
-                        .OnUpdate((currentText, linearProgress, time) =>
-                        {
-                            if (extended)
-                            {
-                                text.text = startText + currentText;
-                            }
-                            else
-                            {
-                                text.text = currentText;
-                            }
-                        })
-                        .OnRewind(() =>
-                        {
-                            text.text = startText;
-                        })
-                        .OnComplete((duration) =>
-                        {
-                            if (extended)
-                            {
-                                text.text = startText + endValue;
-                            }
-                            else
-                            {
-                                text.text = endValue;
-                            }
-                        })
-                        .SetAutokill(false);
+                tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) =>
+                {
+                    if (text == null)
+                        return;
+                    if (extended)
+                    {
+                        text.text = startText + currentText;
+                    }
+                    else
+                    {
+                        text.text = currentText;
+                    }
+                }).OnRewind(() =>
+                {
+                    if (text == null)
+                        return;
+                    text.text = startText;
+                }).OnComplete((duration) =>
+                {
+                    if (text == null)
+                        return;
+                    if (extended)
+                    {
+                        text.text = startText + endValue;
+                    }
+                    else
+                    {
+                        text.text = endValue;
+                    }
+                }).SetAutokill(false);
 
                 return tweener;
             }
@@ -860,6 +1548,11 @@ namespace SevenStrikeModules.XTween
         /// <param name="endValue">目标文本内容</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁，默认为 false</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
         public static XTween_Interface xt_FontText_To(this TextMeshProUGUI text, bool extended, string endValue, float duration, bool autokill = false, EaseMode easeMode = EaseMode.InOutCubic, bool isFromMode = true, XTween_Getter<string> fromvalue = null, bool useCurve = false, AnimationCurve curve = null)
         {
@@ -889,22 +1582,82 @@ namespace SevenStrikeModules.XTween
                     string fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + currentText; } else { text.text = currentText; }
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.text = startText;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + endValue; } else { text.text = endValue; }
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + currentText; } else { text.text = currentText; }
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.text = startText;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + endValue; } else { text.text = endValue; }
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetEase(curve).SetAutokill(autokill);
+                        tweener.OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + currentText; } else { text.text = currentText; }
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.text = startText;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + endValue; } else { text.text = endValue; }
+                        }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetEase(easeMode).SetAutokill(autokill);
+                        tweener.OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + currentText; } else { text.text = currentText; }
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.text = startText;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + endValue; } else { text.text = endValue; }
+                        }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
 
@@ -921,22 +1674,82 @@ namespace SevenStrikeModules.XTween
                     string fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + currentText; } else { text.text = currentText; }
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.text = startText;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + endValue; } else { text.text = endValue; }
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + currentText; } else { text.text = currentText; }
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.text = startText;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + endValue; } else { text.text = endValue; }
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
                 else
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetEase(curve).SetAutokill(false);
+                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + currentText; } else { text.text = currentText; }
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.text = startText;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + endValue; } else { text.text = endValue; }
+                        }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) => { if (extended) { text.text = startText + currentText; } else { text.text = currentText; } }).OnRewind(() => { text.text = startText; }).OnComplete((duration) => { if (extended) { text.text = startText + endValue; } else { text.text = endValue; } }).SetEase(easeMode).SetAutokill(false);
+                        tweener = new XTween_Specialized_String(startText, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((currentText, linearProgress, time) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + currentText; } else { text.text = currentText; }
+                        }).OnRewind(() =>
+                        {
+                            if (text == null)
+                                return;
+                            text.text = startText;
+                        }).OnComplete((duration) =>
+                        {
+                            if (text == null)
+                                return;
+                            if (extended) { text.text = startText + endValue; } else { text.text = endValue; }
+                        }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
 

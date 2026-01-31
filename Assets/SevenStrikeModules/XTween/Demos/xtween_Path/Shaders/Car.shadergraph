@@ -414,7 +414,7 @@
         "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"5f2f3ddbf4cf4c547b6c39d720b02420\",\"type\":3}}",
         "m_Guid": ""
     },
-    "isMainTexture": false,
+    "isMainTexture": true,
     "useTilingAndOffset": true,
     "m_Modifiable": true,
     "m_DefaultType": 1

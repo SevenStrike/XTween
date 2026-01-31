@@ -20,6 +20,7 @@
  */
 namespace SevenStrikeModules.XTween
 {
+    using System.IO;
     using UnityEditor;
 #if UNITY_EDITOR
     using UnityEditor.Callbacks;
@@ -28,11 +29,14 @@ namespace SevenStrikeModules.XTween
 
     public class TweenConfigData
     {
+        public string Theme_Primary;
+        public string Theme_Group;
+        public string Theme_SeperateLine;
         public bool LiquidScanStyle;
         public bool LiquidDirty;
         public int LiquidBlinker;
-        public Color Liquid_On_Color;
-        public Color Liquid_Off_Color;
+        public string LiquidColor_Playing;
+        public string LiquidColor_Idle;
         public int PoolCount_Int;
         public int PoolCount_Float;
         public int PoolCount_String;
@@ -41,6 +45,11 @@ namespace SevenStrikeModules.XTween
         public int PoolCount_Vector4;
         public int PoolCount_Quaternion;
         public int PoolCount_Color;
+        public bool PoolRecyleAllOnSceneUnloaded;
+        public bool PoolRecyleAllOnSceneLoaded;
+        public bool PreviewOption_AutoKillPreviewTweens;
+        public bool PreviewOption_RewindPreviewTweensWithKill;
+        public bool PreviewOption_ClearPreviewTweensWithKill;
     }
 
     public static class XTween_Dashboard
@@ -50,12 +59,13 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         public static float DurationMultiply = 1;
 
+        /// <summary>
+        /// XTween配置数据
+        /// </summary>
+        [SerializeField]
+        public static TweenConfigData ConfigData;
+
         #region ThemeColor 主题色
-#pragma warning disable CS0414
-        private static readonly string PrefsKeyColor_Theme = "XTween-MANAGER-COLOR-THEME";
-        private static readonly string PrefsKeyColor_Theme_GP = "XTween-MANAGER-COLOR-THEME-GROUP";
-        private static readonly string PrefsKeyColor_Theme_SEP = "XTween-MANAGER-COLOR-THEME-SEPERATE";
-#pragma warning restore CS0414
         public static Color Theme_Primary { get; set; } = XTween_Utilitys.ConvertHexStringToColor("#3BFE9B");
         public static Color Theme_Group { get; set; } = XTween_Utilitys.ConvertHexStringToColor("#1E1E1E");
         public static Color Theme_SeperateLine { get; set; } = XTween_Utilitys.ConvertHexStringToColor("#535353");
@@ -66,53 +76,23 @@ namespace SevenStrikeModules.XTween
         [DidReloadScripts]
         public static void LoadThemes()
         {
-            Color color_theme = XTween_Utilitys.ConvertHexStringToColor("3BFE9B");
-            if (!XTween_Utilitys.PlayerPrefs_KeyIsExist_ForEditor(PrefsKeyColor_Theme))
-            {
-                XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor(PrefsKeyColor_Theme, $"{color_theme.r},{color_theme.g},{color_theme.b}");
-                Theme_Primary = new Color(color_theme.r, color_theme.g, color_theme.b);
-            }
-            else
-            {
-                string colorval = XTween_Utilitys.PlayerPrefs_ReadValue_String_ForEditor(PrefsKeyColor_Theme);
-                Color v3 = XTween_Utilitys.ConvertStringToColor(colorval + ",1", false);
-                Theme_Primary = v3;
-            }
+            //获取配置文件
+            string json = AssetDatabase.LoadAssetAtPath<TextAsset>(Get_path_XTween_Config_Path() + $"XTweenConfigData.json").text;
+            ConfigData = JsonUtility.FromJson<TweenConfigData>(json);
 
-            Color color_theme_gp = XTween_Utilitys.ConvertHexStringToColor("1E1E1E");
-            if (!XTween_Utilitys.PlayerPrefs_KeyIsExist_ForEditor(PrefsKeyColor_Theme_GP))
-            {
-                XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor(PrefsKeyColor_Theme_GP, $"{color_theme_gp.r},{color_theme_gp.g},{color_theme_gp.b}");
-                Theme_Group = new Color(color_theme_gp.r, color_theme_gp.g, color_theme_gp.b);
-            }
-            else
-            {
-                string colorval = XTween_Utilitys.PlayerPrefs_ReadValue_String_ForEditor(PrefsKeyColor_Theme_GP);
-                Color v3 = XTween_Utilitys.ConvertStringToColor(colorval + ",1", false);
-                Theme_Group = v3;
-            }
-
-            Color color_theme_sep = XTween_Utilitys.ConvertHexStringToColor("535353");
-            if (!XTween_Utilitys.PlayerPrefs_KeyIsExist_ForEditor(PrefsKeyColor_Theme_SEP))
-            {
-                XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor(PrefsKeyColor_Theme_SEP, $"{color_theme_sep.r},{color_theme_sep.g},{color_theme_sep.b}");
-                Theme_SeperateLine = new Color(color_theme_sep.r, color_theme_sep.g, color_theme_sep.b);
-            }
-            else
-            {
-                string colorval = XTween_Utilitys.PlayerPrefs_ReadValue_String_ForEditor(PrefsKeyColor_Theme_SEP);
-                Color v3 = XTween_Utilitys.ConvertStringToColor(colorval + ",1", false);
-                Theme_SeperateLine = v3;
-            }
+            Theme_Primary = XTween_Utilitys.ConvertHexStringToColor(ConfigData.Theme_Primary);
+            Theme_Group = XTween_Utilitys.ConvertHexStringToColor(ConfigData.Theme_Group);
+            Theme_SeperateLine = XTween_Utilitys.ConvertHexStringToColor(ConfigData.Theme_SeperateLine);
         }
 #endif
         #endregion
 
         #region 公共路径
-        public static string path_XTween_GUISTYLE = "Assets/SevenStrikeModules/XTween/GUI/XTweenGuiStyle/";
+        public static string path_XTween_GUISTYLE = "Assets/SevenStrikeModules/XTween/GUI/Editor/XTweenGuiStyle/";
         public static string path_XTween_GUIROOT = "Assets/SevenStrikeModules/XTween/GUI/";
         public static string path_XTween_ROOT = "Assets/SevenStrikeModules/XTween/";
         public static string path_XTween_MATERIAL = "Assets/SevenStrikeModules/XTween/Materials/";
+        public static string path_XTween_CONFIG = "Assets/SevenStrikeModules/XTween/Resources/Config/";
         public static string path_XTween_PREFABS = "Assets/SevenStrikeModules/XTween/Prefabs/";
         public static string path_XTween_SHADERS = "Assets/SevenStrikeModules/XTween/Shaders/";
         public static string path_XTween_SOUND = "Assets/SevenStrikeModules/XTween/Sound/";
@@ -145,6 +125,14 @@ namespace SevenStrikeModules.XTween
         public static string Get_path_XTween_GUIStyle_Path()
         {
             return path_XTween_GUISTYLE;
+        }
+        /// <summary>
+        /// 获取 XTween 配置路径，根目录：SevenStrikeModules/XTween/Resources/Config/
+        /// </summary>
+        /// <returns></returns>
+        public static string Get_path_XTween_Config_Path()
+        {
+            return path_XTween_CONFIG;
         }
         /// <summary>
         /// 获取 XTween 材质路径，根目录：SevenStrikeModules/XTween/Materials/
@@ -213,20 +201,130 @@ namespace SevenStrikeModules.XTween
         #endregion
         #endregion
 
-        #region 液晶面板预览样式配置
-        [SerializeField]
-        public static TweenConfigData TweenConfigData;
+        #region 液晶面板预览样式配置      
+        public static Color LiquidColor_Playing { get; set; } = XTween_Utilitys.ConvertHexStringToColor("#94AC59");
+        public static Color LiquidColor_Idle { get; set; } = XTween_Utilitys.ConvertHexStringToColor("#778456");
 
 #if UNITY_EDITOR
         [InitializeOnEnterPlayMode]
         [DidReloadScripts]
         public static void LoadLiquidStyle()
         {
-            //获取配置文件
-            string json = AssetDatabase.LoadAssetAtPath<TextAsset>(Get_XTween_GUIRoot_Path() + $"XTweenVisualStyle.json").text;
-            TweenConfigData = JsonUtility.FromJson<TweenConfigData>(json);
+            GetXTweenConfigData();
+
+            LiquidColor_Playing = XTween_Utilitys.ConvertHexStringToColor(ConfigData.LiquidColor_Playing);
+            LiquidColor_Idle = XTween_Utilitys.ConvertHexStringToColor(ConfigData.LiquidColor_Idle);
         }
+
 #endif
         #endregion
+
+        #region 读取配置文件参数
+        public static TweenConfigData GetXTweenConfigData()
+        {
+            string json = null;
+#if UNITY_EDITOR
+            //获取配置文件
+            json = AssetDatabase.LoadAssetAtPath<TextAsset>(Get_path_XTween_Config_Path() + $"XTweenConfigData.json").text;
+#else
+            json = Resources.Load<TextAsset>($"Config/XTweenConfigData").text;            
+#endif
+            ConfigData = JsonUtility.FromJson<TweenConfigData>(json);
+
+            Debug.Log(ConfigData);
+            return ConfigData;
+        }
+
+        public static void SavePreviewOptionsToXTweenConfigData()
+        {
+#if UNITY_EDITOR
+            // 保存预览选项参数
+            string json = JsonUtility.ToJson(ConfigData);
+            // 使用StreamWriter写入文件
+            using (StreamWriter writer = new StreamWriter(Get_path_XTween_Config_Path() + $"XTweenConfigData.json"))
+            {
+                writer.Write(json);
+            }
+            AssetDatabase.Refresh();
+#endif
+        }
+        #endregion
+
+        #region 动画预览选项
+        /// <summary>
+        /// 获取状态 - 自动杀死预览动画
+        /// </summary>
+        /// <returns></returns>
+        public static bool Get_PreviewOption_AutoKillPreviewTweens()
+        {
+            if (ConfigData == null)
+                GetXTweenConfigData();
+
+            // 额外容错：避免加载配置失败后仍为null
+            return ConfigData?.PreviewOption_AutoKillPreviewTweens ?? false;
+        }
+
+        /// <summary>
+        /// 获取状态 - 预览杀死前重置动画
+        /// </summary>
+        /// <returns></returns>
+        public static bool Get_PreviewOption_RewindPreviewTweensWithKill()
+        {
+            if (ConfigData == null)
+            {
+                GetXTweenConfigData();
+            }
+            return ConfigData?.PreviewOption_RewindPreviewTweensWithKill ?? false;
+        }
+
+        /// <summary>
+        /// 获取状态 - 预览杀死后清空预览列表
+        /// </summary>
+        /// <returns></returns>
+        public static bool Get_PreviewOption_ClearPreviewTweensWithKill()
+        {
+            if (ConfigData == null)
+            {
+                GetXTweenConfigData();
+            }
+            return ConfigData?.PreviewOption_ClearPreviewTweensWithKill ?? false;
+        }
+
+        /// <summary>
+        /// 设置状态 - 自动杀死预览动画
+        /// </summary>
+        /// <returns></returns>
+        public static void Set_PreviewOption_AutoKillPreviewTweens(bool state)
+        {
+            ConfigData.PreviewOption_AutoKillPreviewTweens = state;
+        }
+
+        /// <summary>
+        /// 设置状态 - 预览杀死前重置动画
+        /// </summary>
+        /// <returns></returns>
+        public static void Set_PreviewOption_RewindPreviewTweensWithKill(bool state)
+        {
+            ConfigData.PreviewOption_RewindPreviewTweensWithKill = state;
+        }
+
+        /// <summary>
+        /// 设置状态 - 预览杀死后清空预览列表
+        /// </summary>
+        /// <returns></returns>
+        public static void Set_PreviewOption_ClearPreviewTweensWithKill(bool state)
+        {
+            ConfigData.PreviewOption_ClearPreviewTweensWithKill = state;
+        }
+        #endregion
+
+        /// <summary>
+        /// 设置动画全局速率缩放
+        /// </summary>
+        /// <param name="value"></param>
+        public static void SetGlobalDurationMultiply(float value)
+        {
+            DurationMultiply = value;
+        }
     }
 }
