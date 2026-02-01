@@ -53,6 +53,7 @@ namespace SevenStrikeModules.XTween
             Liquid_PreviewBg_ScanDirty,
             Liquid_PreviewBg_status_playing,
             Liquid_PreviewBg_status_idle,
+            Liquid_PreviewBg_Highlight,
             Liquid_Plug,
             Liquid_MetalGrid;
 
@@ -73,7 +74,7 @@ namespace SevenStrikeModules.XTween
         public static void ShowWindow()
         {
             window = (Editor_XTween_Configurator)EditorWindow.GetWindow(typeof(Editor_XTween_Configurator), true, "XTween 配置面板", true);
-            XTween_GUI.CenterEditorWindow(new Vector2Int(375, 820), window);
+            XTween_GUI.CenterEditorWindow(new Vector2Int(380, 912), window);
             window.maxSize = window.minSize;
             window.Show();
         }
@@ -98,6 +99,8 @@ namespace SevenStrikeModules.XTween
 
             Liquid_PreviewBg_status_playing = XTween_GUI.GetIcon("Icons_Hud_XTween_Configurator/liquidstyle_previewbg_status_playing");
             Liquid_PreviewBg_status_idle = XTween_GUI.GetIcon("Icons_Hud_XTween_Configurator/liquidstyle_previewbg_status_idle");
+
+            Liquid_PreviewBg_Highlight = XTween_GUI.GetIcon("Icons_Hud_XTween_Configurator/Liquid_PreviewBg_Highlight");
 
             Liquid_Plug = XTween_GUI.GetIcon("Icons_Hud_XTween_Configurator/LiquidPlug");
             Liquid_MetalGrid = XTween_GUI.GetIcon("Icons_Hud_XTween_Configurator/MetalGrid");
@@ -129,8 +132,13 @@ namespace SevenStrikeModules.XTween
             XTween_GUI.Gui_Box(Sepline_rect, SepLineColor);
             #endregion
 
-            rect_primary.Set(20, 85, 300, 15);
+            rect_primary.Set(23, 110, 300, 15);
             rect_secondary = rect_primary;
+
+            XTween_GUI.Gui_Group(new Rect(10, 90, 360, 200), GUIFilled.纯色边框, GUIColor.亮白, "动画面板配置预览", new Vector2(20, -7), XTween_Dashboard.Theme_Primary, Font_Light);
+            XTween_GUI.Gui_Group(new Rect(10, 300, 360, 198), GUIFilled.纯色边框, GUIColor.亮白, "动画面板样式配置", new Vector2(20, -7), XTween_Dashboard.Theme_Primary, Font_Light);
+            XTween_GUI.Gui_Group(new Rect(10, 508, 360, 250), GUIFilled.纯色边框, GUIColor.亮白, "动画池配置", new Vector2(20, -7), XTween_Dashboard.Theme_Primary, Font_Light);
+            XTween_GUI.Gui_Group(new Rect(10, 768, 360, 80), GUIFilled.纯色边框, GUIColor.亮白, "动画池回收保护", new Vector2(20, -7), XTween_Dashboard.Theme_Primary, Font_Light);
 
             #region 面板预览器
             rect_primary = new Rect(10, 20, 300, position.height);
@@ -164,6 +172,13 @@ namespace SevenStrikeModules.XTween
             rect_primary.Set(rect_secondary.x + 14, rect_secondary.y + 14, Liquid_PreviewBg_status_playing.width, Liquid_PreviewBg_status_playing.height);
             XTween_GUI.Gui_TextureBox(rect_primary, IsPressed ? Liquid_PreviewBg_status_playing : Liquid_PreviewBg_status_idle);
 
+            // 液晶屏高光
+            if (TweenConfigData.LiquidScanStyle || TweenConfigData.LiquidDirty)
+            {
+                rect_primary.Set(rect_secondary.x + 1, rect_secondary.y - 1, Liquid_PreviewBg_Highlight.width, Liquid_PreviewBg_Highlight.height);
+                XTween_GUI.Gui_TextureBox(rect_primary, Liquid_PreviewBg_Highlight);
+            }
+
             // 液晶屏接口
             rect_primary.Set(rect_secondary.x + 68, rect_secondary.y + 150, Liquid_Plug.width, Liquid_Plug.height);
             XTween_GUI.Gui_TextureBox(rect_primary, Liquid_Plug);
@@ -171,6 +186,7 @@ namespace SevenStrikeModules.XTween
             // 液晶屏金属网格角
             rect_primary.Set(rect_secondary.width - 38, rect_secondary.y + 110, Liquid_MetalGrid.width, Liquid_MetalGrid.height);
             XTween_GUI.Gui_TextureBox(rect_primary, Liquid_MetalGrid);
+
 
             #endregion
 
@@ -198,9 +214,10 @@ namespace SevenStrikeModules.XTween
             }
             #endregion
 
+            #region 样式参数
             float cloum_left = rect_secondary.x + 5;
             float cloum_right = rect_secondary.width;
-            float row = rect_secondary.y + 185;
+            float row = rect_secondary.y + 213;
             float interval = 28;
 
             // 播放时背景色
@@ -238,12 +255,10 @@ namespace SevenStrikeModules.XTween
             XTween_GUI.Gui_Labelfield(rect_primary, "面板分割线色", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval * 5f, 80, 20);
             TweenConfigData.Theme_SeperateLine = XTween_Utilitys.ConvertColorToHexString(XTween_GUI.Gui_ColorField(rect_primary, XTween_Utilitys.ConvertHexStringToColor(TweenConfigData.Theme_SeperateLine)), true);
-
-            Sepline_rect = new Rect(cloum_left, row + interval * 6.25f, cloum_right, 1);
-            XTween_GUI.Gui_Box(Sepline_rect, SepLineColor);
+            #endregion
 
             #region 动画池预加载
-            row += 85;
+            row += 95;
             // 动画池预加载 Integer
             rect_primary.Set(cloum_left, row + interval * 4, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "动画池预加载 - Integer", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
@@ -291,7 +306,10 @@ namespace SevenStrikeModules.XTween
             XTween_GUI.Gui_Labelfield(rect_primary, "动画池预加载 - Vector4", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
             rect_primary.Set(cloum_right - 26, row - 5 + interval * 11, 80, 20);
             TweenConfigData.PoolCount_Vector4 = XTween_GUI.Gui_InputField_Int(rect_primary, TweenConfigData.PoolCount_Vector4);
+            #endregion
 
+            #region 回收保护机制
+            row += 33;
             // 场景加载时动画池自动回收开关
             rect_primary.Set(cloum_left, row + interval * 12, 90, 20);
             XTween_GUI.Gui_Labelfield(rect_primary, "动画池自动回收 - 场景加载时", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.UpperLeft, 12, Font_Light);
@@ -306,30 +324,39 @@ namespace SevenStrikeModules.XTween
             #endregion
 
             #region 保存配置按钮
-            XTween_GUI.Gui_Layout_Space(768);
+            XTween_GUI.Gui_Layout_Space(862);
             XTween_GUI.Gui_Layout_Horizontal_Start(GUIFilled.无, GUIColor.无);
             XTween_GUI.Gui_Layout_Space(15);
             if (XTween_GUI.Gui_Layout_Button("复位参数", "", GUIFilled.实体, GUIColor.警示黄, Color.black, 35, new RectOffset(), new Vector2(0, 0), TextAnchor.MiddleCenter, 12, Font_Light))
             {
-                TweenConfigData.Theme_Primary = "#3BFE9B";
-                TweenConfigData.Theme_Group = "#1E1E1E";
-                TweenConfigData.Theme_SeperateLine = "#535353";
-                TweenConfigData.LiquidScanStyle = true;
-                TweenConfigData.LiquidDirty = true;
-                TweenConfigData.LiquidBlinker = 1;
-                TweenConfigData.LiquidColor_Playing = "#94AC59";
-                TweenConfigData.LiquidColor_Idle = "#778456";
-                TweenConfigData.PoolCount_Int = 250;
-                TweenConfigData.PoolCount_Float = 250;
-                TweenConfigData.PoolCount_String = 250;
-                TweenConfigData.PoolCount_Vector2 = 250;
-                TweenConfigData.PoolCount_Vector3 = 250;
-                TweenConfigData.PoolCount_Vector4 = 250;
-                TweenConfigData.PoolCount_Quaternion = 250;
-                TweenConfigData.PoolCount_Color = 250;
-                TweenConfigData.PoolRecyleAllOnSceneUnloaded = true;
-                TweenConfigData.PoolRecyleAllOnSceneLoaded = false;
+                // 使用延迟调用避免GUI布局冲突
+                EditorApplication.delayCall += () =>
+                {
+                    string resReset = XTween_GUI.Open(XTweenDialogType.修改, "XTween配置面板消息", "XTween配置参数复位", "接下来会将XTween的配置参数全部复位，此操作不可逆！请确定是否继续该操作？", "复位", "暂不", 1);
+                    if (resReset == "暂不")
+                    {
+                        return;
+                    }
 
+                    TweenConfigData.Theme_Primary = "#3BFE9B";
+                    TweenConfigData.Theme_Group = "#1E1E1E";
+                    TweenConfigData.Theme_SeperateLine = "#535353";
+                    TweenConfigData.LiquidScanStyle = true;
+                    TweenConfigData.LiquidDirty = true;
+                    TweenConfigData.LiquidBlinker = 1;
+                    TweenConfigData.LiquidColor_Playing = "#94AC59";
+                    TweenConfigData.LiquidColor_Idle = "#778456";
+                    TweenConfigData.PoolCount_Int = 250;
+                    TweenConfigData.PoolCount_Float = 250;
+                    TweenConfigData.PoolCount_String = 250;
+                    TweenConfigData.PoolCount_Vector2 = 250;
+                    TweenConfigData.PoolCount_Vector3 = 250;
+                    TweenConfigData.PoolCount_Vector4 = 250;
+                    TweenConfigData.PoolCount_Quaternion = 250;
+                    TweenConfigData.PoolCount_Color = 250;
+                    TweenConfigData.PoolRecyleAllOnSceneUnloaded = true;
+                    TweenConfigData.PoolRecyleAllOnSceneLoaded = false;
+                };
                 //SaveConfig();
             }
             XTween_GUI.Gui_Layout_Space(5);
@@ -337,11 +364,24 @@ namespace SevenStrikeModules.XTween
             {
                 if (!Application.isPlaying)
                 {
-                    SaveConfig();
+                    // 使用延迟调用避免GUI布局冲突
+                    EditorApplication.delayCall += () =>
+                    {
+                        string resUpdate = XTween_GUI.Open(XTweenDialogType.警告, "XTween配置面板消息", "XTween配置参数更新", "接下来会将XTween的配置参数全部更新，此操作不可逆！请确定是否继续该操作？", "更新", "暂不", 0);
+                        if (resUpdate == "暂不")
+                        {
+                            return;
+                        }
+                        SaveConfig();
+                    };
                 }
                 else
                 {
-                    XTween_Utilitys.DebugInfo("XTween 配置面板", "应用正在运行，为避免出问题只有在非运行时期才可以使用！", GUIMsgState.警告);
+                    // 使用延迟调用避免GUI布局冲突
+                    EditorApplication.delayCall += () =>
+                    {
+                        XTween_GUI.Open(XTweenDialogType.警告, "XTween配置面板消息", "应用正在运行", "为避免出问题目前只有在非运行时期才可以更新配置参数哦！", "明白", 0);
+                    };
                 }
             }
             XTween_GUI.Gui_Layout_Space(15);
@@ -362,7 +402,7 @@ namespace SevenStrikeModules.XTween
             XTween_Dashboard.LoadLiquidStyle();
             XTween_Dashboard.LoadThemes();
 
-            XTween_Utilitys.DebugInfo("XTween 配置面板", "已更新 XTween 的配置参数！", GUIMsgState.设置);
+            XTween_GUI.Open(XTweenDialogType.确认, "XTween配置面板消息", "配置更新完成", "已更新 XTween 的配置参数！", "明白", 0);
         }
 
         private void Update()

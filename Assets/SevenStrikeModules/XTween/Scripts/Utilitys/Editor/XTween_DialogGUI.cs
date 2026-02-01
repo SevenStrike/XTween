@@ -78,6 +78,37 @@ namespace SevenStrikeModules.XTween
         帮助 = 5
     }
 
+    /// <summary>
+    /// XHud弹窗对话框参数
+    /// </summary>
+    public struct XHudDialogInfo
+    {
+        /// <summary>
+        /// 弹窗类型
+        /// </summary>
+        public XTweenDialogType type;
+        /// <summary>
+        /// 窗口标题
+        /// </summary>
+        public string windowtitle;
+        /// <summary>
+        /// 主标题
+        /// </summary>
+        public string title;
+        /// <summary>
+        /// 内容
+        /// </summary>
+        public string msg;
+        /// <summary>
+        /// 选项按钮
+        /// </summary>
+        public string[] options;
+        /// <summary>
+        /// 主要按钮索引
+        /// </summary>
+        public int PrimaryIndex;
+    }
+
     [System.Serializable]
     public class XTweenDialogListDatas
     {

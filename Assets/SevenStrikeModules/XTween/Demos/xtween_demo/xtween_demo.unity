@@ -2966,7 +2966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8e691a6e0f17b499127133162297e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tt: {fileID: 0}
   EasePics:
   - {fileID: 2800000, guid: 1f3f0a016f854564394383a20b328091, type: 3}
   - {fileID: 2800000, guid: 85a5ea9cb44a4af47afd7a3dedcaf104, type: 3}

@@ -231,7 +231,7 @@ namespace SevenStrikeModules.XTween
 #endif
             ConfigData = JsonUtility.FromJson<TweenConfigData>(json);
 
-            Debug.Log(ConfigData);
+            //Debug.Log(ConfigData);
             return ConfigData;
         }
 
