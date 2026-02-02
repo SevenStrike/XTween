@@ -296,6 +296,10 @@ namespace SevenStrikeModules.XTween
         /// 自动开始动画
         /// </summary>
         [SerializeField] public bool AutoStart;
+        /// <summary>
+        /// 动画已暂停
+        /// </summary>
+        [SerializeField] public bool IsPaused;
         #endregion
 
         #region 动画目标值（End）
@@ -491,6 +495,10 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         [SerializeField] private KeyCode keyControl_Tween_Play = KeyCode.W;
         /// <summary>
+        /// 按键控制 - 动画暂停&继续
+        /// </summary>
+        [SerializeField] private KeyCode keyControl_Tween_Pause_Resume = KeyCode.P;
+        /// <summary>
         /// 按键控制 - 动画倒退
         /// </summary>
         [SerializeField] private KeyCode keyControl_Tween_Rewind = KeyCode.R;
@@ -629,6 +637,13 @@ namespace SevenStrikeModules.XTween
                 {
                     Tween_Replay();
                 }
+                if (Input.GetKeyDown(keyControl_Tween_Pause_Resume))
+                {
+                    if (IsPaused)
+                        Tween_Resume();
+                    else
+                        Tween_Pause();
+                }
             }
         }
         /// <summary>
@@ -693,6 +708,9 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         public void Tween_Pause()
         {
+            if (IsPaused)
+                return;
+            IsPaused = true;
             if (CurrentTweener == null)
             {
                 if (DebugMode)
@@ -712,6 +730,9 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         public void Tween_Resume()
         {
+            if (!IsPaused)
+                return;
+            IsPaused = false;
             if (CurrentTweener == null)
             {
                 if (DebugMode)
