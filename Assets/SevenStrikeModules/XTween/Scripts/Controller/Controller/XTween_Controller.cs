@@ -689,6 +689,44 @@ namespace SevenStrikeModules.XTween
             CurrentTweener.Play();
         }
         /// <summary>
+        /// 动画暂停
+        /// </summary>
+        public void Tween_Pause()
+        {
+            if (CurrentTweener == null)
+            {
+                if (DebugMode)
+                    XTween_Utilitys.DebugInfo("XTween控制器消息", "未能暂停动画！因为当前不存在动画！", GUIMsgState.警告);
+                return;
+            }
+            if (TweenTypes == XTweenTypes.无_None)
+            {
+                if (DebugMode)
+                    XTween_Utilitys.DebugInfo("XTween控制器消息", "未能暂停动画！因为当前模式不是有效的动画模式！", GUIMsgState.警告);
+                return;
+            }
+            CurrentTweener.Pause();
+        }
+        /// <summary>
+        /// 动画继续
+        /// </summary>
+        public void Tween_Resume()
+        {
+            if (CurrentTweener == null)
+            {
+                if (DebugMode)
+                    XTween_Utilitys.DebugInfo("XTween控制器消息", "未能继续动画！因为当前不存在动画！", GUIMsgState.警告);
+                return;
+            }
+            if (TweenTypes == XTweenTypes.无_None)
+            {
+                if (DebugMode)
+                    XTween_Utilitys.DebugInfo("XTween控制器消息", "未能继续动画！因为当前模式不是有效的动画模式！", GUIMsgState.警告);
+                return;
+            }
+            CurrentTweener.Resume();
+        }
+        /// <summary>
         /// 动画倒退
         /// </summary>
         public void Tween_Rewind()
