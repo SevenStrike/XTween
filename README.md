@@ -1,6 +1,6 @@
 ## XTween 动画插件
-[![license](https://img.shields.io/badge/license-AGPLv3.0-red.svg)](https://github.com/SevenStrike/XTween/blob/main/LICENSE)
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/latest)
+[![license](https://img.shields.io/badge/license-AGPLv3.0-red.svg)](https://github.com/SevenStrike/XTween_Unity_6/blob/main/LICENSE)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween_Unity_6)](https://github.com/SevenStrike/XTween_Unity_6/releases/latest)
 [![supported](https://img.shields.io/badge/Supported-Unity-success.svg)](https://unity.com/)
 ### 概述
 ------------
