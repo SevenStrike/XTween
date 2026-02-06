@@ -3,7 +3,7 @@
 [![supported](https://img.shields.io/badge/Supported-Unity-success.svg)](https://unity.com/)
 
 ### 📦 兼容版本 Unity 6000.0.38f1  [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/latest)
-### 📦 兼容版本 Unity 2021.3.5f1  [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/latest)
+### 📦 兼容版本 Unity 2021.3.5f1  [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/2021.3.5f1_v1.0)
 
 ### 概述
 ------------
