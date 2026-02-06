@@ -1,4 +1,4 @@
-## XTween 动画插件 (基于Unity 6000.0.38f1)
+## XTween 动画插件 (基于Unity 6000.0.38f1开发)
 [![license](https://img.shields.io/badge/license-AGPLv3.0-red.svg)](https://github.com/SevenStrike/XTween/blob/main/LICENSE)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/latest)
 [![supported](https://img.shields.io/badge/Supported-Unity-success.svg)](https://unity.com/)
