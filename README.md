@@ -2,8 +2,9 @@
 [![license](https://img.shields.io/badge/license-AGPLv3.0-red.svg)](https://github.com/SevenStrike/XTween/blob/main/LICENSE)
 [![supported](https://img.shields.io/badge/Supported-Unity-success.svg)](https://unity.com/)
 
-### 📦 兼容版本 Unity 6000.0.38f1 - [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/latest)
-### 📦 兼容版本 Unity 2021.3.5f1 - [![GitHub release (2021.3.5f1_v1.0 SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/tag/2021.3.5f1_v1.0)
+#### 📦 兼容版本 Unity 6000.0.38f1 - [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/latest)
+#### 📦 兼容版本 Unity 2021.3.5f1 - [![GitHub release (2021.3.5f1_v1.0)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/tag/2021.3.5f1_v1.0)
+<br>
 ### 概述
 ------------
 XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型、缓动效果和灵活的控制方式。它采用对象池技术优化性能，支持编辑器预览，适用于 UI 和游戏对象的动画处理。 并且该插件是一个功能全面、性能优化的 Unity 动画解决方案，适用于各种动画需求，从简单的 UI 动效到复杂的游戏对象动画。其架构清晰度和零GC设计特别适合需要大量动态动画的项目（如UI密集型游戏）。相比主流插件，它在类型扩展性和内存控制上有独特优势，而链式API和完整文档则降低了使用门槛
