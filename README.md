@@ -1,4 +1,4 @@
-## XTween 动画插件 (Unity6系列)
+## XTween 动画插件 (Unity 6000.0.38f1)
 [![license](https://img.shields.io/badge/license-AGPLv3.0-red.svg)](https://github.com/SevenStrike/XTween_Unity_6/blob/main/LICENSE)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween_Unity_6)](https://github.com/SevenStrike/XTween_Unity_6/releases/latest)
 [![supported](https://img.shields.io/badge/Supported-Unity-success.svg)](https://unity.com/)
@@ -12,8 +12,6 @@ XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型
 | **欢迎加入技术研讨群，在这里可以和我以及大家一起探讨插件的优化以及相关的技术实现思路，同时在做项目时遇到的众多问题以及瓶颈<br>阻碍都可以互相探讨学习**|![](Docs/qqgroups.jpg) |
 
 <br>
-
-### ✅**专为Unity6系列提供支持，此插件的起源载体开发版本：Unity6000.0.38F1** 
 
 <br>
 
