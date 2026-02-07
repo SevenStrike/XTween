@@ -2,8 +2,8 @@
 [![license](https://img.shields.io/badge/license-AGPLv3.0-white.svg)](https://github.com/SevenStrike/XTween/blob/main/LICENSE)&nbsp;&nbsp;
 [![supported](https://img.shields.io/badge/Supported-Unity-success.svg)](https://unity.com/)
 
-#### 📦 兼容版本 Unity 6000.0.38f1 &nbsp;&nbsp;-&nbsp;&nbsp; [![For](https://img.shields.io/badge/release-6000.0.38f1_v1.0-red)](https://github.com/SevenStrike/XTween/releases/tag/6000.0.38f1_v1.0)
-#### 📦 兼容版本 Unity 2021.3.5f1 &nbsp;&nbsp;-&nbsp;&nbsp; [![For](https://img.shields.io/badge/release-2021.3.5f1_v1.0-blue)](https://github.com/SevenStrike/XTween/releases/tag/2021.3.5f1_v1.0)
+#### 📦 兼容版本 Unity 6000.0.38f1 &nbsp;&nbsp;-&nbsp;&nbsp; [![release](https://img.shields.io/badge/release-6000.0.38f1_v1.0-red?label=download)](https://github.com/SevenStrike/XTween/releases/tag/6000.0.38f1_v1.0)
+#### 📦 兼容版本 Unity 2021.3.5f1 &nbsp;&nbsp;-&nbsp;&nbsp; [![release](https://img.shields.io/badge/release-2021.3.5f1_v1.0-blue?label=download)](https://github.com/SevenStrike/XTween/releases/tag/2021.3.5f1_v1.0)
 
 <br>
 ### 概述
