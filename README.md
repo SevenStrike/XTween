@@ -2,7 +2,7 @@
 [![license](https://img.shields.io/badge/license-AGPLv3.0-red.svg)](https://github.com/SevenStrike/XTween/blob/main/LICENSE)
 [![supported](https://img.shields.io/badge/Supported-Unity-success.svg)](https://unity.com/)
 
-#### 📦 最新版本 Unity 6000.0.38f1 - [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/latest)
+#### 📦 最新版本 Unity 6000.0.38f1 - [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/latest-orange)
 
 <br>
 <br>
