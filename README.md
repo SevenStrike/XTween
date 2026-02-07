@@ -4,6 +4,7 @@
 
 #### 📦 兼容版本 Unity 6000.0.38f1 - [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/SevenStrike/XTween)](https://github.com/SevenStrike/XTween/releases/latest)
 #### 📦 兼容版本 Unity 2021.3.5f1 - [![GitHub release (latest 2021.3.5f1_v1.0)](https://img.shields.io/github/v/release/SevenStrike/XTween/releases/tag/2021.3.5f1_v1.0)](https://github.com/SevenStrike/XTween/releases/tag/2021.3.5f1_v1.0)
+[![GitHub release (2021.3.5f1_v1.0)](https://img.shields.io/github/v/release/SevenStrike/XTween?tag=2021.3.5f1_v1.0)](https://github.com/SevenStrike/XTween/releases/tag/2021.3.5f1_v1.0)
 <br>
 ### 概述
 ------------
