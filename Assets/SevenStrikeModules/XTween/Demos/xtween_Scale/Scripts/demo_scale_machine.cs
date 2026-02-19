@@ -116,7 +116,7 @@ public class demo_scale_machine : demo_base
                 CreateTween_Rot(twn);
             }
 
-            rulertween.tween = rulertween.img.rectTransform.xt_Rotate_To(rulertween.target, rulertween.duration, RotationMode.Shortest, false, true, Ruler_easeMode, true, () => Vector3.forward * 210, false, null).SetDelay(Ruler_Delay).SetLoop(0);
+            rulertween.tween = rulertween.img.rectTransform.xt_Rotate_To(rulertween.target, rulertween.duration, false, true, TweenSpace.相对, RotationMode.Shortest, Ruler_easeMode, true, () => Vector3.forward * 210, false, null).SetDelay(Ruler_Delay).SetLoop(0);
 
             probtween.tween = probtween.img.xt_Color_To(probtween.target, Prob_Duration_display, true, EaseMode.InSine, true, () => probtween.from, true, Prob_Curve_display).SetDelay(Prob_Delay_display).OnKill(() =>
             {
@@ -329,7 +329,7 @@ public class demo_scale_machine : demo_base
         }
         else
         {
-            twn.tween = twn.img.rectTransform.xt_Scale_To(dir == "display" ? twn.target : twn.from, dir == "display" ? duration : Hidden_Duration, isRelative, isAutoKill, easeMode, isFromMode, () => dir == "display" ? twn.from : twn.target).SetEase(dir == "display" ? easeMode : Hidden_easeMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetDelay(dir == "display" ? twn.delay : hiddenDelay * Hidden_DelayMultiply).OnRewind(() =>
+            twn.tween = twn.img.rectTransform.xt_Scale_To(dir == "display" ? twn.target : twn.from, dir == "display" ? duration : Hidden_Duration, isRelative, isAutoKill, easeMode, isFromMode, () => dir == "display" ? twn.from : twn.target, false, null).SetEase(dir == "display" ? easeMode : Hidden_easeMode).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetDelay(dir == "display" ? twn.delay : hiddenDelay * Hidden_DelayMultiply).OnRewind(() =>
             {
                 if (twn.img != null)
                     twn.img.rectTransform.localScale = dir == "display" ? twn.target : twn.from;
@@ -359,7 +359,7 @@ public class demo_scale_machine : demo_base
     /// <param name="twn"></param>
     public void CreateTween_Rot(scaleRotTween twn)
     {
-        twn.tween = twn.img.rectTransform.xt_Rotate_To(twn.target, twn.duration, false, false, RotationMode.FullRotation).OnKill(() =>
+        twn.tween = twn.img.rectTransform.xt_Rotate_To(twn.target, twn.duration, false, false, TweenSpace.相对, RotationMode.FullRotation).OnKill(() =>
         {
             if (twn.img != null)
                 twn.img.rectTransform.eulerAngles = Vector3.zero;

@@ -41,7 +41,7 @@ public class demo_values_string : demo_base
         TextContentSet(null);
         if (useCurve)
         {
-            currentTweener = XTween.To(() => value_current, x => value_current = x, false, value_target, duration, isAutoKill, cursorBlinkTime, cursor).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(curve).SetDelay(delay).OnRewind(() =>
+            currentTweener = XTween.To(() => value_current, x => value_current = x, false, cursorBlinkTime, cursor, value_target, duration, isAutoKill).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(curve).SetDelay(delay).OnRewind(() =>
             {
                 TextContentSet(value_current);
             }).OnUpdate<string>((s, d, t) =>
@@ -51,7 +51,7 @@ public class demo_values_string : demo_base
         }
         else
         {
-            currentTweener = XTween.To(() => value_current, x => value_current = x, false, value_target, duration, isAutoKill, cursorBlinkTime, cursor).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(delay).OnRewind(() =>
+            currentTweener = XTween.To(() => value_current, x => value_current = x, false, cursorBlinkTime, cursor, value_target, duration, isAutoKill).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(delay).OnRewind(() =>
             {
                 TextContentSet(value_current);
             }).OnUpdate<string>((s, d, t) =>

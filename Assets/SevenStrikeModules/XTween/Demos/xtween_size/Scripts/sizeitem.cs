@@ -142,7 +142,7 @@ public class sizeitem : demo_base
     /// <param name="twn"></param>
     public void CreateTween_Size(sizeTween twn, string dir, float hiddenDelay = 0)
     {
-        twn.tween = twn.img.rectTransform.xt_Size_To(twn.target, duration * twn.duration, isRelative, isAutoKill, easeMode, isFromMode, () => twn.from).SetEase(twn.ease).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetDelay(delay + twn.delay);
+        twn.tween = twn.img.rectTransform.xt_Size_To(twn.target, duration * twn.duration, isRelative, isAutoKill, easeMode, isFromMode, () => twn.from, useCurve, curve).SetEase(twn.ease).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetDelay(delay + twn.delay);
 
         twn.id = twn.tween.ShortId;
     }

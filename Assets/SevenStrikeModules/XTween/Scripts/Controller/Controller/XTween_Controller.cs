@@ -275,7 +275,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 四元数过渡方式
         /// </summary>
-        [SerializeField] public HudRotateMode HudRotateMode = HudRotateMode.SlerpUnclamped;
+        [SerializeField] public RotateLerpType HudRotateMode = RotateLerpType.SlerpUnclamped;
         /// <summary>
         /// 欧拉角度旋转方式
         /// </summary>
@@ -300,6 +300,10 @@ namespace SevenStrikeModules.XTween
         /// 动画已暂停
         /// </summary>
         [SerializeField] public bool IsPaused;
+        /// <summary>
+        /// Tween动画坐标空间
+        /// </summary>
+        [SerializeField] public TweenSpace AnimateSpace = TweenSpace.绝对;
         #endregion
 
         #region 动画目标值（End）
@@ -425,6 +429,10 @@ namespace SevenStrikeModules.XTween
         /// 索引 - 旋转动画子类型
         /// </summary>
         [SerializeField] public string index_TweenTypes_Rotations = "欧拉角度_Euler";
+        /// <summary>
+        /// 索引 - 旋转动画的坐标空间
+        /// </summary>
+        [SerializeField] public string index_TweenTypes_Rotation_Space = "Self";
         /// <summary>
         /// 索引 - 透明度动画子类型
         /// </summary>

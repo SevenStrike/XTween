@@ -22,12 +22,6 @@ namespace SevenStrikeModules.XTween
 {
     using UnityEngine;
 
-    public enum HudRotateMode
-    {
-        LerpUnclamped,
-        SlerpUnclamped
-    }
-
     /// <summary>
     /// 专门处理 四元数_Quaternion 类型动画的补间类
     /// </summary>
@@ -37,7 +31,7 @@ namespace SevenStrikeModules.XTween
     /// </remarks>
     public class XTween_Specialized_Quaternion : XTween_Base<Quaternion>
     {
-        public HudRotateMode HudRotateMode = HudRotateMode.LerpUnclamped;
+        public RotateLerpType LerpType = RotateLerpType.LerpUnclamped;
 
         /// <summary>
         /// 默认初始化构造
@@ -45,10 +39,10 @@ namespace SevenStrikeModules.XTween
         /// <param name="defaultFromValue"></param>
         /// <param name="endValue"></param>
         /// <param name="duration"></param>
-        /// <param name="mode"></param>
-        public XTween_Specialized_Quaternion(Quaternion defaultFromValue, Quaternion endValue, float duration, HudRotateMode mode) : base(defaultFromValue, endValue, duration)
+        /// <param name="type"></param>
+        public XTween_Specialized_Quaternion(Quaternion defaultFromValue, Quaternion endValue, float duration, RotateLerpType type) : base(defaultFromValue, endValue, duration)
         {
-            HudRotateMode = mode;
+            LerpType = type;
             // 已在基类 protected XTween_Base(TArg defaultFromValue, TArg endValue, float duration) 初始化
         }
 
@@ -60,7 +54,7 @@ namespace SevenStrikeModules.XTween
         /// <param name="duration"></param>
         public XTween_Specialized_Quaternion(Quaternion defaultFromValue, Quaternion endValue, float duration) : base(defaultFromValue, endValue, duration)
         {
-            HudRotateMode = HudRotateMode.SlerpUnclamped;
+            LerpType = RotateLerpType.SlerpUnclamped;
             // 已在基类 protected XTween_Base(TArg defaultFromValue, TArg endValue, float duration) 初始化
         }
 
@@ -75,7 +69,7 @@ namespace SevenStrikeModules.XTween
             _StartValue = Quaternion.identity;
             _CustomEaseCurve = null; // 显式初始化为null
             _UseCustomEaseCurve = false; // 默认不使用自定义曲线
-            HudRotateMode = HudRotateMode.SlerpUnclamped;
+            LerpType = RotateLerpType.SlerpUnclamped;
 
             ResetState();
         }
@@ -84,13 +78,13 @@ namespace SevenStrikeModules.XTween
         /// 执行 四元数_Quaternion 类型的插值计算。
         /// 使用 四元数_Quaternion.LerpUnclamped 方法，支持超出 [0, 1] 范围的插值系数
         /// </summary>
-        /// <param tweenName="a">起始值。</param>
-        /// <param tweenName="b">目标值。</param>
-        /// <param tweenName="t">插值系数。</param>
+        /// <param name="a">起始值。</param>
+        /// <param name="b">目标值。</param>
+        /// <param name="t">插值系数。</param>
         /// <returns>插值结果。</returns>
         protected override Quaternion Lerp(Quaternion a, Quaternion b, float t)
         {
-            if (HudRotateMode == HudRotateMode.SlerpUnclamped)
+            if (LerpType == RotateLerpType.SlerpUnclamped)
                 /// <summary>
                 /// 使用 四元数_Quaternion.SlerpUnclamped 方法计算插值
                 /// 四元数_Quaternion.SlerpUnclamped 是 Unity 提供的插值方法，适用于 四元数_Quaternion 类型

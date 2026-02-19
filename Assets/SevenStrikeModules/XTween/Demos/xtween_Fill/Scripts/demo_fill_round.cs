@@ -128,7 +128,7 @@ public class demo_fill_round : demo_base
     /// <param name="tweener"></param>
     public void CreateTween_Fill(roundTweener tweener)
     {
-        tweener.tween = tweener.img.xt_Fill_To(tweener.target, duration, isAutoKill, easeMode, isFromMode, () => tweener.from, useCurve).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(tweener.delay).OnRewind(() =>
+        tweener.tween = tweener.img.xt_Fill_To(tweener.target, duration, isAutoKill, easeMode, isFromMode, () => tweener.from, useCurve, curve).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(tweener.delay).OnRewind(() =>
         {
             tweener.img.fillAmount = tweener.from;
             tweener.text.text = "0";

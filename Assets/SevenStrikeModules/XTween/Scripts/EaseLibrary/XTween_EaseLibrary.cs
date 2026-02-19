@@ -370,8 +370,8 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 弹性进入缓动函数
         /// </summary>
-        /// <param tweenName="t">时间参数</param>
-        /// <param tweenName="period">周期</param>
+        /// <param name="t">时间参数</param>
+        /// <param name="period">周期</param>
         /// <returns>缓动值</returns>
         /// <remarks>
         /// 设计要点：
@@ -389,8 +389,8 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 弹性退出缓动函数
         /// </summary>
-        /// <param tweenName="t">时间参数</param>
-        /// <param tweenName="period">周期</param>
+        /// <param name="t">时间参数</param>
+        /// <param name="period">周期</param>
         /// <returns>缓动值</returns>
         /// <remarks>
         /// 设计要点：
@@ -408,8 +408,8 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 弹性进出缓动函数，模拟物体在进入和退出时的弹性振动效果
         /// </summary>
-        /// <param tweenName="t">归一化时间参数（0 到 1）</param>
-        /// <param tweenName="period">弹性振动的周期</param>
+        /// <param name="t">归一化时间参数（0 到 1）</param>
+        /// <param name="period">弹性振动的周期</param>
         /// <returns>缓动后的值</returns>
         /// <remarks>
         /// 设计要点：
@@ -433,8 +433,8 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 回退进入缓动函数，模拟物体在进入时的回退效果
         /// </summary>
-        /// <param tweenName="t">归一化时间参数（0 到 1）</param>
-        /// <param tweenName="overshoot">回退系数，控制回退的强度</param>
+        /// <param name="t">归一化时间参数（0 到 1）</param>
+        /// <param name="overshoot">回退系数，控制回退的强度</param>
         /// <returns>缓动后的值</returns>
         /// <remarks>
         /// 设计要点：
@@ -449,8 +449,8 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 回退退出缓动函数，模拟物体在退出时的回退效果
         /// </summary>
-        /// <param tweenName="t">归一化时间参数（0 到 1）</param>
-        /// <param tweenName="overshoot">回退系数，控制回退的强度</param>
+        /// <param name="t">归一化时间参数（0 到 1）</param>
+        /// <param name="overshoot">回退系数，控制回退的强度</param>
         /// <returns>缓动后的值</returns>
         /// <remarks>
         /// 设计要点：
@@ -465,8 +465,8 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 回退进出缓动函数，模拟物体在进入和退出时的回退效果
         /// </summary>
-        /// <param tweenName="t">归一化时间参数（0 到 1）</param>
-        /// <param tweenName="overshoot">回退系数，控制回退的强度</param>
+        /// <param name="t">归一化时间参数（0 到 1）</param>
+        /// <param name="overshoot">回退系数，控制回退的强度</param>
         /// <returns>缓动后的值</returns>
         /// <remarks>
         /// 设计要点：
@@ -485,7 +485,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 弹跳进入缓动函数，模拟物体在进入时的弹跳效果
         /// </summary>
-        /// <param tweenName="t">归一化时间参数（0 到 1）</param>
+        /// <param name="t">归一化时间参数（0 到 1）</param>
         /// <returns>缓动后的值</returns>
         /// <remarks>
         /// 设计要点：
@@ -500,7 +500,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 弹跳退出缓动函数，模拟物体在退出时的弹跳效果
         /// </summary>
-        /// <param tweenName="t">归一化时间参数（0 到 1）</param>
+        /// <param name="t">归一化时间参数（0 到 1）</param>
         /// <returns>缓动后的值</returns>
         /// <remarks>
         /// 设计要点：
@@ -524,7 +524,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 弹跳进出缓动函数，模拟物体在进入和退出时的弹跳效果
         /// </summary>
-        /// <param tweenName="t">归一化时间参数（0 到 1）</param>
+        /// <param name="t">归一化时间参数（0 到 1）</param>
         /// <returns>缓动后的值</returns>
         /// <remarks>
         /// 设计要点：

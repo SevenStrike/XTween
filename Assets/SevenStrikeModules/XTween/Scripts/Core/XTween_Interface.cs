@@ -365,6 +365,13 @@ namespace SevenStrikeModules.XTween
         /// <param name="callback">回调函数</param>
         /// <returns>当前动画对象</returns>
         XTween_Interface OnProgress<TVal>(Action<TVal, float> callback, XTweenActionOpration ActionOpration = XTweenActionOpration.Register);
+        /// <summary>
+        /// 添加动画进度更新时的回调函数
+        /// </summary>
+        /// <typeparam name="TVal">动画值的类型</typeparam>
+        /// <param name="callback">回调函数</param>
+        /// <returns>当前动画对象</returns>
+        XTween_Interface OnEaseProgress<TVal>(Action<TVal, float> callback, XTweenActionOpration ActionOpration = XTweenActionOpration.Register);
         #endregion
     }
 }

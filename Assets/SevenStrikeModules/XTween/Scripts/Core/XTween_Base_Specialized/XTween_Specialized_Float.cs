@@ -61,9 +61,9 @@ namespace SevenStrikeModules.XTween
         /// 执行浮点值的插值计算。
         /// 使用 Mathf.Lerp 实现线性插值。
         /// </summary>
-        /// <param tweenName="a">起始值。</param>
-        /// <param tweenName="b">目标值。</param>
-        /// <param tweenName="t">插值系数，范围通常为 [0, 1]。</param>
+        /// <param name="a">起始值。</param>
+        /// <param name="b">目标值。</param>
+        /// <param name="t">插值系数，范围通常为 [0, 1]。</param>
         /// <returns>插值结果。</returns>
         protected override float Lerp(float a, float b, float t)
         {

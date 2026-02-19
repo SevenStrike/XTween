@@ -60,9 +60,9 @@ namespace SevenStrikeModules.XTween
         /// 执行 四维向量_Vector4 类型的插值计算。
         /// 使用 四维向量_Vector4.LerpUnclamped 方法，支持超出 [0, 1] 范围的插值系数。
         /// </summary>
-        /// <param tweenName="a">起始值。</param>
-        /// <param tweenName="b">目标值。</param>
-        /// <param tweenName="t">插值系数。</param>
+        /// <param name="a">起始值。</param>
+        /// <param name="b">目标值。</param>
+        /// <param name="t">插值系数。</param>
         /// <returns>插值结果。</returns>
         protected override Vector4 Lerp(Vector4 a, Vector4 b, float t)
         {

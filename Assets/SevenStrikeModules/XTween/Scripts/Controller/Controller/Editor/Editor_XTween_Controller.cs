@@ -34,7 +34,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 序列化属性
         /// </summary>
-        private SerializedProperty sp_Duration, sp_Delay, sp_UseRandomDelay, sp_RandomDelay, sp_EaseMode, sp_UseCurve, sp_Curve, sp_LoopCount, sp_LoopDelay, sp_LoopType, sp_IsFromMode, sp_IsRelative, sp_IsAutoKill, sp_EndValue_String, sp_EndValue_Int, sp_EndValue_Float, sp_EndValue_Vector2, sp_EndValue_Vector3, sp_EndValue_Vector4, sp_EndValue_Color, sp_EndValue_Quaternion, sp_FromValue_Int, sp_FromValue_Float, sp_FromValue_String, sp_FromValue_Vector2, sp_FromValue_Vector3, sp_FromValue_Vector4, sp_FromValue_Color, sp_FromValue_Quaternion, sp_Target_PathTool, sp_TweenTypes, sp_TweenTypes_Positions, sp_TweenTypes_Rotations, sp_TweenTypes_Alphas, sp_TweenTypes_Shakes, sp_TweenTypes_Text, sp_TweenTypes_TmpText, sp_TweenTypes_To, sp_index_TweenTypes, sp_index_TweenTypes_Positions, sp_index_TweenTypes_Rotations, sp_index_TweenTypes_Alphas, sp_index_TweenTypes_Shakes, sp_index_TweenTypes_Text, sp_index_TweenTypes_TmpText, sp_index_TweenTypes_To, sp_Target_RectTransform, sp_Target_Image, sp_Target_CanvasGroup, sp_Target_Text, sp_Target_TmpText, sp_Target_Int, sp_Target_Float, sp_Target_String, sp_Target_Vector2, sp_Target_Vector3, sp_Target_Vector4, sp_Target_Color, sp_index_AutoKillPreviewTweens, sp_index_RewindPreviewTweensWithKill, sp_index_ClearPreviewTweensWithKill, sp_keyControl_Tween_Play, sp_keyControl_Tween_Rewind, sp_keyControl_Tween_Pause_Resume, sp_keyControl_Tween_Kill, sp_keyControl_Tween_Replay, sp_keyControl_Enabled, sp_keyControl_Tween_Create, sp_DebugMode, sp_IsExtendedString, sp_TextCursor, sp_CursorBlinkTime, sp_HudRotateMode, sp_RotationMode, sp_Vibrato, sp_Randomness, sp_FadeShake, sp_AutoStart;
+        private SerializedProperty sp_Duration, sp_Delay, sp_UseRandomDelay, sp_RandomDelay, sp_EaseMode, sp_UseCurve, sp_Curve, sp_LoopCount, sp_LoopDelay, sp_LoopType, sp_IsFromMode, sp_IsRelative, sp_IsAutoKill, sp_EndValue_String, sp_EndValue_Int, sp_EndValue_Float, sp_EndValue_Vector2, sp_EndValue_Vector3, sp_EndValue_Vector4, sp_EndValue_Color, sp_EndValue_Quaternion, sp_FromValue_Int, sp_FromValue_Float, sp_FromValue_String, sp_FromValue_Vector2, sp_FromValue_Vector3, sp_FromValue_Vector4, sp_FromValue_Color, sp_FromValue_Quaternion, sp_Target_PathTool, sp_TweenTypes, sp_TweenTypes_Positions, sp_TweenTypes_Rotations, sp_TweenTypes_Alphas, sp_TweenTypes_Shakes, sp_TweenTypes_Text, sp_TweenTypes_TmpText, sp_TweenTypes_To, sp_index_TweenTypes, sp_index_TweenTypes_Positions, sp_index_TweenTypes_Rotations, sp_index_TweenTypes_Alphas, sp_index_TweenTypes_Shakes, sp_index_TweenTypes_Text, sp_index_TweenTypes_TmpText, sp_index_TweenTypes_To, sp_Target_RectTransform, sp_Target_Image, sp_Target_CanvasGroup, sp_Target_Text, sp_Target_TmpText, sp_Target_Int, sp_Target_Float, sp_Target_String, sp_Target_Vector2, sp_Target_Vector3, sp_Target_Vector4, sp_Target_Color, sp_index_AutoKillPreviewTweens, sp_index_RewindPreviewTweensWithKill, sp_index_ClearPreviewTweensWithKill, sp_keyControl_Tween_Play, sp_keyControl_Tween_Rewind, sp_keyControl_Tween_Pause_Resume, sp_keyControl_Tween_Kill, sp_keyControl_Tween_Replay, sp_keyControl_Enabled, sp_keyControl_Tween_Create, sp_DebugMode, sp_IsExtendedString, sp_TextCursor, sp_CursorBlinkTime, sp_HudRotateMode, sp_RotationMode, sp_Vibrato, sp_Randomness, sp_FadeShake, sp_AutoStart, sp_index_TweenTypes_Rotation_Space, sp_AnimateSpace;
 
 
         /// <summary>
@@ -153,6 +153,8 @@ namespace SevenStrikeModules.XTween
             sp_Randomness = serializedObject.FindProperty("Randomness");
             sp_FadeShake = serializedObject.FindProperty("FadeShake");
             sp_AutoStart = serializedObject.FindProperty("AutoStart");
+            sp_AnimateSpace = serializedObject.FindProperty("AnimateSpace");
+            sp_index_TweenTypes_Rotation_Space = serializedObject.FindProperty("index_TweenTypes_Rotation_Space");
 
             sp_FromValue_Int = serializedObject.FindProperty("FromValue_Int");
             sp_FromValue_Float = serializedObject.FindProperty("FromValue_Float");
@@ -637,7 +639,7 @@ namespace SevenStrikeModules.XTween
             if (TweenTypes == XTweenTypes.旋转_Rotation)
             {
                 actionlist = System.Enum.GetNames(typeof(XTweenTypes_Rotations));
-                XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("旋转类型", actionlist, ref sp_index_TweenTypes_Rotations, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
+                string rot_type = XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("旋转类型", actionlist, ref sp_index_TweenTypes_Rotations, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
                 {
                     for (int i = 0; i < SelectedObjects.Length; i++)
                     {
@@ -649,6 +651,23 @@ namespace SevenStrikeModules.XTween
                     sp_TweenTypes_Rotations.enumValueIndex = (int)(XTweenTypes_Rotations)System.Enum.Parse(typeof(XTweenTypes_Rotations), res);
                     GetComponents();
                 });
+
+                if (rot_type == XTweenTypes_Rotations.欧拉角度_Euler.ToString())
+                {
+                    XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("坐标空间", System.Enum.GetNames(typeof(TweenSpace)), ref sp_index_TweenTypes_Rotation_Space, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
+                    {
+                        for (int i = 0; i < SelectedObjects.Length; i++)
+                        {
+                            SelectedObjects[i].AnimateSpace = (TweenSpace)System.Enum.Parse(typeof(TweenSpace), sp_index_TweenTypes_Rotation_Space.stringValue);
+                        }
+                        GetComponents();
+                    }
+                    , (res) =>
+                    {
+                        sp_AnimateSpace.enumValueIndex = (int)(TweenSpace)System.Enum.Parse(typeof(TweenSpace), res);
+                        GetComponents();
+                    });
+                }
             }
             #endregion
 

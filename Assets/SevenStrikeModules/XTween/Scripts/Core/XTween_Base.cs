@@ -115,6 +115,7 @@ namespace SevenStrikeModules.XTween
         public Action<TArg, float, float> act_on_UpdateCallbacks;
         public Action<TArg, float, float> act_on_StepUpdateCallbacks;
         public Action<TArg, float> act_on_ProgressCallbacks;
+        public Action<TArg, float> act_on_EaseProgressCallbacks;
         #endregion
 
         #region 受保护字段
@@ -695,6 +696,10 @@ namespace SevenStrikeModules.XTween
             if (act_on_ProgressCallbacks != null)
                 act_on_ProgressCallbacks(_CurrentValue, _CurrentLinearProgress);
 
+            // OnEaseProgress 保持原样
+            if (act_on_EaseProgressCallbacks != null)
+                act_on_EaseProgressCallbacks(_CurrentValue, _CurrentEasedProgress);
+
             return true;
         }
         /// <summary>
@@ -1075,6 +1080,7 @@ namespace SevenStrikeModules.XTween
             act_on_ResumeCallbacks = null;
             act_on_RewindCallbacks = null;
             act_on_DelayUpdateCallbacks = null;
+            act_on_EaseProgressCallbacks = null;
         }
         /// <summary>
         /// 创建动画的唯一标识符和短标识符
@@ -1362,6 +1368,29 @@ namespace SevenStrikeModules.XTween
         XTween_Interface XTween_Interface.OnDelayUpdate(Action<float> callback, XTweenActionOpration ActionOpration)
         {
             return OnDelayUpdate(callback, ActionOpration);
+        }
+        /// <summary>
+        /// 添加动画进度更新时的回调函数
+        /// </summary>
+        /// <param name="callback">回调函数，接收两个参数：
+        /// - 当前动画值
+        /// - 当前线性进度（范围为 [0, 1]）
+        /// </param>
+        /// <returns>当前动画对象</returns>
+        XTween_Interface XTween_Interface.OnEaseProgress<TVal>(Action<TVal, float> callback, XTweenActionOpration ActionOpration)
+        {
+            if (callback is Action<TArg, float> typedCallback)
+            {
+                if (ActionOpration == XTweenActionOpration.Register)
+                    act_on_EaseProgressCallbacks += typedCallback;
+                else
+                    act_on_EaseProgressCallbacks -= typedCallback;
+            }
+            else
+            {
+                Debug.LogError($"Type mismatch! Expected {typeof(TArg)}, got {typeof(TVal)}");
+            }
+            return this;
         }
         #endregion
 
@@ -1819,15 +1848,35 @@ namespace SevenStrikeModules.XTween
             }
             return this;
         }
+        /// <summary>
+        /// 添加动画进度更新时的回调函数
+        /// 在动画的每一帧更新时，此回调将被触发
+        /// 回调函数接收两个参数：
+        /// - 当前动画值
+        /// - 当前线性进度（范围为 [0, 1]）
+        /// </summary>
+        /// <param name="callback">回调函数</param>
+        /// <returns>当前动画对象，支持链式调用</returns>
+        public XTween_Base<TArg> OnEaseProgress(Action<TArg, float> callback, XTweenActionOpration ActionOpration = XTweenActionOpration.Register)
+        {
+            if (callback != null)
+            {
+                if (ActionOpration == XTweenActionOpration.Register)
+                    act_on_EaseProgressCallbacks += callback;
+                else
+                    act_on_EaseProgressCallbacks -= callback;
+            }
+            return ReturnSelf();
+        }
         #endregion
 
         #region 抽象方法
         /// <summary>
         /// 抽象方法 - 执行类型特定的插值计算
         /// </summary>
-        /// <param tweenName="a">起始值（类型 TArg）</param>
-        /// <param tweenName="b">目标值（类型 TArg）</param>
-        /// <param tweenName="t">
+        /// <param name="a">起始值（类型 TArg）</param>
+        /// <param name="b">目标值（类型 TArg）</param>
+        /// <param name="t">
         /// 插值系数：
         /// - 通常范围 [0, 1]
         /// - 特殊缓动曲线可能超出该范围（如弹性效果）

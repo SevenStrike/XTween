@@ -199,7 +199,7 @@ public class demo_fill_map : demo_base
     /// <param name="tweener"></param>
     public void CreateTween_Fill(mapTweener tweener, string dir)
     {
-        tweener.tween = tweener.img.xt_Fill_To(dir == "open" ? tweener.target : tweener.from, duration, isAutoKill, easeMode, isFromMode, () => tweener.from, useCurve).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(dir == "open" ? tweener.delay : 0).OnRewind(() =>
+        tweener.tween = tweener.img.xt_Fill_To(dir == "open" ? tweener.target : tweener.from, duration, isAutoKill, easeMode, isFromMode, () => tweener.from, useCurve, curve).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(dir == "open" ? tweener.delay : 0).OnRewind(() =>
         {
             tweener.img.fillAmount = tweener.from;
         });
@@ -211,7 +211,7 @@ public class demo_fill_map : demo_base
     /// <param name="tweener"></param>
     public void CreateTween_Motion(mapScroller tweener)
     {
-        tweener.tween = tweener.img.rectTransform.xt_AnchoredPosition_To(dir == "open" ? tweener.target : tweener.from, duration, isRelative, isAutoKill, easeMode, isFromMode, () => tweener.from, useCurve).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(delay).OnRewind(() =>
+        tweener.tween = tweener.img.rectTransform.xt_AnchoredPosition_To(dir == "open" ? tweener.target : tweener.from, duration, isRelative, isAutoKill, easeMode, isFromMode, () => tweener.from, useCurve, curve).SetLoop(loop, loopType).SetLoopingDelay(loopDelay).SetEase(easeMode).SetDelay(delay).OnRewind(() =>
         {
             tweener.img.rectTransform.anchoredPosition = tweener.from;
         }).OnComplete((s) =>

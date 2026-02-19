@@ -39,12 +39,20 @@ namespace SevenStrikeModules.XTween
         ProgressStep
     }
     /// <summary>
+    /// 四元数平滑差值过渡方式
+    /// </summary>
+    public enum RotateLerpType
+    {
+        LerpUnclamped,
+        SlerpUnclamped
+    }
+    /// <summary>
     /// 欧拉角旋转动画的方式
     /// </summary>
     public enum RotationMode
     {
         /// <summary>
-        /// 默认模式，保持原有行为
+        /// 默认模式，保持按照角度顺序旋转
         /// </summary>
         Normal = 0,
         /// <summary>
@@ -52,13 +60,23 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         Shortest = 1,
         /// <summary>
-        /// 顺序旋转（按数字顺序）
-        /// </summary>
-        Sequential = 2,
-        /// <summary>
         /// 完整旋转模式，允许360度完整旋转
         /// </summary>
-        FullRotation = 3
+        FullRotation = 2
+    }
+    /// <summary>
+    /// 动画坐标空间
+    /// </summary>
+    public enum TweenSpace
+    {
+        /// <summary>
+        /// 本地坐标空间
+        /// </summary>
+        相对 = 0,
+        /// <summary>
+        /// 世界坐标空间
+        /// </summary>
+        绝对 = 1,
     }
     /// <summary>
     /// 定义XTween框架中所有可用的补间动画类型
