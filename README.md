@@ -21,30 +21,69 @@ XTween 是一个高性能的 Unity 动画系统，提供了丰富的动画类型
 
 ### 📦 DEMO效果预览
 ---
-![](Docs/previews/gif_colors.gif)
+![](Docs/previews/demo_move_text_a.gif)
 
-![](Docs/previews/gif_fill.gif)
+![](Docs/previews/demo_move_text_b.gif)
 
-![](Docs/previews/gif_mover.gif)
+![](Docs/previews/demo_move_text_c.gif)
 
-![](Docs/previews/gif_path.gif)
+![](Docs/previews/demo_move_text_d.gif)
 
-![](Docs/previews/gif_rotate.gif)
+![](Docs/previews/demo_move_text_e.gif)
 
-![](Docs/previews/gif_scale.gif)
+![](Docs/previews/demo_move_text_f.gif)
 
-![](Docs/previews/gif_sequence.gif)
+![](Docs/previews/demo_move_wheel.gif)
 
-![](Docs/previews/gif_shake.gif)
+![](Docs/previews/demo_path_base.gif)
 
-![](Docs/previews/gif_size.gif)
+![](Docs/previews/demo_path_cardraft.gif)
 
-![](Docs/previews/gif_text.gif)
+![](Docs/previews/demo_path_lookat.gif)
 
-![](Docs/previews/gif_tiled.gif)
+![](Docs/previews/demo_path_map.gif)
 
-![](Docs/previews/gif_values.gif)
+![](Docs/previews/demo_rotator_angularabsolute.gif)
 
+![](Docs/previews/demo_rotator_angularrelative.gif)
+
+![](Docs/previews/demo_rotator_gears.gif)
+
+![](Docs/previews/demo_rotator_plumb.gif)
+
+![](Docs/previews/demo_rotator_radar.gif)
+
+![](Docs/previews/demo_scale_house.gif)
+
+![](Docs/previews/demo_scale_machine.gif)
+
+![](Docs/previews/demo_seq_cat.gif)
+
+![](Docs/previews/demo_seq_run.gif)
+
+![](Docs/previews/demo_shake.gif)
+
+![](Docs/previews/demo_size.gif)
+
+![](Docs/previews/demo_text.gif)
+
+![](Docs/previews/demo_tiled.gif)
+
+![](Docs/previews/demo_value.gif)
+
+![](Docs/previews/demo_color_car.gif)
+
+![](Docs/previews/demo_color_rawGemstone.gif)
+
+![](Docs/previews/demo_color_screen.gif)
+
+![](Docs/previews/demo_fill_loading.gif)
+
+![](Docs/previews/demo_fill_map.gif)
+
+![](Docs/previews/demo_move_navigate.gif)
+
+![](Docs/previews/demo_move_parallax.gif)
 ### 📦 架构设计特色
 ---
 #### ✅**分层架构** 
