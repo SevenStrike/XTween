@@ -1,4 +1,4 @@
-using SevenStrikeModules.XTween;
+using SevenStrikeModules.XTween.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -48,7 +48,7 @@ public class editor_demo_path_map : editor_demo_base
         //如果没运行
         else
         {
-            if (XTween_Previewer.TweenIsPreviewing())
+            if (Editor_XTween_Previewer.TweenIsPreviewing())
                 return;
 
             // 创建动画

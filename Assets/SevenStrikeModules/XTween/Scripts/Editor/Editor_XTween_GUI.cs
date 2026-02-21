@@ -18,7 +18,7 @@
  * ============================================================================
  * 违反本注释保留要求，将违反 AGPL 3.0 授权协议，需承担相应法律责任
  */
-namespace SevenStrikeModules.XTween
+namespace SevenStrikeModules.XTween.Editor
 {
     using System;
     using System.Linq;
@@ -62,7 +62,7 @@ namespace SevenStrikeModules.XTween
     /// <summary>
     /// 为XTween的Editor界面提供样式控件
     /// </summary>
-    public static class XTween_GUI
+    public static class Editor_XTween_GUI
     {
         /// <summary>
         /// GUI样式
@@ -2749,7 +2749,7 @@ namespace SevenStrikeModules.XTween
                 return "最小选项按钮数量应为1";
 
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(info.windowtitle);
 
             if (info.options.Length == 5)
@@ -2798,7 +2798,7 @@ namespace SevenStrikeModules.XTween
                 window.SetInfo(info.type, info.title, info.msg, info.options[0], "", "", "", "", info.PrimaryIndex);
             }
 
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
 
             // 显示模态窗口弹窗
             window.ShowModal();
@@ -2824,7 +2824,7 @@ namespace SevenStrikeModules.XTween
                 return "最小选项按钮数量应为1";
 
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(windowtitle);
 
             if (options.Length == 5)
@@ -2873,7 +2873,7 @@ namespace SevenStrikeModules.XTween
                 window.SetInfo(type, title, msg, options[0], "", "", "", "", PrimaryIndex);
             }
 
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
 
             if (usemodal)
                 // 显示模态窗口弹窗
@@ -2900,12 +2900,12 @@ namespace SevenStrikeModules.XTween
         public static string Open(XTweenDialogType type, string windowtitle, string title, string msg, string ok, string cancel, string alt, string other, string special, int PrimaryIndex = 0, bool usemodal = true)
         {
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(windowtitle);
 
             window.XTweenDialogButtonMode = XTweenDialogButtonMode.五个按钮;
 
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
 
             // 回调消息接收
             window.Callback_Ok = (r) => { res = r; };
@@ -2939,12 +2939,12 @@ namespace SevenStrikeModules.XTween
         public static string Open(XTweenDialogType type, string windowtitle, string title, string msg, string ok, string cancel, string alt, string other, int PrimaryIndex = 0, bool usemodal = true)
         {
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(windowtitle);
 
             window.XTweenDialogButtonMode = XTweenDialogButtonMode.四个按钮;
 
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
 
             // 回调消息接收
             window.Callback_Ok = (r) => { res = r; };
@@ -2976,12 +2976,12 @@ namespace SevenStrikeModules.XTween
         public static string Open(XTweenDialogType type, string windowtitle, string title, string msg, string ok, string cancel, string alt, int PrimaryIndex = 0, bool usemodal = true)
         {
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(windowtitle);
 
             window.XTweenDialogButtonMode = XTweenDialogButtonMode.三个按钮;
 
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
 
             // 回调消息接收
             window.Callback_Ok = (r) => { res = r; };
@@ -3011,12 +3011,12 @@ namespace SevenStrikeModules.XTween
         public static string Open(XTweenDialogType type, string windowtitle, string title, string msg, string ok, string cancel, int PrimaryIndex = 0, bool usemodal = true)
         {
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(windowtitle);
 
             window.XTweenDialogButtonMode = XTweenDialogButtonMode.两个按钮;
 
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
 
             // 回调消息接收
             window.Callback_Ok = (r) => { res = r; };
@@ -3044,12 +3044,12 @@ namespace SevenStrikeModules.XTween
         public static string Open(XTweenDialogType type, string windowtitle, string title, string msg, string ok, int PrimaryIndex = 0, bool usemodal = true)
         {
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(windowtitle);
 
             window.XTweenDialogButtonMode = XTweenDialogButtonMode.单个按钮;
 
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
 
             // 回调消息接收
             window.Callback_Ok = (r) => { res = r; };
@@ -3080,10 +3080,10 @@ namespace SevenStrikeModules.XTween
         public static string Open(XTweenDialogListDatas[] datas, XTweenDialogType type, string windowtitle, string title, string msg, string ok, int PrimaryIndex = 0, bool usemodal = true)
         {
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(windowtitle);
             window.XTweenDialogButtonMode = XTweenDialogButtonMode.单个按钮;
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 420), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 420), window);
 
             // 回调消息接收
             window.Callback_Ok = (r) => { res = r; };
@@ -3114,10 +3114,10 @@ namespace SevenStrikeModules.XTween
         public static string Open(XTweenDialogListDatas[] datas, XTweenDialogType type, string windowtitle, string title, string msg, string ok, string cancel, int PrimaryIndex = 0, bool usemodal = true)
         {
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(windowtitle);
             window.XTweenDialogButtonMode = XTweenDialogButtonMode.两个按钮;
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 420), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 420), window);
 
             // 回调消息接收
             window.Callback_Ok = (r) => { res = r; };
@@ -3149,11 +3149,11 @@ namespace SevenStrikeModules.XTween
         public static string Open(XTweenDialogListDatas[] datas, XTweenDialogType type, string windowtitle, string title, string msg, string ok, string cancel, string alt, int PrimaryIndex = 0, bool usemodal = true)
         {
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(windowtitle);
             window.XTweenDialogButtonMode = XTweenDialogButtonMode.三个按钮;
 
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 420), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 420), window);
 
             // 回调消息接收
             window.Callback_Ok = (r) => { res = r; };
@@ -3187,11 +3187,11 @@ namespace SevenStrikeModules.XTween
         public static string Open(XTweenDialogListDatas[] datas, XTweenDialogType type, string windowtitle, string title, string msg, string ok, string cancel, string alt, string other, int PrimaryIndex = 0, bool usemodal = true)
         {
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(windowtitle);
             window.XTweenDialogButtonMode = XTweenDialogButtonMode.四个按钮;
 
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 420), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 420), window);
 
             // 回调消息接收
             window.Callback_Ok = (r) => { res = r; };
@@ -3227,11 +3227,11 @@ namespace SevenStrikeModules.XTween
         public static string Open(XTweenDialogListDatas[] datas, XTweenDialogType type, string windowtitle, string title, string msg, string ok, string cancel, string alt, string other, string special, int PrimaryIndex = 0, bool usemodal = true)
         {
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(windowtitle);
             window.XTweenDialogButtonMode = XTweenDialogButtonMode.五个按钮;
 
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 420), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 420), window);
 
             // 回调消息接收
             window.Callback_Ok = (r) => { res = r; };
@@ -3265,7 +3265,7 @@ namespace SevenStrikeModules.XTween
                 return "最小选项按钮数量应为1";
 
             string res = "";
-            XTween_DialogGUI window = EditorWindow.GetWindow<XTween_DialogGUI>(true);
+            Editor_XTween_DialogGUI window = EditorWindow.GetWindow<Editor_XTween_DialogGUI>(true);
             window.titleContent = new GUIContent(info.windowtitle);
 
             if (info.options.Length == 5)
@@ -3315,7 +3315,7 @@ namespace SevenStrikeModules.XTween
             }
             window.SetList(datas);
 
-            XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(545, 235), window);
 
             if (usemodal)
                 // 显示模态窗口弹窗

@@ -34,6 +34,7 @@ namespace SevenStrikeModules.XTween
 
             if (TweenTypes_TmpText == XTweenTypes_TmpText.文字尺寸_FontSize)
             {
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
                 CurrentTweener = XTween.xt_FontSize_To(Target_TmpText, EndValue_Float, Duration, IsAutoKill, EaseMode, IsFromMode, () => FromValue_Float, UseCurve, Curve).SetLoop(LoopCount, LoopType).SetLoopingDelay(LoopDelay).SetDelay(Delay).OnStart(() =>
                 {
                     if (act_on_start != null)
@@ -79,9 +80,11 @@ namespace SevenStrikeModules.XTween
                     if (act_on_complete != null)
                         act_on_complete(duration);
                 });
+#endif
             }
             else if (TweenTypes_TmpText == XTweenTypes_TmpText.文字行高_LineHeight)
             {
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
                 CurrentTweener = XTween.xt_FontLineHeight_To(Target_TmpText, EndValue_Float, Duration, IsAutoKill, EaseMode, IsFromMode, () => FromValue_Float, UseCurve, Curve).SetLoop(LoopCount, LoopType).SetLoopingDelay(LoopDelay).SetDelay(Delay).OnStart(() =>
                 {
                     if (act_on_start != null)
@@ -127,9 +130,11 @@ namespace SevenStrikeModules.XTween
                     if (act_on_complete != null)
                         act_on_complete(duration);
                 });
+#endif
             }
             else if (TweenTypes_TmpText == XTweenTypes_TmpText.文字颜色_Color)
             {
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
                 CurrentTweener = XTween.xt_FontColor_To(Target_TmpText, EndValue_Color, Duration, IsAutoKill, EaseMode, IsFromMode, () => FromValue_Color, UseCurve, Curve).SetLoop(LoopCount, LoopType).SetLoopingDelay(LoopDelay).SetDelay(Delay).OnStart(() =>
                 {
                     if (act_on_start != null)
@@ -175,9 +180,11 @@ namespace SevenStrikeModules.XTween
                     if (act_on_complete != null)
                         act_on_complete(duration);
                 });
+#endif
             }
             else if (TweenTypes_TmpText == XTweenTypes_TmpText.文字内容_Content)
             {
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
                 CurrentTweener = XTween.xt_FontText_To(Target_TmpText, IsExtendedString, EndValue_String, Duration, IsAutoKill, EaseMode, IsFromMode, () => FromValue_String, UseCurve, Curve).SetLoop(LoopCount, LoopType).SetLoopingDelay(LoopDelay).SetDelay(Delay).OnStart(() =>
                 {
                     if (act_on_start != null)
@@ -223,9 +230,11 @@ namespace SevenStrikeModules.XTween
                     if (act_on_complete != null)
                         act_on_complete(duration);
                 });
+#endif
             }
             else if (TweenTypes_TmpText == XTweenTypes_TmpText.文字间距_Character)
             {
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
                 CurrentTweener = XTween.xt_FontCharacter_To(Target_TmpText, EndValue_Float, Duration, IsAutoKill, EaseMode, IsFromMode, () => FromValue_Float, UseCurve, Curve).SetLoop(LoopCount, LoopType).SetLoopingDelay(LoopDelay).SetDelay(Delay).OnStart(() =>
                 {
                     if (act_on_start != null)
@@ -271,9 +280,11 @@ namespace SevenStrikeModules.XTween
                     if (act_on_complete != null)
                         act_on_complete(duration);
                 });
+#endif
             }
             else if (TweenTypes_TmpText == XTweenTypes_TmpText.文字边距_Margin)
             {
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
                 CurrentTweener = XTween.xt_FontMargin_To(Target_TmpText, EndValue_Vector4, Duration, IsAutoKill, EaseMode, IsFromMode, () => FromValue_Vector4, UseCurve, Curve).SetLoop(LoopCount, LoopType).SetLoopingDelay(LoopDelay).SetDelay(Delay).OnStart(() =>
                 {
                     if (act_on_start != null)
@@ -319,6 +330,7 @@ namespace SevenStrikeModules.XTween
                     if (act_on_complete != null)
                         act_on_complete(duration);
                 });
+#endif
             }
         }
     }

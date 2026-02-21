@@ -18,7 +18,7 @@
  * ============================================================================
  * 违反本注释保留要求，将违反 AGPL 3.0 授权协议，需承担相应法律责任
  */
-namespace SevenStrikeModules.XTween
+namespace SevenStrikeModules.XTween.Editor
 {
     using System;
     using System.Collections.Generic;
@@ -101,7 +101,7 @@ namespace SevenStrikeModules.XTween
     /// 2. 无限循环动画会阻止自动停止
     /// 3. 修改Time.timeScale不影响预览
     /// </summary>
-    public static class XTween_Previewer
+    public static class Editor_XTween_Previewer
     {
         #region 成员变量
         /// <summary>

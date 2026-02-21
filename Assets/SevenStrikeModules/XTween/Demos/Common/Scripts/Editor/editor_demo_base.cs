@@ -1,4 +1,5 @@
 using SevenStrikeModules.XTween;
+using SevenStrikeModules.XTween.Editor;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -230,7 +231,7 @@ public class editor_demo_base : Editor
     {
         if (Application.isPlaying)
             return;
-        XTween_Previewer.Rewind();
+        Editor_XTween_Previewer.Rewind();
 
         if (demo_base.debug)
         {
@@ -253,9 +254,9 @@ public class editor_demo_base : Editor
 
         demo_base.ShortID = null;
 
-        XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
+        Editor_XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
 
-        XTween_Previewer.Kill(XTween_Previewer.AfterKillClear, XTween_Previewer.BeforeKillRewind, () =>
+        Editor_XTween_Previewer.Kill(Editor_XTween_Previewer.AfterKillClear, Editor_XTween_Previewer.BeforeKillRewind, () =>
         {
             demo_base.currentTweener = null;
             PreviewListAddon.Clear();
@@ -275,7 +276,7 @@ public class editor_demo_base : Editor
         if (Application.isPlaying)
             return;
 
-        XTween_Previewer.act_on_editor_autokill += OnAutoKillPreview;
+        Editor_XTween_Previewer.act_on_editor_autokill += OnAutoKillPreview;
 
         if (useCurrentTween)
         {
@@ -285,18 +286,18 @@ public class editor_demo_base : Editor
             // 当动画预览器为根据动画耗时自动杀死的情况下
             if (demo_base.currentTweener.AutoKill)
             {
-                XTween_Previewer.AfterKillClear = true;
-                XTween_Previewer.BeforeKillRewind = true;
+                Editor_XTween_Previewer.AfterKillClear = true;
+                Editor_XTween_Previewer.BeforeKillRewind = true;
             }
-            XTween_Previewer.Append(demo_base.currentTweener);
+            Editor_XTween_Previewer.Append(demo_base.currentTweener);
         }
 
         #region 添加至预览器并播放
         for (int i = 0; i < PreviewListAddon.Count; i++)
         {
-            XTween_Previewer.Append(PreviewListAddon[i]);
+            Editor_XTween_Previewer.Append(PreviewListAddon[i]);
         }
-        XTween_Previewer.Play(null, demo_base.debug);
+        Editor_XTween_Previewer.Play(null, demo_base.debug);
         #endregion
 
         if (demo_base.debug)
@@ -319,7 +320,7 @@ public class editor_demo_base : Editor
         if (demo_base.currentTweener != null)
             demo_base.currentTweener = null;
         PreviewListAddon.Clear();
-        XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
+        Editor_XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
     }
     #endregion
 }

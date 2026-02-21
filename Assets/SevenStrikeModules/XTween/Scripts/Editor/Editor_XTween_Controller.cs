@@ -18,9 +18,11 @@
  * ============================================================================
  * 违反本注释保留要求，将违反 AGPL 3.0 授权协议，需承担相应法律责任
  */
-namespace SevenStrikeModules.XTween
+namespace SevenStrikeModules.XTween.Editor
 {
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
     using TMPro;
+#endif
     using UnityEditor;
     using UnityEngine;
     using UnityEngine.UI;
@@ -34,8 +36,15 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 序列化属性
         /// </summary>
-        private SerializedProperty sp_Duration, sp_Delay, sp_UseRandomDelay, sp_RandomDelay, sp_EaseMode, sp_UseCurve, sp_Curve, sp_LoopCount, sp_LoopDelay, sp_LoopType, sp_IsFromMode, sp_IsRelative, sp_IsAutoKill, sp_EndValue_String, sp_EndValue_Int, sp_EndValue_Float, sp_EndValue_Vector2, sp_EndValue_Vector3, sp_EndValue_Vector4, sp_EndValue_Color, sp_EndValue_Quaternion, sp_FromValue_Int, sp_FromValue_Float, sp_FromValue_String, sp_FromValue_Vector2, sp_FromValue_Vector3, sp_FromValue_Vector4, sp_FromValue_Color, sp_FromValue_Quaternion, sp_Target_PathTool, sp_TweenTypes, sp_TweenTypes_Positions, sp_TweenTypes_Rotations, sp_TweenTypes_Alphas, sp_TweenTypes_Shakes, sp_TweenTypes_Text, sp_TweenTypes_TmpText, sp_TweenTypes_To, sp_index_TweenTypes, sp_index_TweenTypes_Positions, sp_index_TweenTypes_Rotations, sp_index_TweenTypes_Alphas, sp_index_TweenTypes_Shakes, sp_index_TweenTypes_Text, sp_index_TweenTypes_TmpText, sp_index_TweenTypes_To, sp_Target_RectTransform, sp_Target_Image, sp_Target_CanvasGroup, sp_Target_Text, sp_Target_TmpText, sp_Target_Int, sp_Target_Float, sp_Target_String, sp_Target_Vector2, sp_Target_Vector3, sp_Target_Vector4, sp_Target_Color, sp_index_AutoKillPreviewTweens, sp_index_RewindPreviewTweensWithKill, sp_index_ClearPreviewTweensWithKill, sp_keyControl_Tween_Play, sp_keyControl_Tween_Rewind, sp_keyControl_Tween_Pause_Resume, sp_keyControl_Tween_Kill, sp_keyControl_Tween_Replay, sp_keyControl_Enabled, sp_keyControl_Tween_Create, sp_DebugMode, sp_IsExtendedString, sp_TextCursor, sp_CursorBlinkTime, sp_HudRotateMode, sp_RotationMode, sp_Vibrato, sp_Randomness, sp_FadeShake, sp_AutoStart, sp_index_TweenTypes_Rotation_Space, sp_AnimateSpace;
+        private SerializedProperty sp_Duration, sp_Delay, sp_UseRandomDelay, sp_RandomDelay, sp_EaseMode, sp_UseCurve, sp_Curve, sp_LoopCount, sp_LoopDelay, sp_LoopType, sp_IsFromMode, sp_IsRelative, sp_IsAutoKill, sp_EndValue_String, sp_EndValue_Int, sp_EndValue_Float, sp_EndValue_Vector2, sp_EndValue_Vector3, sp_EndValue_Vector4, sp_EndValue_Color, sp_EndValue_Quaternion, sp_FromValue_Int, sp_FromValue_Float, sp_FromValue_String, sp_FromValue_Vector2, sp_FromValue_Vector3, sp_FromValue_Vector4, sp_FromValue_Color, sp_FromValue_Quaternion, sp_Target_PathTool, sp_TweenTypes, sp_TweenTypes_Positions, sp_TweenTypes_Rotations, sp_TweenTypes_Alphas, sp_TweenTypes_Shakes, sp_TweenTypes_Text, sp_TweenTypes_To, sp_index_TweenTypes, sp_index_TweenTypes_Positions, sp_index_TweenTypes_Rotations, sp_index_TweenTypes_Alphas, sp_index_TweenTypes_Shakes, sp_index_TweenTypes_Text, sp_index_TweenTypes_To, sp_Target_RectTransform, sp_Target_Image, sp_Target_CanvasGroup, sp_Target_Text, sp_Target_Int, sp_Target_Float, sp_Target_String, sp_Target_Vector2, sp_Target_Vector3, sp_Target_Vector4, sp_Target_Color, sp_index_AutoKillPreviewTweens, sp_index_RewindPreviewTweensWithKill, sp_index_ClearPreviewTweensWithKill, sp_keyControl_Tween_Play, sp_keyControl_Tween_Rewind, sp_keyControl_Tween_Pause_Resume, sp_keyControl_Tween_Kill, sp_keyControl_Tween_Replay, sp_keyControl_Enabled, sp_keyControl_Tween_Create, sp_DebugMode, sp_IsExtendedString, sp_TextCursor, sp_CursorBlinkTime, sp_HudRotateMode, sp_RotationMode, sp_Vibrato, sp_Randomness, sp_FadeShake, sp_AutoStart, sp_index_TweenTypes_Rotation_Space, sp_AnimateSpace;
 
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
+        // TMPro 相关 - 需要条件编译
+        private SerializedProperty
+            sp_Target_TmpText,                    // ← TMPro组件
+            sp_TweenTypes_TmpText,                 // ← TMPro动画类型
+            sp_index_TweenTypes_TmpText;            // ← TMPro索引
+#endif
 
         /// <summary>
         /// 图标
@@ -173,7 +182,9 @@ namespace SevenStrikeModules.XTween
             sp_TweenTypes_Alphas = serializedObject.FindProperty("TweenTypes_Alphas");
             sp_TweenTypes_Shakes = serializedObject.FindProperty("TweenTypes_Shakes");
             sp_TweenTypes_Text = serializedObject.FindProperty("TweenTypes_Text");
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
             sp_TweenTypes_TmpText = serializedObject.FindProperty("TweenTypes_TmpText");
+#endif
 
             sp_TweenTypes_To = serializedObject.FindProperty("TweenTypes_To");
 
@@ -183,7 +194,9 @@ namespace SevenStrikeModules.XTween
             sp_index_TweenTypes_Alphas = serializedObject.FindProperty("index_TweenTypes_Alphas");
             sp_index_TweenTypes_Shakes = serializedObject.FindProperty("index_TweenTypes_Shakes");
             sp_index_TweenTypes_Text = serializedObject.FindProperty("index_TweenTypes_Text");
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
             sp_index_TweenTypes_TmpText = serializedObject.FindProperty("index_TweenTypes_TmpText");
+#endif
 
             sp_index_TweenTypes_To = serializedObject.FindProperty("index_TweenTypes_To");
 
@@ -191,8 +204,9 @@ namespace SevenStrikeModules.XTween
             sp_Target_Image = serializedObject.FindProperty("Target_Image");
             sp_Target_CanvasGroup = serializedObject.FindProperty("Target_CanvasGroup");
             sp_Target_Text = serializedObject.FindProperty("Target_Text");
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
             sp_Target_TmpText = serializedObject.FindProperty("Target_TmpText");
-
+#endif
             sp_Target_Int = serializedObject.FindProperty("Target_Int");
             sp_Target_Float = serializedObject.FindProperty("Target_Float");
             sp_Target_String = serializedObject.FindProperty("Target_String");
@@ -217,42 +231,44 @@ namespace SevenStrikeModules.XTween
             #endregion
 
             #region 图标获取
-            icon_main = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_main");
-            icon_status = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_status");
-            icon_preview_r = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_preview_r");
-            icon_preview_p = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_preview_p");
-            icon_rewind_r = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_rewind_r");
-            icon_rewind_p = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_rewind_p");
-            icon_kill_r = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_kill_r");
-            icon_kill_p = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_kill_p");
-            icon_pathpercent = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_pathpercent");
+            icon_main = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_main");
+            icon_status = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_status");
+            icon_preview_r = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_preview_r");
+            icon_preview_p = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_preview_p");
+            icon_rewind_r = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_rewind_r");
+            icon_rewind_p = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_rewind_p");
+            icon_kill_r = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_kill_r");
+            icon_kill_p = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_kill_p");
+            icon_pathpercent = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_pathpercent");
 
-            icon_statu_autokill = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_autokill");
-            icon_statu_cycle = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_cycle");
-            icon_statu_relative = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_relative");
-            icon_statu_tomode = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_tomode");
-            icon_statu_remode_restart = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_remode_restart");
-            icon_statu_remode_yoyo = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_remode_yoyo");
+            icon_statu_autokill = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_autokill");
+            icon_statu_cycle = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_cycle");
+            icon_statu_relative = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_relative");
+            icon_statu_tomode = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_tomode");
+            icon_statu_remode_restart = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_remode_restart");
+            icon_statu_remode_yoyo = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_statu_remode_yoyo");
 
-            LiquidBg_Expand_Pure = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_Expand_Pure");
-            LiquidBg_Expand_Scan = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_Expand_Scan");
+            LiquidBg_Expand_Pure = Editor_XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_Expand_Pure");
+            LiquidBg_Expand_Scan = Editor_XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_Expand_Scan");
 
-            LiquidBg_NoExpand_Pure = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_NoExpand_Pure");
-            LiquidBg_NoExpand_Scan = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_NoExpand_Scan");
+            LiquidBg_NoExpand_Pure = Editor_XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_NoExpand_Pure");
+            LiquidBg_NoExpand_Scan = Editor_XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidBg_NoExpand_Scan");
 
-            LiquidPlug = XTween_GUI.GetIcon("Icons_Liquid/LiquidPlug_Red");
-            MetalGrid = XTween_GUI.GetIcon("Icons_Liquid/MetalGrid");
-            LiquidDirty = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidDirty");
-            LiquidDirty_Small = XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidDirty_Small");
+            LiquidPlug = Editor_XTween_GUI.GetIcon("Icons_Liquid/LiquidPlug_Red");
+            MetalGrid = Editor_XTween_GUI.GetIcon("Icons_Liquid/MetalGrid");
+            LiquidDirty = Editor_XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidDirty");
+            LiquidDirty_Small = Editor_XTween_GUI.GetIcon("Icons_Liquid/XTween_Controller/LiquidDirty_Small");
             #endregion
 
-            Font_Bold = XTween_GUI.GetFont("SS_Editor_Bold");
-            Font_Light = XTween_GUI.GetFont("SS_Editor_Light");
+            Font_Bold = Editor_XTween_GUI.GetFont("SS_Editor_Bold");
+            Font_Light = Editor_XTween_GUI.GetFont("SS_Editor_Light");
 
             EasePic = GetEasePic((EaseMode)sp_EaseMode.enumValueIndex);
             EasePicBg = GetEasePicBg();
 
             GetAllTargets();
+
+            // 内部已处理TMPro的条件编译
             GetComponents();
 
             TweenLedOnColor = XTween_Dashboard.Theme_Primary;
@@ -268,7 +284,7 @@ namespace SevenStrikeModules.XTween
 
             sp_index_ClearPreviewTweensWithKill.boolValue = XTween_Dashboard.Get_PreviewOption_ClearPreviewTweensWithKill();
             sp_index_ClearPreviewTweensWithKill.serializedObject.ApplyModifiedProperties();
-            #endregion           
+            #endregion
 
             #region 液晶LED闪烁
             if (XTween_Dashboard.ConfigData != null && XTween_Dashboard.ConfigData.LiquidBlinker == 1)
@@ -294,18 +310,18 @@ namespace SevenStrikeModules.XTween
         {
             serializedObject.Update();
 
-            XTween_GUI.Gui_Layout_Banner(icon_main, GUIFilled.实体, GUIColor.深空灰, "XTween - 动画控制器", Color.white, 20, 20);
+            Editor_XTween_GUI.Gui_Layout_Banner(icon_main, GUIFilled.实体, GUIColor.深空灰, "XTween - 动画控制器", Color.white, 20, 20);
             #region 预览
-            XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "动画预览", XTween_Dashboard.Theme_Primary);
-            XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "动画预览", XTween_Dashboard.Theme_Primary);
+            Editor_XTween_GUI.Gui_Layout_Space(10);
 
-            XTween_GUI.Gui_Layout_Horizontal_Start(GUIFilled.无, GUIColor.无, 0);
-            XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Horizontal_Start(GUIFilled.无, GUIColor.无, 0);
+            Editor_XTween_GUI.Gui_Layout_Space(10);
             #region 预览
             GUI.enabled = true;
             if (IsPreviewed)
             {
-                if (XTween_GUI.Gui_Layout_Button(15, "杀死", icon_kill_r, icon_kill_p))
+                if (Editor_XTween_GUI.Gui_Layout_Button(15, "杀死", icon_kill_r, icon_kill_p))
                 {
                     Preview_Kill();
                     return;
@@ -313,7 +329,7 @@ namespace SevenStrikeModules.XTween
             }
             else
             {
-                if (XTween_GUI.Gui_Layout_Button(15, "预览", icon_preview_r, icon_preview_p))
+                if (Editor_XTween_GUI.Gui_Layout_Button(15, "预览", icon_preview_r, icon_preview_p))
                 {
                     if (!ValidPreviewed())
                     {
@@ -328,25 +344,25 @@ namespace SevenStrikeModules.XTween
             GUILayout.FlexibleSpace();
             #region 倒退
             GUI.enabled = true;
-            if (XTween_GUI.Gui_Layout_Button(15, "倒退", icon_rewind_r, icon_rewind_p))
+            if (Editor_XTween_GUI.Gui_Layout_Button(15, "倒退", icon_rewind_r, icon_rewind_p))
             {
                 Preview_Rewind();
                 return;
             }
             #endregion
-            XTween_GUI.Gui_Layout_Space(10);
-            XTween_GUI.Gui_Layout_Horizontal_End();
+            Editor_XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Horizontal_End();
 
-            XTween_GUI.Gui_Layout_Space(10);
-            XTween_GUI.Gui_Layout_Vertical_End();
+            Editor_XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Vertical_End();
             #endregion
 
             rect_liquid_prim = GUILayoutUtility.GetLastRect();
             rect_liquid_set = rect_liquid_prim;
 
             #region 动画状态
-            XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "动画状态", XTween_Dashboard.Theme_Primary);
-            XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "动画状态", XTween_Dashboard.Theme_Primary);
+            Editor_XTween_GUI.Gui_Layout_Space(10);
 
             #region 面板元素坐标计算
             float liquid_left_margin = 35;
@@ -398,7 +414,7 @@ namespace SevenStrikeModules.XTween
                 }
 
                 rect_liquid_prim.Set(rect_liquid_set.x + 15, rect_liquid_set.y + 98, rect_liquid_set.width - 30, IsExpandPanel ? LiquidBg_Expand_Pure.height : LiquidBg_NoExpand_Pure.height);
-                XTween_GUI.Gui_LiquidField(
+                Editor_XTween_GUI.Gui_LiquidField(
                     rect_liquid_prim,
                     TweenLiquidContent,
                     liquid_rectoffet,
@@ -410,7 +426,7 @@ namespace SevenStrikeModules.XTween
                     if (XTween_Dashboard.ConfigData.LiquidDirty)
                     {
                         rect_liquid_prim.Set(rect_liquid_set.x + (IsExpandPanel ? (rect_liquid_set.width - LiquidDirty.width - 13) : (rect_liquid_set.width - LiquidDirty_Small.width - 13)), rect_liquid_set.y + 97, IsExpandPanel ? LiquidDirty.width : LiquidDirty_Small.width, IsExpandPanel ? LiquidDirty.height : LiquidDirty_Small.height);
-                        XTween_GUI.Gui_TextureBox(rect_liquid_prim, IsExpandPanel ? LiquidDirty : LiquidDirty_Small);
+                        Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, IsExpandPanel ? LiquidDirty : LiquidDirty_Small);
                     }
                 }
 
@@ -418,13 +434,13 @@ namespace SevenStrikeModules.XTween
                 if (!IsExtraExpandPanel)
                 {
                     rect_liquid_prim.Set(rect_liquid_set.x + ((rect_liquid_set.width / 2) - (LiquidPlug.width / 2)), IsExpandPanel ? rect_liquid_set.y + 288 : rect_liquid_set.y + 388, LiquidPlug.width, LiquidPlug.height);
-                    XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidPlug);
+                    Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidPlug);
                 }
                 // 液晶屏金属网格角
                 if (!IsExtraExpandPanel)
                 {
                     rect_liquid_prim.Set(rect_liquid_set.x + (rect_liquid_set.width - MetalGrid.width - 5), IsExpandPanel ? rect_liquid_set.y + 248 : rect_liquid_set.y + 348, MetalGrid.width, MetalGrid.height);
-                    XTween_GUI.Gui_TextureBox(rect_liquid_prim, MetalGrid);
+                    Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, MetalGrid);
                 }
 
                 GUI.backgroundColor = Color.white;
@@ -458,11 +474,11 @@ namespace SevenStrikeModules.XTween
 
                 #region ID 显示
                 rect_liquid_prim.Set(rect_liquid_set.x + 35, rect_liquid_set.y + 112, rect_liquid_set.width - 60, 65);
-                XTween_GUI.Gui_Labelfield_WrapText(rect_liquid_prim, $"ID :  {(BaseScript.CurrentTweener == null ? "-" : BaseScript.CurrentTweener.UniqueId.ToString())}", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 11, false, true, clipping, true, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield_WrapText(rect_liquid_prim, $"ID :  {(BaseScript.CurrentTweener == null ? "-" : BaseScript.CurrentTweener.UniqueId.ToString())}", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 11, false, true, clipping, true, Font_Light);
 
                 rect_liquid_prim.Set(rect_liquid_set.x + 35, rect_liquid_set.y + 135, rect_liquid_set.width - 60, 65);
 
-                XTween_GUI.Gui_Labelfield_WrapText(rect_liquid_prim, $"短 ID :  {(BaseScript.CurrentTweener == null ? "-" : BaseScript.CurrentTweener.ShortId)}", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 11, false, true, clipping, true, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield_WrapText(rect_liquid_prim, $"短 ID :  {(BaseScript.CurrentTweener == null ? "-" : BaseScript.CurrentTweener.ShortId)}", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, Vector2.zero, 11, false, true, clipping, true, Font_Light);
                 #endregion
 
                 #region 进度条 - EasedProgress
@@ -474,10 +490,10 @@ namespace SevenStrikeModules.XTween
                 EditorGUI.DrawRect(rect_liquid_prim, Color.black);
                 // 标题
                 rect_liquid_prim.Set(rect_liquid_set.x + liquid_left_margin, rect_liquid_set.y + (height - 20), 50, 6);
-                XTween_GUI.Gui_Labelfield(rect_liquid_prim, "缓动进度", GUIFilled.无, GUIColor.无, Color.black * 0.7f, TextAnchor.MiddleLeft, new Vector2(0, 0), 11);
+                Editor_XTween_GUI.Gui_Labelfield(rect_liquid_prim, "缓动进度", GUIFilled.无, GUIColor.无, Color.black * 0.7f, TextAnchor.MiddleLeft, new Vector2(0, 0), 11);
                 // 数值
                 rect_liquid_prim.Set(rect_liquid_set.x + (CurrentPanelWidth - liquid_right_margin - 25), rect_liquid_set.y + (height - 20), 50, 6);
-                XTween_GUI.Gui_Labelfield(rect_liquid_prim, sp_UseCurve.boolValue ? "CustomCurve" : ((EaseMode)sp_EaseMode.enumValueIndex).ToString(), GUIFilled.无, GUIColor.无, Color.black * 0.85f, TextAnchor.MiddleRight, new Vector2(0, 0), 11, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_liquid_prim, sp_UseCurve.boolValue ? "CustomCurve" : ((EaseMode)sp_EaseMode.enumValueIndex).ToString(), GUIFilled.无, GUIColor.无, Color.black * 0.85f, TextAnchor.MiddleRight, new Vector2(0, 0), 11, Font_Light);
                 // 起点线
                 rect_liquid_prim.Set((rect_liquid_set.x + liquid_left_margin), rect_liquid_set.y + (height - 2), 1, 6);
                 EditorGUI.DrawRect(rect_liquid_prim, Color.black * 0.3f);
@@ -486,7 +502,7 @@ namespace SevenStrikeModules.XTween
                 EditorGUI.DrawRect(rect_liquid_prim, Color.black * 0.3f);
                 // 指示器
                 rect_liquid_prim.Set(((rect_liquid_set.x + liquid_left_margin - 4) + (CurrentPanelWidth - liquid_right_margin) * TweenEasedProgress), rect_liquid_set.y + (height + 3), 8, 8);
-                XTween_GUI.Gui_Icon(rect_liquid_prim, icon_pathpercent);
+                Editor_XTween_GUI.Gui_Icon(rect_liquid_prim, icon_pathpercent);
                 // 中点线
                 rect_liquid_prim.Set(((rect_liquid_set.x + liquid_left_margin) + (CurrentPanelWidth - liquid_right_margin) * 0.5f), rect_liquid_set.y + (height - 10), 1, 10);
                 EditorGUI.DrawRect(rect_liquid_prim, Color.black * 0.3f);
@@ -503,10 +519,10 @@ namespace SevenStrikeModules.XTween
                 EditorGUI.DrawRect(rect_liquid_prim, Color.black);
                 // 标题
                 rect_liquid_prim.Set(rect_liquid_set.x + liquid_left_margin, rect_liquid_set.y + (height - 20), 50, 6);
-                XTween_GUI.Gui_Labelfield(rect_liquid_prim, "实际进度", GUIFilled.无, GUIColor.无, Color.black * 0.7f, TextAnchor.MiddleLeft, new Vector2(0, 0), 11);
+                Editor_XTween_GUI.Gui_Labelfield(rect_liquid_prim, "实际进度", GUIFilled.无, GUIColor.无, Color.black * 0.7f, TextAnchor.MiddleLeft, new Vector2(0, 0), 11);
                 // 数值
                 rect_liquid_prim.Set(rect_liquid_set.x + (CurrentPanelWidth - liquid_right_margin - 25), rect_liquid_set.y + (height - 20), 50, 6);
-                XTween_GUI.Gui_Labelfield(rect_liquid_prim, $"耗时 {sp_Duration.floatValue} s / 延迟 {sp_Delay.floatValue} s", GUIFilled.无, GUIColor.无, Color.black * 0.85f, TextAnchor.MiddleRight, new Vector2(0, 0), 11, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_liquid_prim, $"耗时 {sp_Duration.floatValue} s / 延迟 {sp_Delay.floatValue} s", GUIFilled.无, GUIColor.无, Color.black * 0.85f, TextAnchor.MiddleRight, new Vector2(0, 0), 11, Font_Light);
                 // 起点线
                 rect_liquid_prim.Set((rect_liquid_set.x + liquid_left_margin), rect_liquid_set.y + (height - 2), 1, 6);
                 EditorGUI.DrawRect(rect_liquid_prim, Color.black * 0.3f);
@@ -515,7 +531,7 @@ namespace SevenStrikeModules.XTween
                 EditorGUI.DrawRect(rect_liquid_prim, Color.black * 0.3f);
                 // 指示器
                 rect_liquid_prim.Set(((rect_liquid_set.x + liquid_left_margin - 4) + (CurrentPanelWidth - liquid_right_margin) * TweenLoopProgress), rect_liquid_set.y + (height + 3), 8, 8);
-                XTween_GUI.Gui_Icon(rect_liquid_prim, icon_pathpercent);
+                Editor_XTween_GUI.Gui_Icon(rect_liquid_prim, icon_pathpercent);
                 // 中点线
                 rect_liquid_prim.Set(((rect_liquid_set.x + liquid_left_margin) + (CurrentPanelWidth - liquid_right_margin) * 0.5f), rect_liquid_set.y + (height - 10), 1, 10);
                 EditorGUI.DrawRect(rect_liquid_prim, Color.black * 0.3f);
@@ -530,7 +546,7 @@ namespace SevenStrikeModules.XTween
                 else
                     GUI.color = Color.white * 0.2f;
                 rect_liquid_prim.Set(IsExpandPanel ? rect_liquid_set.width - distanceStatu : rect_liquid_set.x + 136, IsExpandPanel ? rect_liquid_set.y + 110 : rect_liquid_set.y + 185, 15, 15);
-                XTween_GUI.Gui_TextureBox(rect_liquid_prim, icon_statu_autokill);
+                Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, icon_statu_autokill);
 
                 distanceStatu += 30;
 
@@ -539,7 +555,7 @@ namespace SevenStrikeModules.XTween
                 else
                     GUI.color = Color.white * 0.2f;
                 rect_liquid_prim.Set(IsExpandPanel ? rect_liquid_set.width - distanceStatu : rect_liquid_set.x + 109, IsExpandPanel ? rect_liquid_set.y + 110 : rect_liquid_set.y + 185, 15, 15);
-                XTween_GUI.Gui_TextureBox(rect_liquid_prim, icon_statu_relative);
+                Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, icon_statu_relative);
 
                 distanceStatu += 30;
 
@@ -548,7 +564,7 @@ namespace SevenStrikeModules.XTween
                 else
                     GUI.color = Color.white * 0.2f;
                 rect_liquid_prim.Set(IsExpandPanel ? rect_liquid_set.width - distanceStatu : rect_liquid_set.x + 82, IsExpandPanel ? rect_liquid_set.y + 110 : rect_liquid_set.y + 185, 15, 15);
-                XTween_GUI.Gui_TextureBox(rect_liquid_prim, icon_statu_cycle);
+                Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, icon_statu_cycle);
 
                 distanceStatu += 30;
 
@@ -557,13 +573,13 @@ namespace SevenStrikeModules.XTween
                 else
                     GUI.color = Color.white * 0.2f;
                 rect_liquid_prim.Set(IsExpandPanel ? rect_liquid_set.width - distanceStatu : rect_liquid_set.x + 55, IsExpandPanel ? rect_liquid_set.y + 110 : rect_liquid_set.y + 185, 15, 15);
-                XTween_GUI.Gui_TextureBox(rect_liquid_prim, icon_statu_tomode);
+                Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, icon_statu_tomode);
                 GUI.color = Color.white;
 
                 distanceStatu += 30;
 
                 rect_liquid_prim.Set(IsExpandPanel ? rect_liquid_set.width - distanceStatu : rect_liquid_set.x + 28, IsExpandPanel ? rect_liquid_set.y + 110 : rect_liquid_set.y + 185, 15, 15);
-                XTween_GUI.Gui_TextureBox(rect_liquid_prim, sp_LoopType.enumValueIndex == 0 ? icon_statu_remode_restart : icon_statu_remode_yoyo);
+                Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, sp_LoopType.enumValueIndex == 0 ? icon_statu_remode_restart : icon_statu_remode_yoyo);
                 #endregion
 
                 #region EaseGraph图形
@@ -571,45 +587,47 @@ namespace SevenStrikeModules.XTween
                 if (sp_UseCurve.boolValue)
                     GUI.color = Color.black * 0.2f;
                 rect_liquid_prim.Set(IsExpandPanel ? rect_liquid_set.width - 110 : rect_liquid_set.x + 22, IsExpandPanel ? rect_liquid_set.y + 195 : rect_liquid_set.y + 304, 100, 65);
-                XTween_GUI.Gui_TextureBox(rect_liquid_prim, EasePicBg);
+                Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, EasePicBg);
                 rect_liquid_prim.Set(IsExpandPanel ? rect_liquid_set.width - 110 : rect_liquid_set.x + 22, IsExpandPanel ? rect_liquid_set.y + 195 : rect_liquid_set.y + 304, 100, 65);
-                XTween_GUI.Gui_TextureBox(rect_liquid_prim, EasePic);
+                Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, EasePic);
 
                 if (sp_UseCurve.boolValue)
                 {
                     GUI.color = Color.black;
                     rect_liquid_prim.Set(IsExpandPanel ? rect_liquid_set.width - 90 : rect_liquid_set.x + 36, IsExpandPanel ? rect_liquid_set.y + 195 : rect_liquid_set.y + 285, 100, 65);
-                    XTween_GUI.Gui_Labelfield(rect_liquid_prim, "CustomCurve", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, 10, Font_Bold);
+                    Editor_XTween_GUI.Gui_Labelfield(rect_liquid_prim, "CustomCurve", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleLeft, 10, Font_Bold);
                 }
                 GUI.color = Color.white;
                 #endregion
-                XTween_GUI.Gui_Layout_Space(IsExpandPanel ? 218 : 318);
+                Editor_XTween_GUI.Gui_Layout_Space(IsExpandPanel ? 218 : 318);
             }
             else
             {
                 EditorGUILayout.HelpBox("暂不支持多选控制信息查看！", MessageType.Info);
-                XTween_GUI.Gui_Layout_Space(10);
+                Editor_XTween_GUI.Gui_Layout_Space(10);
             }
-            XTween_GUI.Gui_Layout_Vertical_End();
+            Editor_XTween_GUI.Gui_Layout_Vertical_End();
             #endregion
 
             #region 动画类型
-            XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "动画类型", XTween_Dashboard.Theme_Primary);
-            XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "动画类型", XTween_Dashboard.Theme_Primary);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
 
             #region 动画目标
             string[] actionlist = System.Enum.GetNames(typeof(XTweenTypes));
             Undo.RecordObject(sp_TweenTypes.serializedObject.targetObject, "TweenTypesSet");
-            XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("动画目标", actionlist, ref sp_index_TweenTypes, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
+            Editor_XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("动画目标", actionlist, ref sp_index_TweenTypes, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
             {
                 for (int i = 0; i < SelectedObjects.Length; i++)
                 {
                     SelectedObjects[i].TweenTypes = (XTweenTypes)System.Enum.Parse(typeof(XTweenTypes), sp_index_TweenTypes.stringValue);
                 }
+                // 内部已处理TMPro的条件编译
                 GetComponents();
             }, (res) =>
             {
                 sp_TweenTypes.enumValueIndex = (int)(XTweenTypes)System.Enum.Parse(typeof(XTweenTypes), res);
+                // 内部已处理TMPro的条件编译
                 GetComponents();
             });
             #endregion
@@ -620,16 +638,18 @@ namespace SevenStrikeModules.XTween
             if (TweenTypes == XTweenTypes.位置_Position)
             {
                 actionlist = System.Enum.GetNames(typeof(XTweenTypes_Positions));
-                XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("位置类型", actionlist, ref sp_index_TweenTypes_Positions, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
+                Editor_XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("位置类型", actionlist, ref sp_index_TweenTypes_Positions, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
                 {
                     for (int i = 0; i < SelectedObjects.Length; i++)
                     {
                         SelectedObjects[i].TweenTypes_Positions = (XTweenTypes_Positions)System.Enum.Parse(typeof(XTweenTypes_Positions), sp_index_TweenTypes_Positions.stringValue);
                     }
+                    // 内部已处理TMPro的条件编译
                     GetComponents();
                 }, (res) =>
                 {
                     sp_TweenTypes_Positions.enumValueIndex = (int)(XTweenTypes_Positions)System.Enum.Parse(typeof(XTweenTypes_Positions), res);
+                    // 内部已处理TMPro的条件编译
                     GetComponents();
                 });
             }
@@ -639,32 +659,36 @@ namespace SevenStrikeModules.XTween
             if (TweenTypes == XTweenTypes.旋转_Rotation)
             {
                 actionlist = System.Enum.GetNames(typeof(XTweenTypes_Rotations));
-                string rot_type = XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("旋转类型", actionlist, ref sp_index_TweenTypes_Rotations, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
+                string rot_type = Editor_XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("旋转类型", actionlist, ref sp_index_TweenTypes_Rotations, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
                 {
                     for (int i = 0; i < SelectedObjects.Length; i++)
                     {
                         SelectedObjects[i].TweenTypes_Rotations = (XTweenTypes_Rotations)System.Enum.Parse(typeof(XTweenTypes_Rotations), sp_index_TweenTypes_Rotations.stringValue);
                     }
+                    // 内部已处理TMPro的条件编译
                     GetComponents();
                 }, (res) =>
                 {
                     sp_TweenTypes_Rotations.enumValueIndex = (int)(XTweenTypes_Rotations)System.Enum.Parse(typeof(XTweenTypes_Rotations), res);
+                    // 内部已处理TMPro的条件编译
                     GetComponents();
                 });
 
                 if (rot_type == XTweenTypes_Rotations.欧拉角度_Euler.ToString())
                 {
-                    XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("坐标空间", System.Enum.GetNames(typeof(TweenSpace)), ref sp_index_TweenTypes_Rotation_Space, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
+                    Editor_XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("坐标空间", System.Enum.GetNames(typeof(TweenSpace)), ref sp_index_TweenTypes_Rotation_Space, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
                     {
                         for (int i = 0; i < SelectedObjects.Length; i++)
                         {
                             SelectedObjects[i].AnimateSpace = (TweenSpace)System.Enum.Parse(typeof(TweenSpace), sp_index_TweenTypes_Rotation_Space.stringValue);
                         }
+                        // 内部已处理TMPro的条件编译
                         GetComponents();
                     }
                     , (res) =>
                     {
                         sp_AnimateSpace.enumValueIndex = (int)(TweenSpace)System.Enum.Parse(typeof(TweenSpace), res);
+                        // 内部已处理TMPro的条件编译
                         GetComponents();
                     });
                 }
@@ -675,9 +699,10 @@ namespace SevenStrikeModules.XTween
             if (TweenTypes == XTweenTypes.透明度_Alpha)
             {
                 actionlist = System.Enum.GetNames(typeof(XTweenTypes_Alphas));
-                XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("透明度类型", actionlist, ref sp_index_TweenTypes_Alphas, GUIFilled.实体, 120, 22, SelectedObjects, (comps) => { }, (res) =>
+                Editor_XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("透明度类型", actionlist, ref sp_index_TweenTypes_Alphas, GUIFilled.实体, 120, 22, SelectedObjects, (comps) => { }, (res) =>
                 {
                     sp_TweenTypes_Alphas.enumValueIndex = (int)(XTweenTypes_Alphas)System.Enum.Parse(typeof(XTweenTypes_Alphas), res);
+                    // 内部已处理TMPro的条件编译
                     GetComponents();
                 });
             }
@@ -687,16 +712,18 @@ namespace SevenStrikeModules.XTween
             if (TweenTypes == XTweenTypes.震动_Shake)
             {
                 actionlist = System.Enum.GetNames(typeof(XTweenTypes_Shakes));
-                XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("震动类型", actionlist, ref sp_index_TweenTypes_Shakes, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
+                Editor_XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("震动类型", actionlist, ref sp_index_TweenTypes_Shakes, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
                 {
                     for (int i = 0; i < SelectedObjects.Length; i++)
                     {
                         SelectedObjects[i].TweenTypes_Shakes = (XTweenTypes_Shakes)System.Enum.Parse(typeof(XTweenTypes_Shakes), sp_index_TweenTypes_Shakes.stringValue);
                     }
+                    // 内部已处理TMPro的条件编译
                     GetComponents();
                 }, (res) =>
                 {
                     sp_TweenTypes_Shakes.enumValueIndex = (int)(XTweenTypes_Shakes)System.Enum.Parse(typeof(XTweenTypes_Shakes), res);
+                    // 内部已处理TMPro的条件编译
                     GetComponents();
                 });
             }
@@ -706,16 +733,18 @@ namespace SevenStrikeModules.XTween
             if (TweenTypes == XTweenTypes.文字_Text)
             {
                 actionlist = System.Enum.GetNames(typeof(XTweenTypes_Text));
-                XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("Text属性", actionlist, ref sp_index_TweenTypes_Text, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
+                Editor_XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("Text属性", actionlist, ref sp_index_TweenTypes_Text, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
                 {
                     for (int i = 0; i < SelectedObjects.Length; i++)
                     {
                         SelectedObjects[i].TweenTypes_Text = (XTweenTypes_Text)System.Enum.Parse(typeof(XTweenTypes_Text), sp_index_TweenTypes_Text.stringValue);
                     }
+                    // 内部已处理TMPro的条件编译
                     GetComponents();
                 }, (res) =>
                 {
                     sp_TweenTypes_Text.enumValueIndex = (int)(XTweenTypes_Text)System.Enum.Parse(typeof(XTweenTypes_Text), res);
+                    // 内部已处理TMPro的条件编译
                     GetComponents();
                 });
             }
@@ -724,19 +753,23 @@ namespace SevenStrikeModules.XTween
             #region TmpText属性
             if (TweenTypes == XTweenTypes.文字_TmpText)
             {
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
                 actionlist = System.Enum.GetNames(typeof(XTweenTypes_TmpText));
-                XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("TmpText属性", actionlist, ref sp_index_TweenTypes_TmpText, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
+                Editor_XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("TmpText属性", actionlist, ref sp_index_TweenTypes_TmpText, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
                 {
                     for (int i = 0; i < SelectedObjects.Length; i++)
                     {
                         SelectedObjects[i].TweenTypes_TmpText = (XTweenTypes_TmpText)System.Enum.Parse(typeof(XTweenTypes_TmpText), sp_index_TweenTypes_TmpText.stringValue);
                     }
+                    // 内部已处理TMPro的条件编译
                     GetComponents();
                 }, (res) =>
                 {
                     sp_TweenTypes_TmpText.enumValueIndex = (int)(XTweenTypes_TmpText)System.Enum.Parse(typeof(XTweenTypes_TmpText), res);
+                    // 内部已处理TMPro的条件编译
                     GetComponents();
                 });
+#endif
             }
             #endregion
 
@@ -744,7 +777,7 @@ namespace SevenStrikeModules.XTween
             if (TweenTypes == XTweenTypes.原生动画_To)
             {
                 actionlist = System.Enum.GetNames(typeof(XTweenTypes_To));
-                XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("原生方式", actionlist, ref sp_index_TweenTypes_To, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
+                Editor_XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("原生方式", actionlist, ref sp_index_TweenTypes_To, GUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
                 {
                     for (int i = 0; i < SelectedObjects.Length; i++)
                     {
@@ -762,18 +795,20 @@ namespace SevenStrikeModules.XTween
             TweenTypes_Alphas = (XTweenTypes_Alphas)sp_TweenTypes_Alphas.enumValueIndex;
             TweenTypes_Shakes = (XTweenTypes_Shakes)sp_TweenTypes_Shakes.enumValueIndex;
             TweenTypes_Text = (XTweenTypes_Text)sp_TweenTypes_Text.enumValueIndex;
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
             TweenTypes_TmpText = (XTweenTypes_TmpText)sp_TweenTypes_TmpText.enumValueIndex;
+#endif
             TweenTypes_To = (XTweenTypes_To)sp_TweenTypes_To.enumValueIndex;
 
-            XTween_GUI.Gui_Layout_Space(10);
-            XTween_GUI.Gui_Layout_Vertical_End();
+            Editor_XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Vertical_End();
             #endregion
 
             #region 目标值 & 起始值
             if (TweenTypes != XTweenTypes.无_None)
             {
-                XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "动画值", XTween_Dashboard.Theme_Primary);
-                XTween_GUI.Gui_Layout_Space(5);
+                Editor_XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "动画值", XTween_Dashboard.Theme_Primary);
+                Editor_XTween_GUI.Gui_Layout_Space(5);
                 #region String
                 if (TweenTypes == XTweenTypes.原生动画_To && TweenTypes_To == XTweenTypes_To.字符串_String)
                 {
@@ -931,55 +966,55 @@ namespace SevenStrikeModules.XTween
                     DrawTweenValueFields<Quaternion>("RectTransform组件的四元数旋转 ( Quaternion )", sp_EndValue_Quaternion, sp_FromValue_Quaternion, sp_IsFromMode.boolValue);
                 }
                 #endregion
-                XTween_GUI.Gui_Layout_Space(10);
-                XTween_GUI.Gui_Layout_Vertical_End();
+                Editor_XTween_GUI.Gui_Layout_Space(10);
+                Editor_XTween_GUI.Gui_Layout_Vertical_End();
             }
             #endregion
 
             #region 起源值 & 组件
             if (TweenTypes != XTweenTypes.无_None)
             {
-                XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, TweenTypes == XTweenTypes.原生动画_To ? "起源值" : "组件", XTween_Dashboard.Theme_Primary);
-                XTween_GUI.Gui_Layout_Space(5);
+                Editor_XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, TweenTypes == XTweenTypes.原生动画_To ? "起源值" : "组件", XTween_Dashboard.Theme_Primary);
+                Editor_XTween_GUI.Gui_Layout_Space(5);
                 #region 起源值
                 if (TweenTypes == XTweenTypes.原生动画_To)
                 {
                     if (TweenTypes_To == XTweenTypes_To.字符串_String)
                     {
-                        XTween_GUI.Gui_Layout_Space(5);
-                        XTween_GUI.Gui_Layout_Property_Field("原始值 String", sp_Target_String, 100);
+                        Editor_XTween_GUI.Gui_Layout_Space(5);
+                        Editor_XTween_GUI.Gui_Layout_Property_Field("原始值 String", sp_Target_String, 100);
                     }
                     if (TweenTypes_To == XTweenTypes_To.整数_Int)
                     {
-                        XTween_GUI.Gui_Layout_Space(5);
-                        XTween_GUI.Gui_Layout_Property_Field("原始值 Int", sp_Target_Int, 100);
+                        Editor_XTween_GUI.Gui_Layout_Space(5);
+                        Editor_XTween_GUI.Gui_Layout_Property_Field("原始值 Int", sp_Target_Int, 100);
                     }
                     if (TweenTypes_To == XTweenTypes_To.浮点数_Float)
                     {
-                        XTween_GUI.Gui_Layout_Space(5);
-                        XTween_GUI.Gui_Layout_Property_Field("原始值 Float", sp_Target_Float, 100);
+                        Editor_XTween_GUI.Gui_Layout_Space(5);
+                        Editor_XTween_GUI.Gui_Layout_Property_Field("原始值 Float", sp_Target_Float, 100);
                     }
                     if (TweenTypes_To == XTweenTypes_To.二维向量_Vector2)
                     {
-                        XTween_GUI.Gui_Layout_Space(5);
-                        XTween_GUI.Gui_Layout_Property_Field("目标值 Vector2", sp_Target_Vector2, 100);
+                        Editor_XTween_GUI.Gui_Layout_Space(5);
+                        Editor_XTween_GUI.Gui_Layout_Property_Field("目标值 Vector2", sp_Target_Vector2, 100);
                     }
                     if (TweenTypes_To == XTweenTypes_To.三维向量_Vector3)
                     {
-                        XTween_GUI.Gui_Layout_Space(5);
-                        XTween_GUI.Gui_Layout_Property_Field("原始值 Vector3", sp_Target_Vector3, 100);
+                        Editor_XTween_GUI.Gui_Layout_Space(5);
+                        Editor_XTween_GUI.Gui_Layout_Property_Field("原始值 Vector3", sp_Target_Vector3, 100);
                     }
                     if (TweenTypes_To == XTweenTypes_To.四维向量_Vector4)
                     {
-                        XTween_GUI.Gui_Layout_Space(5);
-                        XTween_GUI.Gui_Layout_Property_Field("原始值 Vector4", sp_Target_Vector4, 100);
+                        Editor_XTween_GUI.Gui_Layout_Space(5);
+                        Editor_XTween_GUI.Gui_Layout_Property_Field("原始值 Vector4", sp_Target_Vector4, 100);
                     }
                     if (TweenTypes_To == XTweenTypes_To.颜色_Color)
                     {
-                        XTween_GUI.Gui_Layout_Space(5);
-                        XTween_GUI.Gui_Layout_Property_Field("原始值 Color", sp_Target_Color, 100);
+                        Editor_XTween_GUI.Gui_Layout_Space(5);
+                        Editor_XTween_GUI.Gui_Layout_Property_Field("原始值 Color", sp_Target_Color, 100);
                     }
-                    XTween_GUI.Gui_Layout_Space(5);
+                    Editor_XTween_GUI.Gui_Layout_Space(5);
                     EditorGUILayout.HelpBox("该值为你需要动画化的数值！", MessageType.Info);
                 }
                 #endregion
@@ -987,143 +1022,145 @@ namespace SevenStrikeModules.XTween
                 #region 组件
                 if (TweenTypes == XTweenTypes.路径_Path)
                 {
-                    XTween_GUI.Gui_Layout_Space(5);
-                    XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 PathTool", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_PathTool.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_PathTool, false);
+                    Editor_XTween_GUI.Gui_Layout_Space(5);
+                    Editor_XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 PathTool", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_PathTool.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_PathTool, false);
 
                     if (sp_Target_PathTool.objectReferenceValue == null)
                         EditorGUILayout.HelpBox("该PathTool为路径绘制组件！不可为空！", MessageType.Warning);
                 }
                 if (TweenTypes == XTweenTypes.位置_Position || TweenTypes == XTweenTypes.旋转_Rotation || TweenTypes == XTweenTypes.缩放_Scale || TweenTypes == XTweenTypes.尺寸_Size || TweenTypes == XTweenTypes.震动_Shake)
                 {
-                    XTween_GUI.Gui_Layout_Space(5);
-                    XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 RectTransform", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_RectTransform.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_RectTransform, false);
+                    Editor_XTween_GUI.Gui_Layout_Space(5);
+                    Editor_XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 RectTransform", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_RectTransform.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_RectTransform, false);
                     if (sp_Target_RectTransform.objectReferenceValue == null)
                         EditorGUILayout.HelpBox("该RectTransform为你需要动画化的变换组件！不可为空！", MessageType.Warning);
                 }
                 if (TweenTypes == XTweenTypes.颜色_Color || (TweenTypes == XTweenTypes.透明度_Alpha && TweenTypes_Alphas == XTweenTypes_Alphas.Image组件) || TweenTypes == XTweenTypes.填充_Fill || TweenTypes == XTweenTypes.平铺_Tiled)
                 {
-                    XTween_GUI.Gui_Layout_Space(5);
-                    XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 Image", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_Image.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_Image, false);
+                    Editor_XTween_GUI.Gui_Layout_Space(5);
+                    Editor_XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 Image", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_Image.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_Image, false);
 
                     if (sp_Target_Image.objectReferenceValue == null)
                         EditorGUILayout.HelpBox("该RectTransform为你需要动画化的变换组件！不可为空！", MessageType.Warning);
                 }
                 if (TweenTypes == XTweenTypes.透明度_Alpha && TweenTypes_Alphas == XTweenTypes_Alphas.CanvasGroup组件)
                 {
-                    XTween_GUI.Gui_Layout_Space(5);
-                    XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 CanvasGroup", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_CanvasGroup.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_CanvasGroup, false);
+                    Editor_XTween_GUI.Gui_Layout_Space(5);
+                    Editor_XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 CanvasGroup", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_CanvasGroup.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_CanvasGroup, false);
 
                     if (sp_Target_CanvasGroup.objectReferenceValue == null)
                         EditorGUILayout.HelpBox("该CanvasGroup为你需要动画化的画布组组件！不可为空！", MessageType.Warning);
                 }
                 if (TweenTypes == XTweenTypes.文字_Text)
                 {
-                    XTween_GUI.Gui_Layout_Space(5);
-                    XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 HudText", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_Text.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_Text, false);
+                    Editor_XTween_GUI.Gui_Layout_Space(5);
+                    Editor_XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 HudText", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_Text.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_Text, false);
 
                     if (sp_Target_Text.objectReferenceValue == null)
                         EditorGUILayout.HelpBox("该HudText为你需要动画化的Hud文字组件！不可为空！", MessageType.Warning);
                 }
                 if (TweenTypes == XTweenTypes.文字_TmpText)
                 {
-                    XTween_GUI.Gui_Layout_Space(5);
-                    XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 HudTmpText", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_TmpText.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_TmpText, false);
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
+                    Editor_XTween_GUI.Gui_Layout_Space(5);
+                    Editor_XTween_GUI.StatuDisplayer_Object(null, 12, new Vector2(0, 1), "目标 HudTmpText", 12, new Vector2(0, -7), icon_status, new Vector2(0, 3), sp_Target_TmpText.objectReferenceValue == null ? false : true, XTween_Dashboard.Theme_Primary, Color.black * 0.7f, sp_Target_TmpText, false);
 
                     if (sp_Target_TmpText.objectReferenceValue == null)
                         EditorGUILayout.HelpBox("该HudTmpText为你需要动画化的HudTmp文字组件！不可为空！", MessageType.Warning);
+#endif
                 }
                 #endregion
-                XTween_GUI.Gui_Layout_Space(5);
-                XTween_GUI.Gui_Layout_Vertical_End();
+                Editor_XTween_GUI.Gui_Layout_Space(5);
+                Editor_XTween_GUI.Gui_Layout_Vertical_End();
             }
             #endregion
 
             #region 动画参数
-            XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "动画参数", XTween_Dashboard.Theme_Primary);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("动画耗时", sp_Duration, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("延迟", sp_Delay, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("随机延迟", sp_UseRandomDelay, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("随机延迟范围", sp_RandomDelay, 100);
-            XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "动画参数", XTween_Dashboard.Theme_Primary);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("动画耗时", sp_Duration, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("延迟", sp_Delay, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("随机延迟", sp_UseRandomDelay, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("随机延迟范围", sp_RandomDelay, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
             EditorGUI.BeginChangeCheck();
-            XTween_GUI.Gui_Layout_Property_Field("缓动模式", sp_EaseMode, 100);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("缓动模式", sp_EaseMode, 100);
             if (EditorGUI.EndChangeCheck())
             {
                 EasePic = GetEasePic((EaseMode)sp_EaseMode.enumValueIndex);
             }
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("使用曲线", sp_UseCurve, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("运动曲线", sp_Curve, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("循环次数", sp_LoopCount, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("循环延迟", sp_LoopDelay, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("循环方式", sp_LoopType, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("指定起始值", sp_IsFromMode, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("相对动画", sp_IsRelative, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("自动杀死", sp_IsAutoKill, 100);
-            XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("使用曲线", sp_UseCurve, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("运动曲线", sp_Curve, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("循环次数", sp_LoopCount, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("循环延迟", sp_LoopDelay, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("循环方式", sp_LoopType, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("指定起始值", sp_IsFromMode, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("相对动画", sp_IsRelative, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("自动杀死", sp_IsAutoKill, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
             if ((TweenTypes == XTweenTypes.原生动画_To && TweenTypes_To == XTweenTypes_To.字符串_String) ||
                 (TweenTypes == XTweenTypes.文字_Text && TweenTypes_Text == XTweenTypes_Text.文字内容_Content) ||
                 (TweenTypes == XTweenTypes.文字_TmpText && TweenTypes_TmpText == XTweenTypes_TmpText.文字内容_Content))
             {
-                XTween_GUI.Gui_Layout_Property_Field("扩展字符串", sp_IsExtendedString, 100);
-                XTween_GUI.Gui_Layout_Property_Field("光标符号", sp_TextCursor, 100);
-                XTween_GUI.Gui_Layout_Property_Field("光标闪烁速率", sp_CursorBlinkTime, 100);
+                Editor_XTween_GUI.Gui_Layout_Property_Field("扩展字符串", sp_IsExtendedString, 100);
+                Editor_XTween_GUI.Gui_Layout_Property_Field("光标符号", sp_TextCursor, 100);
+                Editor_XTween_GUI.Gui_Layout_Property_Field("光标闪烁速率", sp_CursorBlinkTime, 100);
             }
             if (TweenTypes == XTweenTypes.旋转_Rotation && TweenTypes_Rotations == XTweenTypes_Rotations.欧拉角度_Euler)
-                XTween_GUI.Gui_Layout_Property_Field("欧拉角度旋转方式", sp_RotationMode, 100);
+                Editor_XTween_GUI.Gui_Layout_Property_Field("欧拉角度旋转方式", sp_RotationMode, 100);
             if (TweenTypes == XTweenTypes.旋转_Rotation && TweenTypes_Rotations == XTweenTypes_Rotations.四元数_Quaternion)
-                XTween_GUI.Gui_Layout_Property_Field("四元数过渡方式", sp_HudRotateMode, 100);
+                Editor_XTween_GUI.Gui_Layout_Property_Field("四元数过渡方式", sp_HudRotateMode, 100);
             if (TweenTypes == XTweenTypes.震动_Shake)
             {
-                XTween_GUI.Gui_Layout_Property_Field("震动频率", sp_Vibrato, 100);
-                XTween_GUI.Gui_Layout_Property_Field("震动随机度", sp_Randomness, 100);
-                XTween_GUI.Gui_Layout_Property_Field("震动渐变", sp_FadeShake, 100);
+                Editor_XTween_GUI.Gui_Layout_Property_Field("震动频率", sp_Vibrato, 100);
+                Editor_XTween_GUI.Gui_Layout_Property_Field("震动随机度", sp_Randomness, 100);
+                Editor_XTween_GUI.Gui_Layout_Property_Field("震动渐变", sp_FadeShake, 100);
             }
 
-            XTween_GUI.Gui_Layout_Space(10);
-            XTween_GUI.Gui_Layout_Vertical_End();
+            Editor_XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Vertical_End();
             #endregion
 
             #region 选项
-            XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "选项", XTween_Dashboard.Theme_Primary);
-            XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "选项", XTween_Dashboard.Theme_Primary);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
             #region 调试信息
-            XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("调试信息", new string[2] { "禁用", "启用" }, ref sp_DebugMode, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
+            Editor_XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("调试信息", new string[2] { "禁用", "启用" }, ref sp_DebugMode, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
             #endregion
 
-            XTween_GUI.Gui_Layout_Seperator(1, XTween_Dashboard.Theme_SeperateLine);
+            Editor_XTween_GUI.Gui_Layout_Seperator(1, XTween_Dashboard.Theme_SeperateLine);
 
             #region 启用按键控制
-            XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("启用按键控制", new string[2] { "禁用", "启用" }, ref sp_keyControl_Enabled, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
+            Editor_XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("启用按键控制", new string[2] { "禁用", "启用" }, ref sp_keyControl_Enabled, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
             #endregion
 
-            XTween_GUI.Gui_Layout_Seperator(1, XTween_Dashboard.Theme_SeperateLine);
+            Editor_XTween_GUI.Gui_Layout_Seperator(1, XTween_Dashboard.Theme_SeperateLine);
 
             #region 自动播放
-            XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("自动播放", new string[2] { "禁用", "启用" }, ref sp_AutoStart, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
+            Editor_XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("自动播放", new string[2] { "禁用", "启用" }, ref sp_AutoStart, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
             #endregion
 
-            XTween_GUI.Gui_Layout_Seperator(1, XTween_Dashboard.Theme_SeperateLine);
+            Editor_XTween_GUI.Gui_Layout_Seperator(1, XTween_Dashboard.Theme_SeperateLine);
 
             #region 动画预览选项
             #region 自动停止预览
             EditorGUI.BeginChangeCheck();
-            XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("自动停止预览", new string[2] { "禁用", "启用" }, ref sp_index_AutoKillPreviewTweens, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
+            Editor_XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("自动停止预览", new string[2] { "禁用", "启用" }, ref sp_index_AutoKillPreviewTweens, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
             if (EditorGUI.EndChangeCheck())
             {
                 XTween_Dashboard.Set_PreviewOption_AutoKillPreviewTweens(sp_index_AutoKillPreviewTweens.boolValue);
-                XTween_Previewer.AutoKillWithDuration = sp_index_AutoKillPreviewTweens.boolValue;
+                Editor_XTween_Previewer.AutoKillWithDuration = sp_index_AutoKillPreviewTweens.boolValue;
                 //XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_AutoKillWithDuration", sp_index_AutoKillPreviewTweens.boolValue);
 
                 // 如果为自动杀死动画则会强制开启：杀死前重置动画 / 杀死后清空预览列表
@@ -1136,11 +1173,11 @@ namespace SevenStrikeModules.XTween
 
 
                     XTween_Dashboard.Set_PreviewOption_RewindPreviewTweensWithKill(sp_index_RewindPreviewTweensWithKill.boolValue);
-                    XTween_Previewer.BeforeKillRewind = sp_index_RewindPreviewTweensWithKill.boolValue;
+                    Editor_XTween_Previewer.BeforeKillRewind = sp_index_RewindPreviewTweensWithKill.boolValue;
                     //XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_RewindPreviewTweensWithKill", sp_index_RewindPreviewTweensWithKill.boolValue);
 
                     XTween_Dashboard.Set_PreviewOption_ClearPreviewTweensWithKill(sp_index_ClearPreviewTweensWithKill.boolValue);
-                    XTween_Previewer.AfterKillClear = sp_index_ClearPreviewTweensWithKill.boolValue;
+                    Editor_XTween_Previewer.AfterKillClear = sp_index_ClearPreviewTweensWithKill.boolValue;
                     //XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_ClearPreviewTweensWithKill", sp_index_ClearPreviewTweensWithKill.boolValue);
                 }
 
@@ -1152,11 +1189,11 @@ namespace SevenStrikeModules.XTween
             if (!sp_index_AutoKillPreviewTweens.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
-                XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("杀死前先重置动画", new string[2] { "禁用", "启用" }, ref sp_index_RewindPreviewTweensWithKill, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
+                Editor_XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("杀死前先重置动画", new string[2] { "禁用", "启用" }, ref sp_index_RewindPreviewTweensWithKill, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
                 if (EditorGUI.EndChangeCheck())
                 {
                     XTween_Dashboard.Set_PreviewOption_RewindPreviewTweensWithKill(sp_index_RewindPreviewTweensWithKill.boolValue);
-                    XTween_Previewer.BeforeKillRewind = sp_index_RewindPreviewTweensWithKill.boolValue;
+                    Editor_XTween_Previewer.BeforeKillRewind = sp_index_RewindPreviewTweensWithKill.boolValue;
                     //XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_RewindPreviewTweensWithKill", sp_index_RewindPreviewTweensWithKill.boolValue); ;
                     XTween_Dashboard.SavePreviewOptionsToXTweenConfigData();
                 }
@@ -1167,11 +1204,11 @@ namespace SevenStrikeModules.XTween
             if (!sp_index_AutoKillPreviewTweens.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
-                XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("杀死后清空预览器列表", new string[2] { "禁用", "启用" }, ref sp_index_ClearPreviewTweensWithKill, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
+                Editor_XTween_GUI.Gui_Layout_Toggle<bool, XTween_Controller>("杀死后清空预览器列表", new string[2] { "禁用", "启用" }, ref sp_index_ClearPreviewTweensWithKill, GUIFilled.无, GUIFilled.实体, Color.white, 120, 22, SelectedObjects);
                 if (EditorGUI.EndChangeCheck())
                 {
                     XTween_Dashboard.Set_PreviewOption_ClearPreviewTweensWithKill(sp_index_ClearPreviewTweensWithKill.boolValue);
-                    XTween_Previewer.AfterKillClear = sp_index_ClearPreviewTweensWithKill.boolValue;
+                    Editor_XTween_Previewer.AfterKillClear = sp_index_ClearPreviewTweensWithKill.boolValue;
                     //XTween_Utilitys.PlayerPrefs_SaveValue_ForEditor("PreviewTween_ClearPreviewTweensWithKill", sp_index_ClearPreviewTweensWithKill.boolValue);
                     XTween_Dashboard.SavePreviewOptionsToXTweenConfigData();
                 }
@@ -1179,26 +1216,26 @@ namespace SevenStrikeModules.XTween
             #endregion
             #endregion
 
-            XTween_GUI.Gui_Layout_Space(10);
-            XTween_GUI.Gui_Layout_Vertical_End();
+            Editor_XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Vertical_End();
             #endregion
 
             #region 控制按键
-            XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "控制按键", XTween_Dashboard.Theme_Primary);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("动画创建", sp_keyControl_Tween_Create, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("动画播放", sp_keyControl_Tween_Play, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("动画倒退", sp_keyControl_Tween_Rewind, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("动画暂停&继续", sp_keyControl_Tween_Pause_Resume, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("动画杀死", sp_keyControl_Tween_Kill, 100);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Property_Field("动画重播", sp_keyControl_Tween_Replay, 100);
-            XTween_GUI.Gui_Layout_Space(10);
-            XTween_GUI.Gui_Layout_Vertical_End();
+            Editor_XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 5, "控制按键", XTween_Dashboard.Theme_Primary);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("动画创建", sp_keyControl_Tween_Create, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("动画播放", sp_keyControl_Tween_Play, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("动画倒退", sp_keyControl_Tween_Rewind, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("动画暂停&继续", sp_keyControl_Tween_Pause_Resume, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("动画杀死", sp_keyControl_Tween_Kill, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("动画重播", sp_keyControl_Tween_Replay, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Vertical_End();
             #endregion
 
             #region 快捷菜单
@@ -1236,21 +1273,21 @@ namespace SevenStrikeModules.XTween
             #endregion
 
             #region 源脚本
-            XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 3, "源脚本", XTween_Dashboard.Theme_Primary);
-            XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Vertical_Start(GUIFilled.纯色边框, GUIColor.亮白, 3, "源脚本", XTween_Dashboard.Theme_Primary);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
 
             #region 原始变量
-            XTween_GUI.Gui_Layout_Horizontal_Start(GUIFilled.无, GUIColor.无, 0);
-            XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Horizontal_Start(GUIFilled.无, GUIColor.无, 0);
+            Editor_XTween_GUI.Gui_Layout_Space(10);
             BasicVars = EditorGUILayout.Foldout(BasicVars, "变量/属性", true);
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Horizontal_End();
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Horizontal_End();
             if (BasicVars)
                 DrawDefaultInspector();
             #endregion
 
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_Vertical_End();
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_Vertical_End();
             #endregion
             serializedObject.ApplyModifiedProperties();
         }
@@ -1274,7 +1311,7 @@ namespace SevenStrikeModules.XTween
             IsPreviewed = false;
             //BaseScript.CurrentTweener.Rewind();
             BaseScript.CurrentTweener = null;
-            XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
+            Editor_XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
         }
 
         #region 动画方法
@@ -1284,7 +1321,7 @@ namespace SevenStrikeModules.XTween
         private void Preview_Rewind()
         {
             IsPreviewed = false;
-            XTween_Previewer.Rewind();
+            Editor_XTween_Previewer.Rewind();
         }
         /// <summary>
         ///  动画预览 - 杀死
@@ -1296,11 +1333,11 @@ namespace SevenStrikeModules.XTween
             if (sp_TweenTypes.enumValueIndex == 0)
                 return;
             IsPreviewed = false;
-            XTween_Previewer.Kill(XTween_Previewer.AfterKillClear, XTween_Previewer.BeforeKillRewind, () => { BaseScript.CurrentTweener = null; });
+            Editor_XTween_Previewer.Kill(Editor_XTween_Previewer.AfterKillClear, Editor_XTween_Previewer.BeforeKillRewind, () => { BaseScript.CurrentTweener = null; });
 
             // 当动画预览器为根据动画耗时自动杀死的情况下
             if (sp_index_AutoKillPreviewTweens.boolValue)
-                XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
+                Editor_XTween_Previewer.act_on_editor_autokill -= OnAutoKillPreview;
         }
         /// <summary>
         ///  动画预览 - 开始
@@ -1319,14 +1356,14 @@ namespace SevenStrikeModules.XTween
             // 当动画预览器为根据动画耗时自动杀死的情况下
             if (sp_index_AutoKillPreviewTweens.boolValue)
             {
-                XTween_Previewer.AfterKillClear = true;
-                XTween_Previewer.BeforeKillRewind = true;
-                XTween_Previewer.act_on_editor_autokill += OnAutoKillPreview;
+                Editor_XTween_Previewer.AfterKillClear = true;
+                Editor_XTween_Previewer.BeforeKillRewind = true;
+                Editor_XTween_Previewer.act_on_editor_autokill += OnAutoKillPreview;
             }
 
             #region 添加至预览器并播放
-            XTween_Previewer.Append(BaseScript.CurrentTweener);
-            XTween_Previewer.Play(null, sp_DebugMode.boolValue);
+            Editor_XTween_Previewer.Append(BaseScript.CurrentTweener);
+            Editor_XTween_Previewer.Play(null, sp_DebugMode.boolValue);
 
             #endregion
         }
@@ -1338,17 +1375,17 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         private void DrawTweenValueFields<T>(string label, SerializedProperty endValueProp, SerializedProperty fromValueProp, bool isFromMode)
         {
-            XTween_GUI.Gui_Layout_Space(5);
-            XTween_GUI.Gui_Layout_LabelfieldThin(label, GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, new Vector2(5, 0), 14, Font_Bold);
-            XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Space(5);
+            Editor_XTween_GUI.Gui_Layout_LabelfieldThin(label, GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, new Vector2(5, 0), 14, Font_Bold);
+            Editor_XTween_GUI.Gui_Layout_Space(10);
             if (isFromMode)
             {
-                XTween_GUI.Gui_Layout_Property_Field("起始", fromValueProp, 100);
-                XTween_GUI.Gui_Layout_Space(5);
+                Editor_XTween_GUI.Gui_Layout_Property_Field("起始", fromValueProp, 100);
+                Editor_XTween_GUI.Gui_Layout_Space(5);
             }
 
-            XTween_GUI.Gui_Layout_Property_Field("目标", endValueProp, 100);
-            XTween_GUI.Gui_Layout_Space(10);
+            Editor_XTween_GUI.Gui_Layout_Property_Field("目标", endValueProp, 100);
+            Editor_XTween_GUI.Gui_Layout_Space(10);
         }
         /// <summary>
         /// 获取组件
@@ -1386,12 +1423,14 @@ namespace SevenStrikeModules.XTween
                 if (sp_Target_Text.objectReferenceValue == null)
                     sp_Target_Text.objectReferenceValue = m_Hud_Text;
             }
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
             TextMeshProUGUI m_Hud_TmpText = BaseScript.GetComponent<TextMeshProUGUI>();
             if (m_Hud_TmpText)
             {
                 if (sp_Target_TmpText.objectReferenceValue == null)
                     sp_Target_TmpText.objectReferenceValue = m_Hud_TmpText;
             }
+#endif
 
             // 应用保存所有组件
             sp_Target_PathTool.serializedObject.ApplyModifiedProperties();
@@ -1399,7 +1438,9 @@ namespace SevenStrikeModules.XTween
             sp_Target_Image.serializedObject.ApplyModifiedProperties();
             sp_Target_CanvasGroup.serializedObject.ApplyModifiedProperties();
             sp_Target_Text.serializedObject.ApplyModifiedProperties();
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
             sp_Target_TmpText.serializedObject.ApplyModifiedProperties();
+#endif
         }
         /// <summary>
         /// 获取缓动参数曲线图
@@ -1430,18 +1471,20 @@ namespace SevenStrikeModules.XTween
 
             if (TweenTypes == XTweenTypes.文字_TmpText)
             {
+#if TMPro_PRESENT || UNITEXTMESHPRO_PRESENT
                 if (sp_Target_TmpText.objectReferenceValue == null)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "文字组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  HudTmpText </color>\"组件! ，请正确指定后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "文字组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  HudTmpText </color>\"组件! ，请正确指定后再预览！", "明白", 0, false);
                 }
+#endif
             }
             if (TweenTypes == XTweenTypes.文字_Text)
             {
                 if (sp_Target_Text.objectReferenceValue == null)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "文字组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  HudText </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "文字组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  HudText </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.位置_Position)
@@ -1449,7 +1492,7 @@ namespace SevenStrikeModules.XTween
                 if (sp_Target_RectTransform.objectReferenceValue == null)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.旋转_Rotation)
@@ -1457,7 +1500,7 @@ namespace SevenStrikeModules.XTween
                 if (sp_Target_RectTransform.objectReferenceValue == null)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.缩放_Scale)
@@ -1465,7 +1508,7 @@ namespace SevenStrikeModules.XTween
                 if (sp_Target_RectTransform.objectReferenceValue == null)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.尺寸_Size)
@@ -1473,7 +1516,7 @@ namespace SevenStrikeModules.XTween
                 if (sp_Target_RectTransform.objectReferenceValue == null)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.颜色_Color)
@@ -1481,7 +1524,7 @@ namespace SevenStrikeModules.XTween
                 if (sp_Target_Image.objectReferenceValue == null)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "图像组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  Image </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "图像组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  Image </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.透明度_Alpha)
@@ -1491,7 +1534,7 @@ namespace SevenStrikeModules.XTween
                     if (sp_Target_Image.objectReferenceValue == null)
                     {
                         valid = false;
-                        XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "图像组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  Image </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                        Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "图像组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  Image </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                     }
                 }
                 else if (sp_TweenTypes_Alphas.enumValueIndex == 1)
@@ -1499,7 +1542,7 @@ namespace SevenStrikeModules.XTween
                     if (sp_Target_CanvasGroup.objectReferenceValue == null)
                     {
                         valid = false;
-                        XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "画布编组组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  CanvasGroup </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                        Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "画布编组组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  CanvasGroup </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                     }
                 }
             }
@@ -1508,7 +1551,7 @@ namespace SevenStrikeModules.XTween
                 if (sp_Target_Image.objectReferenceValue == null)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "图像组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  Image </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "图像组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  Image </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.平铺_Tiled)
@@ -1516,7 +1559,7 @@ namespace SevenStrikeModules.XTween
                 if (sp_Target_Image.objectReferenceValue == null)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "图像组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  Image </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "图像组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  Image </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.震动_Shake)
@@ -1524,7 +1567,7 @@ namespace SevenStrikeModules.XTween
                 if (sp_Target_RectTransform.objectReferenceValue == null)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "变换组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  RectTransform </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
             }
             if (TweenTypes == XTweenTypes.路径_Path)
@@ -1532,17 +1575,17 @@ namespace SevenStrikeModules.XTween
                 if (sp_Target_PathTool.objectReferenceValue == null)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "路径工具组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  PathTool </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "路径工具组件异常", $"检测到您未正确指定对应动画所需要的\"<color={hexcol}>  PathTool </color>\"组件!，请正确指定后再预览！", "明白", 0, false);
                 }
                 if (BaseScript.Target_PathTool.GetPathPointCount() <= 0)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "路径工具组件异常", $"检测到您正使用路径动画，但是路径却没有任何\"<color={hexcol}> 路径点 </color>\"，请正确创建路径点后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "路径工具组件异常", $"检测到您正使用路径动画，但是路径却没有任何\"<color={hexcol}> 路径点 </color>\"，请正确创建路径点后再预览！", "明白", 0, false);
                 }
                 if (BaseScript.Target_PathTool.GetPathPointCount() < 2)
                 {
                     valid = false;
-                    XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "路径工具组件异常", $"检测到您正使用路径动画，但是路径却只有\"<color={hexcol}> 1个路径点 </color>\"，请确保最少创建\"<color={hexcol}> 2个路径点 </color>\"后再预览！", "明白", 0, false);
+                    Editor_XTween_GUI.Open(XTweenDialogType.警告, "HudAnimator动画器消息", "路径工具组件异常", $"检测到您正使用路径动画，但是路径却只有\"<color={hexcol}> 1个路径点 </color>\"，请确保最少创建\"<color={hexcol}> 2个路径点 </color>\"后再预览！", "明白", 0, false);
                 }
             }
 

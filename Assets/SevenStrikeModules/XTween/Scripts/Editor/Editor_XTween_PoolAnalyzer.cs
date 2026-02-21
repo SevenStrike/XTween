@@ -18,7 +18,7 @@
  * ============================================================================
  * 违反本注释保留要求，将违反 AGPL 3.0 授权协议，需承担相应法律责任
  */
-namespace SevenStrikeModules.XTween
+namespace SevenStrikeModules.XTween.Editor
 {
     using System;
     using System.Text;
@@ -117,7 +117,7 @@ namespace SevenStrikeModules.XTween
         public static void ShowWindow()
         {
             window = (Editor_XTween_PoolAnalyzer)EditorWindow.GetWindow(typeof(Editor_XTween_PoolAnalyzer), true, "XTween 动画池管理器", true);
-            XTween_GUI.CenterEditorWindow(new Vector2Int(360, 640), window);
+            Editor_XTween_GUI.CenterEditorWindow(new Vector2Int(360, 640), window);
             window.maxSize = window.minSize;
             window.Show();
         }
@@ -125,17 +125,17 @@ namespace SevenStrikeModules.XTween
         private void OnEnable()
         {
             #region 图标获取
-            logo = XTween_GUI.GetIcon("Icons_Hud_XTween_PoolAnalyzer/logo");
-            icon_pathpercent = XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_pathpercent");
-            LiquidBg_Pure = XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidBg_Pure");
-            LiquidBg_Scan = XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidBg_Scan");
-            LiquidPlug = XTween_GUI.GetIcon("Icons_Liquid/LiquidPlug_Blue");
-            MetalGrid = XTween_GUI.GetIcon("Icons_Liquid/MetalGrid");
-            LiquidDirty = XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidDirty");
+            logo = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_PoolAnalyzer/logo");
+            icon_pathpercent = Editor_XTween_GUI.GetIcon("Icons_Hud_XTween_Controller/icon_pathpercent");
+            LiquidBg_Pure = Editor_XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidBg_Pure");
+            LiquidBg_Scan = Editor_XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidBg_Scan");
+            LiquidPlug = Editor_XTween_GUI.GetIcon("Icons_Liquid/LiquidPlug_Blue");
+            MetalGrid = Editor_XTween_GUI.GetIcon("Icons_Liquid/MetalGrid");
+            LiquidDirty = Editor_XTween_GUI.GetIcon("Icons_Liquid/XTween_PoolAnalyzer/LiquidDirty");
             #endregion
 
-            Font_Bold = XTween_GUI.GetFont("SS_Editor_Bold");
-            Font_Light = XTween_GUI.GetFont("SS_Editor_Dialog");
+            Font_Bold = Editor_XTween_GUI.GetFont("SS_Editor_Bold");
+            Font_Light = Editor_XTween_GUI.GetFont("SS_Editor_Dialog");
 
             stringBuilder = new StringBuilder();
 
@@ -149,15 +149,15 @@ namespace SevenStrikeModules.XTween
 
             Icon_rect = new Rect(15, 15, 48, 48);
 
-            XTween_GUI.Gui_Icon(Icon_rect, logo);
+            Editor_XTween_GUI.Gui_Icon(Icon_rect, logo);
 
             Title_rect = new Rect(rect.x + 85, rect.y + 15, rect.width - 80, 30);
-            XTween_GUI.Gui_Labelfield(Title_rect, "XTween 动画池管理器", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 20, Font_Bold);
+            Editor_XTween_GUI.Gui_Labelfield(Title_rect, "XTween 动画池管理器", GUIFilled.无, GUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 20, Font_Bold);
 
             Sepline_rect = new Rect(rect.x + 85, rect.y + 60, 200, 1);
-            XTween_GUI.Gui_Box(Sepline_rect, SepLineColor);
+            Editor_XTween_GUI.Gui_Box(Sepline_rect, SepLineColor);
 
-            XTween_GUI.Gui_Labelfield_Thin_WrapClip(new Rect(rect.x + 18, rect.y + 80, rect.width - 38, rect.height), "此面板可监控并管理XTween动画池的使用状态以及参数！", GUIFilled.无, GUIColor.无, MessageColor, TextAnchor.UpperLeft, new Vector2(0, 0), 12, true, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield_Thin_WrapClip(new Rect(rect.x + 18, rect.y + 80, rect.width - 38, rect.height), "此面板可监控并管理XTween动画池的使用状态以及参数！", GUIFilled.无, GUIColor.无, MessageColor, TextAnchor.UpperLeft, new Vector2(0, 0), 12, true, Font_Light);
             #endregion
 
             #region 面板预览器
@@ -185,26 +185,26 @@ namespace SevenStrikeModules.XTween
 
             // 液晶屏
             rect_liquid_prim.Set(rect_liquid_set.x + 15, rect_liquid_set.y + 110, rect_liquid_set.width - 30, TweenLiquidScreen.height);
-            XTween_GUI.Gui_LiquidField(rect_liquid_prim, TweenLiquidContent, liquid_rectoffet, TweenLiquidScreen);
+            Editor_XTween_GUI.Gui_LiquidField(rect_liquid_prim, TweenLiquidContent, liquid_rectoffet, TweenLiquidScreen);
 
             // 液晶屏肮脏
             if (XTween_Dashboard.ConfigData.LiquidDirty)
             {
                 rect_liquid_prim.Set(rect_liquid_set.x + (rect_liquid_set.width - LiquidDirty.width - 13), rect_liquid_set.y + 108, LiquidDirty.width, LiquidDirty.height);
-                XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidDirty);
+                Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidDirty);
             }
 
             // 液晶屏接口
             rect_liquid_prim.Set(rect_liquid_set.x + ((rect_liquid_set.width / 2) - (LiquidPlug.width / 2)), rect_liquid_set.y + 545, LiquidPlug.width, LiquidPlug.height);
-            XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidPlug);
+            Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, LiquidPlug);
 
             // 液晶屏金属网格角
             rect_liquid_prim.Set(rect_liquid_set.x + (rect_liquid_set.width - MetalGrid.width - 5), rect_liquid_set.y + 505, MetalGrid.width, MetalGrid.height);
-            XTween_GUI.Gui_TextureBox(rect_liquid_prim, MetalGrid);
+            Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, MetalGrid);
 
             #region 状态显示
             rect_liquid_prim.Set(rect_liquid_set.x + (rect_liquid_set.width - 130), rect_liquid_set.y + 101, 100, 65);
-            XTween_GUI.Gui_Labelfield_WrapText(rect_liquid_prim, $"状态 :  {(XTween_Pool.IsAnyTweenInUse() ? "正在使用" : "未使用")}", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleRight, Vector2.zero, 11, false, false, TextClipping.Overflow, true, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield_WrapText(rect_liquid_prim, $"状态 :  {(XTween_Pool.IsAnyTweenInUse() ? "正在使用" : "未使用")}", GUIFilled.无, GUIColor.无, Color.black, TextAnchor.MiddleRight, Vector2.zero, 11, false, false, TextClipping.Overflow, true, Font_Light);
             #endregion
 
             #region 进度条 - EasedProgress
@@ -231,10 +231,10 @@ namespace SevenStrikeModules.XTween
             GUI.backgroundColor = Color.white;
             #endregion
 
-            XTween_GUI.Gui_Layout_Space(590);
-            XTween_GUI.Gui_Layout_Horizontal_Start(GUIFilled.无, GUIColor.无);
-            XTween_GUI.Gui_Layout_Space(15);
-            if (XTween_GUI.Gui_Layout_Button("回收所有动画 (快速强制)", "", GUIFilled.实体, GUIColor.深空灰, Color.white, 35, new RectOffset(), new Vector2(0, 0), TextAnchor.MiddleCenter, 12, Font_Light))
+            Editor_XTween_GUI.Gui_Layout_Space(590);
+            Editor_XTween_GUI.Gui_Layout_Horizontal_Start(GUIFilled.无, GUIColor.无);
+            Editor_XTween_GUI.Gui_Layout_Space(15);
+            if (Editor_XTween_GUI.Gui_Layout_Button("回收所有动画 (快速强制)", "", GUIFilled.实体, GUIColor.深空灰, Color.white, 35, new RectOffset(), new Vector2(0, 0), TextAnchor.MiddleCenter, 12, Font_Light))
             {
                 if (Application.isPlaying)
                     XTween_Pool.ForceRecycleAll();
@@ -243,8 +243,8 @@ namespace SevenStrikeModules.XTween
                     XTween_Utilitys.DebugInfo("XTween动画管理器消息", "应用未运行，只有在引用运行时期才可以使用此功能！", GUIMsgState.警告);
                 }
             }
-            XTween_GUI.Gui_Layout_Space(15);
-            XTween_GUI.Gui_Layout_Horizontal_End();
+            Editor_XTween_GUI.Gui_Layout_Space(15);
+            Editor_XTween_GUI.Gui_Layout_Horizontal_End();
         }
 
         private void LiquidProgress(Rect rect_progress, float height, string title, string value, float progress)
@@ -258,10 +258,10 @@ namespace SevenStrikeModules.XTween
             EditorGUI.DrawRect(r_pro, Color.black);
             // 标题
             r_pro.Set(rect_progress.x + liquid_left_margin, rect_progress.y + (height - 17), 50, 6);
-            XTween_GUI.Gui_Labelfield(r_pro, title, GUIFilled.无, GUIColor.无, Color.black * 0.9f, TextAnchor.MiddleLeft, new Vector2(0, 0), 12, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(r_pro, title, GUIFilled.无, GUIColor.无, Color.black * 0.9f, TextAnchor.MiddleLeft, new Vector2(0, 0), 12, Font_Light);
             // 数值
             r_pro.Set(rect_progress.x + (rect_progress.width - liquid_right_margin - 25), rect_progress.y + (height - 17), 50, 6);
-            XTween_GUI.Gui_Labelfield(r_pro, value, GUIFilled.无, GUIColor.无, Color.black * 0.95f, TextAnchor.MiddleRight, new Vector2(0, 0), 11, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(r_pro, value, GUIFilled.无, GUIColor.无, Color.black * 0.95f, TextAnchor.MiddleRight, new Vector2(0, 0), 11, Font_Light);
             // 起点线
             r_pro.Set((rect_progress.x + liquid_left_margin), rect_progress.y + (height - 2), 1, 6);
             EditorGUI.DrawRect(r_pro, Color.black * 0.3f);
@@ -270,7 +270,7 @@ namespace SevenStrikeModules.XTween
             EditorGUI.DrawRect(r_pro, Color.black * 0.3f);
             // 指示器
             r_pro.Set(((rect_progress.x + liquid_left_margin - 4) + (rect_progress.width - liquid_right_margin) * progress * 0.01f), rect_progress.y + (height + 3), 8, 8);
-            XTween_GUI.Gui_Icon(r_pro, icon_pathpercent);
+            Editor_XTween_GUI.Gui_Icon(r_pro, icon_pathpercent);
             // 中点线
             r_pro.Set(((rect_progress.x + liquid_left_margin) + (rect_progress.width - liquid_right_margin) * 0.5f), rect_progress.y + (height - 10), 1, 10);
             EditorGUI.DrawRect(r_pro, Color.black * 0.3f);

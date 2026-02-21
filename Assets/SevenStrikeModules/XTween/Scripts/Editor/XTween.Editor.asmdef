@@ -1,0 +1,20 @@
+{
+    "name": "XTween.Editor",
+    "rootNamespace": "SevenStrikeModules.XTween.Editor",
+    "references": [
+        "XTween.Runtime",
+        "UnityEditor.CoreModule",
+        "UnityEditor.UI",
+        "UnityEngine.IMGUIModule"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
