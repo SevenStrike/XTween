@@ -1595,7 +1595,7 @@ namespace SevenStrikeModules.XTween.Editor
                 // 提示文字重点部分文字颜色
                 string keycol = XTween_Utilitys.ConvertColorToHexString(XTween_Dashboard.Theme_Primary, true);
 
-                XTweenPreset_Alpha preset = XTween_PresetManager.preset_Apply_To_Controller_ByName<XTweenPreset_Alpha>(BaseScript, XTweenTypes.透明度_Alpha, "Preset - NamePreset - Description");
+                XTweenPreset_Alpha preset = XTween_PresetManager.preset_Apply_To_Controller_ByName<XTweenPreset_Alpha>(BaseScript, XTweenTypes.透明度_Alpha, "Preset - Name");
 
                 if (preset != null)
                 {

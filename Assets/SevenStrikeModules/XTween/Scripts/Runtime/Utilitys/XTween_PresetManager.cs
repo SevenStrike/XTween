@@ -103,7 +103,10 @@ namespace SevenStrikeModules.XTween
         /// false: 动画完成后保留，可以重新播放
         /// </summary>
         [SerializeField] public bool IsAutoKill = false;
-
+        /// <summary>
+        /// 标记为喜爱的预设
+        /// </summary>
+        [SerializeField] public bool IsFavourite = false;
         /// <summary>
         /// 设置预设名称
         /// </summary>
@@ -855,7 +858,7 @@ namespace SevenStrikeModules.XTween
 
             if (presetAsset == null)
             {
-                string jsonContent = preset_JsonFile_Create(fileName);
+                string jsonContent = preset_JsonFile_Create(type);
                 preset_JsonFile_Save(type, jsonContent); // 保存到文件
 
                 if (EnableDebugLogs)
@@ -985,16 +988,16 @@ namespace SevenStrikeModules.XTween
         /// </remarks>
         /// <param name="typename">类型名称，如"alpha"（透明度）、"color"（颜色）、"position"（位置）等</param>
         /// <returns>包含默认预设的完整JSON字符串</returns>
-        public static string preset_JsonFile_Create(string typename)
+        public static string preset_JsonFile_Create(XTweenTypes type)
         {
             // 创建预设容器
             XTweenPresetContainer container = new XTweenPresetContainer();
-            container.Type = typename;
+            container.Type = type.ToString();
 
             // 根据类型创建对应的预设数据
-            switch (typename)
+            switch (type)
             {
-                case "alpha":
+                case XTweenTypes.透明度_Alpha:
                     container.Presets.Add(new XTweenPreset_Alpha
                     {
                         Name = "淡入效果",
@@ -1018,7 +1021,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "to":
+                case XTweenTypes.原生动画_To:
                     container.Presets.Add(new XTweenPreset_To
                     {
                         Name = "整数渐变",
@@ -1045,7 +1048,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "path":
+                case XTweenTypes.路径_Path:
                     container.Presets.Add(new XTweenPreset_Path
                     {
                         Name = "沿路径移动",
@@ -1066,7 +1069,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "position":
+                case XTweenTypes.位置_Position:
                     container.Presets.Add(new XTweenPreset_Position
                     {
                         Name = "水平移动",
@@ -1090,7 +1093,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "rotation":
+                case XTweenTypes.旋转_Rotation:
                     container.Presets.Add(new XTweenPreset_Rotation
                     {
                         Name = "360度旋转",
@@ -1117,7 +1120,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "scale":
+                case XTweenTypes.缩放_Scale:
                     container.Presets.Add(new XTweenPreset_Scale
                     {
                         Name = "弹性缩放",
@@ -1140,7 +1143,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "size":
+                case XTweenTypes.尺寸_Size:
                     container.Presets.Add(new XTweenPreset_Size
                     {
                         Name = "尺寸扩大",
@@ -1163,7 +1166,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "shake":
+                case XTweenTypes.震动_Shake:
                     container.Presets.Add(new XTweenPreset_Shake
                     {
                         Name = "震动效果",
@@ -1189,7 +1192,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "color":
+                case XTweenTypes.颜色_Color:
                     container.Presets.Add(new XTweenPreset_Color
                     {
                         Name = "颜色渐变",
@@ -1212,7 +1215,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "fill":
+                case XTweenTypes.填充_Fill:
                     container.Presets.Add(new XTweenPreset_Fill
                     {
                         Name = "填充进度",
@@ -1235,7 +1238,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "tiled":
+                case XTweenTypes.平铺_Tiled:
                     container.Presets.Add(new XTweenPreset_Tiled
                     {
                         Name = "平铺效果",
@@ -1258,7 +1261,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "text":
+                case XTweenTypes.文字_Text:
                     container.Presets.Add(new XTweenPreset_Text
                     {
                         Name = "打字机效果",
@@ -1285,7 +1288,7 @@ namespace SevenStrikeModules.XTween
                     });
                     break;
 
-                case "tmptext":
+                case XTweenTypes.文字_TmpText:
                     container.Presets.Add(new XTweenPreset_TmpText
                     {
                         Name = "TMP文字渐变",
@@ -1536,7 +1539,7 @@ namespace SevenStrikeModules.XTween
         {
 #if UNITY_EDITOR
             string fileName = GetFileNameFromType(type);
-            string jsonContent = preset_JsonFile_Create(fileName);
+            string jsonContent = preset_JsonFile_Create(type);
             preset_JsonFile_Save(type, jsonContent);
 
             if (EnableDebugLogs)
@@ -1610,7 +1613,7 @@ namespace SevenStrikeModules.XTween
                 // 文件不存在，创建新容器
                 container = new XTweenPresetContainer
                 {
-                    Type = GetFileNameFromType(type),
+                    Type = type.ToString(),
                     Presets = new List<XTweenPresetBase> { presetData }
                 };
             }
@@ -1699,7 +1702,7 @@ namespace SevenStrikeModules.XTween
 #if UNITY_EDITOR
             var container = new XTweenPresetContainer
             {
-                Type = GetFileNameFromType(type),
+                Type = type.ToString(),
                 Presets = presetsData
             };
 
@@ -1975,7 +1978,7 @@ namespace SevenStrikeModules.XTween
         public static List<T> preset_Get_All_Presets_Of_Type<T>(XTweenTypes type) where T : XTweenPresetBase
         {
             var result = new List<T>();
-            string targetType = GetFileNameFromType(type);
+            string targetType = type.ToString();
 
             var containers = preset_Container_GetAll();
             foreach (var container in containers)
@@ -2038,7 +2041,7 @@ namespace SevenStrikeModules.XTween
         public static List<string> preset_Get_All_Preset_Names(XTweenTypes type)
         {
             var names = new List<string>();
-            string targetType = GetFileNameFromType(type);
+            string targetType = type.ToString();
 
             var containers = preset_Container_GetAll();
             foreach (var container in containers)
@@ -2059,187 +2062,6 @@ namespace SevenStrikeModules.XTween
         #endregion
 
         #region Controller
-        /// <summary>
-        /// 从XTween_Controller保存动画预设（自动推断类型）- 推荐使用的公共接口
-        /// </summary>
-        /// <remarks>
-        /// 这是保存预设的标准入口方法，会自动处理以下逻辑：
-        /// <list type="bullet">
-        /// <item><description>如果未提供预设名称，自动生成基于时间戳的唯一名称</description></item>
-        /// <item><description>检查是否存在同名预设，避免意外覆盖</description></item>
-        /// <item><description>根据 overrideExist 参数决定是覆盖还是取消保存</description></item>
-        /// <item><description>根据控制器的动画类型自动选择对应的预设数据类型</description></item>
-        /// </list>
-        /// 
-        /// 使用示例：
-        /// <code>
-        /// // 保存预设，如果重名则取消
-        /// bool success = XTween_PresetManager.preset_Save_From_Controller(
-        ///     controller,                     // XTween_Controller实例
-        ///     "我的淡入效果",                   // 预设名称
-        ///     "从透明到不透明的淡入动画",         // 预设描述
-        ///     false                           // 重名时不覆盖
-        /// );
-        /// 
-        /// if (!success)
-        /// {
-        ///     Debug.Log("保存失败：预设名称已存在");
-        ///     // 可以提示用户是否要覆盖
-        /// }
-        /// 
-        /// // 保存预设，如果重名则覆盖
-        /// success = XTween_PresetManager.preset_Save_From_Controller(
-        ///     controller,
-        ///     "我的淡入效果",
-        ///     "从透明到不透明的淡入动画",
-        ///     true  // 重名时覆盖
-        /// );
-        /// 
-        /// // 自动生成预设名称（使用默认参数）
-        /// success = XTween_PresetManager.preset_Save_From_Controller(
-        ///     controller,
-        ///     description: "自动生成的预设"
-        /// );
-        /// // 生成的名称格式如：Alpha_preset_20250225143022
-        /// </code>
-        /// </remarks>
-        /// <param name="controller">
-        /// XTween_Controller 实例，不能为null。
-        /// 从这个控制器中提取动画参数来创建预设。
-        /// </param>
-        /// <param name="presetName">
-        /// 预设名称，用于在预设列表中标识。
-        /// 如果为空字符串，将自动生成"{动画类型}_preset_时间戳"格式的名称。
-        /// 例如："Alpha_preset_20250225143022"
-        /// </param>
-        /// <param name="description">
-        /// 预设描述，详细说明这个预设的用途和效果。
-        /// 可用于工具提示、文档或在预设选择器中显示。
-        /// </param>
-        /// <param name="overrideExist">
-        /// 重名时的处理方式：
-        /// <list type="table">
-        /// <item>
-        /// <term>true</term>
-        /// <description>覆盖模式：如果存在同名预设，先删除原预设再保存新预设</description>
-        /// </item>
-        /// <item>
-        /// <term>false</term>
-        /// <description>安全模式：如果存在同名预设，直接返回false，不执行保存操作</description>
-        /// </item>
-        /// </list>
-        /// </param>
-        /// <returns>
-        /// <para><c>true</c>: 预设保存成功</para>
-        /// <para><c>false</c>: 保存失败，可能原因：</para>
-        /// <list type="bullet">
-        /// <item><description>controller 为 null</description></item>
-        /// <item><description>存在同名预设且 overrideExist = false</description></item>
-        /// <item><description>不支持的动画类型（如 XTweenTypes.无_None）</description></item>
-        /// <item><description>文件写入失败（由底层方法抛出异常）</description></item>
-        /// </list>
-        /// </returns>
-        public static bool preset_Save_From_Controller(this XTween_Controller controller, string presetName = "", string description = "")
-        {
-#if UNITY_EDITOR
-            if (controller == null)
-            {
-                if (EnableDebugLogs)
-                    XTween_Utilitys.DebugInfo("XTween预设管理器消息", "控制器不能为空！", XTweenGUIMsgState.警告);
-                return false;
-            }
-
-            // 生成预设名称（如果为空）
-            if (string.IsNullOrEmpty(presetName))
-            {
-                presetName = $"{controller.TweenTypes}_preset_{DateTime.Now:yyyyMMddHHmmss}";
-            }
-
-            // 能执行到此处说明同意覆盖或者并没有同名预设
-            // 根据动画类型自动选择对应的预设类型
-            switch (controller.TweenTypes)
-            {
-                case XTweenTypes.透明度_Alpha:
-                    return preset_Save_From_Controller<XTweenPreset_Alpha>(controller, presetName, description);
-                case XTweenTypes.颜色_Color:
-                    return preset_Save_From_Controller<XTweenPreset_Color>(controller, presetName, description);
-                case XTweenTypes.位置_Position:
-                    return preset_Save_From_Controller<XTweenPreset_Position>(controller, presetName, description);
-                case XTweenTypes.旋转_Rotation:
-                    return preset_Save_From_Controller<XTweenPreset_Rotation>(controller, presetName, description);
-                case XTweenTypes.缩放_Scale:
-                    return preset_Save_From_Controller<XTweenPreset_Scale>(controller, presetName, description);
-                case XTweenTypes.尺寸_Size:
-                    return preset_Save_From_Controller<XTweenPreset_Size>(controller, presetName, description);
-                case XTweenTypes.震动_Shake:
-                    return preset_Save_From_Controller<XTweenPreset_Shake>(controller, presetName, description);
-                case XTweenTypes.文字_Text:
-                    return preset_Save_From_Controller<XTweenPreset_Text>(controller, presetName, description);
-                case XTweenTypes.文字_TmpText:
-                    return preset_Save_From_Controller<XTweenPreset_TmpText>(controller, presetName, description);
-                case XTweenTypes.填充_Fill:
-                    return preset_Save_From_Controller<XTweenPreset_Fill>(controller, presetName, description);
-                case XTweenTypes.平铺_Tiled:
-                    return preset_Save_From_Controller<XTweenPreset_Tiled>(controller, presetName, description);
-                case XTweenTypes.路径_Path:
-                    return preset_Save_From_Controller<XTweenPreset_Path>(controller, presetName, description);
-                case XTweenTypes.原生动画_To:
-                    return preset_Save_From_Controller<XTweenPreset_To>(controller, presetName, description);
-                default:
-                    if (EnableDebugLogs)
-                        XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"不支持的动画类型: {controller.TweenTypes}！", XTweenGUIMsgState.警告);
-                    return false;
-            }
-#else
-    return false;
-#endif
-        }
-        /// <summary>
-        /// 从XTween_Controller保存预设（泛型实现）- 内部方法
-        /// </summary>
-        /// <remarks>
-        /// 这是预设保存的底层实现，完成以下工作：
-        /// <list type="bullet">
-        /// <item><description>创建指定类型的预设对象（如 XTweenPreset_Alpha）</description></item>
-        /// <item><description>从控制器复制基础参数（Duration、Delay、EaseMode等）</description></item>
-        /// <item><description>从控制器复制特定类型参数（如 Alpha 的 EndValue）</description></item>
-        /// <item><description>将预设对象保存到对应的JSON文件</description></item>
-        /// </list>
-        /// 
-        /// 注意：此方法不处理重名检查，由调用方保证预设名称唯一。
-        /// </remarks>
-        /// <typeparam name="T">预设数据类型，必须继承自XTweenPresetBase</typeparam>
-        /// <param name="controller">XTween_Controller实例，从中提取动画参数</param>
-        /// <param name="presetName">预设名称（已确保唯一）</param>
-        /// <param name="description">预设描述</param>
-        /// <returns>保存成功返回true，失败返回false</returns>
-        private static bool preset_Save_From_Controller<T>(this XTween_Controller controller, string presetName = "", string description = "") where T : XTweenPresetBase, new()
-        {
-#if UNITY_EDITOR
-            // 创建预设对象
-            T preset = new T();
-
-            // 设置基本属性
-            preset.Name = presetName;
-            preset.Description = description;
-
-            // 从控制器复制基础参数
-            CopyBaseData<T>(controller, preset);
-
-            // 根据不同类型复制特定参数（保持原有逻辑）
-            CopySpecificPresetData(controller, ref preset);
-
-            // 保存预设
-            preset_Container_Save_Added(controller.TweenTypes, preset);
-
-            if (EnableDebugLogs)
-                XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已从控制器保存到预设: {preset.Name}！", XTweenGUIMsgState.确认);
-
-            return true;
-#else
-    return false;
-#endif
-        }
         /// <summary>
         /// 复制特定类型的预设数据（私有方法）
         /// </summary>
@@ -2733,6 +2555,190 @@ namespace SevenStrikeModules.XTween
 #endif
             return false;
         }
+        #endregion
+
+        #region Controller扩展
+        /// <summary>
+        /// 从XTween_Controller保存动画预设（自动推断类型）- 推荐使用的公共接口
+        /// </summary>
+        /// <remarks>
+        /// 这是保存预设的标准入口方法，会自动处理以下逻辑：
+        /// <list type="bullet">
+        /// <item><description>如果未提供预设名称，自动生成基于时间戳的唯一名称</description></item>
+        /// <item><description>检查是否存在同名预设，避免意外覆盖</description></item>
+        /// <item><description>根据 overrideExist 参数决定是覆盖还是取消保存</description></item>
+        /// <item><description>根据控制器的动画类型自动选择对应的预设数据类型</description></item>
+        /// </list>
+        /// 
+        /// 使用示例：
+        /// <code>
+        /// // 保存预设，如果重名则取消
+        /// bool success = XTween_PresetManager.preset_Save_From_Controller(
+        ///     controller,                     // XTween_Controller实例
+        ///     "我的淡入效果",                   // 预设名称
+        ///     "从透明到不透明的淡入动画",         // 预设描述
+        ///     false                           // 重名时不覆盖
+        /// );
+        /// 
+        /// if (!success)
+        /// {
+        ///     Debug.Log("保存失败：预设名称已存在");
+        ///     // 可以提示用户是否要覆盖
+        /// }
+        /// 
+        /// // 保存预设，如果重名则覆盖
+        /// success = XTween_PresetManager.preset_Save_From_Controller(
+        ///     controller,
+        ///     "我的淡入效果",
+        ///     "从透明到不透明的淡入动画",
+        ///     true  // 重名时覆盖
+        /// );
+        /// 
+        /// // 自动生成预设名称（使用默认参数）
+        /// success = XTween_PresetManager.preset_Save_From_Controller(
+        ///     controller,
+        ///     description: "自动生成的预设"
+        /// );
+        /// // 生成的名称格式如：Alpha_preset_20250225143022
+        /// </code>
+        /// </remarks>
+        /// <param name="controller">
+        /// XTween_Controller 实例，不能为null。
+        /// 从这个控制器中提取动画参数来创建预设。
+        /// </param>
+        /// <param name="presetName">
+        /// 预设名称，用于在预设列表中标识。
+        /// 如果为空字符串，将自动生成"{动画类型}_preset_时间戳"格式的名称。
+        /// 例如："Alpha_preset_20250225143022"
+        /// </param>
+        /// <param name="description">
+        /// 预设描述，详细说明这个预设的用途和效果。
+        /// 可用于工具提示、文档或在预设选择器中显示。
+        /// </param>
+        /// <param name="overrideExist">
+        /// 重名时的处理方式：
+        /// <list type="table">
+        /// <item>
+        /// <term>true</term>
+        /// <description>覆盖模式：如果存在同名预设，先删除原预设再保存新预设</description>
+        /// </item>
+        /// <item>
+        /// <term>false</term>
+        /// <description>安全模式：如果存在同名预设，直接返回false，不执行保存操作</description>
+        /// </item>
+        /// </list>
+        /// </param>
+        /// <returns>
+        /// <para><c>true</c>: 预设保存成功</para>
+        /// <para><c>false</c>: 保存失败，可能原因：</para>
+        /// <list type="bullet">
+        /// <item><description>controller 为 null</description></item>
+        /// <item><description>存在同名预设且 overrideExist = false</description></item>
+        /// <item><description>不支持的动画类型（如 XTweenTypes.无_None）</description></item>
+        /// <item><description>文件写入失败（由底层方法抛出异常）</description></item>
+        /// </list>
+        /// </returns>
+        public static bool preset_Save_From_Controller(this XTween_Controller controller, string presetName = "", string description = "")
+        {
+#if UNITY_EDITOR
+            if (controller == null)
+            {
+                if (EnableDebugLogs)
+                    XTween_Utilitys.DebugInfo("XTween预设管理器消息", "控制器不能为空！", XTweenGUIMsgState.警告);
+                return false;
+            }
+
+            // 生成预设名称（如果为空）
+            if (string.IsNullOrEmpty(presetName))
+            {
+                presetName = $"{controller.TweenTypes}_preset_{DateTime.Now:yyyyMMddHHmmss}";
+            }
+
+            // 能执行到此处说明同意覆盖或者并没有同名预设
+            // 根据动画类型自动选择对应的预设类型
+            switch (controller.TweenTypes)
+            {
+                case XTweenTypes.透明度_Alpha:
+                    return preset_Save_From_Controller<XTweenPreset_Alpha>(controller, presetName, description);
+                case XTweenTypes.颜色_Color:
+                    return preset_Save_From_Controller<XTweenPreset_Color>(controller, presetName, description);
+                case XTweenTypes.位置_Position:
+                    return preset_Save_From_Controller<XTweenPreset_Position>(controller, presetName, description);
+                case XTweenTypes.旋转_Rotation:
+                    return preset_Save_From_Controller<XTweenPreset_Rotation>(controller, presetName, description);
+                case XTweenTypes.缩放_Scale:
+                    return preset_Save_From_Controller<XTweenPreset_Scale>(controller, presetName, description);
+                case XTweenTypes.尺寸_Size:
+                    return preset_Save_From_Controller<XTweenPreset_Size>(controller, presetName, description);
+                case XTweenTypes.震动_Shake:
+                    return preset_Save_From_Controller<XTweenPreset_Shake>(controller, presetName, description);
+                case XTweenTypes.文字_Text:
+                    return preset_Save_From_Controller<XTweenPreset_Text>(controller, presetName, description);
+                case XTweenTypes.文字_TmpText:
+                    return preset_Save_From_Controller<XTweenPreset_TmpText>(controller, presetName, description);
+                case XTweenTypes.填充_Fill:
+                    return preset_Save_From_Controller<XTweenPreset_Fill>(controller, presetName, description);
+                case XTweenTypes.平铺_Tiled:
+                    return preset_Save_From_Controller<XTweenPreset_Tiled>(controller, presetName, description);
+                case XTweenTypes.路径_Path:
+                    return preset_Save_From_Controller<XTweenPreset_Path>(controller, presetName, description);
+                case XTweenTypes.原生动画_To:
+                    return preset_Save_From_Controller<XTweenPreset_To>(controller, presetName, description);
+                default:
+                    if (EnableDebugLogs)
+                        XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"不支持的动画类型: {controller.TweenTypes}！", XTweenGUIMsgState.警告);
+                    return false;
+            }
+#else
+    return false;
+#endif
+        }
+        /// <summary>
+        /// 从XTween_Controller保存预设（泛型实现）- 内部方法
+        /// </summary>
+        /// <remarks>
+        /// 这是预设保存的底层实现，完成以下工作：
+        /// <list type="bullet">
+        /// <item><description>创建指定类型的预设对象（如 XTweenPreset_Alpha）</description></item>
+        /// <item><description>从控制器复制基础参数（Duration、Delay、EaseMode等）</description></item>
+        /// <item><description>从控制器复制特定类型参数（如 Alpha 的 EndValue）</description></item>
+        /// <item><description>将预设对象保存到对应的JSON文件</description></item>
+        /// </list>
+        /// 
+        /// 注意：此方法不处理重名检查，由调用方保证预设名称唯一。
+        /// </remarks>
+        /// <typeparam name="T">预设数据类型，必须继承自XTweenPresetBase</typeparam>
+        /// <param name="controller">XTween_Controller实例，从中提取动画参数</param>
+        /// <param name="presetName">预设名称（已确保唯一）</param>
+        /// <param name="description">预设描述</param>
+        /// <returns>保存成功返回true，失败返回false</returns>
+        private static bool preset_Save_From_Controller<T>(this XTween_Controller controller, string presetName = "", string description = "") where T : XTweenPresetBase, new()
+        {
+#if UNITY_EDITOR
+            // 创建预设对象
+            T preset = new T();
+
+            // 设置基本属性
+            preset.Name = presetName;
+            preset.Description = description;
+
+            // 从控制器复制基础参数
+            CopyBaseData<T>(controller, preset);
+
+            // 根据不同类型复制特定参数（保持原有逻辑）
+            CopySpecificPresetData(controller, ref preset);
+
+            // 保存预设
+            preset_Container_Save_Added(controller.TweenTypes, preset);
+
+            if (EnableDebugLogs)
+                XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已从控制器保存到预设: {preset.Name}！", XTweenGUIMsgState.确认);
+
+            return true;
+#else
+    return false;
+#endif
+        }
         /// <summary>
         /// 将指定的预设数据应用到XTween_Controller
         /// </summary>
@@ -3049,7 +3055,7 @@ namespace SevenStrikeModules.XTween
             var containers = preset_Container_GetAll();
             foreach (var container in containers)
             {
-                if (container.Type.Equals(GetFileNameFromType(type), StringComparison.OrdinalIgnoreCase))
+                if (container.Type.Equals(type.ToString(), StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (var preset in container.Presets)
                     {
@@ -3269,7 +3275,7 @@ namespace SevenStrikeModules.XTween
         public static bool preset_Check_NameExists(XTweenTypes type, string presetName)
         {
             var containers = preset_Container_GetAll();
-            string targetType = GetFileNameFromType(type);
+            string targetType = type.ToString();
 
             foreach (var container in containers)
             {
@@ -3317,7 +3323,7 @@ namespace SevenStrikeModules.XTween
         {
             var names = new HashSet<string>();
             var containers = preset_Container_GetAll();
-            string targetType = GetFileNameFromType(type);
+            string targetType = type.ToString();
 
             foreach (var container in containers)
             {

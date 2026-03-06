@@ -1,11 +1,8 @@
 {
-    "Type": "tmptext",
+    "Type": "文字_TmpText",
     "Presets": [
         {
             "rid": 1000
-        },
-        {
-            "rid": 1001
         }
     ],
     "references": {
@@ -65,6 +62,7 @@
                     "LoopType": 0,
                     "IsRelative": false,
                     "IsAutoKill": false,
+                    "IsFavourite": false,
                     "TmpTextType": 2,
                     "EndValue_Float": 36.0,
                     "EndValue_Color": {
@@ -96,137 +94,6 @@
                     },
                     "IsExtendedString": false,
                     "UseFromMode": true
-                }
-            },
-            {
-                "rid": 1001,
-                "type": {
-                    "class": "XTweenPreset_TmpText",
-                    "ns": "SevenStrikeModules.XTween",
-                    "asm": "XTween.Runtime"
-                },
-                "data": {
-                    "Name": "OOFuck",
-                    "Description": "Preset - Description",
-                    "Duration": 5.0,
-                    "Delay": 0.0,
-                    "UseRandomDelay": false,
-                    "RandomDelay": {
-                        "Min": 0.0,
-                        "Max": 0.0
-                    },
-                    "EaseMode": 9,
-                    "UseCurve": true,
-                    "Curve": {
-                        "serializedVersion": "2",
-                        "m_Curve": [
-                            {
-                                "serializedVersion": "3",
-                                "time": 0.0,
-                                "value": 0.0,
-                                "inSlope": 0.0,
-                                "outSlope": 0.0,
-                                "tangentMode": 0,
-                                "weightedMode": 0,
-                                "inWeight": 0.0,
-                                "outWeight": 0.0
-                            },
-                            {
-                                "serializedVersion": "3",
-                                "time": 0.0680118203163147,
-                                "value": 0.6212032437324524,
-                                "inSlope": 1.4976685047149659,
-                                "outSlope": 1.4976685047149659,
-                                "tangentMode": 0,
-                                "weightedMode": 0,
-                                "inWeight": 0.3333333432674408,
-                                "outWeight": 0.3333333432674408
-                            },
-                            {
-                                "serializedVersion": "3",
-                                "time": 0.1956658512353897,
-                                "value": 0.030930042266845704,
-                                "inSlope": 0.6711105108261108,
-                                "outSlope": 0.6711105108261108,
-                                "tangentMode": 0,
-                                "weightedMode": 0,
-                                "inWeight": 0.3333333432674408,
-                                "outWeight": 0.3333333432674408
-                            },
-                            {
-                                "serializedVersion": "3",
-                                "time": 0.22298923134803773,
-                                "value": 0.8353438377380371,
-                                "inSlope": 1.5249991416931153,
-                                "outSlope": 1.5249991416931153,
-                                "tangentMode": 0,
-                                "weightedMode": 0,
-                                "inWeight": 0.3333333432674408,
-                                "outWeight": 0.3333333432674408
-                            },
-                            {
-                                "serializedVersion": "3",
-                                "time": 0.797995924949646,
-                                "value": 0.039498209953308108,
-                                "inSlope": 0.40760886669158938,
-                                "outSlope": 0.40760886669158938,
-                                "tangentMode": 0,
-                                "weightedMode": 0,
-                                "inWeight": 0.3333333432674408,
-                                "outWeight": 0.3333333432674408
-                            },
-                            {
-                                "serializedVersion": "3",
-                                "time": 1.0,
-                                "value": 1.0,
-                                "inSlope": 0.0,
-                                "outSlope": 0.0,
-                                "tangentMode": 0,
-                                "weightedMode": 0,
-                                "inWeight": 0.0,
-                                "outWeight": 0.0
-                            }
-                        ],
-                        "m_PreInfinity": 2,
-                        "m_PostInfinity": 2,
-                        "m_RotationOrder": 4
-                    },
-                    "LoopCount": 0,
-                    "LoopDelay": 0.0,
-                    "LoopType": 0,
-                    "IsRelative": false,
-                    "IsAutoKill": false,
-                    "TmpTextType": 4,
-                    "EndValue_Float": 150.0,
-                    "EndValue_Color": {
-                        "r": 1.0,
-                        "g": 1.0,
-                        "b": 1.0,
-                        "a": 1.0
-                    },
-                    "EndValue_String": "",
-                    "EndValue_Vector4": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0,
-                        "w": 0.0
-                    },
-                    "FromValue_Float": 0.0,
-                    "FromValue_Color": {
-                        "r": 1.0,
-                        "g": 1.0,
-                        "b": 1.0,
-                        "a": 1.0
-                    },
-                    "FromValue_String": "",
-                    "FromValue_Vector4": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0,
-                        "w": 0.0
-                    },
-                    "IsExtendedString": false,
-                    "UseFromMode": false
                 }
             }
         ]

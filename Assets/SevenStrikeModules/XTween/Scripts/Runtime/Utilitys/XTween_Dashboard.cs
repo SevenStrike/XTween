@@ -50,6 +50,8 @@ namespace SevenStrikeModules.XTween
         public bool PreviewOption_AutoKillPreviewTweens;
         public bool PreviewOption_RewindPreviewTweensWithKill;
         public bool PreviewOption_ClearPreviewTweensWithKill;
+        public string PresetSelectionMark_LastTypeName;
+        public Rect PresetSelectionMark_LastRect;
     }
 
     public static class XTween_Dashboard
@@ -119,7 +121,7 @@ namespace SevenStrikeModules.XTween
             return path_XTween_GUIROOT;
         }
         /// <summary>
-        /// 获取 XTween GUISTYLE路径，根目录：SevenStrikeModules/XTween/GUI/XTweenGuiStyle
+        /// 获取 XTween GUISTYLE路径，根目录：SevenStrikeModules/XTween/GUI/Editor/XTweenGuiStyle/
         /// </summary>
         /// <returns></returns>
         public static string Get_path_XTween_GUIStyle_Path()

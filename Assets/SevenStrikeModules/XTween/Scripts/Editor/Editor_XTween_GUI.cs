@@ -591,6 +591,17 @@ namespace SevenStrikeModules.XTween.Editor
                 Style.normal.background = null;
             GUI.Box(rect, "", Style);
         }
+        public static void Gui_Box_Style(Rect rect, XTweenGUIFilled FillStyle, Color color)
+        {
+            GUIStyle Style = new GUIStyle(Style_Group);
+            GUI.backgroundColor = color;
+            if (FillStyle != XTweenGUIFilled.无)
+                Style.normal.background = GetFillTexture(FillStyle, XTweenGUIColor.亮白);
+            else
+                Style.normal.background = null;
+            GUI.Box(rect, "", Style);
+            GUI.backgroundColor = Color.white;
+        }
         public static void Gui_Box(Rect rect)
         {
             GUIStyle Style = new GUIStyle(Style_Box);
@@ -762,6 +773,56 @@ namespace SevenStrikeModules.XTween.Editor
             else
                 sw = GUI.Button(Rect, button_text, Style);
             GUI.backgroundColor = Color.white;
+            return sw;
+        }
+        /// <summary>
+        /// 创造一个图标按钮
+        /// </summary>
+        /// <param name="Rect">按钮尺寸</param>
+        /// <returns>返回的布尔值用于判断该按钮是否被按下</returns>
+        public static bool Gui_Button(Rect Rect, string styleName, string button_text = "", string button_tooltip = "", Color button_color = default(Color), Color button_text_color = default(Color))
+        {
+            GUIStyle Style = new GUIStyle(GetStyle(styleName));
+
+            Style.normal.textColor = button_text_color;
+
+            Style.fixedWidth = Rect.width;
+            Style.fixedHeight = Rect.height;
+
+            GUIContent gui = new GUIContent();
+
+
+            GUI.backgroundColor = button_color;
+            bool sw = false;
+
+            sw = GUI.Button(Rect, button_text, Style);
+            GUI.backgroundColor = Color.white;
+            return sw;
+        }
+        /// <summary>
+        /// 创造一个图标按钮
+        /// </summary>
+        /// <param name="Rect">按钮尺寸</param>
+        /// <returns>返回的布尔值用于判断该按钮是否被按下</returns>
+        public static bool Gui_IconButton(Rect Rect, Texture2D tex_release, Texture2D tex_press)
+        {
+            GUIStyle Style = new GUIStyle(Style_Button);
+
+            Style.border = new RectOffset(0, 0, 0, 0);
+            Style.normal.background = tex_release;
+            Style.active.background = tex_press;
+
+            Style.normal.textColor = Color.clear;
+
+            Style.fixedWidth = Rect.width;
+            Style.fixedHeight = Rect.height;
+
+            GUIContent gui = new GUIContent();
+            gui.text = "";
+            gui.tooltip = "";
+
+            bool sw = false;
+            sw = GUI.Button(Rect, "", Style);
             return sw;
         }
         /// <summary>
@@ -3446,10 +3507,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// </summary>
         /// <param name="size"></param>
         /// <param name="window"></param>
-        public static void CenterEditorWindow(Vector2Int size, EditorWindow window)
+        public static void CenterEditorWindow(Vector2Int size, EditorWindow window, bool fixedsize = true)
         {
             window.minSize = size;
-            window.maxSize = window.minSize;
+            if (fixedsize)
+                window.maxSize = window.minSize;
 
             // 获取当前屏幕的分辨率
             int screenWidth = Screen.currentResolution.width;
