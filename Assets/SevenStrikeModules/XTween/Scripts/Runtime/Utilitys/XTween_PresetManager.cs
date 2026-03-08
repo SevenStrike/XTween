@@ -1022,30 +1022,35 @@ namespace SevenStrikeModules.XTween
                     break;
 
                 case XTweenTypes.原生动画_To:
-                    container.Presets.Add(new XTweenPreset_To
+                    for (int i = 0; i < 300; i++)
                     {
-                        Name = "整数渐变",
-                        Description = "整数从0到100的渐变",
-                        Duration = 2f,
-                        Delay = 0.2f,
-                        UseRandomDelay = false,
-                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
-                        EaseMode = EaseMode.Linear,
-                        UseCurve = false,
-                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
-                        LoopCount = 0,
-                        LoopDelay = 0f,
-                        LoopType = XTween_LoopType.Restart,
-                        IsRelative = false,
-                        IsAutoKill = false,
-                        ToType = XTweenTypes_To.整数_Int,
-                        EndValue_Int = 100,
-                        FromValue_Int = 0,
-                        IsExtendedString = false,
-                        TextCursor = "_",
-                        CursorBlinkTime = 0.5f,
-                        UseFromMode = true
-                    });
+                        container.Presets.Add(new XTweenPreset_To
+                        {
+                            Name = "整数渐变 " + i,
+                            Description = "整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变",
+                            Duration = 2f,
+                            Delay = 0.2f,
+                            UseRandomDelay = false,
+                            RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                            EaseMode = (EaseMode)i,
+                            UseCurve = false,
+                            Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                            LoopCount = 0,
+                            LoopDelay = 0f,
+                            LoopType = XTween_LoopType.Restart,
+                            IsRelative = false,
+                            IsAutoKill = false,
+                            ToType = XTweenTypes_To.整数_Int,
+                            EndValue_Int = 100,
+                            FromValue_Int = 0,
+                            IsExtendedString = false,
+                            TextCursor = "_",
+                            CursorBlinkTime = 0.5f,
+                            UseFromMode = true,
+                            IsFavourite = true
+                        });
+                    }
+
                     break;
 
                 case XTweenTypes.路径_Path:

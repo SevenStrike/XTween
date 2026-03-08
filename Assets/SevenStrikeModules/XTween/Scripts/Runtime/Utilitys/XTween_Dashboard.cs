@@ -50,6 +50,7 @@ namespace SevenStrikeModules.XTween
         public bool PreviewOption_AutoKillPreviewTweens;
         public bool PreviewOption_RewindPreviewTweensWithKill;
         public bool PreviewOption_ClearPreviewTweensWithKill;
+        public bool PresetInFavouriteMode;
         public string PresetSelectionMark_LastTypeName;
         public Rect PresetSelectionMark_LastRect;
     }

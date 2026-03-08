@@ -367,6 +367,22 @@ namespace SevenStrikeModules.XTween.Editor
         /// <summary>
         /// 标签框样式
         /// </summary>
+        public static GUIStyle Style_MultiLabelfield
+        {
+            get
+            {
+                if (GUICreator == null)
+                {
+                    Gui_Layout_Initia();
+                }
+
+                GUIStyle gs = new GUIStyle(GUICreator.GetStyle("MultiLabelfield"));
+                return gs;
+            }
+        }
+        /// <summary>
+        /// 标签框样式
+        /// </summary>
         public static GUIStyle Style_Labelfield
         {
             get
@@ -1080,9 +1096,12 @@ namespace SevenStrikeModules.XTween.Editor
         /// </summary>
         /// <param name="Rect">尺寸_Size</param>
         /// <returns>返回String数值</returns>
-        public static string Gui_InputField_String(Rect Rect, string val)
+        public static string Gui_InputField_String(Rect Rect, string val, GUIStyle style = null)
         {
-            return EditorGUI.TextField(Rect, val);
+            if (style != null)
+                return EditorGUI.TextField(Rect, val, style);
+            else
+                return EditorGUI.TextField(Rect, val);
         }
         /// <summary>
         /// 创造一个String输入框
@@ -1147,16 +1166,31 @@ namespace SevenStrikeModules.XTween.Editor
         }
         #endregion
 
-        #region Labelfield
+        #region Labelfield 
         /// <summary>
         /// 创造一个Gui标签框 - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12)
+        public static void Gui_MultiLabelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12)
+        {
+            GUIStyle Style = new GUIStyle(Style_MultiLabelfield);
+            Style.normal.background = GetFillTexture(FillStyle, Color);
+            Style.normal.textColor = TextColor;
+            Style.fontSize = FontSize;
+            Style.alignment = Align;
+            Style.contentOffset = Offset;
+            //Style.lineHeight = 5;
+            GUI.Label(Rect, Text, Style);
+        }
+        /// <summary>
+        /// 创造一个Gui标签框 - 字符串内容
+        /// </summary>
+        /// <param name="Text">输入框标题</param>
+        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12)
         {
             GUIStyle Style = new GUIStyle(Style_LabelfieldBoldText);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.alignment = Align;
             Style.contentOffset = Offset;
@@ -1166,11 +1200,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// 创造一个Gui标签框 - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, TextAnchor Align, int FontSize = 12, Font font = null)
+        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, int FontSize = 12, Font font = null)
         {
             GUIStyle Style = new GUIStyle(Style_LabelfieldBoldText);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.alignment = Align;
             Style.font = font;
@@ -1180,11 +1214,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// 创造一个Gui标签框 - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, TextAnchor Align, int FontSize = 12, bool richText = true, Font font = null)
+        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, int FontSize = 12, bool richText = true, Font font = null)
         {
             GUIStyle Style = new GUIStyle(Style_LabelfieldBoldText);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.alignment = Align;
             Style.font = font;
@@ -1195,11 +1229,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// 创造一个Gui标签框 - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, TextAnchor Align, int FontSize = 12, Font font = null, bool WordWrap = true)
+        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, int FontSize = 12, Font font = null, bool WordWrap = true)
         {
             GUIStyle Style = new GUIStyle(Style_LabelfieldBoldText);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.alignment = Align;
             Style.font = font;
@@ -1210,11 +1244,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// 创造一个Gui标签框 - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, Font font = null)
+        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, Font font = null)
         {
             GUIStyle Style = new GUIStyle(Style_LabelfieldBoldText);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.alignment = Align;
             Style.contentOffset = Offset;
@@ -1225,11 +1259,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// 创造一个Gui标签框 - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, bool DisplayBg, Color BgColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, Font font = null)
+        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, bool DisplayBg, Color BgColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, Font font = null)
         {
             GUIStyle Style = new GUIStyle(Style_LabelfieldBoldText);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.alignment = Align;
             Style.contentOffset = Offset;
@@ -1245,11 +1279,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// 创造一个Gui标签框 - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, TextClipping cliping = TextClipping.Overflow, bool RichText = false)
+        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, TextClipping cliping = TextClipping.Overflow, bool RichText = false)
         {
             GUIStyle Style = new GUIStyle(Style_LabelfieldBoldText);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.alignment = Align;
             Style.contentOffset = Offset;
@@ -1260,11 +1294,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// 创造一个Gui标签框 - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool ClipText = false, TextClipping ClipMode = TextClipping.Clip, bool RichText = false, Font font = null)
+        public static void Gui_Labelfield(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool ClipText = false, TextClipping ClipMode = TextClipping.Clip, bool RichText = false, Font font = null)
         {
             GUIStyle Style = new GUIStyle(Style_LabelfieldBoldText);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.alignment = Align;
             Style.contentOffset = Offset;
@@ -1283,11 +1317,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// 创造一个Gui标签框 - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield_WrapText(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool WrapText = false, bool ClipText = false, TextClipping ClipMode = TextClipping.Clip, bool RichText = false, Font font = null)
+        public static void Gui_Labelfield_WrapText(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool WrapText = false, bool ClipText = false, TextClipping ClipMode = TextClipping.Clip, bool RichText = false, Font font = null)
         {
             GUIStyle Style = new GUIStyle(Style_LabelfieldBoldText);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.alignment = Align;
             Style.contentOffset = Offset;
@@ -1307,11 +1341,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// 创造一个Gui标签框（细字体） - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield_Thin_WrapClip(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool RichText = false, Font font = null)
+        public static void Gui_Labelfield_Thin_WrapClip(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool RichText = false, Font font = null)
         {
             GUIStyle Style = new GUIStyle(Style_Labelfield);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.font = font;
             Style.alignment = Align;
@@ -1325,11 +1359,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// 创造一个Gui标签框（细字体） - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield_Thin(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool WrapWord = false, bool ContentClip = false, bool RichText = false)
+        public static void Gui_Labelfield_Thin(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool WrapWord = false, bool ContentClip = false, bool RichText = false)
         {
             GUIStyle Style = new GUIStyle(Style_Labelfield);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.alignment = Align;
             Style.contentOffset = Offset;
@@ -1343,11 +1377,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// 创造一个Gui标签框（细字体） - 字符串内容
         /// </summary>
         /// <param name="Text">输入框标题</param>
-        public static void Gui_Labelfield_Thin_WithClipping(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool WrapWord = false, bool ContentClip = false, bool RichText = false, TextClipping textClipping = TextClipping.Clip)
+        public static void Gui_Labelfield_Thin_WithClipping(Rect Rect, string Text, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color TextColor, TextAnchor Align, Vector2 Offset, int FontSize = 12, bool WrapWord = false, bool ContentClip = false, bool RichText = false, TextClipping textClipping = TextClipping.Clip)
         {
             GUIStyle Style = new GUIStyle(Style_Labelfield);
             Style.normal.background = GetFillTexture(FillStyle, Color);
-            Style.normal.textColor = ButtonTextColor;
+            Style.normal.textColor = TextColor;
             Style.fontSize = FontSize;
             Style.alignment = Align;
             Style.contentOffset = Offset;
