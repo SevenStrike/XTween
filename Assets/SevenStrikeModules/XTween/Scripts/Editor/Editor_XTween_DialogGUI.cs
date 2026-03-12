@@ -223,11 +223,11 @@ namespace SevenStrikeModules.XTween.Editor
         /// <summary>
         /// 按钮文本 - 预设名称
         /// </summary>
-        public string Text_PresetName = "Preset - Name";
+        public string Text_PresetName = "Name";
         /// <summary>
         /// 按钮文本 - 预设解释
         /// </summary>
-        public string Text_PresetDescription = "Preset - Description";
+        public string Text_PresetDescription = "Description";
 
         /// <summary>
         /// 图片

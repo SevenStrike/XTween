@@ -23,7 +23,6 @@ namespace SevenStrikeModules.XTween
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using UnityEditor;
     using UnityEngine;
 
@@ -2473,7 +2472,7 @@ namespace SevenStrikeModules.XTween
         public static void preset_Container_Save_Replace(XTweenTypes type, List<XTweenPresetBase> presetsData)
         {
 #if UNITY_EDITOR
-            if (presetsData == null || presetsData.Count <= 0)
+            if (presetsData == null)
                 return;
 
             var container = new XTweenPresetContainer
@@ -2725,13 +2724,18 @@ namespace SevenStrikeModules.XTween
         /// <returns></returns>
         public static void preset_Container_DeletePreset(XTweenTypes type, string name)
         {
-            // 删除匹配项预设
+            // 加载容器
             XTweenPresetContainer container = preset_Container_Load(type);
-            var preset = container.Presets.FirstOrDefault(p => p.Name == name);
-            if (preset != null)
+
+            // 从后往前遍历，避免索引问题
+            for (int i = container.Presets.Count - 1; i >= 0; i--)
             {
-                container.Presets.Remove(preset);
+                if (container.Presets[i].Name == name)
+                {
+                    container.Presets.RemoveAt(i);
+                }
             }
+
             // 重新覆盖保存
             preset_Container_Save_Replace(type, container.Presets);
         }
@@ -3640,7 +3644,7 @@ namespace SevenStrikeModules.XTween
             T preset = new T();
 
             // 设置基本属性
-            preset.Name = presetName;
+            preset.Name = presetName.Trim();
             preset.Description = description;
 
             // 从控制器复制基础参数

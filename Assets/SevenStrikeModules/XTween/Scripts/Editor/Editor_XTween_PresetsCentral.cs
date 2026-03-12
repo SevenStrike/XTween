@@ -27,6 +27,7 @@ namespace SevenStrikeModules.XTween.Editor
     using UnityEditor.PackageManager.UI;
     using UnityEditor.Presets;
     using UnityEngine;
+    using UnityEngine.UI;
     using UnityEngine.UIElements;
     using static Codice.Client.BaseCommands.Import.Commit;
     using static Codice.Client.Common.Connection.AskCredentialsToUser;
@@ -751,9 +752,16 @@ namespace SevenStrikeModules.XTween.Editor
                     else
                         rect_title = new Rect(itemRect.x + dis, itemRect.y + 5, itemRect.width / 2, 25);
 
+#if UNITY_6000_0_OR_NEWER
+                // Unity 6+ 使用 Ellipsis
+                TextClipping clipping = TextClipping.Ellipsis;
+#else
+            // Unity 2021.1 之前使用 Clip
+            TextClipping clipping = TextClipping.Clip;
+#endif
 
                 Editor_XTween_GUI.Gui_Labelfield(rect_title, pret.preset.Name, XTweenGUIFilled.无, XTweenGUIColor.无,
-                    Color.white, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Bold);
+                    Color.white, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Bold);
 
                 // 绘制解释
                 Rect rect_des = new Rect(itemRect.x + dis, itemRect.y + itemRect.height - 25 - 3, 300, 25);
@@ -766,7 +774,7 @@ namespace SevenStrikeModules.XTween.Editor
                         rect_des = new Rect(itemRect.x + dis, itemRect.y + itemRect.height - 25 - 3, itemRect.width / 1.8f, 25);
 
                 Editor_XTween_GUI.Gui_Labelfield(rect_des, pret.preset.Description, XTweenGUIFilled.无, XTweenGUIColor.无,
-                    Color.white * 0.75f, TextAnchor.MiddleLeft, Vector2.zero, 12, true, TextClipping.Ellipsis, false, Font_Light);
+                    Color.white * 0.75f, TextAnchor.MiddleLeft, Vector2.zero, 12, true, clipping, false, Font_Light);
 
                 float offset = 20;
 
@@ -861,14 +869,22 @@ namespace SevenStrikeModules.XTween.Editor
                 return;
             }
 
+#if UNITY_6000_0_OR_NEWER
+            // Unity 6+ 使用 Ellipsis
+            TextClipping clipping = TextClipping.Ellipsis;
+#else
+            // Unity 2021.1 之前使用 Clip
+            TextClipping clipping = TextClipping.Clip;
+#endif
+
             rect_info.Set(rect.x + startoff, rect.y + 18, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, SelectedPresetItem.preset.Name, XTweenGUIFilled.无, XTweenGUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 16, true, TextClipping.Ellipsis, false, Font_Bold);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, SelectedPresetItem.preset.Name, XTweenGUIFilled.无, XTweenGUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 16, true, clipping, false, Font_Bold);
 
             rect_info.Set(rect.x + startoff, rect.y + 53, 185, 80);
             Editor_XTween_GUI.Gui_MultiLabelfield(rect_info, SelectedPresetItem.preset.Description, XTweenGUIFilled.无, XTweenGUIColor.无, Color.white * 0.65f, TextAnchor.UpperLeft, Vector2.zero, 13);
 
             rect_info.Set(rect.x + startoff, rect.y + 145, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, "参数概览", XTweenGUIFilled.无, XTweenGUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 16, true, TextClipping.Ellipsis, false, Font_Bold);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, "参数概览", XTweenGUIFilled.无, XTweenGUIColor.无, Color.white, TextAnchor.MiddleLeft, Vector2.zero, 16, true, clipping, false, Font_Bold);
 
             // 预设分类图标
             rect_info.Set(rect.x + ((rect.width - tweentypes_size) - 25), rect.y + 150, tweentypes_size * 0.65f, tweentypes_size * 0.65f);
@@ -882,44 +898,44 @@ namespace SevenStrikeModules.XTween.Editor
             Color color = Color.white * 0.8f;
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"耗时：{SelectedPresetItem.preset.Duration} s", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"耗时：{SelectedPresetItem.preset.Duration} s", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 2, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"延迟：{SelectedPresetItem.preset.Delay} s", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"延迟：{SelectedPresetItem.preset.Delay} s", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 3, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"随机延迟：{SelectedPresetItem.preset.UseRandomDelay}  |  {SelectedPresetItem.preset.RandomDelay.Min} s - {SelectedPresetItem.preset.RandomDelay.Max} s", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"随机延迟：{SelectedPresetItem.preset.UseRandomDelay}  |  {SelectedPresetItem.preset.RandomDelay.Min} s - {SelectedPresetItem.preset.RandomDelay.Max} s", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 4, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"循环数：{SelectedPresetItem.preset.LoopCount} 次", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"循环数：{SelectedPresetItem.preset.LoopCount} 次", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 5, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"循环方式：{SelectedPresetItem.preset.LoopType}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"循环方式：{SelectedPresetItem.preset.LoopType}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 6, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"循环延迟：{SelectedPresetItem.preset.LoopDelay}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"循环延迟：{SelectedPresetItem.preset.LoopDelay}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 7, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"相对模式：{(SelectedPresetItem.preset.IsRelative ? "是" : "否")}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"相对模式：{(SelectedPresetItem.preset.IsRelative ? "是" : "否")}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 8, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"自动杀死：{(SelectedPresetItem.preset.IsAutoKill ? "是" : "否")}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"自动杀死：{(SelectedPresetItem.preset.IsAutoKill ? "是" : "否")}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 9, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"缓动方式：{SelectedPresetItem.preset.EaseMode}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"缓动方式：{SelectedPresetItem.preset.EaseMode}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 10, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"使用曲线：{(SelectedPresetItem.preset.UseCurve ? "是" : "否")}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"使用曲线：{(SelectedPresetItem.preset.UseCurve ? "是" : "否")}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 11, 40, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, "曲线：", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, "曲线：", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
             GUI.enabled = false;
             rect_info.Set(rect.x + startoff + 40 + 5, rect.y + start + offset * 11 + 6, 140, 15);
             Editor_XTween_GUI.Gui_CurveField(rect_info, SelectedPresetItem.preset.Curve);
             GUI.enabled = true;
 
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 12, 185, 30);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"使用起始：{(SelectedPresetItem.preset.UseFromMode ? "是" : "否")}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"使用起始：{(SelectedPresetItem.preset.UseFromMode ? "是" : "否")}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
             if (SelectedPresetItem.preset is XTweenPreset_To to)
             {
@@ -927,56 +943,56 @@ namespace SevenStrikeModules.XTween.Editor
                 {
                     case XTweenTypes_To.整数_Int:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_Int}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_Int}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (to.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_Int}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_Int}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_To.浮点数_Float:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (to.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_To.字符串_String:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (to.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_To.二维向量_Vector2:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_Vector2}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_Vector2}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (to.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_Vector2}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_Vector2}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_To.三维向量_Vector3:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (to.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_To.四维向量_Vector4:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_Vector4}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{to.EndValue_Vector4}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (to.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_Vector4}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{to.FromValue_Vector4}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_To.颜色_Color:
@@ -993,7 +1009,7 @@ namespace SevenStrikeModules.XTween.Editor
             if (SelectedPresetItem.preset is XTweenPreset_Path path)
             {
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"路径名称：{path.PathName}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"路径名称：{path.PathName}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
             }
             if (SelectedPresetItem.preset is XTweenPreset_Position pos)
             {
@@ -1001,20 +1017,20 @@ namespace SevenStrikeModules.XTween.Editor
                 {
                     case XTweenTypes_Positions.锚点位置_AnchoredPosition:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{pos.EndValue_Vector2}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{pos.EndValue_Vector2}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (pos.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{pos.FromValue_Vector2}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{pos.FromValue_Vector2}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_Positions.锚点位置3D_AnchoredPosition3D:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{pos.EndValue_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{pos.EndValue_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (pos.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{pos.FromValue_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{pos.FromValue_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                 }
@@ -1022,35 +1038,35 @@ namespace SevenStrikeModules.XTween.Editor
             if (SelectedPresetItem.preset is XTweenPreset_Rotation rot)
             {
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"旋转类型：{rot.RotationType}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"旋转类型：{rot.RotationType}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"旋转方式：{rot.RotationMode}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"旋转方式：{rot.RotationMode}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 15, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"坐标空间：{rot.RotationSpace}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"坐标空间：{rot.RotationSpace}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 16, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"平滑模式：{rot.RotateLerpMode}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"平滑模式：{rot.RotateLerpMode}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
                 switch (rot.RotationType)
                 {
                     case XTweenTypes_Rotations.欧拉角度_Euler:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 17, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{rot.EndValue_Euler}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{rot.EndValue_Euler}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (rot.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 18, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{rot.FromValue_Euler}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{rot.FromValue_Euler}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_Rotations.四元数_Quaternion:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 17, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{rot.EndValue_Quaternion}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{rot.EndValue_Quaternion}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (rot.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 18, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{rot.FromValue_Quaternion}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{rot.FromValue_Quaternion}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                 }
@@ -1058,41 +1074,41 @@ namespace SevenStrikeModules.XTween.Editor
             if (SelectedPresetItem.preset is XTweenPreset_Scale scale)
             {
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{scale.EndValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{scale.EndValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                 if (scale.UseFromMode)
                 {
                     rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                    Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{scale.FromValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                    Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{scale.FromValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                 }
             }
             if (SelectedPresetItem.preset is XTweenPreset_Fill fill)
             {
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{fill.EndValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{fill.EndValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                 if (fill.UseFromMode)
                 {
                     rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                    Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{fill.FromValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                    Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{fill.FromValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                 }
             }
             if (SelectedPresetItem.preset is XTweenPreset_Size size)
             {
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{size.EndValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{size.EndValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                 if (size.UseFromMode)
                 {
                     rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                    Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{size.FromValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                    Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{size.FromValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                 }
             }
             if (SelectedPresetItem.preset is XTweenPreset_Tiled tiled)
             {
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tiled.EndValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tiled.EndValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                 if (tiled.UseFromMode)
                 {
                     rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                    Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tiled.FromValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                    Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tiled.FromValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                 }
             }
             if (SelectedPresetItem.preset is XTweenPreset_Text text)
@@ -1101,38 +1117,38 @@ namespace SevenStrikeModules.XTween.Editor
                 {
                     case XTweenTypes_Text.文字尺寸_FontSize:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{text.EndValue_Int}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{text.EndValue_Int}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (text.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{text.FromValue_Int}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{text.FromValue_Int}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_Text.文字行高_LineHeight:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{text.EndValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{text.EndValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (text.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{text.FromValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{text.FromValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_Text.文字颜色_Color:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{text.EndValue_Color}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{text.EndValue_Color}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (text.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{text.FromValue_Color}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{text.FromValue_Color}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_Text.文字内容_Content:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{text.EndValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{text.EndValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (text.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{text.FromValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{text.FromValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                 }
@@ -1144,47 +1160,47 @@ namespace SevenStrikeModules.XTween.Editor
                 {
                     case XTweenTypes_TmpText.文字尺寸_FontSize:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tmp.EndValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tmp.EndValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (tmp.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tmp.FromValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tmp.FromValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_TmpText.文字行高_LineHeight:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tmp.EndValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tmp.EndValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (tmp.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tmp.FromValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tmp.FromValue_Float}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_TmpText.文字颜色_Color:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tmp.EndValue_Color}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tmp.EndValue_Color}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (tmp.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tmp.FromValue_Color}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tmp.FromValue_Color}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_TmpText.文字内容_Content:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tmp.EndValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tmp.EndValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (tmp.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tmp.FromValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tmp.FromValue_String}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                     case XTweenTypes_TmpText.文字边距_Margin:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tmp.EndValue_Vector4}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{tmp.EndValue_Vector4}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         if (tmp.UseFromMode)
                         {
                             rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tmp.FromValue_Vector4}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{tmp.FromValue_Vector4}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         }
                         break;
                 }
@@ -1193,40 +1209,40 @@ namespace SevenStrikeModules.XTween.Editor
             if (SelectedPresetItem.preset is XTweenPreset_Alpha alp)
             {
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{alp.EndValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{alp.EndValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                 if (alp.UseFromMode)
                 {
                     rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                    Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{alp.FromValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                    Editor_XTween_GUI.Gui_Labelfield(rect_info, $"起始值：{alp.FromValue}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                 }
             }
             if (SelectedPresetItem.preset is XTweenPreset_Shake shake)
             {
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 13, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"震动幅度：{shake.Vibrato}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"震动幅度：{shake.Vibrato}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 14, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"随机化：{shake.Randomness}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"随机化：{shake.Randomness}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
 
                 rect_info.Set(rect.x + startoff, rect.y + start + offset * 15, 185, 30);
-                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"过渡震动：{shake.FadeShake}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                Editor_XTween_GUI.Gui_Labelfield(rect_info, $"过渡震动：{shake.FadeShake}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                 switch (shake.ShakeType)
                 {
                     case XTweenTypes_Shakes.位置_Position:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 16, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{shake.Strength_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{shake.Strength_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         break;
                     case XTweenTypes_Shakes.尺寸_Size:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 16, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{shake.Strength_Vector2}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{shake.Strength_Vector2}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         break;
                     case XTweenTypes_Shakes.旋转_Rotation:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 16, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{shake.Strength_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{shake.Strength_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         break;
                     case XTweenTypes_Shakes.缩放_Scale:
                         rect_info.Set(rect.x + startoff, rect.y + start + offset * 16, 185, 30);
-                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{shake.Strength_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+                        Editor_XTween_GUI.Gui_Labelfield(rect_info, $"目标值：{shake.Strength_Vector3}", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
                         break;
                 }
             }
@@ -1259,7 +1275,7 @@ namespace SevenStrikeModules.XTween.Editor
             GUI.backgroundColor = Color.white;
 
             rect_info.Set(rect.x + startoff + 30, rect.y + start + offset * 17 + (rotmode ? 75 : 0) + 8, 120, 18);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"{SelectedPresetItem.preset.EaseMode}", XTweenGUIFilled.无, XTweenGUIColor.无, Color.white * 0.75f, TextAnchor.MiddleLeft, Vector2.zero, 10, true, TextClipping.Ellipsis, false, Font_Bold);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, $"{SelectedPresetItem.preset.EaseMode}", XTweenGUIFilled.无, XTweenGUIColor.无, Color.white * 0.75f, TextAnchor.MiddleLeft, Vector2.zero, 10, true, clipping, false, Font_Bold);
             #endregion
 
             float int_dis = 10;
@@ -1318,8 +1334,16 @@ namespace SevenStrikeModules.XTween.Editor
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 4, 218, 18);
             pre.RandomDelay.Max = Editor_XTween_GUI.Gui_InputField_Float(rect_info, "最大延迟", 60, pre.RandomDelay.Max);
 
+#if UNITY_6000_0_OR_NEWER
+            // Unity 6+ 使用 Ellipsis
+            TextClipping clipping = TextClipping.Ellipsis;
+#else
+            // Unity 2021.1 之前使用 Clip
+            TextClipping clipping = TextClipping.Clip;
+#endif
+
             rect_info.Set(rect.x + startoff, rect.y + start + offset * 5.1f, 218, 18);
-            Editor_XTween_GUI.Gui_Labelfield(rect_info, "曲线：", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, TextClipping.Ellipsis, false, Font_Light);
+            Editor_XTween_GUI.Gui_Labelfield(rect_info, "曲线：", XTweenGUIFilled.无, XTweenGUIColor.无, color, TextAnchor.MiddleLeft, Vector2.zero, 13, true, clipping, false, Font_Light);
             rect_info.Set(rect.x + startoff + 40, rect.y + start + offset * 5.1f - 2, 218 - 40, 18);
             Editor_XTween_GUI.Gui_CurveField(rect_info, SelectedPresetItem.preset.Curve);
 
@@ -2390,8 +2414,23 @@ namespace SevenStrikeModules.XTween.Editor
                         // 从列表中移除项
                         loadedpresets.Remove(pret);
 
+                        //Debug.Log(pre_type + "/" + pre_name);
+
                         // 从json中移除
                         XTween_PresetManager.preset_Container_DeletePreset(pre_type, pre_name);
+
+                        // ✅ 重新加载当前类型的预设列表
+                        if (!isFavouriteMode)
+                        {
+                            XTweenPresetContainer container = XTween_PresetManager.preset_Container_Load(pre_type);
+                            PresetsAppendToList(container);
+                        }
+                        else
+                        {
+                            // 如果是星标模式，重新加载所有星标预设
+                            OpenFavouritePresets();
+                        }
+
 
                         if (SelectedPresetItem == pret)
                             SelectedPresetItem = null;
