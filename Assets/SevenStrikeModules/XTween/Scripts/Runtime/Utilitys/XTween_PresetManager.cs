@@ -989,6 +989,10 @@ namespace SevenStrikeModules.XTween
         /// 设置为true时会在控制台输出详细的调试信息
         /// </summary>
         public static bool EnableDebugLogs = false;
+        /// <summary>
+        /// 预创建默认的预设
+        /// </summary>
+        public static bool DefaultPresetsCreate = false;
 
         #region JsonFile
         /// <summary>
@@ -1256,7 +1260,8 @@ namespace SevenStrikeModules.XTween
 
             #region 默认预设
             // 根据类型创建对应的预设数据
-            //CreateDefaultPresets(type, container);
+            if (DefaultPresetsCreate)
+                CreateDefaultPresets(type, container);
             #endregion
 
             // 将容器序列化为格式化的JSON字符串

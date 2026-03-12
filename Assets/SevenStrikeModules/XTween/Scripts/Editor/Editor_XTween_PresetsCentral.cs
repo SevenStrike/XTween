@@ -164,7 +164,7 @@ namespace SevenStrikeModules.XTween.Editor
                     m_PresetSearchString = value;
                     SearchPreset(m_PresetSearchString);
 
-                    ClearFocus();
+                    //ClearFocus();
                     SetEditorMode(false);
                 }
             }
@@ -1744,12 +1744,19 @@ namespace SevenStrikeModules.XTween.Editor
                         PresetsAppendToList(con);
 
                         //Debug.Log("已修改：" + SelectedPresetItem.type + "    ----------->>>    " + SelectedPresetItem.preset.Name);
+                        // 刷新选择中的预设以返回显示参数模式时的正确参数
+                        SelectedPresetItem = new PresetItemGUIStruct()
+                        {
+                            isPressing = false,
+                            preset = pre.Clone(),
+                            type = SelectedPresetItemForEditor.type
+                        };
 
                         // 清空修改状态
                         SelectedPresetItemForEditor = null;
                         SetEditorMode(false);
-                    };
 
+                    };
                 };
                 #endregion
             }
