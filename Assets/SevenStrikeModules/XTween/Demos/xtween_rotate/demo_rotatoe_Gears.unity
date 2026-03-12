@@ -851,14 +851,14 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  HudRotateMode: 1
+  RotateMode: 1
   RotationMode: 3
   Vibrato: 0
   Randomness: 0
   FadeShake: 0
   AutoStart: 1
   IsPaused: 0
-  AnimateSpace: 1
+  RotationSpace: 1
   EndValue_Int: 0
   EndValue_Float: 0
   EndValue_String: 
@@ -6409,14 +6409,14 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  HudRotateMode: 1
+  RotateMode: 1
   RotationMode: 0
   Vibrato: 0
   Randomness: 0
   FadeShake: 0
   AutoStart: 1
   IsPaused: 0
-  AnimateSpace: 1
+  RotationSpace: 1
   EndValue_Int: 0
   EndValue_Float: 0
   EndValue_String: 
@@ -6895,14 +6895,14 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  HudRotateMode: 1
+  RotateMode: 1
   RotationMode: 0
   Vibrato: 0
   Randomness: 0
   FadeShake: 0
   AutoStart: 1
   IsPaused: 0
-  AnimateSpace: 0
+  RotationSpace: 0
   EndValue_Int: 0
   EndValue_Float: 0
   EndValue_String: 
@@ -6979,7 +6979,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572438296}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12284,14 +12284,14 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  HudRotateMode: 1
+  RotateMode: 1
   RotationMode: 3
   Vibrato: 0
   Randomness: 0
   FadeShake: 0
   AutoStart: 1
   IsPaused: 0
-  AnimateSpace: 0
+  RotationSpace: 1
   EndValue_Int: 0
   EndValue_Float: 0
   EndValue_String: 
@@ -12646,14 +12646,14 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  HudRotateMode: 1
+  RotateMode: 1
   RotationMode: 0
   Vibrato: 0
   Randomness: 0
   FadeShake: 0
   AutoStart: 1
   IsPaused: 0
-  AnimateSpace: 1
+  RotationSpace: 1
   EndValue_Int: 0
   EndValue_Float: 0
   EndValue_String: 

@@ -67,7 +67,7 @@ namespace SevenStrikeModules.XTween
     /// <summary>
     /// 动画坐标空间
     /// </summary>
-    public enum XTweenSpace
+    public enum XTweenRotationSpace
     {
         /// <summary>
         /// 本地坐标空间

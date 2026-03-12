@@ -41,7 +41,7 @@ public class demo_rotator_relative_angle : MonoBehaviour
     public XTween_LoopType loopType;
     public EaseMode ease;
     public XTweenRotationMode rotationMode;
-    public XTweenSpace space;
+    public XTweenRotationSpace space;
     public XTween_Interface tweener_arrow;
     public XTween_Interface tweener_different;
 

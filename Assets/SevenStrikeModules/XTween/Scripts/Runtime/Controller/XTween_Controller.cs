@@ -41,6 +41,12 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         public float Max;
 
+        public RandomDelay(float x, float y) : this()
+        {
+            this.Min = x;
+            this.Max = y;
+        }
+
         /// <summary>
         /// 设置随机值
         /// </summary>
@@ -205,6 +211,15 @@ namespace SevenStrikeModules.XTween
         /// 动作 - 动画进度
         /// </summary>
         public Action<Color, float> act_onProgress_color;
+
+        /// <summary>
+        /// 动作 - 预设保存后
+        /// </summary>
+        public Action act_onPreset_saved;
+        /// <summary>
+        /// 动作 - 预设读取后
+        /// </summary>
+        public Action act_onPreset_loaded;
         #endregion
 
         #region 动画参数
@@ -275,7 +290,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 四元数过渡方式
         /// </summary>
-        [SerializeField] public XTweenRotateLerpType RotateMode = XTweenRotateLerpType.SlerpUnclamped;
+        [SerializeField] public XTweenRotateLerpType RotateLerpMode = XTweenRotateLerpType.SlerpUnclamped;
         /// <summary>
         /// 欧拉角度旋转方式
         /// </summary>
@@ -303,7 +318,11 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// Tween动画坐标空间
         /// </summary>
-        [SerializeField] public XTweenSpace AnimateSpace = XTweenSpace.绝对;
+        [SerializeField] public XTweenRotationSpace RotationSpace = XTweenRotationSpace.绝对;
+        /// <summary>
+        /// Tween缓动预览图
+        /// </summary>
+        [SerializeField] public Texture2D EaseGraph;
         #endregion
 
         #region 动画目标值（End）

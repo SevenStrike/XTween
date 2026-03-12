@@ -62,7 +62,7 @@ public class demo_rotator_plumb : demo_base
         {
             currentTweener.Kill();
             // 最后一下归零，此动画需要播完直接杀死
-            rect_target.xt_Rotate_To(Vector3.zero, duration, false, true, XTweenSpace.相对, XTweenRotationMode.Shortest).SetEase(easeMode).Play();
+            rect_target.xt_Rotate_To(Vector3.zero, duration, false, true, XTweenRotationSpace.相对, XTweenRotationMode.Shortest).SetEase(easeMode).Play();
             Debug.Log("摆荡结束");
             return;
         }
@@ -90,7 +90,7 @@ public class demo_rotator_plumb : demo_base
             duration,
             isRelative,
             isAutoKill,
-            XTweenSpace.相对,
+            XTweenRotationSpace.相对,
             RotationMode,
             easeMode,
             true,

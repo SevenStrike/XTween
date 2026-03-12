@@ -27,32 +27,111 @@ namespace SevenStrikeModules.XTween
 #endif
     using UnityEngine;
 
+    /// <summary>
+    /// XTween配置数据类
+    /// </summary>
     public class TweenConfigData
     {
+        /// <summary>
+        /// 主题色
+        /// </summary>
         public string Theme_Primary;
+        /// <summary>
+        /// 群组色
+        /// </summary>
         public string Theme_Group;
+        /// <summary>
+        /// 分割线颜色
+        /// </summary>
         public string Theme_SeperateLine;
+        /// <summary>
+        /// 液晶显示扫描线风格
+        /// </summary>
         public bool LiquidScanStyle;
+        /// <summary>
+        /// 液晶显示肮脏效果
+        /// </summary>
         public bool LiquidDirty;
+        /// <summary>
+        /// 液晶显示闪烁特效
+        /// </summary>
         public int LiquidBlinker;
+        /// <summary>
+        /// 液晶颜色 - 播放动画
+        /// </summary>
         public string LiquidColor_Playing;
+        /// <summary>
+        /// 液晶颜色 - 待命中
+        /// </summary>
         public string LiquidColor_Idle;
+        /// <summary>
+        /// 动画池 - Int
+        /// </summary>
         public int PoolCount_Int;
+        /// <summary>
+        /// 动画池 - Float
+        /// </summary>
         public int PoolCount_Float;
+        /// <summary>
+        /// 动画池 - String
+        /// </summary>
         public int PoolCount_String;
+        /// <summary>
+        /// 动画池 - Vector2
+        /// </summary>
         public int PoolCount_Vector2;
+        /// <summary>
+        /// 动画池 - Vector3
+        /// </summary>
         public int PoolCount_Vector3;
+        /// <summary>
+        /// 动画池 - Vector4
+        /// </summary>
         public int PoolCount_Vector4;
+        /// <summary>
+        /// 动画池 - Quaternion
+        /// </summary>
         public int PoolCount_Quaternion;
+        /// <summary>
+        /// 动画池 - Color
+        /// </summary>
         public int PoolCount_Color;
+        /// <summary>
+        /// 动画池 - 场景卸载时回收所有
+        /// </summary>
         public bool PoolRecyleAllOnSceneUnloaded;
+        /// <summary>
+        /// 动画池 - 场景加载时回收所有
+        /// </summary>
         public bool PoolRecyleAllOnSceneLoaded;
+        /// <summary>
+        /// 预览选项 - 自动杀死预览
+        /// </summary>
         public bool PreviewOption_AutoKillPreviewTweens;
+        /// <summary>
+        /// 预览选项 - 杀死后自动倒退
+        /// </summary>
         public bool PreviewOption_RewindPreviewTweensWithKill;
+        /// <summary>
+        /// 预览选项 - 杀死后清除预览
+        /// </summary>
         public bool PreviewOption_ClearPreviewTweensWithKill;
+        /// <summary>
+        /// 预设模式：星标模式
+        /// </summary>
         public bool PresetInFavouriteMode;
+        /// <summary>
+        /// 最后选择的预设类型
+        /// </summary>
         public string PresetSelectionMark_LastTypeName;
+        /// <summary>
+        /// 预设类型光标的最后一次坐标
+        /// </summary>
         public Rect PresetSelectionMark_LastRect;
+        /// <summary>
+        /// 预设中心窗口尺寸
+        /// </summary>
+        public Vector2 PresetCentralWindowSize;
     }
 
     public static class XTween_Dashboard
@@ -96,6 +175,7 @@ namespace SevenStrikeModules.XTween
         public static string path_XTween_ROOT = "Assets/SevenStrikeModules/XTween/";
         public static string path_XTween_MATERIAL = "Assets/SevenStrikeModules/XTween/Materials/";
         public static string path_XTween_CONFIG = "Assets/SevenStrikeModules/XTween/Resources/Config/";
+        public static string path_XTween_PRESETS = "Assets/SevenStrikeModules/XTween/Resources/Presets/";
         public static string path_XTween_PREFABS = "Assets/SevenStrikeModules/XTween/Prefabs/";
         public static string path_XTween_SHADERS = "Assets/SevenStrikeModules/XTween/Shaders/";
         public static string path_XTween_SOUND = "Assets/SevenStrikeModules/XTween/Sound/";
@@ -138,6 +218,14 @@ namespace SevenStrikeModules.XTween
             return path_XTween_CONFIG;
         }
         /// <summary>
+        /// 获取 XTween 预设路径，根目录：SevenStrikeModules/XTween/Resources/Presets/
+        /// </summary>
+        /// <returns></returns>
+        public static string Get_path_XTween_Presets_Path()
+        {
+            return path_XTween_PRESETS;
+        }
+        /// <summary>
         /// 获取 XTween 材质路径，根目录：SevenStrikeModules/XTween/Materials/
         /// </summary>
         /// <returns></returns>
@@ -149,7 +237,7 @@ namespace SevenStrikeModules.XTween
         /// 获取 XTween 预制体路径，根目录：SevenStrikeModules/XTween/Prefabs/
         /// </summary>
         /// <returns></returns>
-        public static string Get_path_XTween_PREFABS_Path()
+        public static string Get_path_XTween_Prefabs_Path()
         {
             return path_XTween_PREFABS;
         }
@@ -157,7 +245,7 @@ namespace SevenStrikeModules.XTween
         /// 获取 XTween 着色器路径，根目录：SevenStrikeModules/XTween/Shaders/
         /// </summary>
         /// <returns></returns>
-        public static string Get_path_XTween_SHADERS_Path()
+        public static string Get_path_XTween_Shaders_Path()
         {
             return path_XTween_SHADERS;
         }
@@ -165,7 +253,7 @@ namespace SevenStrikeModules.XTween
         /// 获取 XTween 声音路径，根目录：SevenStrikeModules/XTween/Sound/
         /// </summary>
         /// <returns></returns>
-        public static string Get_path_XTween_SOUND_Path()
+        public static string Get_path_XTween_Sound_Path()
         {
             return path_XTween_SOUND;
         }
@@ -173,7 +261,7 @@ namespace SevenStrikeModules.XTween
         /// 获取 XTween 精灵路径，根目录：SevenStrikeModules/XTween/Sprites/
         /// </summary>
         /// <returns></returns>
-        public static string Get_path_XTween_SPRITES_Path()
+        public static string Get_path_XTween_Sprites_Path()
         {
             return path_XTween_SPRITES;
         }
@@ -181,7 +269,7 @@ namespace SevenStrikeModules.XTween
         /// 获取 XTween 贴图路径，根目录：SevenStrikeModules/XTween/Textures/
         /// </summary>
         /// <returns></returns>
-        public static string Get_path_XTween_TEXTURES_Path()
+        public static string Get_path_XTween_Textures_Path()
         {
             return path_XTween_TEXTURES;
         }
@@ -189,7 +277,7 @@ namespace SevenStrikeModules.XTween
         /// 获取 XTween 字体路径，根目录：SevenStrikeModules/XTween/Fonts/
         /// </summary>
         /// <returns></returns>
-        public static string Get_path_XTween_FONTS_Path()
+        public static string Get_path_XTween_Fonts_Path()
         {
             return path_XTween_FONTS;
         }
@@ -197,7 +285,7 @@ namespace SevenStrikeModules.XTween
         /// 获取 XTween 脚本路径，根目录：SevenStrikeModules/XTween/Scripts/
         /// </summary>
         /// <returns></returns>
-        public static string Get_path_XTween_SCRIPTS_Path()
+        public static string Get_path_XTween_Scripts_Path()
         {
             return path_XTween_SCRIPTS;
         }

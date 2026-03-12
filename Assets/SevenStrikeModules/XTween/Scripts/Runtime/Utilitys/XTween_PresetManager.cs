@@ -23,6 +23,8 @@ namespace SevenStrikeModules.XTween
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using UnityEditor;
     using UnityEngine;
 
     #region 预设类
@@ -104,6 +106,12 @@ namespace SevenStrikeModules.XTween
         /// </summary>
         [SerializeField] public bool IsAutoKill = false;
         /// <summary>
+        /// 是否使用指定的起始值
+        /// true: 从FromValue开始动画
+        /// false: 从当前值开始动画
+        /// </summary>
+        [SerializeField] public bool UseFromMode = false;
+        /// <summary>
         /// 标记为喜爱的预设
         /// </summary>
         [SerializeField] public bool IsFavourite = false;
@@ -122,6 +130,65 @@ namespace SevenStrikeModules.XTween
         public void Set_Preset_Description(string des)
         {
             this.Description = des;
+        }
+
+        /// <summary>
+        /// 脱离引用克隆 - 虚方法支持派生类重写
+        /// </summary>
+        public virtual XTweenPresetBase Clone()
+        {
+            XTweenPresetBase clone = new XTweenPresetBase();
+            CopyBaseFields(clone);
+            return clone;
+        }
+
+        /// <summary>
+        /// 复制基类字段到目标对象
+        /// </summary>
+        protected void CopyBaseFields(XTweenPresetBase target)
+        {
+            target.Name = this.Name;
+            target.Description = this.Description;
+            target.Duration = this.Duration;
+            target.Delay = this.Delay;
+            target.UseRandomDelay = this.UseRandomDelay;
+            target.RandomDelay = this.RandomDelay; // 结构体直接复制
+            target.EaseMode = this.EaseMode;
+            target.UseCurve = this.UseCurve;
+            target.LoopCount = this.LoopCount;
+            target.LoopDelay = this.LoopDelay;
+            target.LoopType = this.LoopType;
+            target.IsRelative = this.IsRelative;
+            target.IsAutoKill = this.IsAutoKill;
+            target.IsFavourite = this.IsFavourite;
+            target.UseFromMode = this.UseFromMode;
+
+            // 深拷贝AnimationCurve（引用类型）
+            if (this.Curve != null)
+            {
+                target.Curve = new AnimationCurve();
+
+                // 复制关键帧
+                Keyframe[] keyframes = new Keyframe[this.Curve.keys.Length];
+                for (int i = 0; i < this.Curve.keys.Length; i++)
+                {
+                    Keyframe originalKey = this.Curve.keys[i];
+                    Keyframe newKey = new Keyframe(
+                        originalKey.time,
+                        originalKey.value,
+                        originalKey.inTangent,
+                        originalKey.outTangent,
+                        originalKey.inWeight,
+                        originalKey.outWeight
+                    );
+                    newKey.weightedMode = originalKey.weightedMode;
+                    keyframes[i] = newKey;
+                }
+
+                target.Curve.keys = keyframes;
+                target.Curve.preWrapMode = this.Curve.preWrapMode;
+                target.Curve.postWrapMode = this.Curve.postWrapMode;
+            }
         }
     }
 
@@ -148,12 +215,21 @@ namespace SevenStrikeModules.XTween
         /// 仅当UseFromMode为true时生效
         /// </summary>
         [SerializeField] public float FromValue = 0f;
-        /// <summary>
-        /// 是否使用指定的起始值
-        /// true: 从FromValue开始动画
-        /// false: 从当前值开始动画
-        /// </summary>
-        [SerializeField] public bool UseFromMode = false;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_Alpha clone = new XTweenPreset_Alpha();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.AlphaType = this.AlphaType;
+            clone.EndValue = this.EndValue;
+            clone.FromValue = this.FromValue;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -172,12 +248,20 @@ namespace SevenStrikeModules.XTween
         /// 仅当UseFromMode为true时生效
         /// </summary>
         [SerializeField] public Color FromValue = Color.white;
-        /// <summary>
-        /// 是否使用指定的起始值
-        /// true: 从FromValue开始动画
-        /// false: 从当前值开始动画
-        /// </summary>
-        [SerializeField] public bool UseFromMode = false;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_Color clone = new XTweenPreset_Color();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.EndValue = this.EndValue;
+            clone.FromValue = this.FromValue;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -213,12 +297,23 @@ namespace SevenStrikeModules.XTween
         /// 仅当UseFromMode为true时生效
         /// </summary>
         [SerializeField] public Vector3 FromValue_Vector3 = Vector3.zero;
-        /// <summary>
-        /// 是否使用指定的起始值
-        /// true: 从FromValue开始动画
-        /// false: 从当前位置开始动画
-        /// </summary>
-        [SerializeField] public bool UseFromMode = false;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_Position clone = new XTweenPreset_Position();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.PositionType = this.PositionType;
+            clone.EndValue_Vector2 = this.EndValue_Vector2;
+            clone.EndValue_Vector3 = this.EndValue_Vector3;
+            clone.FromValue_Vector2 = this.FromValue_Vector2;
+            clone.FromValue_Vector3 = this.FromValue_Vector3;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -259,7 +354,7 @@ namespace SevenStrikeModules.XTween
         /// 相对: 在本地空间旋转
         /// 绝对: 在世界空间旋转
         /// </summary>
-        [SerializeField] public XTweenSpace AnimateSpace = XTweenSpace.相对;
+        [SerializeField] public XTweenRotationSpace RotationSpace = XTweenRotationSpace.相对;
         /// <summary>
         /// 欧拉角度旋转方式
         /// Normal: 正常旋转
@@ -271,13 +366,26 @@ namespace SevenStrikeModules.XTween
         /// Slerp: 球面插值
         /// Lerp: 线性插值
         /// </summary>
-        [SerializeField] public XTweenRotateLerpType RotateMode = XTweenRotateLerpType.SlerpUnclamped;
-        /// <summary>
-        /// 是否使用指定的起始值
-        /// true: 从FromValue开始动画
-        /// false: 从当前角度开始动画
-        /// </summary>
-        [SerializeField] public bool UseFromMode = false;
+        [SerializeField] public XTweenRotateLerpType RotateLerpMode = XTweenRotateLerpType.SlerpUnclamped;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_Rotation clone = new XTweenPreset_Rotation();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.RotationType = this.RotationType;
+            clone.EndValue_Euler = this.EndValue_Euler;
+            clone.EndValue_Quaternion = this.EndValue_Quaternion;
+            clone.FromValue_Euler = this.FromValue_Euler;
+            clone.FromValue_Quaternion = this.FromValue_Quaternion;
+            clone.RotationSpace = this.RotationSpace;
+            clone.RotationMode = this.RotationMode;
+            clone.RotateLerpMode = this.RotateLerpMode;
+            return clone;
+        }
     }
 
     /// <summary>
@@ -297,12 +405,20 @@ namespace SevenStrikeModules.XTween
         /// 仅当UseFromMode为true时生效
         /// </summary>
         [SerializeField] public Vector3 FromValue = Vector3.one;
-        /// <summary>
-        /// 是否使用指定的起始值
-        /// true: 从FromValue开始动画
-        /// false: 从当前缩放开始动画
-        /// </summary>
-        [SerializeField] public bool UseFromMode = false;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_Scale clone = new XTweenPreset_Scale();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.EndValue = this.EndValue;
+            clone.FromValue = this.FromValue;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -321,12 +437,20 @@ namespace SevenStrikeModules.XTween
         /// 仅当UseFromMode为true时生效
         /// </summary>
         [SerializeField] public Vector2 FromValue = Vector2.zero;
-        /// <summary>
-        /// 是否使用指定的起始值
-        /// true: 从FromValue开始动画
-        /// false: 从当前尺寸开始动画
-        /// </summary>
-        [SerializeField] public bool UseFromMode = false;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_Size clone = new XTweenPreset_Size();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.EndValue = this.EndValue;
+            clone.FromValue = this.FromValue;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -370,6 +494,24 @@ namespace SevenStrikeModules.XTween
         /// false: 震动强度保持不变
         /// </summary>
         [SerializeField] public bool FadeShake = true;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_Shake clone = new XTweenPreset_Shake();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.ShakeType = this.ShakeType;
+            clone.Strength_Vector3 = this.Strength_Vector3;
+            clone.Strength_Vector2 = this.Strength_Vector2;
+            clone.Vibrato = this.Vibrato;
+            clone.Randomness = this.Randomness;
+            clone.FadeShake = this.FadeShake;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -443,12 +585,30 @@ namespace SevenStrikeModules.XTween
         /// 值越小闪烁越快
         /// </summary>
         [SerializeField] public float CursorBlinkTime = 0.5f;
-        /// <summary>
-        /// 是否使用指定的起始值
-        /// true: 从FromValue开始动画
-        /// false: 从当前值开始动画
-        /// </summary>
-        [SerializeField] public bool UseFromMode = false;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_Text clone = new XTweenPreset_Text();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.TextType = this.TextType;
+            clone.EndValue_Int = this.EndValue_Int;
+            clone.EndValue_Float = this.EndValue_Float;
+            clone.EndValue_Color = this.EndValue_Color;
+            clone.EndValue_String = this.EndValue_String;
+            clone.FromValue_Int = this.FromValue_Int;
+            clone.FromValue_Float = this.FromValue_Float;
+            clone.FromValue_Color = this.FromValue_Color;
+            clone.FromValue_String = this.FromValue_String;
+            clone.IsExtendedString = this.IsExtendedString;
+            clone.TextCursor = this.TextCursor;
+            clone.CursorBlinkTime = this.CursorBlinkTime;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -514,12 +674,28 @@ namespace SevenStrikeModules.XTween
         /// false: 文字直接变化
         /// </summary>
         [SerializeField] public bool IsExtendedString = false;
-        /// <summary>
-        /// 是否使用指定的起始值
-        /// true: 从FromValue开始动画
-        /// false: 从当前值开始动画
-        /// </summary>
-        [SerializeField] public bool UseFromMode = false;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_TmpText clone = new XTweenPreset_TmpText();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.TmpTextType = this.TmpTextType;
+            clone.EndValue_Float = this.EndValue_Float;
+            clone.EndValue_Color = this.EndValue_Color;
+            clone.EndValue_String = this.EndValue_String;
+            clone.EndValue_Vector4 = this.EndValue_Vector4;
+            clone.FromValue_Float = this.FromValue_Float;
+            clone.FromValue_Color = this.FromValue_Color;
+            clone.FromValue_String = this.FromValue_String;
+            clone.FromValue_Vector4 = this.FromValue_Vector4;
+            clone.IsExtendedString = this.IsExtendedString;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -539,12 +715,20 @@ namespace SevenStrikeModules.XTween
         /// 仅当UseFromMode为true时生效
         /// </summary>
         [SerializeField] public float FromValue = 0f;
-        /// <summary>
-        /// 是否使用指定的起始值
-        /// true: 从FromValue开始动画
-        /// false: 从当前填充度开始动画
-        /// </summary>
-        [SerializeField] public bool UseFromMode = false;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_Fill clone = new XTweenPreset_Fill();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.EndValue = this.EndValue;
+            clone.FromValue = this.FromValue;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -563,12 +747,20 @@ namespace SevenStrikeModules.XTween
         /// 仅当UseFromMode为true时生效
         /// </summary>
         [SerializeField] public float FromValue = 0f;
-        /// <summary>
-        /// 是否使用指定的起始值
-        /// true: 从FromValue开始动画
-        /// false: 从当前平铺比例开始动画
-        /// </summary>
-        [SerializeField] public bool UseFromMode = false;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_Tiled clone = new XTweenPreset_Tiled();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.EndValue = this.EndValue;
+            clone.FromValue = this.FromValue;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -584,6 +776,19 @@ namespace SevenStrikeModules.XTween
         /// 用于查找对应的XTween_PathTool组件中的路径点
         /// </summary>
         [SerializeField] public string PathName = "";
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_Path clone = new XTweenPreset_Path();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.PathName = this.PathName;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -688,12 +893,36 @@ namespace SevenStrikeModules.XTween
         /// 光标闪烁间隔时间，单位：秒
         /// </summary>
         [SerializeField] public float CursorBlinkTime = 0.5f;
-        /// <summary>
-        /// 是否使用指定的起始值
-        /// true: 从FromValue开始动画
-        /// false: 从当前值开始动画
-        /// </summary>
-        [SerializeField] public bool UseFromMode = false;
+
+        public override XTweenPresetBase Clone()
+        {
+            XTweenPreset_To clone = new XTweenPreset_To();
+
+            // 复制基类字段
+            CopyBaseFields(clone);
+
+            // 复制派生类特有字段
+            clone.ToType = this.ToType;
+            clone.EndValue_Int = this.EndValue_Int;
+            clone.EndValue_Float = this.EndValue_Float;
+            clone.EndValue_String = this.EndValue_String;
+            clone.EndValue_Vector2 = this.EndValue_Vector2;
+            clone.EndValue_Vector3 = this.EndValue_Vector3;
+            clone.EndValue_Vector4 = this.EndValue_Vector4;
+            clone.EndValue_Color = this.EndValue_Color;
+            clone.FromValue_Int = this.FromValue_Int;
+            clone.FromValue_Float = this.FromValue_Float;
+            clone.FromValue_String = this.FromValue_String;
+            clone.FromValue_Vector2 = this.FromValue_Vector2;
+            clone.FromValue_Vector3 = this.FromValue_Vector3;
+            clone.FromValue_Vector4 = this.FromValue_Vector4;
+            clone.FromValue_Color = this.FromValue_Color;
+            clone.IsExtendedString = this.IsExtendedString;
+            clone.TextCursor = this.TextCursor;
+            clone.CursorBlinkTime = this.CursorBlinkTime;
+
+            return clone;
+        }
     }
 
     /// <summary>
@@ -714,6 +943,37 @@ namespace SevenStrikeModules.XTween
         /// 每个元素可以是XTweenPreset_Alpha、XTweenPreset_Color等派生类
         /// </summary>
         [SerializeReference] public List<XTweenPresetBase> Presets = new List<XTweenPresetBase>();
+
+        /// <summary>
+        /// 深拷贝容器
+        /// </summary>
+        public XTweenPresetContainer Clone()
+        {
+            XTweenPresetContainer clone = new XTweenPresetContainer();
+
+            // 复制类型标识
+            clone.Type = this.Type;
+
+            // 深拷贝预设列表
+            if (this.Presets != null)
+            {
+                clone.Presets = new List<XTweenPresetBase>();
+                foreach (var preset in this.Presets)
+                {
+                    if (preset != null)
+                    {
+                        // 调用每个预设的Clone方法进行深拷贝
+                        clone.Presets.Add(preset.Clone());
+                    }
+                    else
+                    {
+                        clone.Presets.Add(null);
+                    }
+                }
+            }
+
+            return clone;
+        }
     }
     #endregion
 
@@ -994,13 +1254,28 @@ namespace SevenStrikeModules.XTween
             XTweenPresetContainer container = new XTweenPresetContainer();
             container.Type = type.ToString();
 
+            #region 默认预设
             // 根据类型创建对应的预设数据
+            //CreateDefaultPresets(type, container);
+            #endregion
+
+            // 将容器序列化为格式化的JSON字符串
+            return JsonUtility.ToJson(container, true);
+        }
+
+        /// <summary>
+        /// 创建默认预设
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="container"></param>
+        private static void CreateDefaultPresets(XTweenTypes type, XTweenPresetContainer container)
+        {
             switch (type)
             {
                 case XTweenTypes.透明度_Alpha:
                     container.Presets.Add(new XTweenPreset_Alpha
                     {
-                        Name = "淡入效果",
+                        Name = "Image组件淡入效果",
                         Description = "从完全透明到完全不透明",
                         Duration = 1.5f,
                         Delay = 0f,
@@ -1019,38 +1294,205 @@ namespace SevenStrikeModules.XTween
                         FromValue = 0f,
                         UseFromMode = true
                     });
+                    container.Presets.Add(new XTweenPreset_Alpha
+                    {
+                        Name = "CanvasGroup组件淡入效果",
+                        Description = "从完全透明到完全不透明",
+                        Duration = 1.5f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutCubic,
+                        UseCurve = false,
+                        Curve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        AlphaType = XTweenTypes_Alphas.CanvasGroup组件,
+                        EndValue = 1f,
+                        FromValue = 0f,
+                        UseFromMode = true
+                    });
                     break;
 
                 case XTweenTypes.原生动画_To:
-                    for (int i = 0; i < 300; i++)
+                    container.Presets.Add(new XTweenPreset_To
                     {
-                        container.Presets.Add(new XTweenPreset_To
-                        {
-                            Name = "整数渐变 " + i,
-                            Description = "整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变整数从0到100的渐变",
-                            Duration = 2f,
-                            Delay = 0.2f,
-                            UseRandomDelay = false,
-                            RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
-                            EaseMode = (EaseMode)i,
-                            UseCurve = false,
-                            Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
-                            LoopCount = 0,
-                            LoopDelay = 0f,
-                            LoopType = XTween_LoopType.Restart,
-                            IsRelative = false,
-                            IsAutoKill = false,
-                            ToType = XTweenTypes_To.整数_Int,
-                            EndValue_Int = 100,
-                            FromValue_Int = 0,
-                            IsExtendedString = false,
-                            TextCursor = "_",
-                            CursorBlinkTime = 0.5f,
-                            UseFromMode = true,
-                            IsFavourite = true
-                        });
-                    }
-
+                        Name = "原生动画 INT",
+                        Description = "预设又称为前提、先设和前设，指的是说话者在说出某个话语或句子时所做的假设，即说话者为保证句子或语段的合适性而必须满足的前提，它是由德国哲学家、现代逻辑奠基人弗雷格于1892年提出",
+                        Duration = 2f,
+                        Delay = 0.2f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutCubic,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        ToType = XTweenTypes_To.整数_Int,
+                        EndValue_Int = 100,
+                        FromValue_Int = 0,
+                        IsExtendedString = false,
+                        TextCursor = "_",
+                        CursorBlinkTime = 0.5f,
+                        UseFromMode = false,
+                        IsFavourite = true
+                    });
+                    container.Presets.Add(new XTweenPreset_To
+                    {
+                        Name = "原生动画 FLOAT",
+                        Description = "预设又称为前提、先设和前设，指的是说话者在说出某个话语或句子时所做的假设，即说话者为保证句子或语段的合适性而必须满足的前提，它是由德国哲学家、现代逻辑奠基人弗雷格于1892年提出",
+                        Duration = 2f,
+                        Delay = 0.2f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutCubic,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        ToType = XTweenTypes_To.浮点数_Float,
+                        EndValue_Float = 56.25f,
+                        FromValue_Float = 0,
+                        IsExtendedString = false,
+                        TextCursor = "_",
+                        CursorBlinkTime = 0.5f,
+                        UseFromMode = false,
+                        IsFavourite = true
+                    });
+                    container.Presets.Add(new XTweenPreset_To
+                    {
+                        Name = "原生动画 STRING",
+                        Description = "预设又称为前提、先设和前设，指的是说话者在说出某个话语或句子时所做的假设，即说话者为保证句子或语段的合适性而必须满足的前提，它是由德国哲学家、现代逻辑奠基人弗雷格于1892年提出",
+                        Duration = 2f,
+                        Delay = 0.2f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutCubic,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        ToType = XTweenTypes_To.字符串_String,
+                        EndValue_String = "TargetString",
+                        FromValue_String = "FromString",
+                        IsExtendedString = false,
+                        TextCursor = "_",
+                        CursorBlinkTime = 0.5f,
+                        UseFromMode = false,
+                        IsFavourite = true
+                    });
+                    container.Presets.Add(new XTweenPreset_To
+                    {
+                        Name = "原生动画 COLOR",
+                        Description = "预设又称为前提、先设和前设，指的是说话者在说出某个话语或句子时所做的假设，即说话者为保证句子或语段的合适性而必须满足的前提，它是由德国哲学家、现代逻辑奠基人弗雷格于1892年提出",
+                        Duration = 2f,
+                        Delay = 0.2f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutCubic,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        ToType = XTweenTypes_To.颜色_Color,
+                        EndValue_Color = Color.red,
+                        FromValue_Color = Color.green,
+                        IsExtendedString = false,
+                        TextCursor = "_",
+                        CursorBlinkTime = 0.5f,
+                        UseFromMode = false,
+                        IsFavourite = true
+                    });
+                    container.Presets.Add(new XTweenPreset_To
+                    {
+                        Name = "原生动画 VECTOR2",
+                        Description = "预设又称为前提、先设和前设，指的是说话者在说出某个话语或句子时所做的假设，即说话者为保证句子或语段的合适性而必须满足的前提，它是由德国哲学家、现代逻辑奠基人弗雷格于1892年提出",
+                        Duration = 2f,
+                        Delay = 0.2f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutCubic,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        ToType = XTweenTypes_To.二维向量_Vector2,
+                        EndValue_Vector2 = new Vector2(15, 25),
+                        FromValue_Vector2 = new Vector2(0, 10),
+                        IsExtendedString = false,
+                        TextCursor = "_",
+                        CursorBlinkTime = 0.5f,
+                        UseFromMode = false,
+                        IsFavourite = true
+                    });
+                    container.Presets.Add(new XTweenPreset_To
+                    {
+                        Name = "原生动画 VECTOR3",
+                        Description = "预设又称为前提、先设和前设，指的是说话者在说出某个话语或句子时所做的假设，即说话者为保证句子或语段的合适性而必须满足的前提，它是由德国哲学家、现代逻辑奠基人弗雷格于1892年提出",
+                        Duration = 2f,
+                        Delay = 0.2f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutCubic,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        ToType = XTweenTypes_To.三维向量_Vector3,
+                        EndValue_Vector3 = new Vector3(100, 55, 16),
+                        FromValue_Vector3 = new Vector3(0, 25, 35),
+                        IsExtendedString = false,
+                        TextCursor = "_",
+                        CursorBlinkTime = 0.5f,
+                        UseFromMode = false,
+                        IsFavourite = true
+                    });
+                    container.Presets.Add(new XTweenPreset_To
+                    {
+                        Name = "原生动画 VECTOR4",
+                        Description = "预设又称为前提、先设和前设，指的是说话者在说出某个话语或句子时所做的假设，即说话者为保证句子或语段的合适性而必须满足的前提，它是由德国哲学家、现代逻辑奠基人弗雷格于1892年提出",
+                        Duration = 2f,
+                        Delay = 0.2f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutCubic,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        ToType = XTweenTypes_To.四维向量_Vector4,
+                        EndValue_Vector4 = new Vector4(10, 55, 23, 75),
+                        FromValue_Vector4 = new Vector4(0, 50, 88, 12),
+                        IsExtendedString = false,
+                        TextCursor = "_",
+                        CursorBlinkTime = 0.5f,
+                        UseFromMode = false,
+                        IsFavourite = true
+                    });
                     break;
 
                 case XTweenTypes.路径_Path:
@@ -1077,7 +1519,7 @@ namespace SevenStrikeModules.XTween
                 case XTweenTypes.位置_Position:
                     container.Presets.Add(new XTweenPreset_Position
                     {
-                        Name = "水平移动",
+                        Name = "水平移动 锚点位置_AnchoredPosition",
                         Description = "从左侧移动到右侧",
                         Duration = 1f,
                         Delay = 0f,
@@ -1096,12 +1538,33 @@ namespace SevenStrikeModules.XTween
                         FromValue_Vector2 = new Vector2(-300f, 0f),
                         UseFromMode = true
                     });
+                    container.Presets.Add(new XTweenPreset_Position
+                    {
+                        Name = "水平移动 锚点位置3D_AnchoredPosition3D",
+                        Description = "从左侧移动到右侧",
+                        Duration = 1f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.OutQuad,
+                        UseCurve = false,
+                        Curve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        PositionType = XTweenTypes_Positions.锚点位置3D_AnchoredPosition3D,
+                        EndValue_Vector3 = new Vector3(300f, 0f, 75f),
+                        FromValue_Vector3 = new Vector3(-300f, 0f, 75f),
+                        UseFromMode = true
+                    });
                     break;
 
                 case XTweenTypes.旋转_Rotation:
                     container.Presets.Add(new XTweenPreset_Rotation
                     {
-                        Name = "360度旋转",
+                        Name = "360度旋转 欧拉角度_Euler 相对",
                         Description = "完整旋转一圈",
                         Duration = 2f,
                         Delay = 0f,
@@ -1118,9 +1581,81 @@ namespace SevenStrikeModules.XTween
                         RotationType = XTweenTypes_Rotations.欧拉角度_Euler,
                         EndValue_Euler = new Vector3(0f, 0f, 360f),
                         FromValue_Euler = new Vector3(0f, 0f, 0f),
-                        AnimateSpace = XTweenSpace.相对,
+                        RotationSpace = XTweenRotationSpace.相对,
                         RotationMode = XTweenRotationMode.Normal,
-                        RotateMode = XTweenRotateLerpType.SlerpUnclamped,
+                        RotateLerpMode = XTweenRotateLerpType.SlerpUnclamped,
+                        UseFromMode = true
+                    });
+                    container.Presets.Add(new XTweenPreset_Rotation
+                    {
+                        Name = "360度旋转 欧拉角度_Euler 绝对",
+                        Description = "完整旋转一圈",
+                        Duration = 2f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.Linear,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = -1,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = true,
+                        IsAutoKill = false,
+                        RotationType = XTweenTypes_Rotations.欧拉角度_Euler,
+                        EndValue_Euler = new Vector3(0f, 0f, 360f),
+                        FromValue_Euler = new Vector3(0f, 0f, 0f),
+                        RotationSpace = XTweenRotationSpace.绝对,
+                        RotationMode = XTweenRotationMode.Normal,
+                        RotateLerpMode = XTweenRotateLerpType.SlerpUnclamped,
+                        UseFromMode = true
+                    });
+                    container.Presets.Add(new XTweenPreset_Rotation
+                    {
+                        Name = "360度旋转 欧拉角度_Euler 计算最近距离",
+                        Description = "完整旋转一圈",
+                        Duration = 2f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.Linear,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = -1,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = true,
+                        IsAutoKill = false,
+                        RotationType = XTweenTypes_Rotations.欧拉角度_Euler,
+                        EndValue_Euler = new Vector3(0f, 0f, 360f),
+                        FromValue_Euler = new Vector3(0f, 0f, 0f),
+                        RotationSpace = XTweenRotationSpace.相对,
+                        RotationMode = XTweenRotationMode.Shortest,
+                        RotateLerpMode = XTweenRotateLerpType.SlerpUnclamped,
+                        UseFromMode = true
+                    });
+                    container.Presets.Add(new XTweenPreset_Rotation
+                    {
+                        Name = "360度旋转 四元数_Quaternion",
+                        Description = "完整旋转一圈",
+                        Duration = 2f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.Linear,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = -1,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = true,
+                        IsAutoKill = false,
+                        RotationType = XTweenTypes_Rotations.四元数_Quaternion,
+                        EndValue_Quaternion = Quaternion.Euler(new Vector3(0f, 0f, 360f)),
+                        FromValue_Quaternion = Quaternion.Euler(new Vector3(0f, 0f, 0f)),
+                        RotationSpace = XTweenRotationSpace.相对,
+                        RotationMode = XTweenRotationMode.Normal,
+                        RotateLerpMode = XTweenRotateLerpType.SlerpUnclamped,
                         UseFromMode = true
                     });
                     break;
@@ -1174,7 +1709,7 @@ namespace SevenStrikeModules.XTween
                 case XTweenTypes.震动_Shake:
                     container.Presets.Add(new XTweenPreset_Shake
                     {
-                        Name = "震动效果",
+                        Name = "震动效果 位置_Position",
                         Description = "轻微的位置震动",
                         Duration = 0.5f,
                         Delay = 0f,
@@ -1189,6 +1724,75 @@ namespace SevenStrikeModules.XTween
                         IsRelative = false,
                         IsAutoKill = true,
                         ShakeType = XTweenTypes_Shakes.位置_Position,
+                        Strength_Vector3 = new Vector3(10f, 10f, 0f),
+                        Strength_Vector2 = new Vector2(10f, 10f),
+                        Vibrato = 10f,
+                        Randomness = 90f,
+                        FadeShake = true
+                    });
+                    container.Presets.Add(new XTweenPreset_Shake
+                    {
+                        Name = "震动效果 缩放_Scale",
+                        Description = "轻微的位置震动",
+                        Duration = 0.5f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.Linear,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = true,
+                        ShakeType = XTweenTypes_Shakes.缩放_Scale,
+                        Strength_Vector3 = new Vector3(10f, 10f, 0f),
+                        Strength_Vector2 = new Vector2(10f, 10f),
+                        Vibrato = 10f,
+                        Randomness = 90f,
+                        FadeShake = true
+                    });
+                    container.Presets.Add(new XTweenPreset_Shake
+                    {
+                        Name = "震动效果 尺寸_Size",
+                        Description = "轻微的位置震动",
+                        Duration = 0.5f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.Linear,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = true,
+                        ShakeType = XTweenTypes_Shakes.尺寸_Size,
+                        Strength_Vector3 = new Vector3(10f, 10f, 0f),
+                        Strength_Vector2 = new Vector2(10f, 10f),
+                        Vibrato = 10f,
+                        Randomness = 90f,
+                        FadeShake = true
+                    });
+                    container.Presets.Add(new XTweenPreset_Shake
+                    {
+                        Name = "震动效果 旋转_Rotation",
+                        Description = "轻微的位置震动",
+                        Duration = 0.5f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.Linear,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = true,
+                        ShakeType = XTweenTypes_Shakes.旋转_Rotation,
                         Strength_Vector3 = new Vector3(10f, 10f, 0f),
                         Strength_Vector2 = new Vector2(10f, 10f),
                         Vibrato = 10f,
@@ -1269,7 +1873,7 @@ namespace SevenStrikeModules.XTween
                 case XTweenTypes.文字_Text:
                     container.Presets.Add(new XTweenPreset_Text
                     {
-                        Name = "打字机效果",
+                        Name = "打字机效果 文字内容_Content",
                         Description = "逐字显示文本",
                         Duration = 2.5f,
                         Delay = 0f,
@@ -1291,12 +1895,84 @@ namespace SevenStrikeModules.XTween
                         CursorBlinkTime = 0.5f,
                         UseFromMode = true
                     });
+                    container.Presets.Add(new XTweenPreset_Text
+                    {
+                        Name = "打字机效果 文字行高_LineHeight",
+                        Description = "逐字显示文本",
+                        Duration = 2.5f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.Linear,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        TextType = XTweenTypes_Text.文字行高_LineHeight,
+                        EndValue_Float = 5,
+                        FromValue_Float = 0,
+                        IsExtendedString = true,
+                        TextCursor = "_",
+                        CursorBlinkTime = 0.5f,
+                        UseFromMode = true
+                    });
+                    container.Presets.Add(new XTweenPreset_Text
+                    {
+                        Name = "打字机效果 文字尺寸_FontSize",
+                        Description = "逐字显示文本",
+                        Duration = 2.5f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.Linear,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        TextType = XTweenTypes_Text.文字尺寸_FontSize,
+                        EndValue_Int = 50,
+                        FromValue_Int = 10,
+                        IsExtendedString = true,
+                        TextCursor = "_",
+                        CursorBlinkTime = 0.5f,
+                        UseFromMode = true
+                    });
+                    container.Presets.Add(new XTweenPreset_Text
+                    {
+                        Name = "打字机效果 文字颜色_Color",
+                        Description = "逐字显示文本",
+                        Duration = 2.5f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.Linear,
+                        UseCurve = false,
+                        Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        TextType = XTweenTypes_Text.文字颜色_Color,
+                        EndValue_Color = Color.red,
+                        FromValue_Color = Color.white,
+                        IsExtendedString = true,
+                        TextCursor = "_",
+                        CursorBlinkTime = 0.5f,
+                        UseFromMode = true
+                    });
                     break;
 
                 case XTweenTypes.文字_TmpText:
                     container.Presets.Add(new XTweenPreset_TmpText
                     {
-                        Name = "TMP文字渐变",
+                        Name = "TMP文字 文字颜色_Color",
                         Description = "TextMeshPro文字颜色渐变和尺寸变化",
                         Duration = 2f,
                         Delay = 0f,
@@ -1313,17 +1989,101 @@ namespace SevenStrikeModules.XTween
                         TmpTextType = XTweenTypes_TmpText.文字颜色_Color,
                         EndValue_Color = new Color(0f, 1f, 0f, 1f),
                         FromValue_Color = new Color(1f, 1f, 1f, 1f),
+                        IsExtendedString = false,
+                        UseFromMode = true
+                    });
+                    container.Presets.Add(new XTweenPreset_TmpText
+                    {
+                        Name = "TMP文字 文字行高_LineHeight",
+                        Description = "TextMeshPro文字颜色渐变和尺寸变化",
+                        Duration = 2f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutQuad,
+                        UseCurve = false,
+                        Curve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        TmpTextType = XTweenTypes_TmpText.文字行高_LineHeight,
                         EndValue_Float = 36f,
-                        FromValue_Float = 24f,
+                        FromValue_Float = 0f,
+                        IsExtendedString = false,
+                        UseFromMode = true
+                    });
+                    container.Presets.Add(new XTweenPreset_TmpText
+                    {
+                        Name = "TMP文字 文字尺寸_FontSize",
+                        Description = "TextMeshPro文字颜色渐变和尺寸变化",
+                        Duration = 2f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutQuad,
+                        UseCurve = false,
+                        Curve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        TmpTextType = XTweenTypes_TmpText.文字尺寸_FontSize,
+                        EndValue_Float = 36f,
+                        FromValue_Float = 10f,
+                        IsExtendedString = false,
+                        UseFromMode = true
+                    });
+                    container.Presets.Add(new XTweenPreset_TmpText
+                    {
+                        Name = "TMP文字 文字内容_Content",
+                        Description = "TextMeshPro文字颜色渐变和尺寸变化",
+                        Duration = 2f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutQuad,
+                        UseCurve = false,
+                        Curve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        TmpTextType = XTweenTypes_TmpText.文字内容_Content,
+                        EndValue_String = "TmpText Content",
+                        FromValue_String = "",
+                        IsExtendedString = false,
+                        UseFromMode = true
+                    });
+                    container.Presets.Add(new XTweenPreset_TmpText
+                    {
+                        Name = "TMP文字 文字边距_Margin",
+                        Description = "TextMeshPro文字颜色渐变和尺寸变化",
+                        Duration = 2f,
+                        Delay = 0f,
+                        UseRandomDelay = false,
+                        RandomDelay = new RandomDelay { Min = 0f, Max = 0f },
+                        EaseMode = EaseMode.InOutQuad,
+                        UseCurve = false,
+                        Curve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f),
+                        LoopCount = 0,
+                        LoopDelay = 0f,
+                        LoopType = XTween_LoopType.Restart,
+                        IsRelative = false,
+                        IsAutoKill = false,
+                        TmpTextType = XTweenTypes_TmpText.文字边距_Margin,
+                        EndValue_Vector4 = new Vector4(10, 10, 10, 10),
+                        FromValue_Vector4 = new Vector4(0, 0, 0, 0),
                         IsExtendedString = false,
                         UseFromMode = true
                     });
                     break;
             }
-
-            // 将容器序列化为格式化的JSON字符串
-            return JsonUtility.ToJson(container, true);
         }
+
         /// <summary>
         /// 保存JSON字符串到预设文件
         /// </summary>
@@ -1610,6 +2370,9 @@ namespace SevenStrikeModules.XTween
         public static void preset_Container_Save_Added(XTweenTypes type, XTweenPresetBase presetData)
         {
 #if UNITY_EDITOR
+            if (presetData == null)
+                return;
+
             // 先尝试加载现有容器
             var container = preset_Container_Load(type);
 
@@ -1705,6 +2468,9 @@ namespace SevenStrikeModules.XTween
         public static void preset_Container_Save_Replace(XTweenTypes type, List<XTweenPresetBase> presetsData)
         {
 #if UNITY_EDITOR
+            if (presetsData == null || presetsData.Count <= 0)
+                return;
+
             var container = new XTweenPresetContainer
             {
                 Type = type.ToString(),
@@ -1714,6 +2480,26 @@ namespace SevenStrikeModules.XTween
             string jsonContent = JsonUtility.ToJson(container, true);
             preset_JsonFile_Save(type, jsonContent);
 #endif
+        }
+        /// <summary>
+        /// 将一个预设参数类替换到目标类型的容器中的预设
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="preset"></param>
+        /// <returns>返回的是替换好预设的新的容器</returns>
+        public static XTweenPresetContainer preset_Container_ReplacePreset(XTweenTypes type, XTweenPresetBase preset)
+        {
+            XTweenPresetContainer con = preset_Container_Load(type);
+            for (int i = 0; i < con.Presets.Count; i++)
+            {
+                if (con.Presets[i].Name == preset.Name)
+                {
+                    con.Presets[i] = preset.Clone();
+                    break;
+                }
+            }
+
+            return con;
         }
         /// <summary>
         /// 通过动画类型加载预设容器
@@ -1926,6 +2712,141 @@ namespace SevenStrikeModules.XTween
             }
 
             return containers;
+        }
+        /// <summary>
+        /// 根据类型和名称删除预设项
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static void preset_Container_DeletePreset(XTweenTypes type, string name)
+        {
+            // 删除匹配项预设
+            XTweenPresetContainer container = preset_Container_Load(type);
+            var preset = container.Presets.FirstOrDefault(p => p.Name == name);
+            if (preset != null)
+            {
+                container.Presets.Remove(preset);
+            }
+            // 重新覆盖保存
+            preset_Container_Save_Replace(type, container.Presets);
+        }
+        /// <summary>
+        /// 导出所有预设到指定文件夹
+        /// </summary>
+        /// <remarks>
+        /// 该方法将所有的预设文件导出到用户选择的文件夹中。
+        /// 每个预设类型会保存为独立的JSON文件，文件名格式为：xtween_presets_{type}.json
+        /// 
+        /// 导出流程：
+        /// 1. 获取所有预设的原始JSON数据
+        /// 2. 遍历每个JSON字符串
+        /// 3. 解析JSON以获取类型信息，用于生成文件名
+        /// 4. 将每个JSON保存为独立的文件
+        /// 5. 刷新AssetDatabase使文件在编辑器中可见
+        /// 
+        /// 使用场景：
+        /// - 用户通过右键菜单"导出预设"功能
+        /// - 预设备份
+        /// - 在不同项目间迁移预设
+        /// 
+        /// 文件命名规则：
+        /// - 文件名：xtween_presets_{type}.json
+        /// - type 取自容器中的Type字段（如 "alpha"、"color"）
+        /// - 例如：xtween_presets_alpha.json
+        /// 
+        /// 注意事项：
+        /// - 如果目标文件夹已存在同名文件，会被覆盖
+        /// - 此方法仅在UNITY_EDITOR模式下可用
+        /// - 导出完成后会自动刷新AssetDatabase
+        /// </remarks>
+        /// <param name="path">目标文件夹路径，由EditorUtility.SaveFolderPanel返回</param>
+        public static bool preset_ExportAllPresets(string path)
+        {
+#if UNITY_EDITOR
+            if (string.IsNullOrEmpty(path))
+            {
+                if (EnableDebugLogs)
+                    XTween_Utilitys.DebugInfo("XTween预设管理器消息", "导出路径为空，操作取消", XTweenGUIMsgState.警告);
+                return false;
+            }
+
+            // 确保目标文件夹存在
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            // 获取所有预设的原始JSON数据
+            List<string> jsonList = preset_JsonData_GetAll();
+
+            if (jsonList == null || jsonList.Count == 0)
+            {
+                if (EnableDebugLogs)
+                    XTween_Utilitys.DebugInfo("XTween预设管理器消息", "没有找到任何预设文件可导出", XTweenGUIMsgState.警告);
+                return false;
+            }
+
+            int successCount = 0;
+            int failCount = 0;
+
+            foreach (string json in jsonList)
+            {
+                try
+                {
+                    // 解析JSON以获取类型信息
+                    var container = JsonUtility.FromJson<XTweenPresetContainer>(json);
+
+                    if (container == null || string.IsNullOrEmpty(container.Type))
+                    {
+                        failCount++;
+                        continue;
+                    }
+
+                    // 从类型字符串中提取文件名（如 "透明度_Alpha" -> "alpha"）
+                    string fileName = GetFileNameFromType(container.Type);
+
+                    // 构建完整的文件路径
+                    string filePath = Path.Combine(path, $"xtween_presets_{fileName}.json");
+
+                    // 写入文件
+                    File.WriteAllText(filePath, json);
+
+                    successCount++;
+
+                    if (EnableDebugLogs)
+                        XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已导出预设文件: xtween_presets_{fileName}.json", XTweenGUIMsgState.确认);
+                }
+                catch (Exception e)
+                {
+                    failCount++;
+                    if (EnableDebugLogs)
+                        XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"导出预设失败: {e.Message}", XTweenGUIMsgState.错误);
+                }
+            }
+
+            // 刷新AssetDatabase，使新文件在编辑器中可见
+            AssetDatabase.Refresh();
+
+            // 输出导出结果统计
+            if (EnableDebugLogs)
+            {
+                string resultMsg = $"预设导出完成！成功：{successCount} 个，失败：{failCount} 个，保存路径：{path}";
+                XTween_Utilitys.DebugInfo("XTween预设管理器消息", resultMsg, failCount > 0 ? XTweenGUIMsgState.警告 : XTweenGUIMsgState.确认);
+            }
+
+            // 显示编辑器对话框通知用户
+            if (successCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+#else
+    // 非编辑器模式下，这个方法不应该被调用，但为了编译通过，返回false
+    return false;
+#endif
         }
         #endregion
 
@@ -2213,7 +3134,6 @@ namespace SevenStrikeModules.XTween
                         alphaPreset.AlphaType = controller.TweenTypes_Alphas;
                         alphaPreset.EndValue = controller.EndValue_Float;
                         alphaPreset.FromValue = controller.FromValue_Float;
-                        alphaPreset.UseFromMode = controller.IsFromMode;
 
                         if (EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制Alpha预设数据: EndValue={alphaPreset.EndValue}, FromValue={alphaPreset.FromValue}！", XTweenGUIMsgState.确认);
@@ -2227,7 +3147,6 @@ namespace SevenStrikeModules.XTween
                     {
                         colorPreset.EndValue = controller.EndValue_Color;
                         colorPreset.FromValue = controller.FromValue_Color;
-                        colorPreset.UseFromMode = controller.IsFromMode;
 
                         if (EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制Color预设数据: EndValue={colorPreset.EndValue}, FromValue={colorPreset.FromValue}", XTweenGUIMsgState.确认);
@@ -2244,7 +3163,6 @@ namespace SevenStrikeModules.XTween
                         posPreset.EndValue_Vector3 = controller.EndValue_Vector3;
                         posPreset.FromValue_Vector2 = controller.FromValue_Vector2;
                         posPreset.FromValue_Vector3 = controller.FromValue_Vector3;
-                        posPreset.UseFromMode = controller.IsFromMode;
 
                         if (EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制Position预设数据: Type={posPreset.PositionType}, End2D={posPreset.EndValue_Vector2}, End3D={posPreset.EndValue_Vector3}", XTweenGUIMsgState.确认);
@@ -2261,10 +3179,9 @@ namespace SevenStrikeModules.XTween
                         rotPreset.EndValue_Quaternion = controller.EndValue_Quaternion;
                         rotPreset.FromValue_Euler = controller.FromValue_Vector3;
                         rotPreset.FromValue_Quaternion = controller.FromValue_Quaternion;
-                        rotPreset.AnimateSpace = controller.AnimateSpace;
+                        rotPreset.RotationSpace = controller.RotationSpace;
                         rotPreset.RotationMode = controller.RotationMode;
-                        rotPreset.RotateMode = controller.RotateMode;
-                        rotPreset.UseFromMode = controller.IsFromMode;
+                        rotPreset.RotateLerpMode = controller.RotateLerpMode;
 
                         if (EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制Rotation预设数据: Type={rotPreset.RotationType}, Euler={rotPreset.EndValue_Euler}", XTweenGUIMsgState.确认);
@@ -2278,7 +3195,6 @@ namespace SevenStrikeModules.XTween
                     {
                         scalePreset.EndValue = controller.EndValue_Vector3;
                         scalePreset.FromValue = controller.FromValue_Vector3;
-                        scalePreset.UseFromMode = controller.IsFromMode;
 
                         if (EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制Scale预设数据: EndValue={scalePreset.EndValue}, FromValue={scalePreset.FromValue}", XTweenGUIMsgState.确认);
@@ -2292,7 +3208,6 @@ namespace SevenStrikeModules.XTween
                     {
                         sizePreset.EndValue = controller.EndValue_Vector2;
                         sizePreset.FromValue = controller.FromValue_Vector2;
-                        sizePreset.UseFromMode = controller.IsFromMode;
 
                         if (EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制Size预设数据: EndValue={sizePreset.EndValue}, FromValue={sizePreset.FromValue}", XTweenGUIMsgState.确认);
@@ -2333,7 +3248,6 @@ namespace SevenStrikeModules.XTween
                         textPreset.IsExtendedString = controller.IsExtendedString;
                         textPreset.TextCursor = controller.TextCursor;
                         textPreset.CursorBlinkTime = controller.CursorBlinkTime;
-                        textPreset.UseFromMode = controller.IsFromMode;
 
                         if (EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制Text预设数据: Type={textPreset.TextType}, String='{textPreset.EndValue_String}", XTweenGUIMsgState.确认);
@@ -2355,7 +3269,6 @@ namespace SevenStrikeModules.XTween
                         tmpPreset.FromValue_String = controller.FromValue_String;
                         tmpPreset.FromValue_Vector4 = controller.FromValue_Vector4;
                         tmpPreset.IsExtendedString = controller.IsExtendedString;
-                        tmpPreset.UseFromMode = controller.IsFromMode;
 
                         if (EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制TmpText预设数据: Type={tmpPreset.TmpTextType}, Color={tmpPreset.EndValue_Color}", XTweenGUIMsgState.确认);
@@ -2369,7 +3282,6 @@ namespace SevenStrikeModules.XTween
                     {
                         fillPreset.EndValue = controller.EndValue_Float;
                         fillPreset.FromValue = controller.FromValue_Float;
-                        fillPreset.UseFromMode = controller.IsFromMode;
 
                         if (EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制Fill预设数据: EndValue={fillPreset.EndValue}, FromValue={fillPreset.FromValue}", XTweenGUIMsgState.确认);
@@ -2383,7 +3295,6 @@ namespace SevenStrikeModules.XTween
                     {
                         tiledPreset.EndValue = controller.EndValue_Float;
                         tiledPreset.FromValue = controller.FromValue_Float;
-                        tiledPreset.UseFromMode = controller.IsFromMode;
 
                         if (EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制Tiled预设数据: EndValue={tiledPreset.EndValue}, FromValue={tiledPreset.FromValue}", XTweenGUIMsgState.确认);
@@ -2425,7 +3336,6 @@ namespace SevenStrikeModules.XTween
                         toPreset.IsExtendedString = controller.IsExtendedString;
                         toPreset.TextCursor = controller.TextCursor;
                         toPreset.CursorBlinkTime = controller.CursorBlinkTime;
-                        toPreset.UseFromMode = controller.IsFromMode;
 
                         if (EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制To预设数据: Type={toPreset.ToType}", XTweenGUIMsgState.确认);
@@ -2501,6 +3411,7 @@ namespace SevenStrikeModules.XTween
             preset.LoopType = controller.LoopType;
             preset.IsRelative = controller.IsRelative;
             preset.IsAutoKill = controller.IsAutoKill;
+            preset.UseFromMode = controller.IsFromMode;
 
             if (EnableDebugLogs)
                 XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"已复制基类数据: Duration={preset.Duration}, LoopCount={preset.LoopCount}", XTweenGUIMsgState.确认);
@@ -2858,8 +3769,12 @@ namespace SevenStrikeModules.XTween
             controller.Duration = preset.Duration;
             controller.Delay = preset.Delay;
             controller.UseRandomDelay = preset.UseRandomDelay;
+            controller.IsFromMode = preset.UseFromMode;
             controller.RandomDelay = preset.RandomDelay;
             controller.EaseMode = preset.EaseMode;
+#if UNITY_EDITOR
+            controller.EaseGraph = AssetDatabase.LoadAssetAtPath<Texture2D>($"{XTween_Dashboard.Get_path_XTween_GUIStyle_Path()}Icon/EaseCurveGraph/{preset.EaseMode.ToString()}.png");
+#endif
             controller.UseCurve = preset.UseCurve;
             controller.Curve = preset.Curve;
             controller.LoopCount = preset.LoopCount;
@@ -2875,58 +3790,63 @@ namespace SevenStrikeModules.XTween
                     controller.TweenTypes = XTweenTypes.透明度_Alpha;
                     controller.TweenTypes_Alphas = alphaPreset.AlphaType;
                     controller.index_TweenTypes = controller.TweenTypes.ToString();
+                    controller.index_TweenTypes_Alphas = controller.TweenTypes_Alphas.ToString();
                     controller.EndValue_Float = alphaPreset.EndValue;
                     controller.FromValue_Float = alphaPreset.FromValue;
-                    controller.IsFromMode = alphaPreset.UseFromMode;
                     break;
 
                 case XTweenPreset_Color colorPreset:
                     controller.TweenTypes = XTweenTypes.颜色_Color;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
                     controller.EndValue_Color = colorPreset.EndValue;
                     controller.FromValue_Color = colorPreset.FromValue;
-                    controller.IsFromMode = colorPreset.UseFromMode;
                     break;
 
                 case XTweenPreset_Position posPreset:
                     controller.TweenTypes = XTweenTypes.位置_Position;
                     controller.TweenTypes_Positions = posPreset.PositionType;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
+                    controller.index_TweenTypes_Positions = controller.TweenTypes_Positions.ToString();
                     controller.EndValue_Vector2 = posPreset.EndValue_Vector2;
                     controller.EndValue_Vector3 = posPreset.EndValue_Vector3;
                     controller.FromValue_Vector2 = posPreset.FromValue_Vector2;
                     controller.FromValue_Vector3 = posPreset.FromValue_Vector3;
-                    controller.IsFromMode = posPreset.UseFromMode;
                     break;
 
                 case XTweenPreset_Rotation rotPreset:
                     controller.TweenTypes = XTweenTypes.旋转_Rotation;
                     controller.TweenTypes_Rotations = rotPreset.RotationType;
+                    controller.RotationSpace = rotPreset.RotationSpace;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
+                    controller.index_TweenTypes_Rotations = controller.TweenTypes_Rotations.ToString();
+                    controller.index_TweenTypes_Rotation_Space = controller.RotationSpace.ToString();
                     controller.EndValue_Vector3 = rotPreset.EndValue_Euler;
                     controller.EndValue_Quaternion = rotPreset.EndValue_Quaternion;
                     controller.FromValue_Vector3 = rotPreset.FromValue_Euler;
                     controller.FromValue_Quaternion = rotPreset.FromValue_Quaternion;
-                    controller.AnimateSpace = rotPreset.AnimateSpace;
                     controller.RotationMode = rotPreset.RotationMode;
-                    controller.RotateMode = rotPreset.RotateMode;
-                    controller.IsFromMode = rotPreset.UseFromMode;
+                    controller.RotateLerpMode = rotPreset.RotateLerpMode;
                     break;
 
                 case XTweenPreset_Scale scalePreset:
                     controller.TweenTypes = XTweenTypes.缩放_Scale;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
                     controller.EndValue_Vector3 = scalePreset.EndValue;
                     controller.FromValue_Vector3 = scalePreset.FromValue;
-                    controller.IsFromMode = scalePreset.UseFromMode;
                     break;
 
                 case XTweenPreset_Size sizePreset:
                     controller.TweenTypes = XTweenTypes.尺寸_Size;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
                     controller.EndValue_Vector2 = sizePreset.EndValue;
                     controller.FromValue_Vector2 = sizePreset.FromValue;
-                    controller.IsFromMode = sizePreset.UseFromMode;
                     break;
 
                 case XTweenPreset_Shake shakePreset:
                     controller.TweenTypes = XTweenTypes.震动_Shake;
                     controller.TweenTypes_Shakes = shakePreset.ShakeType;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
+                    controller.index_TweenTypes_Shakes = controller.TweenTypes_Shakes.ToString();
                     controller.EndValue_Vector3 = shakePreset.Strength_Vector3;
                     controller.EndValue_Vector2 = shakePreset.Strength_Vector2;
                     controller.Vibrato = shakePreset.Vibrato;
@@ -2937,6 +3857,8 @@ namespace SevenStrikeModules.XTween
                 case XTweenPreset_Text textPreset:
                     controller.TweenTypes = XTweenTypes.文字_Text;
                     controller.TweenTypes_Text = textPreset.TextType;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
+                    controller.index_TweenTypes_Text = controller.TweenTypes_Text.ToString();
                     controller.EndValue_Int = textPreset.EndValue_Int;
                     controller.EndValue_Float = textPreset.EndValue_Float;
                     controller.EndValue_Color = textPreset.EndValue_Color;
@@ -2948,12 +3870,13 @@ namespace SevenStrikeModules.XTween
                     controller.IsExtendedString = textPreset.IsExtendedString;
                     controller.TextCursor = textPreset.TextCursor;
                     controller.CursorBlinkTime = textPreset.CursorBlinkTime;
-                    controller.IsFromMode = textPreset.UseFromMode;
                     break;
 
                 case XTweenPreset_TmpText tmpPreset:
                     controller.TweenTypes = XTweenTypes.文字_TmpText;
                     controller.TweenTypes_TmpText = tmpPreset.TmpTextType;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
+                    controller.index_TweenTypes_TmpText = controller.TweenTypes_TmpText.ToString();
                     controller.EndValue_Float = tmpPreset.EndValue_Float;
                     controller.EndValue_Color = tmpPreset.EndValue_Color;
                     controller.EndValue_String = tmpPreset.EndValue_String;
@@ -2963,25 +3886,25 @@ namespace SevenStrikeModules.XTween
                     controller.FromValue_String = tmpPreset.FromValue_String;
                     controller.FromValue_Vector4 = tmpPreset.FromValue_Vector4;
                     controller.IsExtendedString = tmpPreset.IsExtendedString;
-                    controller.IsFromMode = tmpPreset.UseFromMode;
                     break;
 
                 case XTweenPreset_Fill fillPreset:
                     controller.TweenTypes = XTweenTypes.填充_Fill;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
                     controller.EndValue_Float = fillPreset.EndValue;
                     controller.FromValue_Float = fillPreset.FromValue;
-                    controller.IsFromMode = fillPreset.UseFromMode;
                     break;
 
                 case XTweenPreset_Tiled tiledPreset:
                     controller.TweenTypes = XTweenTypes.平铺_Tiled;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
                     controller.EndValue_Float = tiledPreset.EndValue;
                     controller.FromValue_Float = tiledPreset.FromValue;
-                    controller.IsFromMode = tiledPreset.UseFromMode;
                     break;
 
                 case XTweenPreset_Path pathPreset:
                     controller.TweenTypes = XTweenTypes.路径_Path;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
                     // 路径名称需要通过PathTool查找，这里只设置类型
                     if (controller.Target_PathTool != null && !string.IsNullOrEmpty(pathPreset.PathName))
                     {
@@ -2992,6 +3915,8 @@ namespace SevenStrikeModules.XTween
                 case XTweenPreset_To toPreset:
                     controller.TweenTypes = XTweenTypes.原生动画_To;
                     controller.TweenTypes_To = toPreset.ToType;
+                    controller.index_TweenTypes = controller.TweenTypes.ToString();
+                    controller.index_TweenTypes_To = controller.TweenTypes_To.ToString();
                     controller.EndValue_Int = toPreset.EndValue_Int;
                     controller.EndValue_Float = toPreset.EndValue_Float;
                     controller.EndValue_String = toPreset.EndValue_String;
@@ -3009,7 +3934,6 @@ namespace SevenStrikeModules.XTween
                     controller.IsExtendedString = toPreset.IsExtendedString;
                     controller.TextCursor = toPreset.TextCursor;
                     controller.CursorBlinkTime = toPreset.CursorBlinkTime;
-                    controller.IsFromMode = toPreset.UseFromMode;
                     break;
             }
 
@@ -3161,7 +4085,7 @@ namespace SevenStrikeModules.XTween
         /// </remarks>
         /// <param name="fileName">文件名（不含路径和扩展名，如 "alpha"）</param>
         /// <returns>预设文件的完整物理路径字符串</returns>
-        private static string GetPresetFilePath(string fileName)
+        public static string GetPresetFilePath(string fileName)
         {
             string rootPath = XTween_Dashboard.Get_XTween_Root_Path();
             return Path.Combine(rootPath, "Resources", "Presets", $"xtween_presets_{fileName}.json");
@@ -3207,7 +4131,7 @@ namespace SevenStrikeModules.XTween
         /// </remarks>
         /// <param name="type">动画类型枚举，如 XTweenTypes.透明度_Alpha</param>
         /// <returns>提取后的文件名（小写，如 "alpha"）</returns>
-        private static string GetFileNameFromType(XTweenTypes type)
+        public static string GetFileNameFromType(XTweenTypes type)
         {
             string typeName = type.ToString();
             string[] parts = typeName.Split('_');
@@ -3245,7 +4169,7 @@ namespace SevenStrikeModules.XTween
         /// </remarks>
         /// <param name="typeName">类型名称字符串，如 "透明度_Alpha"</param>
         /// <returns>提取后的文件名（小写，如 "alpha"）</returns>
-        private static string GetFileNameFromType(string typeName)
+        public static string GetFileNameFromType(string typeName)
         {
             string[] parts = typeName.Split('_');
             string fileName = parts.Length > 1 ? parts[1] : typeName;

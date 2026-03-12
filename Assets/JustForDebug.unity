@@ -471,14 +471,14 @@ MonoBehaviour:
   CurrentTweener:
     rid: -2
   DebugMode: 0
-  Duration: 5
-  Delay: 0
+  Duration: 2
+  Delay: 0.2
   UseRandomDelay: 0
   RandomDelay:
     Min: 0
     Max: 0
-  EaseMode: 9
-  UseCurve: 1
+  EaseMode: 7
+  UseCurve: 0
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -486,51 +486,15 @@ MonoBehaviour:
       time: 0
       value: 0
       inSlope: 0
-      outSlope: 0
+      outSlope: 1
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.06801182
-      value: 0.62120324
-      inSlope: 1.4976685
-      outSlope: 1.4976685
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.19566585
-      value: 0.030930042
-      inSlope: 0.6711105
-      outSlope: 0.6711105
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.22298923
-      value: 0.83534384
-      inSlope: 1.5249991
-      outSlope: 1.5249991
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.7979959
-      value: 0.03949821
-      inSlope: 0.40760887
-      outSlope: 0.40760887
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
+      inSlope: 1
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
@@ -548,16 +512,17 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  RotateMode: 1
+  RotateLerpMode: 1
   RotationMode: 0
   Vibrato: 0
   Randomness: 0
   FadeShake: 0
   AutoStart: 0
   IsPaused: 0
-  AnimateSpace: 1
-  EndValue_Int: 0
-  EndValue_Float: 150
+  RotationSpace: 1
+  EaseGraph: {fileID: 2800000, guid: c0abcf5e4b4cceb42b6029d4bb30213f, type: 3}
+  EndValue_Int: 100
+  EndValue_Float: 0
   EndValue_String: 
   EndValue_Vector2: {x: 0, y: 0}
   EndValue_Vector3: {x: 0, y: 0, z: 0}
@@ -627,7 +592,6 @@ GameObject:
   m_Component:
   - component: {fileID: 932289546}
   - component: {fileID: 932289543}
-  - component: {fileID: 932289545}
   - component: {fileID: 932289544}
   m_Layer: 5
   m_Name: Camera
@@ -731,14 +695,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &932289545
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 932289542}
-  m_Enabled: 1
 --- !u!224 &932289546
 RectTransform:
   m_ObjectHideFlags: 0
@@ -758,82 +714,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.079, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &950972541
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 950972543}
-  - component: {fileID: 950972542}
-  m_Layer: 0
-  m_Name: Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &950972542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 950972541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8e691a6e0f17b499127133162297e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EasePics:
-  - {fileID: 2800000, guid: 1f3f0a016f854564394383a20b328091, type: 3}
-  - {fileID: 2800000, guid: 85a5ea9cb44a4af47afd7a3dedcaf104, type: 3}
-  - {fileID: 2800000, guid: ae08c2354f1c5f04ab76a7883f9516d4, type: 3}
-  - {fileID: 2800000, guid: 5b101d1004fcd634690999e1a1e5c9e3, type: 3}
-  - {fileID: 2800000, guid: 7434c43fcdbe19546826a1bb88fb2585, type: 3}
-  - {fileID: 2800000, guid: 837ee89f652063c4abd475f0fd59610d, type: 3}
-  - {fileID: 2800000, guid: 2236b5cabb09ec84dbbd130014057967, type: 3}
-  - {fileID: 2800000, guid: c0abcf5e4b4cceb42b6029d4bb30213f, type: 3}
-  - {fileID: 2800000, guid: 51d2d5c934a4bb0469d1ba7b5957a170, type: 3}
-  - {fileID: 2800000, guid: 7844eb514d3b45849b997edebdec9f7f, type: 3}
-  - {fileID: 2800000, guid: 2b1f745e82bcc764fba6d2cceff8f56f, type: 3}
-  - {fileID: 2800000, guid: 780f21576d6ac6f4d9ccded6dc6b4c09, type: 3}
-  - {fileID: 2800000, guid: 550584284aa407040b5228adba702021, type: 3}
-  - {fileID: 2800000, guid: 3ee40c5dc1f15144ebf8730d899ef53e, type: 3}
-  - {fileID: 2800000, guid: 383ae2e95f9d56146ae29cfafe79a35d, type: 3}
-  - {fileID: 2800000, guid: 66a6c8c033d6e4d4887f5ab120a26a12, type: 3}
-  - {fileID: 2800000, guid: 557b1c91487c2364f95722fd67f5934b, type: 3}
-  - {fileID: 2800000, guid: 4f10eac98aaa7834ab65e53c2d9790ad, type: 3}
-  - {fileID: 2800000, guid: fee1d9edc0f855a4cb8582d5f75c29f6, type: 3}
-  - {fileID: 2800000, guid: 93bd6ad4363ee9641a3cae452b64798d, type: 3}
-  - {fileID: 2800000, guid: febd8cc86ac65bc44a56b7bf82c98f0d, type: 3}
-  - {fileID: 2800000, guid: 34a1121a614d4ba49aae90a4476ae2c5, type: 3}
-  - {fileID: 2800000, guid: 311cfecfe6e1b944bb0e5a7d9ac861f8, type: 3}
-  - {fileID: 2800000, guid: 365b404d1177f0d40946794f51049bdb, type: 3}
-  - {fileID: 2800000, guid: affdc683a48fb5a419cc5b0ec58476d8, type: 3}
-  - {fileID: 2800000, guid: 4a0edeab2ad7c8948aec300f49c476a5, type: 3}
-  - {fileID: 2800000, guid: ebb6c69f4a73f4d40884615728b37271, type: 3}
-  - {fileID: 2800000, guid: b8ae34a1d169f384495cc12e0c25dcc6, type: 3}
-  - {fileID: 2800000, guid: 3c5ce3936d2fe574cbc9fff19eea7a00, type: 3}
-  - {fileID: 2800000, guid: 9caa1f618fe02ea4ca8b402a9dcf4f0b, type: 3}
-  - {fileID: 2800000, guid: a5a845281d534f442ac3976d2d5cbf71, type: 3}
---- !u!4 &950972543
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 950972541}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -139.41467, y: -52.21614, z: -1.9412339}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &961739749
 GameObject:
   m_ObjectHideFlags: 0
@@ -1074,6 +954,82 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1341644194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1341644196}
+  - component: {fileID: 1341644195}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1341644195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341644194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b8e691a6e0f17b499127133162297e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EasePics:
+  - {fileID: 2800000, guid: 1f3f0a016f854564394383a20b328091, type: 3}
+  - {fileID: 2800000, guid: 85a5ea9cb44a4af47afd7a3dedcaf104, type: 3}
+  - {fileID: 2800000, guid: ae08c2354f1c5f04ab76a7883f9516d4, type: 3}
+  - {fileID: 2800000, guid: 5b101d1004fcd634690999e1a1e5c9e3, type: 3}
+  - {fileID: 2800000, guid: 7434c43fcdbe19546826a1bb88fb2585, type: 3}
+  - {fileID: 2800000, guid: 837ee89f652063c4abd475f0fd59610d, type: 3}
+  - {fileID: 2800000, guid: 2236b5cabb09ec84dbbd130014057967, type: 3}
+  - {fileID: 2800000, guid: c0abcf5e4b4cceb42b6029d4bb30213f, type: 3}
+  - {fileID: 2800000, guid: 51d2d5c934a4bb0469d1ba7b5957a170, type: 3}
+  - {fileID: 2800000, guid: 7844eb514d3b45849b997edebdec9f7f, type: 3}
+  - {fileID: 2800000, guid: 2b1f745e82bcc764fba6d2cceff8f56f, type: 3}
+  - {fileID: 2800000, guid: 780f21576d6ac6f4d9ccded6dc6b4c09, type: 3}
+  - {fileID: 2800000, guid: 550584284aa407040b5228adba702021, type: 3}
+  - {fileID: 2800000, guid: 3ee40c5dc1f15144ebf8730d899ef53e, type: 3}
+  - {fileID: 2800000, guid: 383ae2e95f9d56146ae29cfafe79a35d, type: 3}
+  - {fileID: 2800000, guid: 66a6c8c033d6e4d4887f5ab120a26a12, type: 3}
+  - {fileID: 2800000, guid: 557b1c91487c2364f95722fd67f5934b, type: 3}
+  - {fileID: 2800000, guid: 4f10eac98aaa7834ab65e53c2d9790ad, type: 3}
+  - {fileID: 2800000, guid: fee1d9edc0f855a4cb8582d5f75c29f6, type: 3}
+  - {fileID: 2800000, guid: 93bd6ad4363ee9641a3cae452b64798d, type: 3}
+  - {fileID: 2800000, guid: febd8cc86ac65bc44a56b7bf82c98f0d, type: 3}
+  - {fileID: 2800000, guid: 34a1121a614d4ba49aae90a4476ae2c5, type: 3}
+  - {fileID: 2800000, guid: 311cfecfe6e1b944bb0e5a7d9ac861f8, type: 3}
+  - {fileID: 2800000, guid: 365b404d1177f0d40946794f51049bdb, type: 3}
+  - {fileID: 2800000, guid: affdc683a48fb5a419cc5b0ec58476d8, type: 3}
+  - {fileID: 2800000, guid: 4a0edeab2ad7c8948aec300f49c476a5, type: 3}
+  - {fileID: 2800000, guid: ebb6c69f4a73f4d40884615728b37271, type: 3}
+  - {fileID: 2800000, guid: b8ae34a1d169f384495cc12e0c25dcc6, type: 3}
+  - {fileID: 2800000, guid: 3c5ce3936d2fe574cbc9fff19eea7a00, type: 3}
+  - {fileID: 2800000, guid: 9caa1f618fe02ea4ca8b402a9dcf4f0b, type: 3}
+  - {fileID: 2800000, guid: a5a845281d534f442ac3976d2d5cbf71, type: 3}
+--- !u!4 &1341644196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341644194}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -24.356102, y: -10.114554, z: 0.009730637}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1392730298
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,7 +1191,7 @@ MonoBehaviour:
   CurrentTweener:
     rid: -2
   DebugMode: 0
-  Duration: 1
+  Duration: 2
   Delay: 0
   UseRandomDelay: 0
   RandomDelay:
@@ -1267,7 +1223,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  LoopCount: 0
+  LoopCount: -1
   LoopDelay: 0
   LoopType: 0
   IsFromMode: 0
@@ -1276,19 +1232,20 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  RotateMode: 1
+  RotateLerpMode: 1
   RotationMode: 0
   Vibrato: 0
   Randomness: 0
   FadeShake: 0
   AutoStart: 1
   IsPaused: 0
-  AnimateSpace: 1
-  EndValue_Int: 0
+  RotationSpace: 1
+  EaseGraph: {fileID: 2800000, guid: 7844eb514d3b45849b997edebdec9f7f, type: 3}
+  EndValue_Int: 100
   EndValue_Float: 0
   EndValue_String: 
-  EndValue_Vector2: {x: 0, y: 0}
-  EndValue_Vector3: {x: 0, y: 0, z: 0}
+  EndValue_Vector2: {x: 200, y: 200}
+  EndValue_Vector3: {x: 0, y: 0, z: 360}
   EndValue_Vector4: {x: 0, y: 0, z: 0, w: 0}
   EndValue_Color: {r: 1, g: 1, b: 1, a: 1}
   EndValue_Quaternion: {x: 0, y: 0, z: 0, w: 1}
@@ -1300,16 +1257,16 @@ MonoBehaviour:
   FromValue_Vector4: {x: 0, y: 0, z: 0, w: 0}
   FromValue_Color: {r: 1, g: 1, b: 1, a: 1}
   FromValue_Quaternion: {x: 0, y: 0, z: 0, w: 1}
-  TweenTypes: 9
-  TweenTypes_Positions: 1
+  TweenTypes: 3
+  TweenTypes_Positions: 0
   TweenTypes_Rotations: 0
   TweenTypes_Alphas: 0
   TweenTypes_Shakes: 0
   TweenTypes_Text: 0
   TweenTypes_TmpText: 0
   TweenTypes_To: 0
-  index_TweenTypes: "\u900F\u660E\u5EA6_Alpha"
-  index_TweenTypes_Positions: "\u951A\u70B9\u4F4D\u7F6E3D_AnchoredPosition3D"
+  index_TweenTypes: "\u4F4D\u7F6E_Position"
+  index_TweenTypes_Positions: "\u951A\u70B9\u4F4D\u7F6E_AnchoredPosition"
   index_TweenTypes_Rotations: "\u6B27\u62C9\u89D2\u5EA6_Euler"
   index_TweenTypes_Rotation_Space: "\u7EDD\u5BF9"
   index_TweenTypes_Alphas: "Image\u7EC4\u4EF6"
@@ -1353,4 +1310,4 @@ SceneRoots:
   - {fileID: 203844589}
   - {fileID: 1979269402}
   - {fileID: 265287213}
-  - {fileID: 950972543}
+  - {fileID: 1341644196}

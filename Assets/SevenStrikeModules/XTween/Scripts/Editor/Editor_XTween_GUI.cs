@@ -21,6 +21,7 @@
 namespace SevenStrikeModules.XTween.Editor
 {
     using System;
+    using System.Drawing;
     using System.Linq;
     using System.Reflection;
     using UnityEditor;
@@ -719,6 +720,28 @@ namespace SevenStrikeModules.XTween.Editor
         /// <summary>
         /// 创造一个选项按钮
         /// </summary>
+        /// <param name="Rect">尺寸</param>
+        /// <param name="Rect"></param>
+        /// <param name="index"></param>
+        /// <param name="options"></param>
+        /// <param name="FillStyle"></param>
+        /// <param name="Color"></param>
+        /// <param name="ButtonTextColor"></param>        
+        /// <returns>返回的Int值用于判断选择了那个选项</returns>
+        public static int Gui_Popup(Rect Rect, string title, float labelWidth, Vector2 selectorOffset, Font font, int index, string[] options, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonColor, Color ButtonTextColor)
+        {
+            Gui_Labelfield(Rect, title, XTweenGUIFilled.无, XTweenGUIColor.无, UnityEngine.Color.white, TextAnchor.MiddleLeft, 12, font);
+            GUIStyle Style = new GUIStyle(Style_EnumsOption);
+            Style.normal.background = GetFillTexture(FillStyle, Color);
+            Style.normal.textColor = ButtonTextColor;
+            GUI.backgroundColor = ButtonColor;
+            int sw = EditorGUI.Popup(new Rect(Rect.x + labelWidth + selectorOffset.x, Rect.y + selectorOffset.y, Rect.width - labelWidth, Rect.height), index, options, Style);
+            GUI.backgroundColor = UnityEngine.Color.white;
+            return sw;
+        }
+        /// <summary>
+        /// 创造一个选项按钮
+        /// </summary>
         /// <param name="Rect">按钮尺寸</param>
         /// <returns>返回的Int值用于判断选择了那个选项</returns>
         public static void Gui_PopupWithString(Rect Rect, ref SerializedProperty serializedProperty, string[] options, XTweenGUIFilled FillStyle, XTweenGUIColor Color, Color ButtonTextColor)
@@ -929,6 +952,55 @@ namespace SevenStrikeModules.XTween.Editor
                     return false;
             }
         }
+
+        /// <summary>
+        /// 创造一个开关
+        /// </summary>
+        /// <param name="Text">开关标题</param>
+        /// <param name="Val">指定布尔值</param>
+        /// <param name="FillStyle_Normal">正常状态下的选项按钮背景样式 Solid=实心  Edge=空心</param>
+        /// <param name="Color_Normal">正常状态下的选项按钮颜色样式</param>
+        /// <param name="FillStyle_Selected">选中状态下的选项按钮背景样式 Solid=实心  Edge=空心</param>
+        /// <param name="Color_Selected">选中状态下的选项按钮颜色样式</param>
+        /// <param name="TextColor_Normal">正常状态选项按钮文字颜色</param>
+        /// <param name="TextColor_Selected">选中状态选项按钮文字颜色</param>
+        /// <returns></returns>
+        public static bool Gui_Toggle(Rect rect, string title, Font font, float labelWidth, Vector2 selectorOffset, bool simple, string[] Options = null, bool Val = false, XTweenGUIFilled FillStyle_Normal = XTweenGUIFilled.边框, XTweenGUIColor Color_Normal = XTweenGUIColor.亮白, XTweenGUIFilled FillStyle_Selected = XTweenGUIFilled.实体, Color Color_Selected = default, Color TextColor_Normal = default, Color TextColor_Selected = default)
+        {
+            if (simple)
+            {
+                float w = EditorGUIUtility.labelWidth;
+                EditorGUIUtility.labelWidth = labelWidth;
+                bool x = EditorGUI.Toggle(rect, title, Val);
+                EditorGUIUtility.labelWidth = w;
+
+                return x;
+            }
+            else
+            {
+                Gui_Labelfield(rect, title, XTweenGUIFilled.无, XTweenGUIColor.无, Color.white, TextAnchor.MiddleLeft, 12, font);
+
+                int x = 0;
+                GUIStyle Style = new GUIStyle(Style_ToolBar);
+                Style.normal.background = GetBtnFillTexture(FillStyle_Normal, Color_Normal);
+                Style.onNormal.background = GetBtnFillTexture(FillStyle_Selected, XTweenGUIColor.亮白);
+                Style.normal.textColor = TextColor_Normal;
+                Style.onNormal.textColor = TextColor_Selected;
+
+                if (Val)
+                    x = 1;
+                else
+                    x = 0;
+                Color bgcol = GUI.backgroundColor;
+                GUI.backgroundColor = XTween_Dashboard.Theme_Primary;
+                x = GUI.Toolbar(new Rect(rect.x + labelWidth + selectorOffset.x, rect.y + selectorOffset.y, rect.width - labelWidth, rect.height), x, Options, Style);
+                GUI.backgroundColor = bgcol;
+                if (x == 1)
+                    return true;
+                else
+                    return false;
+            }
+        }
         #endregion
 
         #region ToolBar
@@ -970,6 +1042,20 @@ namespace SevenStrikeModules.XTween.Editor
         public static Color Gui_ColorField(Rect Rect, Color val)
         {
             return EditorGUI.ColorField(Rect, val);
+        }
+        /// <summary>
+        /// 创造一个Color框
+        /// </summary>
+        /// <param name="Rect">尺寸_Size</param>
+        /// <param name="val">颜色</param>
+        /// <returns>返回Color数值</returns>
+        public static Color Gui_ColorField(Rect Rect, string title, float labelWidth, Color val)
+        {
+            float w = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = labelWidth;
+            Color v = EditorGUI.ColorField(Rect, title, val);
+            EditorGUIUtility.labelWidth = w;
+            return v;
         }
         /// <summary>
         /// 创造一个Color框
@@ -1045,6 +1131,19 @@ namespace SevenStrikeModules.XTween.Editor
             return EditorGUI.Vector2Field(Rect, GUIContent.none, val);
         }
         /// <summary>
+        /// 创造一个Vector2输入框
+        /// </summary>
+        /// <param name="Rect">尺寸_Size</param>
+        /// <returns>返回Vector2数值</returns>
+        public static Vector2 Gui_InputField_Vector2(Rect Rect, string title, float labelWidth, Vector2 val)
+        {
+            float w = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = labelWidth;
+            Vector2 v = EditorGUI.Vector2Field(Rect, title, val);
+            EditorGUIUtility.labelWidth = w;
+            return v;
+        }
+        /// <summary>
         /// 创造一个Vector3输入框
         /// </summary>
         /// <param name="Rect">尺寸_Size</param>
@@ -1052,6 +1151,19 @@ namespace SevenStrikeModules.XTween.Editor
         public static Vector3 Gui_InputField_Vector3(Rect Rect, Vector3 val)
         {
             return EditorGUI.Vector3Field(Rect, GUIContent.none, val);
+        }
+        /// <summary>
+        /// 创造一个Vector3输入框
+        /// </summary>
+        /// <param name="Rect">尺寸_Size</param>
+        /// <returns>返回Vector2数值</returns>
+        public static Vector3 Gui_InputField_Vector3(Rect Rect, string title, float labelWidth, Vector3 val)
+        {
+            float w = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = labelWidth;
+            Vector3 v = EditorGUI.Vector3Field(Rect, title, val);
+            EditorGUIUtility.labelWidth = w;
+            return v;
         }
         /// <summary>
         /// 创造一个Vector4输入框
@@ -1063,15 +1175,39 @@ namespace SevenStrikeModules.XTween.Editor
             return EditorGUI.Vector4Field(Rect, GUIContent.none, val);
         }
         /// <summary>
+        /// 创造一个Vector3输入框
+        /// </summary>
+        /// <param name="Rect">尺寸_Size</param>
+        /// <returns>返回Vector2数值</returns>
+        public static Vector2 Gui_InputField_Vector4(Rect Rect, string title, float labelWidth, Vector4 val)
+        {
+            float w = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = labelWidth;
+            Vector4 v = EditorGUI.Vector4Field(Rect, title, val);
+            EditorGUIUtility.labelWidth = w;
+            return v;
+        }
+        /// <summary>
         /// 创造一个int输入框
         /// </summary>
         /// <param name="Rect">按钮尺寸</param>
         /// <returns>返回int数值</returns>
         public static int Gui_InputField_Int(Rect Rect, int val)
         {
-            //GUIStyle gfs = Style_Inputfield;
-            //gfs.alignment = TextAnchor.MiddleLeft;
             return EditorGUI.IntField(Rect, val);
+        }
+        /// <summary>
+        /// 创造一个int输入框
+        /// </summary>
+        /// <param name="Rect">按钮尺寸</param>
+        /// <returns>返回int数值</returns>
+        public static int Gui_InputField_Int(Rect Rect, string title, float labelWidth, int val)
+        {
+            float w = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = labelWidth;
+            int x = EditorGUI.IntField(Rect, title, val);
+            EditorGUIUtility.labelWidth = w;
+            return x;
         }
         /// <summary>
         /// 创造一个Float输入框
@@ -1087,21 +1223,53 @@ namespace SevenStrikeModules.XTween.Editor
         /// </summary>
         /// <param name="Rect">按钮尺寸</param>
         /// <returns>返回Float数值</returns>
-        public static float Gui_InputField_Float(Rect Rect, string Text, float val)
+        public static float Gui_InputField_Float(Rect Rect, string title, float val)
         {
-            return EditorGUI.FloatField(Rect, Text, val);
+            return EditorGUI.FloatField(Rect, title, val);
+        }
+        /// <summary>
+        /// 创造一个Float输入框
+        /// </summary>
+        /// <param name="Rect">按钮尺寸</param>
+        /// <returns>返回Float数值</returns>
+        public static float Gui_InputField_Float(Rect Rect, string title, float labelWidth, float val)
+        {
+            float w = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = labelWidth;
+            float x = EditorGUI.FloatField(Rect, title, val);
+            EditorGUIUtility.labelWidth = w;
+            return x;
         }
         /// <summary>
         /// 创造一个String输入框
         /// </summary>
         /// <param name="Rect">尺寸_Size</param>
         /// <returns>返回String数值</returns>
-        public static string Gui_InputField_String(Rect Rect, string val, GUIStyle style = null)
+        public static string Gui_InputField_String(Rect Rect, string val)
         {
-            if (style != null)
-                return EditorGUI.TextField(Rect, val, style);
-            else
-                return EditorGUI.TextField(Rect, val);
+            return EditorGUI.TextField(Rect, val);
+        }
+        /// <summary>
+        /// 创造一个String输入框
+        /// </summary>
+        /// <param name="Rect">尺寸_Size</param>
+        /// <returns>返回String数值</returns>
+        public static string Gui_InputField_String(Rect Rect, string title, float labelWidth, string val)
+        {
+            float w = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = labelWidth;
+            string x = EditorGUI.TextField(Rect, title, val);
+            EditorGUIUtility.labelWidth = w;
+            return x;
+        }
+        /// <summary>
+        /// 创造一个String输入框
+        /// </summary>
+        /// <param name="Rect">尺寸_Size</param>
+        /// <returns>返回String数值</returns>
+        public static string Gui_InputField_String(Rect Rect, string val, GUIStyle style)
+        {
+            return EditorGUI.TextField(Rect, val, style);
         }
         /// <summary>
         /// 创造一个String输入框

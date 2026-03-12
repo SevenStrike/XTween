@@ -35,7 +35,7 @@ namespace SevenStrikeModules.XTween
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <param name="rotationMode">旋转模式</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Rotate_To(this UnityEngine.RectTransform rectTransform, Vector3 endValue, float duration, bool isRelative, bool autokill, XTweenSpace space, XTweenRotationMode rotationMode)
+        public static XTween_Interface xt_Rotate_To(this UnityEngine.RectTransform rectTransform, Vector3 endValue, float duration, bool isRelative, bool autokill, XTweenRotationSpace space, XTweenRotationMode rotationMode)
         {
             if (rectTransform == null)
             {
@@ -43,7 +43,7 @@ namespace SevenStrikeModules.XTween
                 return null;
             }
 
-            Vector3 currentRotation = space == XTweenSpace.相对 ? rectTransform.localEulerAngles : rectTransform.eulerAngles;
+            Vector3 currentRotation = space == XTweenRotationSpace.相对 ? rectTransform.localEulerAngles : rectTransform.eulerAngles;
             Vector3 targetRotation = isRelative ? currentRotation + endValue : endValue;
 
             // 在方法体内，计算 targetRotation 后调用：
@@ -59,19 +59,19 @@ namespace SevenStrikeModules.XTween
                 {
                     if (rectTransform == null)
                         return;
-                    if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                    if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                 })
                 .OnRewind(() =>
                 {
                     if (rectTransform == null)
                         return;
-                    if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                    if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                 })
                 .OnComplete((duration) =>
                 {
                     if (rectTransform == null)
                         return;
-                    if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                    if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                 })
                 .SetAutokill(autokill)
                 .SetRelative(isRelative);
@@ -85,17 +85,17 @@ namespace SevenStrikeModules.XTween
                 {
                     if (rectTransform == null)
                         return;
-                    if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                    if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                 }).OnRewind(() =>
                 {
                     if (rectTransform == null)
                         return;
-                    if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                    if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                 }).OnComplete((duration) =>
                 {
                     if (rectTransform == null)
                         return;
-                    if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                    if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                 })
                 .SetAutokill(false)
                 .SetRelative(isRelative);
@@ -119,7 +119,7 @@ namespace SevenStrikeModules.XTween
         /// <param name="useCurve">使用曲线</param>
         /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Rotate_To(this UnityEngine.RectTransform rectTransform, Vector3 endValue, float duration, bool isRelative, bool autokill, XTweenSpace space, XTweenRotationMode rotationMode, EaseMode easeMode, bool isFromMode, XTween_Getter<Vector3> fromvalue, bool useCurve, AnimationCurve curve)
+        public static XTween_Interface xt_Rotate_To(this UnityEngine.RectTransform rectTransform, Vector3 endValue, float duration, bool isRelative, bool autokill, XTweenRotationSpace space, XTweenRotationMode rotationMode, EaseMode easeMode, bool isFromMode, XTween_Getter<Vector3> fromvalue, bool useCurve, AnimationCurve curve)
         {
             if (rectTransform == null)
             {
@@ -127,7 +127,7 @@ namespace SevenStrikeModules.XTween
                 return null;
             }
 
-            Vector3 currentRotation = space == XTweenSpace.相对 ? rectTransform.localEulerAngles : rectTransform.eulerAngles;
+            Vector3 currentRotation = space == XTweenRotationSpace.相对 ? rectTransform.localEulerAngles : rectTransform.eulerAngles;
             Vector3 targetRotation = isRelative ? currentRotation + endValue : endValue;
 
             // 在方法体内，计算 targetRotation 后调用：
@@ -150,17 +150,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
                     }
                     else
@@ -169,17 +169,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
                     }
                 }
@@ -191,17 +191,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
                     }
                     else
@@ -210,17 +210,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
                     }
                 }
@@ -241,17 +241,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
                     }
                     else
@@ -260,17 +260,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
                     }
                 }
@@ -282,17 +282,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
                     }
                     else
@@ -301,17 +301,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = rotation; } else { rectTransform.eulerAngles = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = currentRotation; } else { rectTransform.eulerAngles = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localEulerAngles = targetRotation; } else { rectTransform.eulerAngles = targetRotation; }
                         }).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
                     }
                 }
@@ -329,7 +329,7 @@ namespace SevenStrikeModules.XTween
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <param name="mode">旋转模式（Lerp 或 Slerp）</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Rotate_To(this UnityEngine.RectTransform rectTransform, Quaternion endValue, float duration, bool isRelative, bool autokill, XTweenSpace space, XTweenRotateLerpType mode)
+        public static XTween_Interface xt_Rotate_To(this UnityEngine.RectTransform rectTransform, Quaternion endValue, float duration, bool isRelative, bool autokill, XTweenRotationSpace space, XTweenRotateLerpType mode)
         {
             if (rectTransform == null)
             {
@@ -337,7 +337,7 @@ namespace SevenStrikeModules.XTween
                 return null;
             }
 
-            Quaternion currentRotation = space == XTweenSpace.相对 ? rectTransform.localRotation : rectTransform.rotation;
+            Quaternion currentRotation = space == XTweenRotationSpace.相对 ? rectTransform.localRotation : rectTransform.rotation;
             Quaternion targetRotation = isRelative ? currentRotation * endValue : endValue;
 
             if (Application.isPlaying)
@@ -352,19 +352,19 @@ namespace SevenStrikeModules.XTween
                 {
                     if (rectTransform == null)
                         return;
-                    if (space == XTweenSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                    if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                 })
                 .OnRewind(() =>
                 {
                     if (rectTransform == null)
                         return;
-                    if (space == XTweenSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                    if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                 })
                 .OnComplete((duration) =>
                 {
                     if (rectTransform == null)
                         return;
-                    if (space == XTweenSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                    if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                 })
                 .SetAutokill(autokill)
                 .SetRelative(isRelative);
@@ -379,19 +379,19 @@ namespace SevenStrikeModules.XTween
                      {
                          if (rectTransform == null)
                              return;
-                         if (space == XTweenSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                         if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                      })
                      .OnRewind(() =>
                      {
                          if (rectTransform == null)
                              return;
-                         if (space == XTweenSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                         if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                      })
                      .OnComplete((duration) =>
                      {
                          if (rectTransform == null)
                              return;
-                         if (space == XTweenSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                         if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                      })
                      .SetAutokill(false)
                      .SetRelative(isRelative);
@@ -415,7 +415,7 @@ namespace SevenStrikeModules.XTween
         /// <param name="useCurve">使用曲线</param>
         /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Rotate_To(this UnityEngine.RectTransform rectTransform, Quaternion endValue, float duration, bool isRelative, bool autokill, XTweenSpace space, XTweenRotateLerpType mode, EaseMode easeMode, bool isFromMode, XTween_Getter<Quaternion> fromvalue, bool useCurve, AnimationCurve curve)
+        public static XTween_Interface xt_Rotate_To(this UnityEngine.RectTransform rectTransform, Quaternion endValue, float duration, bool isRelative, bool autokill, XTweenRotationSpace space, XTweenRotateLerpType mode, EaseMode easeMode, bool isFromMode, XTween_Getter<Quaternion> fromvalue, bool useCurve, AnimationCurve curve)
         {
             if (rectTransform == null)
             {
@@ -423,7 +423,7 @@ namespace SevenStrikeModules.XTween
                 return null;
             }
 
-            Quaternion currentRotation = space == XTweenSpace.相对 ? rectTransform.localRotation : rectTransform.rotation;
+            Quaternion currentRotation = space == XTweenRotationSpace.相对 ? rectTransform.localRotation : rectTransform.rotation;
             Quaternion targetRotation = isRelative ? currentRotation * endValue : endValue;
 
             if (Application.isPlaying)
@@ -445,17 +445,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
                     }
                     else
@@ -464,17 +464,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
                     }
                 }
@@ -486,17 +486,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                         }).SetEase(curve).SetAutokill(autokill).SetRelative(isRelative);
                     }
                     else
@@ -505,17 +505,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                         }).SetEase(easeMode).SetAutokill(autokill).SetRelative(isRelative);
                     }
                 }
@@ -536,17 +536,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
                     }
                     else
@@ -555,17 +555,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
                     }
                 }
@@ -577,17 +577,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                         }).SetEase(curve).SetAutokill(false).SetRelative(isRelative);
                     }
                     else
@@ -596,17 +596,17 @@ namespace SevenStrikeModules.XTween
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = rotation; } else { rectTransform.rotation = rotation; }
                         }).OnRewind(() =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = currentRotation; } else { rectTransform.rotation = currentRotation; }
                         }).OnComplete((duration) =>
                         {
                             if (rectTransform == null)
                                 return;
-                            if (space == XTweenSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
+                            if (space == XTweenRotationSpace.相对) { rectTransform.localRotation = targetRotation; } else { rectTransform.rotation = targetRotation; }
                         }).SetEase(easeMode).SetAutokill(false).SetRelative(isRelative);
                     }
                 }

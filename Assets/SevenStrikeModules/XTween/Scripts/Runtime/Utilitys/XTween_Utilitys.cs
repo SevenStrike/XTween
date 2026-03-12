@@ -217,5 +217,38 @@ namespace SevenStrikeModules.XTween
             }
             return Combine;
         }
+        /// <summary>
+        ///  将Vector2向量转换为 x,y 字符串格式（小括号可选）
+        /// </summary>
+        /// <param name="SourceVector">需要转换的向量.</param>
+        /// <param name="IncludeBracket">转换后是否包含前后小括号，例：(x,y,z) </param>
+        /// <returns>此方法返回类型为 ->  x,y 格式的字符串.</returns>
+        public static string Vector2_To_String(Vector2 SourceVector, bool IncludeBracket = false)
+        {
+            string Combine = null;
+
+            if (!IncludeBracket)
+            {
+                string ConData = SourceVector.ToString().Remove(0, 1).Trim();
+                Combine = ConData.Remove(ConData.Length - 1, 1).Trim();
+            }
+            else
+            {
+                Combine = SourceVector.ToString();
+            }
+            return Combine;
+        }
+        /// <summary>
+        /// 将指定的带分隔符的字符串转换为Vector2向量
+        /// </summary>
+        /// <param name="SourceVector">需要转换的向量字符串</param>
+        /// <param name="Symbol">字符串中的分隔符</param>
+        /// <returns>此方法返回类型为 -> Vector2向量.</returns>
+        public static Vector2 Vector2_From_String(string SourceVector, char Symbol = ',')
+        {
+            string[] Splite = SourceVector.Split(new char[1] { Symbol });
+            Vector2 Combine = new Vector2(float.Parse(Splite[0]), float.Parse(Splite[1]));
+            return Combine;
+        }
     }
 }

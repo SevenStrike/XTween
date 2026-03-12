@@ -20,6 +20,7 @@
  */
 namespace SevenStrikeModules.XTween.Editor
 {
+    using System;
     using TMPro;
     using UnityEditor;
     using UnityEngine;
@@ -34,7 +35,7 @@ namespace SevenStrikeModules.XTween.Editor
         /// <summary>
         /// 序列化属性
         /// </summary>
-        private SerializedProperty sp_Duration, sp_Delay, sp_UseRandomDelay, sp_RandomDelay, sp_EaseMode, sp_UseCurve, sp_Curve, sp_LoopCount, sp_LoopDelay, sp_LoopType, sp_IsFromMode, sp_IsRelative, sp_IsAutoKill, sp_EndValue_String, sp_EndValue_Int, sp_EndValue_Float, sp_EndValue_Vector2, sp_EndValue_Vector3, sp_EndValue_Vector4, sp_EndValue_Color, sp_EndValue_Quaternion, sp_FromValue_Int, sp_FromValue_Float, sp_FromValue_String, sp_FromValue_Vector2, sp_FromValue_Vector3, sp_FromValue_Vector4, sp_FromValue_Color, sp_FromValue_Quaternion, sp_Target_PathTool, sp_TweenTypes, sp_TweenTypes_Positions, sp_TweenTypes_Rotations, sp_TweenTypes_Alphas, sp_TweenTypes_Shakes, sp_TweenTypes_Text, sp_TweenTypes_To, sp_index_TweenTypes, sp_index_TweenTypes_Positions, sp_index_TweenTypes_Rotations, sp_index_TweenTypes_Alphas, sp_index_TweenTypes_Shakes, sp_index_TweenTypes_Text, sp_index_TweenTypes_To, sp_Target_RectTransform, sp_Target_Image, sp_Target_CanvasGroup, sp_Target_Text, sp_Target_Int, sp_Target_Float, sp_Target_String, sp_Target_Vector2, sp_Target_Vector3, sp_Target_Vector4, sp_Target_Color, sp_index_AutoKillPreviewTweens, sp_index_RewindPreviewTweensWithKill, sp_index_ClearPreviewTweensWithKill, sp_keyControl_Tween_Play, sp_keyControl_Tween_Rewind, sp_keyControl_Tween_Pause_Resume, sp_keyControl_Tween_Kill, sp_keyControl_Tween_Replay, sp_keyControl_Enabled, sp_keyControl_Tween_Create, sp_DebugMode, sp_IsExtendedString, sp_TextCursor, sp_CursorBlinkTime, sp_RotateMode, sp_RotationMode, sp_Vibrato, sp_Randomness, sp_FadeShake, sp_AutoStart, sp_index_TweenTypes_Rotation_Space, sp_AnimateSpace, sp_Target_TmpText, sp_TweenTypes_TmpText, sp_index_TweenTypes_TmpText;
+        private SerializedProperty sp_Duration, sp_Delay, sp_UseRandomDelay, sp_RandomDelay, sp_EaseMode, sp_UseCurve, sp_Curve, sp_LoopCount, sp_LoopDelay, sp_LoopType, sp_IsFromMode, sp_IsRelative, sp_IsAutoKill, sp_EndValue_String, sp_EndValue_Int, sp_EndValue_Float, sp_EndValue_Vector2, sp_EndValue_Vector3, sp_EndValue_Vector4, sp_EndValue_Color, sp_EndValue_Quaternion, sp_FromValue_Int, sp_FromValue_Float, sp_FromValue_String, sp_FromValue_Vector2, sp_FromValue_Vector3, sp_FromValue_Vector4, sp_FromValue_Color, sp_FromValue_Quaternion, sp_Target_PathTool, sp_TweenTypes, sp_TweenTypes_Positions, sp_TweenTypes_Rotations, sp_TweenTypes_Alphas, sp_TweenTypes_Shakes, sp_TweenTypes_Text, sp_TweenTypes_To, sp_index_TweenTypes, sp_index_TweenTypes_Positions, sp_index_TweenTypes_Rotations, sp_index_TweenTypes_Alphas, sp_index_TweenTypes_Shakes, sp_index_TweenTypes_Text, sp_index_TweenTypes_To, sp_Target_RectTransform, sp_Target_Image, sp_Target_CanvasGroup, sp_Target_Text, sp_Target_Int, sp_Target_Float, sp_Target_String, sp_Target_Vector2, sp_Target_Vector3, sp_Target_Vector4, sp_Target_Color, sp_index_AutoKillPreviewTweens, sp_index_RewindPreviewTweensWithKill, sp_index_ClearPreviewTweensWithKill, sp_keyControl_Tween_Play, sp_keyControl_Tween_Rewind, sp_keyControl_Tween_Pause_Resume, sp_keyControl_Tween_Kill, sp_keyControl_Tween_Replay, sp_keyControl_Enabled, sp_keyControl_Tween_Create, sp_DebugMode, sp_IsExtendedString, sp_TextCursor, sp_CursorBlinkTime, sp_RotateLerpMode, sp_RotationMode, sp_Vibrato, sp_Randomness, sp_FadeShake, sp_AutoStart, sp_index_TweenTypes_Rotation_Space, sp_RotationSpace, sp_Target_TmpText, sp_TweenTypes_TmpText, sp_index_TweenTypes_TmpText, sp_EaseGraph;
 
         /// <summary>
         /// 图标
@@ -47,7 +48,7 @@ namespace SevenStrikeModules.XTween.Editor
         private Color TweenLedOnColor;
         private string TweenLiquidContent;
         private Texture2D TweenLiquidScreen;
-        private Texture2D EasePic, EasePicBg;
+        private Texture2D EasePicBg;
 
         Rect rect_liquid_prim;
         Rect rect_liquid_set;
@@ -146,13 +147,13 @@ namespace SevenStrikeModules.XTween.Editor
             sp_EndValue_Vector4 = serializedObject.FindProperty("EndValue_Vector4");
             sp_EndValue_Color = serializedObject.FindProperty("EndValue_Color");
             sp_EndValue_Quaternion = serializedObject.FindProperty("EndValue_Quaternion");
-            sp_RotateMode = serializedObject.FindProperty("RotateMode");
+            sp_RotateLerpMode = serializedObject.FindProperty("RotateLerpMode");
             sp_RotationMode = serializedObject.FindProperty("RotationMode");
             sp_Vibrato = serializedObject.FindProperty("Vibrato");
             sp_Randomness = serializedObject.FindProperty("Randomness");
             sp_FadeShake = serializedObject.FindProperty("FadeShake");
             sp_AutoStart = serializedObject.FindProperty("AutoStart");
-            sp_AnimateSpace = serializedObject.FindProperty("AnimateSpace");
+            sp_RotationSpace = serializedObject.FindProperty("RotationSpace");
             sp_index_TweenTypes_Rotation_Space = serializedObject.FindProperty("index_TweenTypes_Rotation_Space");
 
             sp_FromValue_Int = serializedObject.FindProperty("FromValue_Int");
@@ -212,6 +213,8 @@ namespace SevenStrikeModules.XTween.Editor
             sp_keyControl_Tween_Create = serializedObject.FindProperty("keyControl_Tween_Create");
 
             sp_DebugMode = serializedObject.FindProperty("DebugMode");
+
+            sp_EaseGraph = serializedObject.FindProperty("EaseGraph");
             #endregion
 
             #region 图标获取
@@ -247,8 +250,8 @@ namespace SevenStrikeModules.XTween.Editor
             Font_Bold = Editor_XTween_GUI.GetFont("SS_Editor_Bold");
             Font_Light = Editor_XTween_GUI.GetFont("SS_Editor_Light");
 
-            EasePic = GetEasePic((EaseMode)sp_EaseMode.enumValueIndex);
-            EasePicBg = GetEasePicBg();
+            sp_EaseGraph.objectReferenceValue = GetEaseGraph((EaseMode)sp_EaseMode.enumValueIndex);
+            EasePicBg = GetEaseGraphBg();
 
             GetAllTargets();
 
@@ -573,7 +576,7 @@ namespace SevenStrikeModules.XTween.Editor
                 rect_liquid_prim.Set(IsExpandPanel ? rect_liquid_set.width - 110 : rect_liquid_set.x + 22, IsExpandPanel ? rect_liquid_set.y + 195 : rect_liquid_set.y + 304, 100, 65);
                 Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, EasePicBg);
                 rect_liquid_prim.Set(IsExpandPanel ? rect_liquid_set.width - 110 : rect_liquid_set.x + 22, IsExpandPanel ? rect_liquid_set.y + 195 : rect_liquid_set.y + 304, 100, 65);
-                Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, EasePic);
+                Editor_XTween_GUI.Gui_TextureBox(rect_liquid_prim, (Texture2D)sp_EaseGraph.objectReferenceValue);
 
                 if (sp_UseCurve.boolValue)
                 {
@@ -598,11 +601,11 @@ namespace SevenStrikeModules.XTween.Editor
             Editor_XTween_GUI.Gui_Layout_Space(5);
             Editor_XTween_GUI.Gui_Layout_Horizontal_Start(XTweenGUIFilled.无, XTweenGUIColor.无);
             GUI.backgroundColor = XTween_Dashboard.Theme_Primary;
-            if (Editor_XTween_GUI.Gui_Layout_Button("保存", "保存当前动画参数到预设", XTweenGUIFilled.实体, XTweenGUIColor.亮白, Color.black, 25))
+            if (Editor_XTween_GUI.Gui_Layout_Button("保存预设", "保存当前动画参数到预设", XTweenGUIFilled.实体, XTweenGUIColor.亮白, Color.black, 25))
             {
                 Preset_Save();
             }
-            if (Editor_XTween_GUI.Gui_Layout_Button("读取", "读取预设参数到当前动画", XTweenGUIFilled.实体, XTweenGUIColor.亮白, Color.black, 25))
+            if (Editor_XTween_GUI.Gui_Layout_Button("选择预设", "在预设中心挑选预设并应用到当前动画控制器", XTweenGUIFilled.实体, XTweenGUIColor.亮白, Color.black, 25))
             {
                 Preset_Load();
             }
@@ -679,18 +682,18 @@ namespace SevenStrikeModules.XTween.Editor
 
                 if (rot_type == XTweenTypes_Rotations.欧拉角度_Euler.ToString())
                 {
-                    Editor_XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("坐标空间", System.Enum.GetNames(typeof(XTweenSpace)), ref sp_index_TweenTypes_Rotation_Space, XTweenGUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
+                    Editor_XTween_GUI.Gui_Layout_Popup<string, XTween_Controller>("旋转坐标空间", System.Enum.GetNames(typeof(XTweenRotationSpace)), ref sp_index_TweenTypes_Rotation_Space, XTweenGUIFilled.实体, 120, 22, SelectedObjects, (comps) =>
                     {
                         for (int i = 0; i < SelectedObjects.Length; i++)
                         {
-                            SelectedObjects[i].AnimateSpace = (XTweenSpace)System.Enum.Parse(typeof(XTweenSpace), sp_index_TweenTypes_Rotation_Space.stringValue);
+                            SelectedObjects[i].RotationSpace = (XTweenRotationSpace)System.Enum.Parse(typeof(XTweenRotationSpace), sp_index_TweenTypes_Rotation_Space.stringValue);
                         }
                         // 内部已处理TMPro的条件编译
                         GetComponents();
                     }
                     , (res) =>
                     {
-                        sp_AnimateSpace.enumValueIndex = (int)(XTweenSpace)System.Enum.Parse(typeof(XTweenSpace), res);
+                        sp_RotationSpace.enumValueIndex = (int)(XTweenRotationSpace)System.Enum.Parse(typeof(XTweenRotationSpace), res);
                         // 内部已处理TMPro的条件编译
                         GetComponents();
                     });
@@ -1087,7 +1090,7 @@ namespace SevenStrikeModules.XTween.Editor
             Editor_XTween_GUI.Gui_Layout_Property_Field("缓动模式", sp_EaseMode, 100);
             if (EditorGUI.EndChangeCheck())
             {
-                EasePic = GetEasePic((EaseMode)sp_EaseMode.enumValueIndex);
+                sp_EaseGraph.objectReferenceValue = GetEaseGraph((EaseMode)sp_EaseMode.enumValueIndex);
             }
             Editor_XTween_GUI.Gui_Layout_Space(5);
             Editor_XTween_GUI.Gui_Layout_Property_Field("使用曲线", sp_UseCurve, 100);
@@ -1117,7 +1120,7 @@ namespace SevenStrikeModules.XTween.Editor
             if (TweenTypes == XTweenTypes.旋转_Rotation && TweenTypes_Rotations == XTweenTypes_Rotations.欧拉角度_Euler)
                 Editor_XTween_GUI.Gui_Layout_Property_Field("欧拉角度旋转方式", sp_RotationMode, 100);
             if (TweenTypes == XTweenTypes.旋转_Rotation && TweenTypes_Rotations == XTweenTypes_Rotations.四元数_Quaternion)
-                Editor_XTween_GUI.Gui_Layout_Property_Field("四元数过渡方式", sp_RotateMode, 100);
+                Editor_XTween_GUI.Gui_Layout_Property_Field("四元数过渡方式", sp_RotateLerpMode, 100);
             if (TweenTypes == XTweenTypes.震动_Shake)
             {
                 Editor_XTween_GUI.Gui_Layout_Property_Field("震动频率", sp_Vibrato, 100);
@@ -1440,7 +1443,7 @@ namespace SevenStrikeModules.XTween.Editor
         /// </summary>
         /// <param name="ease"></param>
         /// <returns></returns>
-        private Texture2D GetEasePic(EaseMode ease)
+        private Texture2D GetEaseGraph(EaseMode ease)
         {
             return AssetDatabase.LoadAssetAtPath<Texture2D>($"{XTween_Dashboard.Get_path_XTween_GUIStyle_Path()}Icon/EaseCurveGraph/{ease.ToString()}.png");
         }
@@ -1448,7 +1451,7 @@ namespace SevenStrikeModules.XTween.Editor
         /// 获取缓动参数曲线图背景
         /// </summary>        
         /// <returns></returns>
-        private Texture2D GetEasePicBg()
+        private Texture2D GetEaseGraphBg()
         {
             return AssetDatabase.LoadAssetAtPath<Texture2D>($"{XTween_Dashboard.Get_path_XTween_GUIStyle_Path()}Icon/EaseCurveGraph/bg.png");
         }
@@ -1590,21 +1593,10 @@ namespace SevenStrikeModules.XTween.Editor
         /// </summary>
         private void Preset_Load()
         {
-            EditorApplication.delayCall += () =>
-            {
-                // 提示文字重点部分文字颜色
-                string keycol = XTween_Utilitys.ConvertColorToHexString(XTween_Dashboard.Theme_Primary, true);
+            Editor_XTween_PresetsCentral.OpenXTweenPresetsCentral();
 
-                XTweenPreset_Alpha preset = XTween_PresetManager.preset_Apply_To_Controller_ByName<XTweenPreset_Alpha>(BaseScript, XTweenTypes.透明度_Alpha, "Preset - Name");
-
-                if (preset != null)
-                {
-                    string v = Editor_XTween_GUI.Open(XTweenDialogType.确认, "XTween预设管理器消息", "预设读取完成", $"已读取<color={keycol}> {preset.Name} </color>预设到动画控制器，类型为：<color={keycol}> {preset.GetType().ToString()} </color>！", "明白", 0);
-
-                    if (XTween_PresetManager.EnableDebugLogs)
-                        XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"预设应用成功！", XTweenGUIMsgState.确认);
-                }
-            };
+            if (BaseScript.act_onPreset_loaded != null)
+                BaseScript.act_onPreset_loaded();
         }
 
         /// <summary>
@@ -1663,6 +1655,9 @@ namespace SevenStrikeModules.XTween.Editor
                         }
                         if (XTween_PresetManager.EnableDebugLogs)
                             XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"预设名称 '{pre_name}' 已存在，将覆盖保存到预设库！", XTweenGUIMsgState.警告);
+
+                        if (BaseScript.act_onPreset_saved != null)
+                            BaseScript.act_onPreset_saved();
                     }
                 }
                 else
@@ -1674,10 +1669,14 @@ namespace SevenStrikeModules.XTween.Editor
                         if (v == "查看")
                         {
                             // 打开预设库面板进行管理
+                            Editor_XTween_PresetsCentral.OpenXTweenPresetsCentral();
                         }
                     }
                     if (XTween_PresetManager.EnableDebugLogs)
                         XTween_Utilitys.DebugInfo("XTween预设管理器消息", $"预设名称 '{pre_name}' 未在库中发现重复，已保存到预设库！", XTweenGUIMsgState.通知);
+
+                    if (BaseScript.act_onPreset_saved != null)
+                        BaseScript.act_onPreset_saved();
                 }
                 #endregion
             };

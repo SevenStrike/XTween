@@ -1,81 +1,8 @@
 {
     "Type": "缩放_Scale",
-    "Presets": [
-        {
-            "rid": 1000
-        }
-    ],
+    "Presets": [],
     "references": {
         "version": 2,
-        "RefIds": [
-            {
-                "rid": 1000,
-                "type": {
-                    "class": "XTweenPreset_Scale",
-                    "ns": "SevenStrikeModules.XTween",
-                    "asm": "XTween.Runtime"
-                },
-                "data": {
-                    "Name": "弹性缩放",
-                    "Description": "从0到1的弹性效果",
-                    "Duration": 0.800000011920929,
-                    "Delay": 0.0,
-                    "UseRandomDelay": false,
-                    "RandomDelay": {
-                        "Min": 0.0,
-                        "Max": 0.0
-                    },
-                    "EaseMode": 26,
-                    "UseCurve": false,
-                    "Curve": {
-                        "serializedVersion": "2",
-                        "m_Curve": [
-                            {
-                                "serializedVersion": "3",
-                                "time": 0.0,
-                                "value": 0.0,
-                                "inSlope": 0.0,
-                                "outSlope": 0.0,
-                                "tangentMode": 0,
-                                "weightedMode": 0,
-                                "inWeight": 0.0,
-                                "outWeight": 0.0
-                            },
-                            {
-                                "serializedVersion": "3",
-                                "time": 1.0,
-                                "value": 1.0,
-                                "inSlope": 0.0,
-                                "outSlope": 0.0,
-                                "tangentMode": 0,
-                                "weightedMode": 0,
-                                "inWeight": 0.0,
-                                "outWeight": 0.0
-                            }
-                        ],
-                        "m_PreInfinity": 2,
-                        "m_PostInfinity": 2,
-                        "m_RotationOrder": 4
-                    },
-                    "LoopCount": 0,
-                    "LoopDelay": 0.0,
-                    "LoopType": 0,
-                    "IsRelative": false,
-                    "IsAutoKill": false,
-                    "IsFavourite": false,
-                    "EndValue": {
-                        "x": 1.2000000476837159,
-                        "y": 1.2000000476837159,
-                        "z": 1.2000000476837159
-                    },
-                    "FromValue": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "UseFromMode": true
-                }
-            }
-        ]
+        "RefIds": []
     }
 }

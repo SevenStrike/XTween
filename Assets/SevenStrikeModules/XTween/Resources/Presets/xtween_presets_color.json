@@ -1,83 +1,8 @@
 {
     "Type": "颜色_Color",
-    "Presets": [
-        {
-            "rid": 1000
-        }
-    ],
+    "Presets": [],
     "references": {
         "version": 2,
-        "RefIds": [
-            {
-                "rid": 1000,
-                "type": {
-                    "class": "XTweenPreset_Color",
-                    "ns": "SevenStrikeModules.XTween",
-                    "asm": "XTween.Runtime"
-                },
-                "data": {
-                    "Name": "颜色渐变",
-                    "Description": "从红色到蓝色的渐变",
-                    "Duration": 1.5,
-                    "Delay": 0.0,
-                    "UseRandomDelay": false,
-                    "RandomDelay": {
-                        "Min": 0.0,
-                        "Max": 0.0
-                    },
-                    "EaseMode": 3,
-                    "UseCurve": false,
-                    "Curve": {
-                        "serializedVersion": "2",
-                        "m_Curve": [
-                            {
-                                "serializedVersion": "3",
-                                "time": 0.0,
-                                "value": 0.0,
-                                "inSlope": 0.0,
-                                "outSlope": 0.0,
-                                "tangentMode": 0,
-                                "weightedMode": 0,
-                                "inWeight": 0.0,
-                                "outWeight": 0.0
-                            },
-                            {
-                                "serializedVersion": "3",
-                                "time": 1.0,
-                                "value": 1.0,
-                                "inSlope": 0.0,
-                                "outSlope": 0.0,
-                                "tangentMode": 0,
-                                "weightedMode": 0,
-                                "inWeight": 0.0,
-                                "outWeight": 0.0
-                            }
-                        ],
-                        "m_PreInfinity": 2,
-                        "m_PostInfinity": 2,
-                        "m_RotationOrder": 4
-                    },
-                    "LoopCount": 2,
-                    "LoopDelay": 0.20000000298023225,
-                    "LoopType": 1,
-                    "IsRelative": false,
-                    "IsAutoKill": false,
-                    "IsFavourite": false,
-                    "EndValue": {
-                        "r": 0.0,
-                        "g": 0.0,
-                        "b": 1.0,
-                        "a": 1.0
-                    },
-                    "FromValue": {
-                        "r": 1.0,
-                        "g": 0.0,
-                        "b": 0.0,
-                        "a": 1.0
-                    },
-                    "UseFromMode": true
-                }
-            }
-        ]
+        "RefIds": []
     }
 }

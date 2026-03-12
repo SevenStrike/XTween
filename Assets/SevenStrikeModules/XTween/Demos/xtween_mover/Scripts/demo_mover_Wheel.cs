@@ -197,7 +197,7 @@ public class demo_mover_Wheel : demo_base
             // 计算圈数 - out
             arg_wheel_Rotate.Angle = Mathf.Abs(distance_out / length);
         }
-        arg_wheel_Rotate.tweener = arg_wheel_Rotate.rect.xt_Rotate_To(new Vector3(arg_wheel_Rotate.rect.localEulerAngles.x, arg_wheel_Rotate.rect.localEulerAngles.y, -360f * arg_wheel_Rotate.Angle), type == "in" ? duration_in : duration_out, isRelative, isAutoKill, XTweenSpace.相对, XTweenRotationMode.FullRotation).SetEase(type == "in" ? ease_in : ease_out).Play();
+        arg_wheel_Rotate.tweener = arg_wheel_Rotate.rect.xt_Rotate_To(new Vector3(arg_wheel_Rotate.rect.localEulerAngles.x, arg_wheel_Rotate.rect.localEulerAngles.y, -360f * arg_wheel_Rotate.Angle), type == "in" ? duration_in : duration_out, isRelative, isAutoKill, XTweenRotationSpace.相对, XTweenRotationMode.FullRotation).SetEase(type == "in" ? ease_in : ease_out).Play();
         #endregion
     }
 
