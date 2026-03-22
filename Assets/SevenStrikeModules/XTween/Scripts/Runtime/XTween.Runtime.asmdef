@@ -5,7 +5,9 @@
         "UnityEngine.CoreModule",
         "UnityEngine.UI",
         "Unity.TextMeshPro",
-        "UnityEngine.IMGUIModule"
+        "UnityEngine.IMGUIModule",
+        "Unity.RenderPipelines.Universal.Runtime" ,
+        "Unity.RenderPipelines.Core.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

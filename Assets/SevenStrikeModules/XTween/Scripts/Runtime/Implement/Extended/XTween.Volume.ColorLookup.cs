@@ -21,28 +21,27 @@
 namespace SevenStrikeModules.XTween
 {
     using UnityEngine;
-    using UnityEngine.UI;
+    using UnityEngine.Rendering.Universal;
 
     public static partial class XTween
     {
         /// <summary>
-        /// 创建一个从当前填充量到目标填充量的动画
-        /// 支持相对变化和自动销毁
+        /// 创建一个从当前颜色调色器分布值到目标颜色调色器分布值的动画
         /// </summary>
-        /// <param name="image">目标 Image组件 组件</param>
-        /// <param name="endValue">目标填充量</param>
+        /// <param name="lookup">目标 ColorLookup 组件</param>
+        /// <param name="endValue">目标颜色调色器分布值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Fill_To(this Image image, float endValue, float duration, bool autokill = false, bool rewind_set_startvalue = true, bool complete_set_endvalue = true)
+        public static XTween_Interface xt_ColorLookUp_Contribution_To(this ColorLookup lookup, float endValue, float duration, bool autokill = false, bool rewind_set_startvalue = true, bool complete_set_endvalue = true)
         {
-            if (image == null)
+            if (lookup == null)
             {
-                Debug.LogError("Image component is null!");
+                Debug.LogError("ColorLookup component is null!");
                 return null;
             }
 
-            float start = image.fillAmount;
+            float start = lookup.contribution.value;
 
             if (Application.isPlaying)
             {
@@ -52,23 +51,23 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((val, linearProgres, time) =>
                 {
-                    if (image == null)
+                    if (lookup == null)
                         return;
-                    image.fillAmount = val;
+                    lookup.contribution.value = val;
                 })
                 .OnRewind(() =>
                 {
-                    if (image == null)
+                    if (lookup == null)
                         return;
                     if (rewind_set_startvalue)
-                        image.fillAmount = start;
+                        lookup.contribution.value = start;
                 })
                 .OnComplete((duration) =>
                 {
-                    if (image == null)
+                    if (lookup == null)
                         return;
                     if (complete_set_endvalue)
-                        image.fillAmount = endValue;
+                        lookup.contribution.value = endValue;
                 })
                 .SetAutokill(autokill);
                 return tweener;
@@ -78,31 +77,30 @@ namespace SevenStrikeModules.XTween
                 XTween_Interface tweener;
                 tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                 {
-                    if (image == null)
+                    if (lookup == null)
                         return;
-                    image.fillAmount = val;
+                    lookup.contribution.value = val;
                 }).OnRewind(() =>
                 {
-                    if (image == null)
+                    if (lookup == null)
                         return;
                     if (rewind_set_startvalue)
-                        image.fillAmount = start;
+                        lookup.contribution.value = start;
                 }).OnComplete((duration) =>
                 {
-                    if (image == null)
+                    if (lookup == null)
                         return;
                     if (complete_set_endvalue)
-                        image.fillAmount = endValue;
+                        lookup.contribution.value = endValue;
                 }).SetAutokill(false);
                 return tweener;
             }
         }
         /// <summary>
-        /// 创建一个从当前填充量到目标填充量的动画
-        /// 支持相对变化和自动销毁
+        /// 创建一个从当前颜色调色器分布值到目标颜色校正调色器分布值的动画
         /// </summary>
-        /// <param name="image">目标 Image组件 组件</param>
-        /// <param name="endValue">目标填充量</param>
+        /// <param name="lookup">目标 ColorLookup 组件</param>
+        /// <param name="endValue">目标颜色调色器分布值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <param name="easeMode">缓动模式</param>
@@ -111,15 +109,15 @@ namespace SevenStrikeModules.XTween
         /// <param name="useCurve">使用曲线</param>
         /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Fill_To(this Image image, float endValue, float duration, bool autokill, EaseMode easeMode, bool isFromMode, XTween_Getter<float> fromvalue, bool useCurve, AnimationCurve curve)
+        public static XTween_Interface xt_ColorLookUp_Contribution_To(this ColorLookup lookup, float endValue, float duration, bool autokill, EaseMode easeMode, bool isFromMode, XTween_Getter<float> fromvalue, bool useCurve, AnimationCurve curve)
         {
-            if (image == null)
+            if (lookup == null)
             {
-                Debug.LogError("Image component is null!");
+                Debug.LogError("ColorLookup component is null!");
                 return null;
             }
 
-            float start = image.fillAmount;
+            float start = lookup.contribution.value;
 
             if (Application.isPlaying)
             {
@@ -136,38 +134,38 @@ namespace SevenStrikeModules.XTween
                     {
                         tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = val;
+                            lookup.contribution.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = start;
+                            lookup.contribution.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = endValue;
+                            lookup.contribution.value = endValue;
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
                         tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = val;
+                            lookup.contribution.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = start;
+                            lookup.contribution.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = endValue;
+                            lookup.contribution.value = endValue;
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
@@ -177,38 +175,38 @@ namespace SevenStrikeModules.XTween
                     {
                         tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = val;
+                            lookup.contribution.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = start;
+                            lookup.contribution.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = endValue;
+                            lookup.contribution.value = endValue;
                         }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
                         tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = val;
+                            lookup.contribution.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = start;
+                            lookup.contribution.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = endValue;
+                            lookup.contribution.value = endValue;
                         }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
@@ -227,38 +225,38 @@ namespace SevenStrikeModules.XTween
                     {
                         tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = val;
+                            lookup.contribution.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = start;
+                            lookup.contribution.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = endValue;
+                            lookup.contribution.value = endValue;
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
                         tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = val;
+                            lookup.contribution.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = start;
+                            lookup.contribution.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = endValue;
+                            lookup.contribution.value = endValue;
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
@@ -268,38 +266,38 @@ namespace SevenStrikeModules.XTween
                     {
                         tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = val;
+                            lookup.contribution.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = start;
+                            lookup.contribution.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = endValue;
+                            lookup.contribution.value = endValue;
                         }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
                         tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = val;
+                            lookup.contribution.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = start;
+                            lookup.contribution.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (lookup == null)
                                 return;
-                            image.fillAmount = endValue;
+                            lookup.contribution.value = endValue;
                         }).SetEase(easeMode).SetAutokill(false);
                     }
                 }

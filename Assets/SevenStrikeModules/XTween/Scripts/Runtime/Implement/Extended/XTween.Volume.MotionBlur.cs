@@ -21,55 +21,53 @@
 namespace SevenStrikeModules.XTween
 {
     using UnityEngine;
-    using UnityEngine.UI;
+    using UnityEngine.Rendering.Universal;
 
     public static partial class XTween
     {
         /// <summary>
-        /// 创建一个从当前颜色到目标颜色的动画
-        /// 支持相对变化和自动销毁
+        /// 创建一个从当前运动模糊强度值到目标运动模糊强度值的动画
         /// </summary>
-        /// <param name="image">目标 Image组件 组件</param>
-        /// <param name="endValue">目标颜色</param>
+        /// <param name="motion">目标 MotionBlur 组件</param>
+        /// <param name="endValue">目标运动模糊强度值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Color_To(this Image image, Color endValue, float duration, bool autokill = false, bool rewind_set_startvalue = true, bool complete_set_endvalue = true)
+        public static XTween_Interface xt_MotionBlur_Intensity_To(this MotionBlur motion, float endValue, float duration, bool autokill = false, bool rewind_set_startvalue = true, bool complete_set_endvalue = true)
         {
-            if (image == null)
+            if (motion == null)
             {
-                Debug.LogError("Image component is null!");
+                Debug.LogError("MotionBlur component is null!");
                 return null;
             }
 
-            // 获取当前颜色
-            Color start = image.color;
+            float start = motion.intensity.value;
 
             if (Application.isPlaying)
             {
-                var tweener = XTween_Pool.CreateTween<XTween_Specialized_Color>();
+                var tweener = XTween_Pool.CreateTween<XTween_Specialized_Float>();
 
                 tweener.Initialize(start, endValue, duration * XTween_Dashboard.DurationMultiply);
 
-                tweener.OnUpdate((val, linearProgress, time) =>
+                tweener.OnUpdate((val, linearProgres, time) =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
-                    image.color = val;
+                    motion.intensity.value = val;
                 })
                 .OnRewind(() =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
                     if (rewind_set_startvalue)
-                        image.color = start;
+                        motion.intensity.value = start;
                 })
                 .OnComplete((duration) =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
                     if (complete_set_endvalue)
-                        image.color = endValue;
+                        motion.intensity.value = endValue;
                 })
                 .SetAutokill(autokill);
                 return tweener;
@@ -77,33 +75,32 @@ namespace SevenStrikeModules.XTween
             else
             {
                 XTween_Interface tweener;
-                tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
-                    image.color = val;
+                    motion.intensity.value = val;
                 }).OnRewind(() =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
                     if (rewind_set_startvalue)
-                        image.color = start;
+                        motion.intensity.value = start;
                 }).OnComplete((duration) =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
                     if (complete_set_endvalue)
-                        image.color = endValue;
+                        motion.intensity.value = endValue;
                 }).SetAutokill(false);
                 return tweener;
             }
         }
         /// <summary>
-        /// 创建一个从当前颜色到目标颜色的动画
-        /// 支持相对变化和自动销毁
+        /// 创建一个从当前运动模糊强度值到目标运动模糊强度值的动画
         /// </summary>
-        /// <param name="image">目标 Image组件 组件</param>
-        /// <param name="endValue">目标颜色</param>
+        /// <param name="motion">目标 MotionBlur 组件</param>
+        /// <param name="endValue">目标运动模糊强度值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <param name="easeMode">缓动模式</param>
@@ -112,20 +109,19 @@ namespace SevenStrikeModules.XTween
         /// <param name="useCurve">使用曲线</param>
         /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Color_To(this Image image, Color endValue, float duration, bool autokill, EaseMode easeMode, bool isFromMode, XTween_Getter<Color> fromvalue, bool useCurve, AnimationCurve curve)
+        public static XTween_Interface xt_MotionBlur_Intensity_To(this MotionBlur motion, float endValue, float duration, bool autokill, EaseMode easeMode, bool isFromMode, XTween_Getter<float> fromvalue, bool useCurve, AnimationCurve curve)
         {
-            if (image == null)
+            if (motion == null)
             {
-                Debug.LogError("Image component is null!");
+                Debug.LogError("MotionBlur component is null!");
                 return null;
             }
 
-            // 获取当前颜色
-            Color start = image.color;
+            float start = motion.intensity.value;
 
             if (Application.isPlaying)
             {
-                var tweener = XTween_Pool.CreateTween<XTween_Specialized_Color>();
+                var tweener = XTween_Pool.CreateTween<XTween_Specialized_Float>();
 
                 tweener.Initialize(start, endValue, duration * XTween_Dashboard.DurationMultiply);
 
@@ -133,43 +129,43 @@ namespace SevenStrikeModules.XTween
                 if (isFromMode)
                 {
                     // 获取目标源值
-                    Color fromval = fromvalue();
+                    float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((val, linearProgress, time) =>
+                        tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.intensity.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.intensity.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.intensity.value = endValue;
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((val, linearProgress, time) =>
+                        tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.intensity.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.intensity.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.intensity.value = endValue;
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
@@ -177,40 +173,40 @@ namespace SevenStrikeModules.XTween
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((val, linearProgress, time) =>
+                        tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.intensity.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.intensity.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.intensity.value = endValue;
                         }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((val, linearProgress, time) =>
+                        tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.intensity.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.intensity.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.intensity.value = endValue;
                         }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
@@ -224,43 +220,43 @@ namespace SevenStrikeModules.XTween
                 if (isFromMode)
                 {
                     // 获取目标源值
-                    Color fromval = fromvalue();
+                    float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.intensity.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.intensity.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.intensity.value = endValue;
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.intensity.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.intensity.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.intensity.value = endValue;
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
@@ -268,91 +264,90 @@ namespace SevenStrikeModules.XTween
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.intensity.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.intensity.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.intensity.value = endValue;
                         }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.intensity.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.intensity.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.intensity.value = endValue;
                         }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
+
                 return tweener;
             }
         }
         /// <summary>
-        /// 创建一个从当前颜色到目标颜色的动画
-        /// 支持相对变化和自动销毁
+        /// 创建一个从当前运动模糊钳制值到目标运动模糊钳制值的动画
         /// </summary>
-        /// <param name="image">目标 Image组件 组件</param>
-        /// <param name="endValue">目标颜色</param>
+        /// <param name="motion">目标 MotionBlur 组件</param>
+        /// <param name="endValue">目标运动模糊钳制值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Color_To(this RawImage image, Color endValue, float duration, bool autokill = false, bool rewind_set_startvalue = true, bool complete_set_endvalue = true)
+        public static XTween_Interface xt_MotionBlur_Clamp_To(this MotionBlur motion, float endValue, float duration, bool autokill = false, bool rewind_set_startvalue = true, bool complete_set_endvalue = true)
         {
-            if (image == null)
+            if (motion == null)
             {
-                Debug.LogError("Image component is null!");
+                Debug.LogError("MotionBlur component is null!");
                 return null;
             }
 
-            // 获取当前颜色
-            Color start = image.color;
+            float start = motion.clamp.value;
 
             if (Application.isPlaying)
             {
-                var tweener = XTween_Pool.CreateTween<XTween_Specialized_Color>();
+                var tweener = XTween_Pool.CreateTween<XTween_Specialized_Float>();
 
                 tweener.Initialize(start, endValue, duration * XTween_Dashboard.DurationMultiply);
 
-                tweener.OnUpdate((val, linearProgress, time) =>
+                tweener.OnUpdate((val, linearProgres, time) =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
-                    image.color = val;
+                    motion.clamp.value = val;
                 })
                 .OnRewind(() =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
                     if (rewind_set_startvalue)
-                        image.color = start;
+                        motion.clamp.value = start;
                 })
                 .OnComplete((duration) =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
                     if (complete_set_endvalue)
-                        image.color = endValue;
+                        motion.clamp.value = endValue;
                 })
                 .SetAutokill(autokill);
                 return tweener;
@@ -360,33 +355,32 @@ namespace SevenStrikeModules.XTween
             else
             {
                 XTween_Interface tweener;
-                tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
-                    image.color = val;
+                    motion.clamp.value = val;
                 }).OnRewind(() =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
                     if (rewind_set_startvalue)
-                        image.color = start;
+                        motion.clamp.value = start;
                 }).OnComplete((duration) =>
                 {
-                    if (image == null)
+                    if (motion == null)
                         return;
                     if (complete_set_endvalue)
-                        image.color = endValue;
+                        motion.clamp.value = endValue;
                 }).SetAutokill(false);
                 return tweener;
             }
         }
         /// <summary>
-        /// 创建一个从当前颜色到目标颜色的动画
-        /// 支持相对变化和自动销毁
+        /// 创建一个从当前运动模糊钳制值到目标运动模糊钳制值的动画
         /// </summary>
-        /// <param name="image">目标 Image组件 组件</param>
-        /// <param name="endValue">目标颜色</param>
+        /// <param name="motion">目标 MotionBlur 组件</param>
+        /// <param name="endValue">目标运动模糊钳制值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <param name="easeMode">缓动模式</param>
@@ -395,20 +389,19 @@ namespace SevenStrikeModules.XTween
         /// <param name="useCurve">使用曲线</param>
         /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Color_To(this RawImage image, Color endValue, float duration, bool autokill, EaseMode easeMode, bool isFromMode, XTween_Getter<Color> fromvalue, bool useCurve, AnimationCurve curve)
+        public static XTween_Interface xt_MotionBlur_Clamp_To(this MotionBlur motion, float endValue, float duration, bool autokill, EaseMode easeMode, bool isFromMode, XTween_Getter<float> fromvalue, bool useCurve, AnimationCurve curve)
         {
-            if (image == null)
+            if (motion == null)
             {
-                Debug.LogError("Image component is null!");
+                Debug.LogError("MotionBlur component is null!");
                 return null;
             }
 
-            // 获取当前颜色
-            Color start = image.color;
+            float start = motion.clamp.value;
 
             if (Application.isPlaying)
             {
-                var tweener = XTween_Pool.CreateTween<XTween_Specialized_Color>();
+                var tweener = XTween_Pool.CreateTween<XTween_Specialized_Float>();
 
                 tweener.Initialize(start, endValue, duration * XTween_Dashboard.DurationMultiply);
 
@@ -416,43 +409,43 @@ namespace SevenStrikeModules.XTween
                 if (isFromMode)
                 {
                     // 获取目标源值
-                    Color fromval = fromvalue();
+                    float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((val, linearProgress, time) =>
+                        tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.clamp.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.clamp.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.clamp.value = endValue;
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((val, linearProgress, time) =>
+                        tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.clamp.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.clamp.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.clamp.value = endValue;
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
@@ -460,40 +453,40 @@ namespace SevenStrikeModules.XTween
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener.OnUpdate((val, linearProgress, time) =>
+                        tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.clamp.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.clamp.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.clamp.value = endValue;
                         }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
-                        tweener.OnUpdate((val, linearProgress, time) =>
+                        tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.clamp.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.clamp.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.clamp.value = endValue;
                         }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
@@ -507,43 +500,43 @@ namespace SevenStrikeModules.XTween
                 if (isFromMode)
                 {
                     // 获取目标源值
-                    Color fromval = fromvalue();
+                    float fromval = fromvalue();
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.clamp.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.clamp.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.clamp.value = endValue;
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.clamp.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.clamp.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.clamp.value = endValue;
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
@@ -551,43 +544,44 @@ namespace SevenStrikeModules.XTween
                 {
                     if (useCurve)// 使用曲线
                     {
-                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.clamp.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.clamp.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.clamp.value = endValue;
                         }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
-                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = val;
+                            motion.clamp.value = val;
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = start;
+                            motion.clamp.value = start;
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (motion == null)
                                 return;
-                            image.color = endValue;
+                            motion.clamp.value = endValue;
                         }).SetEase(easeMode).SetAutokill(false);
                     }
                 }
+
                 return tweener;
             }
         }

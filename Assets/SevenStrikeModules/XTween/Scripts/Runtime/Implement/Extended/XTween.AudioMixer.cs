@@ -21,28 +21,29 @@
 namespace SevenStrikeModules.XTween
 {
     using UnityEngine;
+    using UnityEngine.Audio;
     using UnityEngine.UI;
 
     public static partial class XTween
     {
         /// <summary>
         /// 创建一个从当前填充量到目标填充量的动画
-        /// 支持相对变化和自动销毁
         /// </summary>
-        /// <param name="image">目标 Image组件 组件</param>
+        /// <param name="mixer">目标 AudioMixer 组件 组件</param>
         /// <param name="endValue">目标填充量</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Fill_To(this Image image, float endValue, float duration, bool autokill = false, bool rewind_set_startvalue = true, bool complete_set_endvalue = true)
+        public static XTween_Interface xt_AudioMixer_Param_To(this AudioMixer mixer, string name, float endValue, float duration, bool autokill = false, bool rewind_set_startvalue = true, bool complete_set_endvalue = true)
         {
-            if (image == null)
+            if (mixer == null)
             {
-                Debug.LogError("Image component is null!");
+                Debug.LogError("AudioMixer component is null!");
                 return null;
             }
 
-            float start = image.fillAmount;
+            float start = 0;
+            mixer.GetFloat(name, out start);
 
             if (Application.isPlaying)
             {
@@ -52,23 +53,23 @@ namespace SevenStrikeModules.XTween
 
                 tweener.OnUpdate((val, linearProgres, time) =>
                 {
-                    if (image == null)
+                    if (mixer == null)
                         return;
-                    image.fillAmount = val;
+                    mixer.SetFloat(name, val);
                 })
                 .OnRewind(() =>
                 {
-                    if (image == null)
+                    if (mixer == null)
                         return;
                     if (rewind_set_startvalue)
-                        image.fillAmount = start;
+                        mixer.SetFloat(name, start);
                 })
                 .OnComplete((duration) =>
                 {
-                    if (image == null)
+                    if (mixer == null)
                         return;
                     if (complete_set_endvalue)
-                        image.fillAmount = endValue;
+                        mixer.SetFloat(name, endValue);
                 })
                 .SetAutokill(autokill);
                 return tweener;
@@ -78,30 +79,29 @@ namespace SevenStrikeModules.XTween
                 XTween_Interface tweener;
                 tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                 {
-                    if (image == null)
+                    if (mixer == null)
                         return;
-                    image.fillAmount = val;
+                    mixer.SetFloat(name, val);
                 }).OnRewind(() =>
                 {
-                    if (image == null)
+                    if (mixer == null)
                         return;
                     if (rewind_set_startvalue)
-                        image.fillAmount = start;
+                        mixer.SetFloat(name, start);
                 }).OnComplete((duration) =>
                 {
-                    if (image == null)
+                    if (mixer == null)
                         return;
                     if (complete_set_endvalue)
-                        image.fillAmount = endValue;
+                        mixer.SetFloat(name, endValue);
                 }).SetAutokill(false);
                 return tweener;
             }
         }
         /// <summary>
         /// 创建一个从当前填充量到目标填充量的动画
-        /// 支持相对变化和自动销毁
         /// </summary>
-        /// <param name="image">目标 Image组件 组件</param>
+        /// <param name="mixer">目标 AudioMixer 组件 组件</param>
         /// <param name="endValue">目标填充量</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
@@ -111,15 +111,16 @@ namespace SevenStrikeModules.XTween
         /// <param name="useCurve">使用曲线</param>
         /// <param name="curve">曲线</param>
         /// <returns>创建的动画对象</returns>
-        public static XTween_Interface xt_Fill_To(this Image image, float endValue, float duration, bool autokill, EaseMode easeMode, bool isFromMode, XTween_Getter<float> fromvalue, bool useCurve, AnimationCurve curve)
+        public static XTween_Interface xt_AudioMixer_Param_To(this AudioMixer mixer, string name, float endValue, float duration, bool autokill, EaseMode easeMode, bool isFromMode, XTween_Getter<float> fromvalue, bool useCurve, AnimationCurve curve)
         {
-            if (image == null)
+            if (mixer == null)
             {
-                Debug.LogError("Image component is null!");
+                Debug.LogError("AudioMixer component is null!");
                 return null;
             }
 
-            float start = image.fillAmount;
+            float start = 0;
+            mixer.GetFloat(name, out start);
 
             if (Application.isPlaying)
             {
@@ -136,38 +137,38 @@ namespace SevenStrikeModules.XTween
                     {
                         tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = val;
+                            mixer.SetFloat(name, val);
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = start;
+                            mixer.SetFloat(name, start);
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = endValue;
+                            mixer.SetFloat(name, endValue);
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
                         tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = val;
+                            mixer.SetFloat(name, val);
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = start;
+                            mixer.SetFloat(name, start);
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = endValue;
+                            mixer.SetFloat(name, endValue);
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
@@ -177,38 +178,38 @@ namespace SevenStrikeModules.XTween
                     {
                         tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = val;
+                            mixer.SetFloat(name, val);
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = start;
+                            mixer.SetFloat(name, start);
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = endValue;
+                            mixer.SetFloat(name, endValue);
                         }).SetEase(curve).SetAutokill(autokill);
                     }
                     else
                     {
                         tweener.OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = val;
+                            mixer.SetFloat(name, val);
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = start;
+                            mixer.SetFloat(name, start);
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = endValue;
+                            mixer.SetFloat(name, endValue);
                         }).SetEase(easeMode).SetAutokill(autokill);
                     }
                 }
@@ -227,38 +228,38 @@ namespace SevenStrikeModules.XTween
                     {
                         tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = val;
+                            mixer.SetFloat(name, val);
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = start;
+                            mixer.SetFloat(name, start);
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = endValue;
+                            mixer.SetFloat(name, endValue);
                         }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
                         tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = val;
+                            mixer.SetFloat(name, val);
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = start;
+                            mixer.SetFloat(name, start);
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = endValue;
+                            mixer.SetFloat(name, endValue);
                         }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
                     }
                 }
@@ -268,38 +269,38 @@ namespace SevenStrikeModules.XTween
                     {
                         tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = val;
+                            mixer.SetFloat(name, val);
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = start;
+                            mixer.SetFloat(name, start);
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = endValue;
+                            mixer.SetFloat(name, endValue);
                         }).SetEase(curve).SetAutokill(false);
                     }
                     else
                     {
                         tweener = new XTween_Specialized_Float(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgres, time) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = val;
+                            mixer.SetFloat(name, val);
                         }).OnRewind(() =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = start;
+                            mixer.SetFloat(name, start);
                         }).OnComplete((duration) =>
                         {
-                            if (image == null)
+                            if (mixer == null)
                                 return;
-                            image.fillAmount = endValue;
+                            mixer.SetFloat(name, endValue);
                         }).SetEase(easeMode).SetAutokill(false);
                     }
                 }

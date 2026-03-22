@@ -84,6 +84,11 @@ namespace SevenStrikeModules.XTween
             Vector2 xyOffset = CalculateRelativePosition(rectTransform, (Vector2)currentPos, (Vector2)offset);
             return new Vector3(xyOffset.x, xyOffset.y, currentPos.z + offset.z);
         }
+        public static Vector3 CalculateRelativePosition(Transform transform, Vector3 currentPos, Vector3 offset)
+        {
+            // 对于 Transform，使用四元数旋转来处理完整的3D旋转
+            return currentPos + transform.rotation * offset;
+        }
         /// <summary>
         /// 计算颜色的亮度极限
         /// </summary>
