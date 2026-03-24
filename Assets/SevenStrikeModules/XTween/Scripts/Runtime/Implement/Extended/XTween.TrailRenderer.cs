@@ -589,6 +589,8 @@ namespace SevenStrikeModules.XTween
                 return tweener;
             }
         }
+
+#if UNITY_2022_3_OR_NEWER
         /// <summary>
         /// 创建一个从当前拖尾贴图缩放值到目标拖尾贴图缩放值的动画
         /// </summary>
@@ -869,6 +871,8 @@ namespace SevenStrikeModules.XTween
                 return tweener;
             }
         }
+#endif
+
         /// <summary>
         /// 创建一个从当前拖尾起始宽度到目标拖尾起始宽度的动画
         /// 支持相对变化和自动销毁

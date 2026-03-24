@@ -1715,6 +1715,8 @@ namespace SevenStrikeModules.XTween
                 return tweener;
             }
         }
+
+#if UNITY_2022_3_OR_NEWER
         /// <summary>
         /// 创建一个从当前相机物理特性-ISO到目标相机物理特性-ISO的动画
         /// </summary>
@@ -1995,6 +1997,9 @@ namespace SevenStrikeModules.XTween
                 return tweener;
             }
         }
+#endif
+
+#if UNITY_2022_3_OR_NEWER
         /// <summary>
         /// 创建一个从当前相机快门速度到目标相机快门速度的动画
         /// </summary>
@@ -2275,6 +2280,7 @@ namespace SevenStrikeModules.XTween
                 return tweener;
             }
         }
+#endif
 
         // ============================================================================
         // Lens
@@ -2840,6 +2846,8 @@ namespace SevenStrikeModules.XTween
                 return tweener;
             }
         }
+
+#if UNITY_2022_3_OR_NEWER
         /// <summary>
         /// 创建一个从当前相机物理特性-光圈值到目标相机物理特性-光圈值的动画
         /// </summary>
@@ -4245,5 +4253,6 @@ namespace SevenStrikeModules.XTween
                 return tweener;
             }
         }
+#endif
     }
 }

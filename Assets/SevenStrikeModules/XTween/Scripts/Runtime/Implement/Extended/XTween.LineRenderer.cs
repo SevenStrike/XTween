@@ -29,7 +29,7 @@ namespace SevenStrikeModules.XTween
         /// 创建一个从当前线渲染器平滑度到目标线渲染器平滑度的动画
         /// 支持相对变化和自动销毁
         /// </summary>
-        /// <param name="line">目标 TrailRenderer 组件</param>
+        /// <param name="line">目标 LineRenderer 组件</param>
         /// <param name="endValue">目标线渲染器平滑度</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
@@ -101,7 +101,7 @@ namespace SevenStrikeModules.XTween
         /// 创建一个从当前线渲染器平滑度到目标线渲染器平滑度的动画
         /// 支持相对变化和自动销毁
         /// </summary>
-        /// <param name="line">目标 TrailRenderer 组件</param>
+        /// <param name="line">目标 LineRenderer 组件</param>
         /// <param name="endValue">目标线渲染器平滑度</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
@@ -307,10 +307,12 @@ namespace SevenStrikeModules.XTween
                 return tweener;
             }
         }
+
+#if UNITY_2022_3_OR_NEWER
         /// <summary>
         /// 创建一个从当前线渲染器贴图缩放值到目标线渲染器贴图缩放值的动画
         /// </summary>
-        /// <param name="line">目标 TrailRenderer 组件</param>
+        /// <param name="line">目标 LineRenderer 组件</param>
         /// <param name="endValue">目标线渲染器贴图缩放值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
@@ -381,7 +383,7 @@ namespace SevenStrikeModules.XTween
         /// <summary>
         /// 创建一个从当前线渲染器贴图缩放值到目标线渲染器贴图缩放值的动画
         /// </summary>
-        /// <param name="line">目标 TrailRenderer 组件</param>
+        /// <param name="line">目标 LineRenderer 组件</param>
         /// <param name="endValue">目标线渲染器贴图缩放值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
@@ -587,11 +589,13 @@ namespace SevenStrikeModules.XTween
                 return tweener;
             }
         }
+#endif
+
         /// <summary>
         /// 创建一个从当前线渲染器起始宽度到目标线渲染器起始宽度的动画
         /// 支持相对变化和自动销毁
         /// </summary>
-        /// <param name="line">目标 TrailRenderer 组件</param>
+        /// <param name="line">目标 LineRenderer 组件</param>
         /// <param name="endValue">目标线渲染器起始宽度</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
@@ -663,7 +667,7 @@ namespace SevenStrikeModules.XTween
         /// 创建一个从当前线渲染器起始宽度到目标线渲染器起始宽度的动画
         /// 支持相对变化和自动销毁
         /// </summary>
-        /// <param name="line">目标 TrailRenderer 组件</param>
+        /// <param name="line">目标 LineRenderer 组件</param>
         /// <param name="endValue">目标线渲染器起始宽度</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
@@ -873,7 +877,7 @@ namespace SevenStrikeModules.XTween
         /// 创建一个从当前线渲染器结束宽度到目标线渲染器结束宽度的动画
         /// 支持相对变化和自动销毁
         /// </summary>
-        /// <param name="line">目标 TrailRenderer 组件</param>
+        /// <param name="line">目标 LineRenderer 组件</param>
         /// <param name="endValue">目标线渲染器结束宽度</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
@@ -945,7 +949,7 @@ namespace SevenStrikeModules.XTween
         /// 创建一个从当前线渲染器结束宽度到目标线渲染器结束宽度的动画
         /// 支持相对变化和自动销毁
         /// </summary>
-        /// <param name="line">目标 TrailRenderer 组件</param>
+        /// <param name="line">目标 LineRenderer 组件</param>
         /// <param name="endValue">目标线渲染器结束宽度</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
@@ -1155,7 +1159,7 @@ namespace SevenStrikeModules.XTween
         /// 创建一个从当前线渲染器宽度倍增值到目标线渲染器宽度倍增值的动画
         /// 支持相对变化和自动销毁
         /// </summary>
-        /// <param name="line">目标 TrailRenderer 组件</param>
+        /// <param name="line">目标 LineRenderer 组件</param>
         /// <param name="endValue">目标线渲染器宽度倍增值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
@@ -1227,7 +1231,7 @@ namespace SevenStrikeModules.XTween
         /// 创建一个从当前线渲染器宽度倍增值到目标线渲染器宽度倍增值的动画
         /// 支持相对变化和自动销毁
         /// </summary>
-        /// <param name="line">目标 TrailRenderer 组件</param>
+        /// <param name="line">目标 LineRenderer 组件</param>
         /// <param name="endValue">目标线渲染器宽度倍增值</param>
         /// <param name="duration">动画持续时间，单位为秒</param>
         /// <param name="autokill">动画完成后是否自动销毁</param>
