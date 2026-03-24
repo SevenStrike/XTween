@@ -4,6 +4,8 @@
 
 #### 📦 兼容版本 Unity 6000.0.38f1 &nbsp;&nbsp;-&nbsp;&nbsp; [![release](https://img.shields.io/badge/release-6000.0.38f1_v1.0-red?label=download)](https://github.com/SevenStrike/XTween/releases/tag/6000.0.38f1_v1.0)
 #### 📦 兼容版本 Unity 2021.3.5f1 &nbsp;&nbsp;-&nbsp;&nbsp; [![release](https://img.shields.io/badge/release-2021.3.5f1_v1.0-blue?label=download)](https://github.com/SevenStrike/XTween/releases/tag/2021.3.5f1_v1.0)
+#### 📦 兼容版本 Unity 2022.3.62f3 &nbsp;&nbsp;-&nbsp;&nbsp; [![release](https://img.shields.io/badge/release-2022.3.62f3_v1.0-yellow?label=download)](https://github.com/SevenStrike/XTween/releases/tag/2022.3.62f3_v1.0)
+#### 📦 兼容版本 Unity 2023.1.22f1 &nbsp;&nbsp;-&nbsp;&nbsp; [![release](https://img.shields.io/badge/release-2023.1.22f1_v1.0-white?label=download)](https://github.com/SevenStrike/XTween/releases/tag/2023.1.22f1_v1.0)
 
 <br>
 
