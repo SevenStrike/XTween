@@ -2,10 +2,8 @@
     "name": "XTween.Runtime",
     "rootNamespace": "SevenStrikeModules.XTween",
     "references": [
-        "UnityEngine.CoreModule",
         "UnityEngine.UI",
         "Unity.TextMeshPro",
-        "UnityEngine.IMGUIModule",
         "Unity.RenderPipelines.Universal.Runtime" ,
         "Unity.RenderPipelines.Core.Runtime"
     ],
