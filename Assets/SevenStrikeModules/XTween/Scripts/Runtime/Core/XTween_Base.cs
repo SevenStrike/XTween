@@ -1047,6 +1047,12 @@ namespace SevenStrikeModules.XTween
             _PauseTime = 0f;
             _StartTime = float.MaxValue;
 
+            //// ✅ 关键修复：重置核心数值
+            //_CurrentValue = GetDefaultValue();  // 重置为默认值
+            //_StartValue = GetDefaultValue();     // 重置起始值
+            //_EndValue = GetDefaultValue();       // 重置目标值
+            //_DefaultValue = GetDefaultValue();   // 重置默认值
+
             _Delay = 0f;
             _loopType = XTween_LoopType.Restart;
             _LoopingDelay = 0f;

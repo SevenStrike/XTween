@@ -58,7 +58,7 @@ namespace SevenStrikeModules.XTween.Editor
             Preloaded = XTween_Pool.GetPreloadCount(type);
             Reused = XTween_Pool.Get_CreatedCount(type);
             Percentage = XTween_Pool.Get_UsagePercentage(type);
-            Percentage_Smooth = Mathf.Lerp(Percentage_Smooth, Percentage, Time.unscaledDeltaTime * 3);
+            Percentage_Smooth = Mathf.Lerp(Percentage_Smooth, Percentage, Time.unscaledDeltaTime * 6);
         }
     }
 

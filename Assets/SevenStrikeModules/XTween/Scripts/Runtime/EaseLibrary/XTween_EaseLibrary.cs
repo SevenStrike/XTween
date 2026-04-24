@@ -28,129 +28,133 @@ namespace SevenStrikeModules.XTween
     public enum EaseMode
     {
         /// <summary>
+        /// 弹跳曲线缓动进入然后退出
+        /// </summary>
+        None = 0,
+        /// <summary>
         /// 线性缓动（无缓动）
         /// </summary>
-        Linear = 0,
+        Linear = 1,
         /// <summary>
         /// 正弦曲线缓动进入
         /// </summary>
-        InSine = 1,
+        InSine = 2,
         /// <summary>
         /// 正弦曲线缓动退出
         /// </summary>
-        OutSine = 2,
+        OutSine = 3,
         /// <summary>
         /// 正弦曲线缓动进入然后退出
         /// </summary>
-        InOutSine = 3,
+        InOutSine = 4,
         /// <summary>
         /// 二次曲线缓动进入
         /// </summary>
-        InQuad = 4,
+        InQuad = 5,
         /// <summary>
         /// 二次曲线缓动退出
         /// </summary>
-        OutQuad = 5,
+        OutQuad = 6,
         /// <summary>
         /// 二次曲线缓动进入然后退出
         /// </summary>
-        InOutQuad = 6,
+        InOutQuad = 7,
         /// <summary>
         /// 三次曲线缓动进入
         /// </summary>
-        InCubic = 7,
+        InCubic = 8,
         /// <summary>
         /// 三次曲线缓动退出
         /// </summary>
-        OutCubic = 8,
+        OutCubic = 9,
         /// <summary>
         /// 三次曲线缓动进入然后退出
         /// </summary>
-        InOutCubic = 9,
+        InOutCubic = 10,
         /// <summary>
         /// 四次曲线缓动进入
         /// </summary>
-        InQuart = 10,
+        InQuart = 11,
         /// <summary>
         /// 四次曲线缓动退出
         /// </summary>
-        OutQuart = 11,
+        OutQuart = 12,
         /// <summary>
         /// 四次曲线缓动进入然后退出
         /// </summary>
-        InOutQuart = 12,
+        InOutQuart = 13,
         /// <summary>
         /// 五次曲线缓动进入
         /// </summary>
-        InQuint = 13,
+        InQuint = 14,
         /// <summary>
         /// 五次曲线缓动退出
         /// </summary>
-        OutQuint = 14,
+        OutQuint = 15,
         /// <summary>
         /// 五次曲线缓动进入然后退出
         /// </summary>
-        InOutQuint = 15,
+        InOutQuint = 16,
         /// <summary>
         /// 指数曲线缓动进入
         /// </summary>
-        InExpo = 16,
+        InExpo = 17,
         /// <summary>
         /// 指数曲线缓动退出
         /// </summary>
-        OutExpo = 17,
+        OutExpo = 18,
         /// <summary>
         /// 指数曲线缓动进入然后退出
         /// </summary>
-        InOutExpo = 18,
+        InOutExpo = 19,
         /// <summary>
         /// 圆形曲线缓动进入
         /// </summary>
-        InCirc = 19,
+        InCirc = 20,
         /// <summary>
         /// 圆形曲线缓动退出
         /// </summary>
-        OutCirc = 20,
+        OutCirc = 21,
         /// <summary>
         /// 圆形曲线缓动进入然后退出
         /// </summary>
-        InOutCirc = 21,
+        InOutCirc = 22,
         /// <summary>
         /// 弹性曲线缓动进入
         /// </summary>
-        InElastic = 22,
+        InElastic = 23,
         /// <summary>
         /// 弹性曲线缓动退出
         /// </summary>
-        OutElastic = 23,
+        OutElastic = 24,
         /// <summary>
         /// 弹性曲线缓动进入然后退出
         /// </summary>
-        InOutElastic = 24,
+        InOutElastic = 25,
         /// <summary>
         /// 回退曲线缓动进入
         /// </summary>
-        InBack = 25,
+        InBack = 26,
         /// <summary>
         /// 回退曲线缓动退出
         /// </summary>
-        OutBack = 26,
+        OutBack = 27,
         /// <summary>
         /// 回退曲线缓动进入然后退出
         /// </summary>
-        InOutBack = 27,
+        InOutBack = 28,
         /// <summary>
         /// 弹跳曲线缓动进入
         /// </summary>
-        InBounce = 28,
+        InBounce = 29,
         /// <summary>
         /// 弹跳曲线缓动退出
         /// </summary>
-        OutBounce = 29,
+        OutBounce = 30,
         /// <summary>
         /// 弹跳曲线缓动进入然后退出
         /// </summary>
-        InOutBounce = 30,
+        InOutBounce = 31,
     }
 
     /// <summary>

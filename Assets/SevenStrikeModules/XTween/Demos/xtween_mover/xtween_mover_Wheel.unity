@@ -558,7 +558,7 @@ MonoBehaviour:
     threshold_out_start: 0
     threshold_out_end: 0.3
   duration_in: 2
-  ease_in: 8
+  ease_in: 9
   duration_out: 0.8
   ease_out: 7
   duration_thincolor: 0.3
@@ -1624,7 +1624,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -4195,6 +4195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EasePics:
+  - {fileID: 2800000, guid: 009de3c6f98df6247a03a9b7a1e3feb8, type: 3}
   - {fileID: 2800000, guid: 1f3f0a016f854564394383a20b328091, type: 3}
   - {fileID: 2800000, guid: 85a5ea9cb44a4af47afd7a3dedcaf104, type: 3}
   - {fileID: 2800000, guid: ae08c2354f1c5f04ab76a7883f9516d4, type: 3}

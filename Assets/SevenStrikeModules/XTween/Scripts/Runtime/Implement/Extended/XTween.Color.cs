@@ -591,5 +591,288 @@ namespace SevenStrikeModules.XTween
                 return tweener;
             }
         }
+        /// <summary>
+        /// 创建一个从当前颜色到目标颜色的动画
+        /// 支持相对变化和自动销毁
+        /// </summary>
+        /// <param name="gra">目标 Graphic 组件</param>
+        /// <param name="endValue">目标颜色</param>
+        /// <param name="duration">动画持续时间，单位为秒</param>
+        /// <param name="autokill">动画完成后是否自动销毁</param>
+        /// <returns>创建的动画对象</returns>
+        public static XTween_Interface xt_Color_To(this Graphic gra, Color endValue, float duration, bool autokill = false, bool rewind_set_startvalue = true, bool complete_set_endvalue = true)
+        {
+            if (gra == null)
+            {
+                Debug.LogError("Image component is null!");
+                return null;
+            }
+
+            // 获取当前颜色
+            Color start = gra.color;
+
+            if (Application.isPlaying)
+            {
+                var tweener = XTween_Pool.CreateTween<XTween_Specialized_Color>();
+
+                tweener.Initialize(start, endValue, duration * XTween_Dashboard.DurationMultiply);
+
+                tweener.OnUpdate((val, linearProgress, time) =>
+                {
+                    if (gra == null)
+                        return;
+                    gra.color = val;
+                })
+                .OnRewind(() =>
+                {
+                    if (gra == null)
+                        return;
+                    if (rewind_set_startvalue)
+                        gra.color = start;
+                })
+                .OnComplete((duration) =>
+                {
+                    if (gra == null)
+                        return;
+                    if (complete_set_endvalue)
+                        gra.color = endValue;
+                })
+                .SetAutokill(autokill);
+                return tweener;
+            }
+            else
+            {
+                XTween_Interface tweener;
+                tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                {
+                    if (gra == null)
+                        return;
+                    gra.color = val;
+                }).OnRewind(() =>
+                {
+                    if (gra == null)
+                        return;
+                    if (rewind_set_startvalue)
+                        gra.color = start;
+                }).OnComplete((duration) =>
+                {
+                    if (gra == null)
+                        return;
+                    if (complete_set_endvalue)
+                        gra.color = endValue;
+                }).SetAutokill(false);
+                return tweener;
+            }
+        }
+        /// <summary>
+        /// 创建一个从当前颜色到目标颜色的动画
+        /// 支持相对变化和自动销毁
+        /// </summary>
+        /// <param name="gra">目标 Graphic 组件</param>
+        /// <param name="endValue">目标颜色</param>
+        /// <param name="duration">动画持续时间，单位为秒</param>
+        /// <param name="autokill">动画完成后是否自动销毁</param>
+        /// <param name="easeMode">缓动模式</param>
+        /// <param name="isFromMode">从模式</param>
+        /// <param name="fromvalue">起始值</param>
+        /// <param name="useCurve">使用曲线</param>
+        /// <param name="curve">曲线</param>
+        /// <returns>创建的动画对象</returns>
+        public static XTween_Interface xt_Color_To(this Graphic gra, Color endValue, float duration, bool autokill, EaseMode easeMode, bool isFromMode, XTween_Getter<Color> fromvalue, bool useCurve, AnimationCurve curve)
+        {
+            if (gra == null)
+            {
+                Debug.LogError("Image component is null!");
+                return null;
+            }
+
+            // 获取当前颜色
+            Color start = gra.color;
+
+            if (Application.isPlaying)
+            {
+                var tweener = XTween_Pool.CreateTween<XTween_Specialized_Color>();
+
+                tweener.Initialize(start, endValue, duration * XTween_Dashboard.DurationMultiply);
+
+                // 从目标源值开始
+                if (isFromMode)
+                {
+                    // 获取目标源值
+                    Color fromval = fromvalue();
+                    if (useCurve)// 使用曲线
+                    {
+                        tweener.OnUpdate((val, linearProgress, time) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = val;
+                        }).OnRewind(() =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = start;
+                        }).OnComplete((duration) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(autokill);
+                    }
+                    else
+                    {
+                        tweener.OnUpdate((val, linearProgress, time) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = val;
+                        }).OnRewind(() =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = start;
+                        }).OnComplete((duration) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(autokill);
+                    }
+                }
+                else
+                {
+                    if (useCurve)// 使用曲线
+                    {
+                        tweener.OnUpdate((val, linearProgress, time) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = val;
+                        }).OnRewind(() =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = start;
+                        }).OnComplete((duration) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = endValue;
+                        }).SetEase(curve).SetAutokill(autokill);
+                    }
+                    else
+                    {
+                        tweener.OnUpdate((val, linearProgress, time) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = val;
+                        }).OnRewind(() =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = start;
+                        }).OnComplete((duration) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = endValue;
+                        }).SetEase(easeMode).SetAutokill(autokill);
+                    }
+                }
+                return tweener;
+            }
+            else
+            {
+                XTween_Interface tweener;
+
+                // 从目标源值开始
+                if (isFromMode)
+                {
+                    // 获取目标源值
+                    Color fromval = fromvalue();
+                    if (useCurve)// 使用曲线
+                    {
+                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = val;
+                        }).OnRewind(() =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = start;
+                        }).OnComplete((duration) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = endValue;
+                        }).SetFrom(fromval).SetEase(curve).SetAutokill(false);
+                    }
+                    else
+                    {
+                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = val;
+                        }).OnRewind(() =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = start;
+                        }).OnComplete((duration) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = endValue;
+                        }).SetFrom(fromval).SetEase(easeMode).SetAutokill(false);
+                    }
+                }
+                else
+                {
+                    if (useCurve)// 使用曲线
+                    {
+                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = val;
+                        }).OnRewind(() =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = start;
+                        }).OnComplete((duration) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = endValue;
+                        }).SetEase(curve).SetAutokill(false);
+                    }
+                    else
+                    {
+                        tweener = new XTween_Specialized_Color(start, endValue, duration * XTween_Dashboard.DurationMultiply).OnUpdate((val, linearProgress, time) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = val;
+                        }).OnRewind(() =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = start;
+                        }).OnComplete((duration) =>
+                        {
+                            if (gra == null)
+                                return;
+                            gra.color = endValue;
+                        }).SetEase(easeMode).SetAutokill(false);
+                    }
+                }
+                return tweener;
+            }
+        }
     }
 }

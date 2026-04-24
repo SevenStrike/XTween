@@ -587,7 +587,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -851,7 +851,7 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  RotateMode: 1
+  RotateLerpMode: 1
   RotationMode: 3
   Vibrato: 0
   Randomness: 0
@@ -859,6 +859,7 @@ MonoBehaviour:
   AutoStart: 1
   IsPaused: 0
   RotationSpace: 1
+  EaseGraph: {fileID: 0}
   EndValue_Int: 0
   EndValue_Float: 0
   EndValue_String: 
@@ -6409,7 +6410,7 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  RotateMode: 1
+  RotateLerpMode: 1
   RotationMode: 0
   Vibrato: 0
   Randomness: 0
@@ -6417,6 +6418,7 @@ MonoBehaviour:
   AutoStart: 1
   IsPaused: 0
   RotationSpace: 1
+  EaseGraph: {fileID: 0}
   EndValue_Int: 0
   EndValue_Float: 0
   EndValue_String: 
@@ -6895,7 +6897,7 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  RotateMode: 1
+  RotateLerpMode: 1
   RotationMode: 0
   Vibrato: 0
   Randomness: 0
@@ -6903,6 +6905,7 @@ MonoBehaviour:
   AutoStart: 1
   IsPaused: 0
   RotationSpace: 0
+  EaseGraph: {fileID: 0}
   EndValue_Int: 0
   EndValue_Float: 0
   EndValue_String: 
@@ -12284,7 +12287,7 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  RotateMode: 1
+  RotateLerpMode: 1
   RotationMode: 3
   Vibrato: 0
   Randomness: 0
@@ -12292,6 +12295,7 @@ MonoBehaviour:
   AutoStart: 1
   IsPaused: 0
   RotationSpace: 1
+  EaseGraph: {fileID: 0}
   EndValue_Int: 0
   EndValue_Float: 0
   EndValue_String: 
@@ -12646,7 +12650,7 @@ MonoBehaviour:
   IsExtendedString: 0
   TextCursor: _
   CursorBlinkTime: 0.5
-  RotateMode: 1
+  RotateLerpMode: 1
   RotationMode: 0
   Vibrato: 0
   Randomness: 0
@@ -12654,6 +12658,7 @@ MonoBehaviour:
   AutoStart: 1
   IsPaused: 0
   RotationSpace: 1
+  EaseGraph: {fileID: 0}
   EndValue_Int: 0
   EndValue_Float: 0
   EndValue_String: 

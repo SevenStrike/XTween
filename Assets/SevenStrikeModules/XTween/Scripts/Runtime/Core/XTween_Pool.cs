@@ -219,7 +219,7 @@ namespace SevenStrikeModules.XTween
             // 将动画进行重置操作以被后续重复使用
             tween.ResetState();
 
-            // 确保从管理器中注销动画记录
+            // 确保从管理器中注销动画记录            
             XTween_Manager.Instance.UnregisterTween(tween);
 
             // 动画入列归位

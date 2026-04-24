@@ -26,7 +26,6 @@ namespace SevenStrikeModules.XTween
     using UnityEditor;
     using UnityEngine;
     using UnityEngine.SceneManagement;
-    using UnityEngine.UI;
 
     /// <summary>
     /// 动画循环模式
